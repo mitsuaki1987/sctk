@@ -1,0 +1,391 @@
+
+     Program SCTK v.6.4.1 starts on 22Nov2019 at 22:43:13 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on      32 processor cores
+     Number of MPI processes:                 1
+     Threads/MPI process:                    32
+
+     MPI processes distributed on     1 nodes
+
+     Reading xml data from directory:
+
+     ./pwscf.save/
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         511     511    163                 7799     7799    1411
+
+
+     Check: negative core charge=   -0.000002
+     Dense k-grid : 16  16  16
+     Number of k(dense) : 145
+     [opt_tetra]  Optimized tetrahedron method is used.
+
+     Number of bands :      10
+     Number of k times spin :     145
+     Number of symmetries :      48
+     Lowest band which contains FS :       2
+     Highest band which contains FS :       3
+     [opt_tetra]  Optimized tetrahedron method is used.
+
+     #####  Read from STDIN  #####
+
+                    Temparature[K] : -0.10000E+01
+                         Xi cutoff : -0.10000E+01
+                        First band : 1
+                         Last band : 10
+        # of Matsubara frequencies : 10
+                           # of xi : 100
+            # of energy for QP-DOS : 50
+              Minimum energy scale :  0.10000E-06
+       Max energy for QP-DOS [meV] :  0.50000E+01
+             Convergense threshold :  0.10000E-14
+                      Max itration : 100
+                  Spin-fluvtuation : T
+
+     #####  Read from elph*.dat  #####
+
+       k grid for MEs : 4  4  4
+       Number of modes : 3
+
+
+     Dynamical matrices for ( 4, 4, 4)  uniform grid of q-points
+     With a half shift
+     (  10 q-points):
+       N         xq(1)         xq(2)         xq(3) 
+       1   0.088388348   0.088388348   0.088388348
+       2   0.265165043   0.265165043  -0.088388348
+       3  -0.265165043  -0.265165043   0.441941738
+       4  -0.088388348  -0.088388348   0.265165043
+       5   0.441941738   0.088388348   0.088388348
+       6  -0.088388348  -0.441941738   0.618718434
+       7   0.088388348  -0.265165043   0.441941738
+       8  -0.618718434   0.088388348   0.088388348
+       9   0.265165043   0.265165043   0.265165043
+      10  -0.265165043  -0.265165043   0.795495129
+     Because shifted q grid is used, q2r will not work !
+
+     #####  Read from vc*.dat  #####
+
+       Dimention of Chebyshev interpolation : 5
+
+     #####  Set or read initial delta  #####
+
+       Initial delta is theta function
+       DOS(E_F)[/Ry/cell/spin] :  0.27060E+01
+       DOS(E_F)[/Ry/cell/spin] :  0.27060E+01
+       Number of total points for gap equation : 10659  10354
+
+     #####  Average matrix in grid  #####
+
+         Total RAM for Vc per process :   0.33E-01 GB
+         Total RAM for gg per process :   0.39E-03 GB
+         Total RAM for Vc (temporary) per process :   0.51E-02 GB
+         Total RAM for gg (temporary) per process :   0.61E-04 GB
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.46736E+00   0.46908E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.32203E-04
+          Delta [meV] :  0.18129E+02   0.18876E+02
+
+       Iteration 1
+
+         Residual[Ry] :  0.15103E-04
+          Delta [meV] :  0.89255E+01   0.91864E+01
+
+       Iteration 2
+
+         Residual[Ry] :  0.51648E-05
+          Delta [meV] :  0.43991E+01   0.41735E+01
+
+       Iteration 3
+
+         Residual[Ry] :  0.41642E-05
+          Delta [meV] :  0.41018E+01   0.35654E+01
+
+       Iteration 4
+
+         Residual[Ry] :  0.26555E-05
+          Delta [meV] :  0.26703E+01   0.13931E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.33721E-05
+          Delta [meV] :  0.29642E+01  -0.44842E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.51370E-06
+          Delta [meV] :  0.15167E+01   0.14961E+01
+
+       Iteration 7
+
+         Residual[Ry] :  0.64064E-06
+          Delta [meV] :  0.12037E+01   0.17025E+01
+
+       Iteration 8
+
+         Residual[Ry] :  0.50168E-06
+          Delta [meV] :  0.12381E+01   0.15564E+01
+
+       Iteration 9
+
+         Residual[Ry] :  0.25089E-06
+          Delta [meV] :  0.12119E+01   0.10711E+01
+
+       Iteration 10
+
+         Residual[Ry] :  0.20325E-06
+          Delta [meV] :  0.10925E+01   0.10912E+01
+
+       Iteration 11
+
+         Residual[Ry] :  0.16712E-06
+          Delta [meV] :  0.98253E+00   0.98629E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.72544E-07
+          Delta [meV] :  0.53839E+00   0.59026E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.67875E-07
+          Delta [meV] :  0.46054E+00   0.51652E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.54061E-07
+          Delta [meV] :  0.42937E+00   0.46206E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.32854E-07
+          Delta [meV] :  0.32299E+00   0.31084E+00
+
+       Iteration 16
+
+         Residual[Ry] :  0.22427E-07
+          Delta [meV] :  0.27388E+00   0.26650E+00
+
+       Iteration 17
+
+         Residual[Ry] :  0.10828E-07
+          Delta [meV] :  0.18803E+00   0.18631E+00
+
+       Iteration 18
+
+         Residual[Ry] :  0.94536E-08
+          Delta [meV] :  0.17604E+00   0.17568E+00
+
+       Iteration 19
+
+         Residual[Ry] :  0.65422E-08
+          Delta [meV] :  0.17570E+00   0.17214E+00
+
+       Iteration 20
+
+         Residual[Ry] :  0.40987E-08
+          Delta [meV] :  0.16869E+00   0.16476E+00
+
+       Iteration 21
+
+         Residual[Ry] :  0.27013E-08
+          Delta [meV] :  0.16807E+00   0.16575E+00
+
+       Iteration 22
+
+         Residual[Ry] :  0.12009E-08
+          Delta [meV] :  0.16727E+00   0.16690E+00
+
+       Iteration 23
+
+         Residual[Ry] :  0.72624E-09
+          Delta [meV] :  0.16483E+00   0.16498E+00
+
+       Iteration 24
+
+         Residual[Ry] :  0.61681E-09
+          Delta [meV] :  0.16310E+00   0.16296E+00
+
+       Iteration 25
+
+         Residual[Ry] :  0.36441E-09
+          Delta [meV] :  0.15887E+00   0.15790E+00
+
+       Iteration 26
+
+         Residual[Ry] :  0.29703E-09
+          Delta [meV] :  0.15864E+00   0.15775E+00
+
+       Iteration 27
+
+         Residual[Ry] :  0.23165E-09
+          Delta [meV] :  0.15950E+00   0.15873E+00
+
+       Iteration 28
+
+         Residual[Ry] :  0.11087E-09
+          Delta [meV] :  0.16079E+00   0.16014E+00
+
+       Iteration 29
+
+         Residual[Ry] :  0.92706E-10
+          Delta [meV] :  0.16047E+00   0.15981E+00
+
+       Iteration 30
+
+         Residual[Ry] :  0.73068E-10
+          Delta [meV] :  0.16022E+00   0.15953E+00
+
+       Iteration 31
+
+         Residual[Ry] :  0.36677E-10
+          Delta [meV] :  0.15988E+00   0.15914E+00
+
+       Iteration 32
+
+         Residual[Ry] :  0.28206E-10
+          Delta [meV] :  0.15983E+00   0.15908E+00
+
+       Iteration 33
+
+         Residual[Ry] :  0.15955E-10
+          Delta [meV] :  0.15980E+00   0.15905E+00
+
+       Iteration 34
+
+         Residual[Ry] :  0.72139E-11
+          Delta [meV] :  0.15978E+00   0.15904E+00
+
+       Iteration 35
+
+         Residual[Ry] :  0.44998E-11
+          Delta [meV] :  0.15977E+00   0.15903E+00
+
+       Iteration 36
+
+         Residual[Ry] :  0.29704E-11
+          Delta [meV] :  0.15977E+00   0.15903E+00
+
+       Iteration 37
+
+         Residual[Ry] :  0.95716E-12
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 38
+
+         Residual[Ry] :  0.83542E-12
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 39
+
+         Residual[Ry] :  0.65407E-12
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 40
+
+         Residual[Ry] :  0.50403E-12
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 41
+
+         Residual[Ry] :  0.44602E-12
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 42
+
+         Residual[Ry] :  0.15547E-12
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 43
+
+         Residual[Ry] :  0.11612E-12
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 44
+
+         Residual[Ry] :  0.75486E-13
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 45
+
+         Residual[Ry] :  0.17319E-13
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 46
+
+         Residual[Ry] :  0.13341E-13
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 47
+
+         Residual[Ry] :  0.87374E-14
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 48
+
+         Residual[Ry] :  0.29722E-14
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 49
+
+         Residual[Ry] :  0.22491E-14
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 50
+
+         Residual[Ry] :  0.14391E-14
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Iteration 51
+
+         Residual[Ry] :  0.58706E-15
+          Delta [meV] :  0.15976E+00   0.15902E+00
+
+       Converged ! iter = 51
+
+
+     #####  Clock summary  #####
+
+     read_elph    :      0.01s CPU      0.01s WALL (       1 calls)
+     read_Coulomb :      0.00s CPU      0.01s WALL (       1 calls)
+     expand_g_v   :      0.09s CPU      0.03s WALL (       1 calls)
+     make_Z       :    210.36s CPU      6.61s WALL (       1 calls)
+     make_effint  :    211.20s CPU      6.70s WALL (       1 calls)
+     broyden_gape :     16.35s CPU     18.82s WALL (       1 calls)
+
+     SCTK         :   7m38.68s CPU     51.37s WALL
+
+
+   This run was terminated on:  22:44: 4  22Nov2019            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

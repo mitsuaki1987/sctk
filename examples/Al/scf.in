@@ -1,0 +1,26 @@
+&CONTROL
+ calculation = 'scf'
+pseudo_dir = "./"
+/
+&SYSTEM
+       ibrav = 0
+         nat = 1
+        ntyp = 1
+     ecutwfc = 65.000000
+     ecutrho = 260.000000
+ occupations = 'tetrahedra_opt'
+/
+&ELECTRONS
+ mixing_beta = 0.3
+ conv_thr = 1.000000e-10
+/
+CELL_PARAMETERS angstrom
+   0.000000000   2.012277204   2.012277204
+   2.012277204   0.000000000   2.012277204
+   2.012277204   2.012277204   0.000000000
+ATOMIC_SPECIES
+ Al 26.981539 Al.pbe-n-nc.UPF
+ATOMIC_POSITIONS crystal
+ Al 0.000000 0.000000 0.000000
+K_POINTS automatic
+ 8 8 8 0 0 0

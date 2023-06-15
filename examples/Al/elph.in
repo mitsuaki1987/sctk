@@ -1,0 +1,17 @@
+Electron-phonon
+&INPUTPH
+        lshift_q = .true.
+           ldisp = .true.
+      search_sym = .false.
+             nq1 = 4
+             nq2 = 4
+             nq3 = 4
+        fildvscf = 'dv'
+ electron_phonon = 'lambda_tetra'
+             nk1 = 16
+             nk2 = 16
+             nk3 = 16
+/
+&INPUTA2F
+ nfreq = 500
+/

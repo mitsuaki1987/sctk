@@ -1,0 +1,2016 @@
+diff --git a/LR_Modules/dfpt_tetra_mod.f90 b/LR_Modules/dfpt_tetra_mod.f90
+index b6f58d30e..05754ea08 100644
+--- a/LR_Modules/dfpt_tetra_mod.f90
++++ b/LR_Modules/dfpt_tetra_mod.f90
+@@ -18,7 +18,10 @@ MODULE dfpt_tetra_mod
+   !
+   PRIVATE
+   PUBLIC :: dfpt_tetra_beta, dfpt_tetra_ttheta, dfpt_tetra_delta, &
+-            dfpt_tetra_main, dfpt_tetra_linit
++  &         dfpt_tetra_main, dfpt_tetra_linit, &
++  &         dfpt_tetra_lindhard_1234, dfpt_tetra_lindhard_1231, &
++  &         dfpt_tetra_lindhard_1233, dfpt_tetra_lindhard_1221, &
++  &         dfpt_tetra_lindhard_1222, dfpt_tetra_lindhard_1211
+   !
+   LOGICAL,SAVE :: dfpt_tetra_linit = .FALSE.
+   !
+diff --git a/LR_Modules/setup_nscf.f90 b/LR_Modules/setup_nscf.f90
+index 435ae6517..7bfba3678 100644
+--- a/LR_Modules/setup_nscf.f90
++++ b/LR_Modules/setup_nscf.f90
+@@ -54,6 +54,7 @@ SUBROUTINE setup_nscf ( newgrid, xq, elph_mat )
+   LOGICAL, INTENT (IN) :: newgrid
+   LOGICAL, INTENT (IN) :: elph_mat  ! used to be passed through a module. 
+   !
++  INTEGER :: t_rev_dummy(48)
+   REAL (DP), ALLOCATABLE :: rtau (:,:,:)
+   LOGICAL  :: magnetic_sym, sym(48)
+   LOGICAL  :: skip_equivalence
+@@ -138,8 +139,14 @@ SUBROUTINE setup_nscf ( newgrid, xq, elph_mat )
+   !
+   IF ( ltetra .AND. (tetra_type /= 0) ) THEN
+      IF (ALLOCATED(tetra)) DEALLOCATE(tetra)
+-     CALL opt_tetra_init(nsymq, s, time_reversal .AND. minus_q, t_rev, at, bg,&
+-          npk, k1, k2, k3, nk1, nk2, nk3, nkstot, xk, kunit)
++     IF(elph_mat) THEN
++        t_rev_dummy(1:48) = 0
++        CALL opt_tetra_init(1, s, .FALSE., t_rev_dummy, at, bg,&
++             npk, k1, k2, k3, nk1, nk2, nk3, nkstot, xk, kunit)
++     ELSE
++        CALL opt_tetra_init(nsymq, s, time_reversal .AND. minus_q, t_rev, at, bg,&
++        npk, k1, k2, k3, nk1, nk2, nk3, nkstot, xk, kunit)
++     END IF
+   END IF
+   !
+   IF ( lsda ) THEN
+diff --git a/PHonon/PH/do_q2r.f90 b/PHonon/PH/do_q2r.f90
+index aeb159287..3bba057bc 100644
+--- a/PHonon/PH/do_q2r.f90
++++ b/PHonon/PH/do_q2r.f90
+@@ -23,6 +23,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
+                          read_dyn_mat, read_dyn_mat_tail, &
+                          write_dyn_mat_header, write_ifc
+   USE environment, ONLY : environment_start, environment_end
++  USE elph_tetra_mod, ONLY : lshift_q
++  USE constants, ONLY : pi
+   USE rigid,       ONLY : rgd_blk
+   USE el_phon,     ONLY : el_ph_nsigma
+   !
+@@ -48,6 +50,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
+   INTEGER :: na, nt
+   !
+   INTEGER :: gid, ibrav, ierr, nspin_mag, ios
++  REAL(DP) :: qshift_phase
++  COMPLEX(DP) :: qshift_coef(3)
+   !
+   INTEGER, ALLOCATABLE ::  nc(:,:,:)
+   COMPLEX(DP), ALLOCATABLE :: phid(:,:,:,:,:)
+@@ -189,13 +193,20 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
+               DO icar=1,3
+                  xq = xq + at(icar,ipol) * q(icar,nq) * nr(ipol)
+               END DO
++              IF(lshift_q) xq = xq - 0.5_dp
+               lq = lq .AND. (ABS(NINT(xq) - xq) .LT. eps)
+               iq = NINT(xq)
+               !
+               m(ipol)= MOD(iq,nr(ipol)) + 1
+               IF (m(ipol) .LT. 1) m(ipol) = m(ipol) + nr(ipol)
+            END DO
+-           IF (.NOT.lq) CALL errore('init','q not allowed',1)
++           IF (.NOT.lq) THEN
++              IF(lshift_q) THEN
++                 CYCLE
++              ELSE
++                 CALL errore('init','q not allowed',1)
++              END IF
++           END IF
+ 
+            IF(nc(m(1),m(2),m(3)).EQ.0) THEN
+               nc(m(1),m(2),m(3))=1
+@@ -238,6 +249,28 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
+         END DO
+      END DO
+      !
++     ! Phase for shifted q-grid
++     !
++     IF(lshift_q) THEN
++        DO l3 = 1, nr3
++           qshift_phase = pi * REAL(l3-1,DP) / REAL(nr3,DP)
++           qshift_coef(3) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
++           IF(l3 > nr3/2) qshift_coef(3) = -qshift_coef(3)
++           DO l2 = 1, nr2
++              qshift_phase = pi * REAL(l2-1,DP) / REAL(nr2,DP)
++              qshift_coef(2) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
++              IF(l2 > nr2/2) qshift_coef(2) = -qshift_coef(2)
++              DO l1 = 1, nr1
++                 qshift_phase = pi * REAL(l1-1,DP) / REAL(nr1,DP)
++                 qshift_coef(1) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
++                 IF(l1 > nr1/2) qshift_coef(1) = -qshift_coef(1)
++                 phid(    l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) &
++                 & = phid(l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) * PRODUCT(qshift_coef(1:3))
++              END DO
++           END DO
++        END DO
++     END IF ! (lshift_q)
++     !
+      ! Real space force constants written to file (analytical part)
+      !
+      IF (xmldyn) THEN
+@@ -320,6 +353,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+   USE mp,         ONLY : mp_bcast
+   USE mp_world,   ONLY : world_comm
+   USE el_phon,    ONLY : el_ph_nsigma
++  USE elph_tetra_mod, ONLY : lshift_q
++  USE constants,  ONLY : pi
+   !
+   IMPLICIT NONE
+   INTEGER, INTENT(IN) :: nqtot, nat, nr1, nr2, nr3
+@@ -330,8 +365,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+   !
+   REAL(DP), PARAMETER :: eps=1.D-5, eps12=1.d-12
+   INTEGER  :: isig, filea2F, nstar, count_q, nq, nq_log, iq, &
+-              icar, ipol, m1,m2,m3, m(3), nr(3), j1,j2, na1, na2, nn
+-  LOGICAL  :: lq
++       icar, ipol, m1,m2,m3, m(3), nr(3), j1,j2, na1, na2, nn, l1, l2, l3
++  LOGICAL :: lq
+   REAL(DP) :: deg, ef, dosscf
+   REAL(DP) :: q(3,48), xq, resi
+   character(len=256) :: name
+@@ -339,6 +374,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+   CHARACTER(LEN=6) :: int_to_char
+   LOGICAL :: exst
+   INTEGER :: ios
++  REAL(DP) :: qshift_phase
++  COMPLEX(DP) :: qshift_coef(3)
+ 
+   !
+   ALLOCATE (gaminp(3,3,nat,nat,48), gamout(nr1*nr2*nr3,3,3,nat,nat) )
+@@ -388,13 +425,20 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+               do icar=1,3
+                  xq = xq + at(icar,ipol) * q(icar,nq) * nr(ipol)
+               end do
++              IF(lshift_q) xq = xq - 0.5_dp
+               lq = lq .AND. (ABS(NINT(xq) - xq) < eps)
+               iq = NINT(xq)
+               !
+               m(ipol)= mod(iq,nr(ipol)) + 1
+               if (m(ipol) < 1) m(ipol) = m(ipol) + nr(ipol)
+            end do !ipol
+-           IF (.NOT.lq) CALL errore('gammaq2r','q not allowed',1)
++           IF (.NOT.lq) THEN
++              IF(lshift_q) THEN
++                 CYCLE
++              ELSE
++                 IF (.NOT.lq) CALL errore('gammaq2r','q not allowed',1)
++              END IF
++           END IF
+            !
+            if(nc(m(1),m(2),m(3)) == 0) then
+               nc(m(1),m(2),m(3)) = 1
+@@ -425,6 +469,28 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+      end do
+      gamout = gamout / DBLE (nr1*nr2*nr3)
+      !
++     ! Phase for shifted q-grid
++     !
++     IF(lshift_q) THEN
++        DO l3 = 1, nr3
++           qshift_phase = pi * REAL(l3-1,DP) / REAL(nr3,DP)
++           qshift_coef(3) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
++           IF(l3 > nr3/2) qshift_coef(3) = -qshift_coef(3)
++           DO l2 = 1, nr2
++              qshift_phase = pi * REAL(l2-1,DP) / REAL(nr2,DP)
++              qshift_coef(2) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
++              IF(l2 > nr2/2) qshift_coef(2) = -qshift_coef(2)
++              DO l1 = 1, nr1
++                 qshift_phase = pi * REAL(l1-1,DP) / REAL(nr1,DP)
++                 qshift_coef(1) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
++                 IF(l1 > nr1/2) qshift_coef(1) = -qshift_coef(1)
++                 gamout(    l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) &
++                 & = gamout(l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) * PRODUCT(qshift_coef(1:3))
++              END DO
++           END DO
++        END DO
++     END IF ! (lshift_q)
++     !
+      IF (ionode) close(filea2F)
+      !
+      filea2F = 60 + isig
+diff --git a/PHonon/PH/elph_scdft_mod.f90 b/PHonon/PH/elph_scdft_mod.f90
+index 513befc8e..7dc906883 100644
+--- a/PHonon/PH/elph_scdft_mod.f90
++++ b/PHonon/PH/elph_scdft_mod.f90
+@@ -27,42 +27,24 @@ SUBROUTINE elph_scdft()
+   ! expand that to whole BZ.
+   !
+   USE kinds, ONLY : dp
+-  USE parameters,  ONLY : npk
+-  USE mp, ONLY : mp_sum
+-  USE mp_images, ONLY : nproc_image, intra_image_comm, me_image
+-  USE mp_pools, ONLY : npool, inter_pool_comm, my_pool_id, &
+-  &                    nproc_pool, intra_pool_comm, me_pool
++  USE mp_pools, ONLY : npool, inter_pool_comm, my_pool_id
++  USE mp_images, ONLY : me_image
+   USE io_global,   ONLY : stdout
+-  USE cell_base, ONLY : at, bg
++  USE cell_base, ONLY : at
+   USE ions_base, ONLY : nat
+-  USE symm_base, ONLY : s, irt
+-  USE klist,  ONLY: nks, nkstot, xk
+-  USE noncollin_module, ONLY: nspin_lsda
+   USE start_k, ONLY: nk1, nk2, nk3
+-  USE wvfct, ONLY: nbnd, et
+   USE qpoint, ONLY : xq, nksq
+   USE dynmat, ONLY : dyn, w2
+   USE el_phon, ONLY : el_ph_mat, elph_nbnd_min, elph_nbnd_max
+-  USE control_lr,  ONLY : lgamma
+   USE control_ph, ONLY : current_iq
+   USE modes, ONLY : u
+-  USE lr_symm_base, ONLY : minus_q, nsymq, rtau
+-  !
+-  INTEGER :: ik, ik2, ikk, ikq, ib, jb, ii, jj, isym, nu, jsym, elph_unit, &
+-  &          nn, nn2, nks_real, ikv2(3), nsymqbz, nksq2, nrcv, ipe
+-  INTEGER :: &
+-  & nbnd_fs,  & ! = elph_nbnd_max - elph_nbnd_min + 1
+-  & nkBZ        ! = nk1 * nk2 * nk3
+-  !
+-  REAL(dp) :: kv1(3), kv2(3)
+-  REAL(dp) :: xk_col(3,nkstot)
+-  COMPLEX(dp) :: epmat(3 * nat, 3 * nat)
+-  !
+-  INTEGER,ALLOCATABLE :: symq(:,:,:), eqBZ(:), sBZ(:), indx(:), cnt(:), dsp(:)
+-  REAL(dp),ALLOCATABLE :: gg_col(:,:), gg(:,:,:,:)
++  USE noncollin_module, ONLY : nspin_lsda
+   !
+-  CHARACTER(100) :: chiq, elphname
++  INTEGER :: ik, ib, jb, ii, elph_unit, nrcv
++  INTEGER :: nbnd_fs
+   !
++  COMPLEX(dp),ALLOCATABLE :: gep_col(:,:,:), gep(:,:,:,:)
++  CHARACTER(100) :: elphname
+   INTEGER, EXTERNAL :: find_free_unit
+   !
+   WRITE(stdout,*) "[elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)"
+@@ -73,173 +55,49 @@ SUBROUTINE elph_scdft()
+   WRITE(stdout,*) "[elph_scdft]  Highest band which contains FS : ", elph_nbnd_max
+   WRITE(stdout,*) "[elph_scdft]    # of bands which contains FS : ", nbnd_fs
+   !
+-  ! Symmetries of this q
+-  !
+-  nsymqbz = nsymq
+-  IF(minus_q) nsymqbz = nsymq * 2
+-  !
+-  ALLOCATE(symq(3,3,nsymqbz))
+-  !
+-  symq(1:3,1:3,1:nsymq) = s(1:3,1:3,1:nsymq)
+-  IF(minus_q) symq(1:3,1:3,nsymq+1:nsymq+nsymq) = - s(1:3,1:3,1:nsymq)
+-  !
+-  WRITE(stdout,*) "[elph_scdft]  # of symmetries of this q : ", nsymqbz
+-  !
+-  ! Find which k-points of a uniform grid are in the IBZ
+-  !
+-  CALL elph_scdft_cnt_and_dsp(inter_pool_comm,npool,my_pool_id,nks,cnt,dsp)
+-  !
+-  xk_col(1:3,1:nkstot) = 0_dp
+-  xk_col(1:3,dsp(my_pool_id) + 1: dsp(my_pool_id) + nks) = xk(1:3,1:nks)
+-  CALL mp_sum(xk_col, inter_pool_comm)
+-  !
+-  nkBZ = nk1 * nk2 * nk3
+-  nks_real = nkstot / nspin_lsda
+-  ALLOCATE(eqBZ(nkBZ), sBZ(nkBZ), indx(nkBZ))
+-  !
+-  IF(lgamma)THEN
+-     CALL lint (nsymq, s, minus_q, at, bg, npk, 0, 0, 0, &
+-     &          nk1, nk2, nk3, nks_real, xk_col, 1, nkBZ, eqBZ, sBZ)
+-  ELSE
+-     CALL lint (nsymq, s, minus_q, at, bg, npk, 0, 0, 0, &
+-     &          nk1, nk2, nk3, nks_real, xk_col, 2, nkBZ, eqBZ, sBZ)
+-  END IF
++  ! Compute g in each pool
+   !
+-  ! Querry of El-Ph matrix
++  ALLOCATE(gep(3*nat, elph_nbnd_min:elph_nbnd_max, elph_nbnd_min:elph_nbnd_max, nksq))
+   !
+-  nksq2 = nksq / nproc_pool
+-  IF(me_pool < MOD(nksq, nproc_pool)) nksq2 = nksq2 + 1
+-  !  
+-  CALL elph_scdft_cnt_and_dsp(intra_pool_comm,nproc_pool,me_pool,nksq2,cnt,dsp)
++  gep(1:3 * nat, elph_nbnd_min:elph_nbnd_max, elph_nbnd_min:elph_nbnd_max, 1:nksq) = 0.0_dp
+   !
+-  indx(1:nkBZ) = 0
+-  nksq2 = 0
+-  DO ik = dsp(me_pool) + 1, dsp(me_pool) + cnt(me_pool)
++  DO ik = 1, nksq
+      !
+-     IF(lgamma) THEN
+-        ikk = ik
+-     ELSE
+-        ikk = 2 * ik - 1
+-     END IF
+-     !
+-     kv1(1:3) = MATMUL(xk(1:3,ikk), at(1:3, 1:3))
+-     !
+-     DO isym = 1, nsymqbz
+-        !
+-        kv2(1:3) = MATMUL(REAL(symq(1:3,1:3,isym), dp), kv1(1:3)) * REAL((/nk1, nk2, nk3/), dp)
+-        ikv2(1:3) = NINT(kv2(1:3))
+-        !
+-        IF(ANY(ABS(kv2(1:3) - REAL(ikv2(1:3), dp)) > 1e-5_dp)) CYCLE
+-        !
+-        ikv2(1:3) = MODULO(ikv2(1:3), (/nk1, nk2, nk3/))
+-        nn2 = 1 + ikv2(1) + nk1 * ikv2(2) + nk1 * nk2 * ikv2(3)
+-        !
+-        IF(indx(nn2) /= 0) CYCLE
+-        !
+-        nksq2 = nksq2 + 1
+-        indx(nn2) = nksq2
+-        !
+-     END DO
+-     !
+-  END DO
+-  !
+-  ! Collect El-Ph matrix -> PE0
+-  !
+-  ALLOCATE(gg(3 * nat, nbnd_fs, nbnd_fs, nksq2))
+-  !
+-  gg(1:3 * nat, 1:nbnd_fs, 1:nbnd_fs, 1:nksq2) = 0_dp
+-  !
+-  nksq2 = 0
+-  indx(1:nkBZ) = 0
+-  DO ik = dsp(me_pool) + 1, dsp(me_pool) + cnt(me_pool)
+-     !
+-     IF(lgamma) THEN
+-        ikk = ik
+-     ELSE
+-        ikk = 2 * ik - 1
+-     END IF
+-     !
+-     kv1(1:3) = MATMUL(xk(1:3,ikk), at(1:3, 1:3))
+-     !
+-     DO isym = 1, nsymqbz
+-        !
+-        kv2(1:3) = MATMUL(REAL(symq(1:3,1:3,isym), dp), kv1(1:3)) * REAL((/nk1, nk2, nk3/), dp)
+-        ikv2(1:3) = NINT(kv2(1:3))
+-        !
+-        IF(ANY(ABS(kv2(1:3) - REAL(ikv2(1:3), dp)) > 1e-5_dp)) CYCLE
+-        !
+-        ikv2(1:3) = MODULO(ikv2(1:3), (/nk1, nk2, nk3/))
+-        nn  = ikv2(3) + ikv2(2) * nk3 + ikv2(1) * nk2 * nk3 + 1
+-        nn2 = ikv2(1) + ikv2(2) * nk1 + ikv2(3) * nk2 * nk1 + 1
+-        !
+-        IF(indx(nn2) /= 0) CYCLE
+-        !
+-        jsym = sBZ(nn)
+-        nksq2 = nksq2 + 1
+-        indx(nn2) = nksq2
+-        !
+-        DO ib = 1, nbnd_fs
+-           DO jb = 1, nbnd_fs
+-              !
+-              DO ii = 1, 3 * nat
+-                 DO jj = 1, 3 * nat
+-                    epmat(ii,jj) = CONJG(el_ph_mat(elph_nbnd_min - 1 + jb,elph_nbnd_min - 1 + ib,ik,ii)) &
+-                    &                  * el_ph_mat(elph_nbnd_min - 1 + jb,elph_nbnd_min - 1 + ib,ik,jj)
+-                 END DO
+-              END DO
+-              !
+-              CALL symm(epmat, u, xq, s, jsym, rtau, irt, at, bg, nat)
+-              !
+-              epmat(1:3 * nat,1:3 * nat) = MATMUL(epmat(1:3 * nat,1:3 * nat), dyn(1:3 * nat,1:3 * nat))
+-              !
+-              DO nu = 1, 3 * nat
+-                 !
+-                 gg(nu,jb,ib,nksq2) = REAL(DOT_PRODUCT(dyn(1:3 * nat, nu), epmat(1:3 * nat, nu)), dp)
+-                 !
+-              END DO ! nu
+-              !
+-           END DO ! jb
+-        END DO ! ib
+-        !
+-     END DO ! isym
++     DO ib = elph_nbnd_min, elph_nbnd_max
++        DO jb = elph_nbnd_min, elph_nbnd_max
++           !
++           DO ii = 1, 3*nat
++              gep(ii,jb,ib,ik) = DOT_PRODUCT(u(ii,1:3*nat), el_ph_mat(jb,ib,ik,1:3*nat))
++           END DO
++           gep(1:3*nat,jb,ib,ik) = MATMUL(gep(1:3*nat,jb,ib,ik), dyn(1:3 * nat,1:3 * nat))
++           !
++        END DO ! jb
++     END DO ! ib
+      !
+   END DO ! ik
+   !
+-  DO nu = 1, 3 * nat
+-     IF(w2(nu) <= 0_dp) THEN
+-        gg(nu, 1:nbnd_fs, 1:nbnd_fs, 1:nksq2) = 0_dp
++  DO ii = 1, 3 * nat
++     IF(w2(ii) <= 0_dp) THEN
++        gep(ii, elph_nbnd_min:elph_nbnd_max, elph_nbnd_min:elph_nbnd_max, 1:nksq) = 0_dp
+      ELSE
+-        gg(nu, 1:nbnd_fs, 1:nbnd_fs, 1:nksq2) = gg(nu,1:nbnd_fs,1:nbnd_fs,1:nksq2) &
+-        &                                  / SQRT(w2(nu)) * 0.5_dp
++        gep(    ii, elph_nbnd_min:elph_nbnd_max, elph_nbnd_min:elph_nbnd_max,1:nksq) &
++        & = gep(ii, elph_nbnd_min:elph_nbnd_max, elph_nbnd_min:elph_nbnd_max,1:nksq) &
++        &                                  / SQRT(SQRT(w2(ii)) * 2.0_dp)
+      END IF
+   END DO
+   !
+-  ! indices of k; ik is at indx(ik)
+-  !
+-  CALL elph_scdft_cnt_and_dsp(intra_image_comm,nproc_image,me_image,nksq2,cnt,dsp)
+-  !
+-  DO ik = 1, nkBZ
+-     IF(indx(ik) /= 0) indx(ik) = indx(ik) + dsp(me_image)
+-  END DO
+-  !
+-  CALL mp_sum(indx, intra_image_comm)
+-  !
+   ! Gather El-Ph matrix inter pool
+   !
+-  IF(me_image == 0) THEN
+-     nrcv = 3 * nat * nbnd_fs * nbnd_fs * nkBZ
+-     ALLOCATE(gg_col(3 * nat * nbnd_fs * nbnd_fs, nkBZ))
++  IF(my_pool_id == 0) THEN
++     nrcv = 3 * nat * nbnd_fs * nbnd_fs * nk1*nk2*nk3 * nspin_lsda
++     ALLOCATE(gep_col(3*nat*nbnd_fs*nbnd_fs, nk1*nk2*nk3, nspin_lsda))
+   ELSE
+      nrcv = 1
+-     ALLOCATE(gg_col(1,1))
++     ALLOCATE(gep_col(1,1,1))
+   END IF
+   !
+-  CALL elph_scdft_gather_r(gg,3 * nat * nbnd_fs * nbnd_fs * nksq2,gg_col,nrcv, &
+-  &                me_image, nproc_image, intra_image_comm)
+-  !
+-  CALL mp_sum(nksq2, intra_image_comm)
+-  !
+-  WRITE(stdout,*) "Verify SUM(nksq2), nkBZ : ", nksq2, nkBZ
++  CALL elph_scdft_gather(gep, 3*nat*nbnd_fs*nbnd_fs*nksq, gep_col, nrcv, &
++  &                      my_pool_id, npool, inter_pool_comm)
+   !
+   ! Write el-ph to file elph.dat
+   !
+@@ -247,8 +105,7 @@ SUBROUTINE elph_scdft()
+      !
+      elph_unit = find_free_unit()
+      !
+-     WRITE(chiq,*) current_iq
+-     WRITE(elphname,'(a,a,a)') "elph", TRIM(ADJUSTL(chiq)), ".dat"
++     WRITE(elphname,'(a,i0,a)') "elph", current_iq, ".dat"
+      !
+      OPEN(elph_unit,file = TRIM(elphname))
+      !
+@@ -258,13 +115,13 @@ SUBROUTINE elph_scdft()
+      ! 
+      !# of band
+      !
+-     WRITE(elph_unit,*) nbnd_fs, elph_nbnd_min
++     WRITE(elph_unit,*) elph_nbnd_min, elph_nbnd_max
+      !
+      ! q-vector(Crystal cordinate)
+      !
+      WRITE(elph_unit,*) MATMUL(xq(1:3), at(1:3, 1:3))
+      !
+-     !# of mode
++     ! # of mode
+      !
+      WRITE(elph_unit,*) 3 * nat
+      !
+@@ -277,54 +134,19 @@ SUBROUTINE elph_scdft()
+      !
+      ! Electron-Phonon matrix
+      !
+-     DO ik = 1, nkBZ
+-        WRITE(elph_unit,'(3e25.15)') gg_col(1:3 * nat * nbnd_fs * nbnd_fs, indx(ik))
+-     END DO
++     WRITE(elph_unit,'(6e25.15)') &
++     &  gep_col(1:3*nat*nbnd_fs*nbnd_fs, 1:nk1*nk2*nk3, 1:nspin_lsda)
+      !
+      CLOSE(elph_unit)
+      !
+   END IF ! IF(ionode)
+   !
+-  DEALLOCATE(sBZ, eqBZ, gg, gg_col)
+-  !
+-  DEALLOCATE(symq, cnt, dsp)
+-  !
+-  CALL elph_scdft_dmuxc()
++  DEALLOCATE(gep, gep_col)
+   !
+ END SUBROUTINE elph_scdft
+ !
+-!----------------------------------------------------------
+-SUBROUTINE elph_scdft_cnt_and_dsp(comm,npe,mype,nn,cnt,dsp)
+-  !--------------------------------------------------------
+-  !
+-  ! This routine compute coutnt and disples for MPI 
+-  ! Communicater : comm
+-  !
+-  USE mp, ONLY : mp_sum
+-  !
+-  INTEGER,INTENT(IN) :: npe, mype, comm, nn
+-  INTEGER,INTENT(OUT),ALLOCATABLE :: cnt(:), dsp(:)
+-  !
+-  INTEGER :: ipe
+-  !
+-  IF(ALLOCATED(cnt)) DEALLOCATE(cnt)
+-  IF(ALLOCATED(dsp)) DEALLOCATE(dsp)
+-  !
+-  ALLOCATE(cnt(0:npe-1), dsp(0:npe-1))
+-  !
+-  cnt(0:npe - 1) = 0
+-  cnt(mype) = nn
+-  CALL mp_sum(cnt, comm)
+-  !
+-  dsp(0) = 0
+-  DO ipe = 1, npe - 1
+-     dsp(ipe) = dsp(ipe - 1) + cnt(ipe - 1)
+-  END DO
+-  !
+-END SUBROUTINE elph_scdft_cnt_and_dsp
+-!
+ !------------------------------------------------------------------------
+-SUBROUTINE elph_scdft_gather_r(snd,nsnd,rcv,nrcv,mype,npe,comm)
++SUBROUTINE elph_scdft_gather(snd,nsnd,rcv,nrcv,mype,npe,comm)
+   !----------------------------------------------------------------------
+   !
+   ! This routine gathers a real matrix to PE 0.
+@@ -333,8 +155,8 @@ SUBROUTINE elph_scdft_gather_r(snd,nsnd,rcv,nrcv,mype,npe,comm)
+   USE mp, ONLY : mp_sum, mp_gather
+   !
+   INTEGER,INTENT(IN) :: nsnd, nrcv, mype, npe, comm
+-  REAL(dp),INTENT(IN) :: snd(nsnd)
+-  REAL(dp),INTENT(OUT) :: rcv(nrcv)
++  COMPLEX(dp),INTENT(IN) :: snd(nsnd)
++  COMPLEX(dp),INTENT(OUT) :: rcv(nrcv)
+   !
+   INTEGER :: cnt(0:npe - 1), dsp(0:npe - 1), ipe
+   !
+@@ -350,113 +172,6 @@ SUBROUTINE elph_scdft_gather_r(snd,nsnd,rcv,nrcv,mype,npe,comm)
+   !
+   CALL mp_gather(snd(1:nsnd), rcv(1:nrcv), cnt, dsp, 0, comm)
+   !
+-END SUBROUTINE elph_scdft_gather_r
+-!
+-!--------------------------------------------------------
+-SUBROUTINE elph_scdft_dmuxc()
+-  !------------------------------------------------------
+-  !
+-  ! This routine output the f_{XC} for LDA in G space to a file.
+-  !
+-  USE mp,        ONLY : mp_sum, mp_max, mp_min
+-  USE kinds,     ONLY : dp
+-  USE gvect,     ONLY : mill
+-  USE wvfct,     ONLY : npwx
+-  USE klist,     ONLY : ngk, igk_k
+-  USE fft_base,  ONLY : dffts
+-  USE mp_images, ONLY : me_image
+-  USE mp_pools,  ONLY : intra_pool_comm
+-  USE eqv,       ONLY : dmuxc
+-  !
+-  INTEGER :: gmin(3), gmax(3), ig, dmxc_unit
+-  COMPLEX(dp) :: dmxc1(dffts%nnr), dmxc2(npwx)
+-  COMPLEX(dp),ALLOCATABLE :: dmxc3(:,:,:)
+-  !
+-  INTEGER, EXTERNAL :: find_free_unit
+-  !
+-  ! Define whole G-grid
+-  !
+-  gmin(1:3) =   100
+-  gmax(1:3) = - 100
+-  DO ig = 1, ngk(1)
+-     gmax(1:3) = max(gmax(1:3), mill(1:3, igk_k(ig,1)))
+-     gmin(1:3) = min(gmin(1:3), mill(1:3, igk_K(ig,1)))
+-  END DO
+-  !
+-  ! FW_FFT dmuxc_r -> dmuxc_G
+-  !
+-  dmxc1(1:dffts%nnr) = cmplx(dmuxc(1:dffts%nnr,1,1), 0_dp)
+-  CALL elph_scdft_fft(dmxc2(1:npwx), dmxc1(1:dffts%nnr),  ngk(1),  igk_k(:,1),  -1)
+-  !
+-  CALL mp_max(gmax, intra_pool_comm)
+-  CALL mp_min(gmin, intra_pool_comm)
+-  !
+-  ALLOCATE(dmxc3(gmin(1):gmax(1), gmin(2):gmax(2), gmin(3):gmax(3)))
+-  !
+-  dmxc3(gmin(1):gmax(1),gmin(2):gmax(2),gmin(3):gmax(3)) = cmplx(0_dp,0_dp)
+-  DO ig = 1, ngk(1)
+-     dmxc3(mill(1,igk_k(ig,1)), mill(2,igk_k(ig,1)), mill(3,igk_k(ig,1))) = dmxc2(ig)
+-  END DO
+-  !
+-  CALL mp_sum(dmxc3, intra_pool_comm)
+-  !
+-  IF(me_image == 0) THEN
+-     !
+-     dmxc_unit = find_free_unit()
+-     !
+-     OPEN(dmxc_unit, file = "dmuxc.dat")
+-     !
+-     WRITE(dmxc_unit,*) gmin(1:3)
+-     WRITE(dmxc_unit,*) gmax(1:3)
+-     !
+-     WRITE(dmxc_unit,*) ""
+-     WRITE(dmxc_unit,'(2e25.15)') dmxc3(gmin(1):gmax(1),gmin(2):gmax(2),gmin(3):gmax(3))
+-     !
+-     CLOSE(dmxc_unit)
+-     !
+-  END IF
+-  !
+-  DEALLOCATE(dmxc3)
+-  !
+-END SUBROUTINE elph_scdft_dmuxc
+-!
+-!--------------------------------------------------------------------
+-SUBROUTINE elph_scdft_fft(evc_g, evc_r, npw, igk, isw)
+-  !------------------------------------------------------------------
+-  !
+-  ! This routine perform inverse-FFT for f_{XC}
+-  !
+-  USE kinds, ONLY : dp
+-  USE wvfct, ONLY : npwx
+-  USE fft_base,   ONLY: dffts
+-  USE fft_interfaces, ONLY: fwfft, invfft
+-  !
+-  INTEGER,INTENT(IN) :: isw
+-  INTEGER,INTENT(IN) :: npw, igk(npw)
+-  COMPLEX(dp),INTENT(INOUT) :: evc_g(npwx), evc_r(dffts%nnr)
+-  !
+-  INTEGER :: ig
+-  !
+-  IF (isw.eq.1) THEN
+-     !
+-     evc_r = (0_dp, 0_dp)
+-     !     
+-     DO ig = 1, npw
+-        evc_r(dffts%nl(igk(ig))) = evc_g(ig)
+-     END DO
+-     !
+-     CALL invfft ('Wave', evc_r(1:dffts%nnr), dffts)
+-     !
+-  ELSE IF(isw.eq.-1) THEN
+-     !
+-     CALL fwfft ('Wave', evc_r(1:dffts%nnr), dffts)
+-     !
+-     DO ig = 1, npw
+-        evc_g(ig) = evc_r(dffts%nl(igk(ig)))
+-     END DO
+-     !
+-  END IF
+-  !
+-END SUBROUTINE elph_scdft_fft
++END SUBROUTINE elph_scdft_gather
+ !
+ END MODULE elph_scdft_mod
+diff --git a/PHonon/PH/elph_tetra_mod.f90 b/PHonon/PH/elph_tetra_mod.f90
+index a9ccdf637..8974a6830 100644
+--- a/PHonon/PH/elph_tetra_mod.f90
++++ b/PHonon/PH/elph_tetra_mod.f90
+@@ -21,7 +21,7 @@ MODULE elph_tetra_mod
+   INTEGER,SAVE :: elph_tetra = 0 ! switch to output electron-phonon matrix
+   !
+   PUBLIC elph_tetra, lshift_q, in_alpha2f, &
+-  &      elph_tetra_lambda, elph_tetra_gamma
++  &      elph_tetra_lambda, elph_tetra_gamma, elph_tetra_delta1
+   !
+   CONTAINS
+  !
+diff --git a/PHonon/PH/make.depend b/PHonon/PH/make.depend
+index cf5341ee4..1219528e7 100644
+--- a/PHonon/PH/make.depend
++++ b/PHonon/PH/make.depend
+@@ -459,6 +459,7 @@ do_phonon.o : elph_tetra_mod.o
+ do_phonon.o : phcom.o
+ do_phonon.o : yambo.o
+ do_q2r.o : ../../FFTXlib/fft_scalar.o
++do_q2r.o : ../../Modules/constants.o
+ do_q2r.o : ../../Modules/environment.o
+ do_q2r.o : ../../Modules/io_files.o
+ do_q2r.o : ../../Modules/io_global.o
+@@ -467,6 +468,7 @@ do_q2r.o : ../../Modules/mp_global.o
+ do_q2r.o : ../../Modules/mp_images.o
+ do_q2r.o : ../../Modules/mp_world.o
+ do_q2r.o : ../../UtilXlib/mp.o
++do_q2r.o : elph_tetra_mod.o
+ do_q2r.o : elph.o
+ do_q2r.o : io_dyn_mat.o
+ do_q2r.o : io_dyn_mat_old.o
+@@ -806,21 +808,15 @@ el_ph_collect.o : ../../Modules/mp_pools.o
+ el_ph_collect.o : ../../PW/src/pwcom.o
+ el_ph_collect.o : ../../UtilXlib/mp.o
+ elph.o : ../../Modules/kind.o
+-elph_scdft_mod.o : ../../FFTXlib/fft_interfaces.o
+ elph_scdft_mod.o : ../../LR_Modules/lrcom.o
+ elph_scdft_mod.o : ../../Modules/cell_base.o
+-elph_scdft_mod.o : ../../Modules/fft_base.o
+ elph_scdft_mod.o : ../../Modules/io_global.o
+ elph_scdft_mod.o : ../../Modules/ions_base.o
+ elph_scdft_mod.o : ../../Modules/kind.o
+ elph_scdft_mod.o : ../../Modules/mp_images.o
+ elph_scdft_mod.o : ../../Modules/mp_pools.o
+ elph_scdft_mod.o : ../../Modules/noncol.o
+-elph_scdft_mod.o : ../../Modules/parameters.o
+-elph_scdft_mod.o : ../../Modules/recvec.o
+-elph_scdft_mod.o : ../../PW/src/pwcom.o
+ elph_scdft_mod.o : ../../PW/src/start_k.o
+-elph_scdft_mod.o : ../../PW/src/symm_base.o
+ elph_scdft_mod.o : ../../UtilXlib/mp.o
+ elph_scdft_mod.o : elph.o
+ elph_scdft_mod.o : phcom.o
+@@ -1003,6 +999,7 @@ matdyn.o : ../../PW/src/pwcom.o
+ matdyn.o : ../../PW/src/symm_base.o
+ matdyn.o : ../../PW/src/tetra.o
+ matdyn.o : ../../UtilXlib/mp.o
++matdyn.o : elph_tetra_mod.o
+ matdyn.o : elph.o
+ matdyn.o : io_dyn_mat.o
+ matdyn.o : rigid.o
+@@ -1324,6 +1321,7 @@ q2r.o : ../../Modules/kind.o
+ q2r.o : ../../Modules/mp_global.o
+ q2r.o : ../../Modules/mp_world.o
+ q2r.o : ../../UtilXlib/mp.o
++q2r.o : elph_tetra_mod.o
+ q2r.o : elph.o
+ q2trans.o : ../../FFTXlib/fft_scalar.o
+ q2trans.o : ../../Modules/constants.o
+@@ -1431,6 +1429,7 @@ run_nscf.o : ../../PW/src/pwcom.o
+ run_nscf.o : ../../PW/src/scf_mod.o
+ run_nscf.o : acfdtest.o
+ run_nscf.o : elph.o
++run_nscf.o : elph_tetra_mod.o
+ run_nscf.o : phcom.o
+ run_nscf.o : save_ph_input.o
+ save_ph_input.o : ../../Modules/io_files.o
+diff --git a/PHonon/PH/matdyn.f90 b/PHonon/PH/matdyn.f90
+index 916bb2fb4..965d4d76a 100644
+--- a/PHonon/PH/matdyn.f90
++++ b/PHonon/PH/matdyn.f90
+@@ -148,6 +148,7 @@ PROGRAM matdyn
+   USE el_phon,    ONLY : el_ph_nsigma
+ 
+   USE ifconstants, ONLY : frc, atm, zeu, tau_blk, ityp_blk, m_loc
++  USE elph_tetra_mod, ONLY : lshift_q
+   !
+   IMPLICIT NONE
+   !
+@@ -217,7 +218,7 @@ PROGRAM matdyn
+        &           fldos, nk1, nk2, nk3, l1, l2, l3, ntyp, readtau, fltau, &
+        &           la2F, ndos, DeltaE, q_in_band_form, q_in_cryst_coord, &
+        &           eigen_similarity, fldyn, na_ifc, fd, point_label_type, &
+-       &           nosym, loto_2d, fildyn, fildyn_prefix, el_ph_nsigma
++       &           nosym, loto_2d, fildyn, fildyn_prefix, el_ph_nsigma, lshift_q
+   !
+   CALL mp_startup()
+   CALL environment_start('MATDYN')
+@@ -253,6 +254,7 @@ PROGRAM matdyn
+      l2=1
+      l3=1
+      la2F=.false.
++     lshift_q =.false.
+      q_in_band_form=.FALSE.
+      eigen_similarity=.FALSE.
+      q_in_cryst_coord = .FALSE.
+@@ -294,6 +296,7 @@ PROGRAM matdyn
+      CALL mp_bcast(na_ifc,ionode_id, world_comm)
+      CALL mp_bcast(fd,ionode_id, world_comm)
+      CALL mp_bcast(la2F,ionode_id, world_comm)
++     CALL mp_bcast(lshift_q,ionode_id, world_comm)
+      CALL mp_bcast(q_in_band_form,ionode_id, world_comm)
+      CALL mp_bcast(eigen_similarity,ionode_id, world_comm)
+      CALL mp_bcast(q_in_cryst_coord,ionode_id, world_comm)
+diff --git a/PHonon/PH/q2r.f90 b/PHonon/PH/q2r.f90
+index ddfaf9c99..d216e5b28 100644
+--- a/PHonon/PH/q2r.f90
++++ b/PHonon/PH/q2r.f90
+@@ -65,6 +65,7 @@ PROGRAM q2r
+   USE mp_global,   ONLY : mp_startup, mp_global_end
+   USE io_global,   ONLY : ionode_id, ionode, stdout
+   USE environment, ONLY : environment_start, environment_end
++  USE elph_tetra_mod, ONLY : lshift_q
+   USE el_phon,     ONLY : el_ph_nsigma
+   !
+   IMPLICIT NONE
+@@ -74,7 +75,7 @@ PROGRAM q2r
+   LOGICAL            :: la2F, loto_2d
+   INTEGER            :: ios
+   !
+-  NAMELIST / input / fildyn, flfrc, prefix, zasr, la2F, loto_2d, el_ph_nsigma
++  NAMELIST / input / fildyn, flfrc, prefix, zasr, la2F, loto_2d, lshift_q, el_ph_nsigma
+   !
+   CALL mp_startup()
+   CALL environment_start('Q2R')
+@@ -88,6 +89,7 @@ PROGRAM q2r
+   zasr = 'no'
+      !
+   la2F=.false.
++  lshift_q = .false.
+   el_ph_nsigma=10
+      !
+      !
+@@ -102,6 +104,7 @@ PROGRAM q2r
+   CALL mp_bcast(zasr, ionode_id, world_comm)
+   CALL mp_bcast(loto_2d, ionode_id, world_comm)
+   CALL mp_bcast(la2F, ionode_id, world_comm)
++  CALL mp_bcast(lshift_q, ionode_id, world_comm)
+   CALL mp_bcast(el_ph_nsigma, ionode_id, world_comm)
+   !
+   CALL do_q2r(fildyn, flfrc, prefix, zasr, la2F, loto_2d)
+diff --git a/PHonon/PH/run_nscf.f90 b/PHonon/PH/run_nscf.f90
+index c8da93d77..07f4c32e0 100644
+--- a/PHonon/PH/run_nscf.f90
++++ b/PHonon/PH/run_nscf.f90
+@@ -43,6 +43,7 @@ SUBROUTINE run_nscf(do_band, iq)
+   USE qpoint,          ONLY : xq
+   USE klist,           ONLY : qnorm, nelec 
+   USE el_phon,         ONLY : elph_mat
++  USE elph_tetra_mod,  ONLY : elph_tetra
+   !
+   IMPLICIT NONE
+   !
+@@ -98,7 +99,7 @@ SUBROUTINE run_nscf(do_band, iq)
+   CALL fft_type_allocate ( dfftp, at, bg, gcutm,  intra_bgrp_comm, nyfft=nyfft )
+   CALL fft_type_allocate ( dffts, at, bg, gcutms, intra_bgrp_comm, nyfft=nyfft)
+   !
+-  CALL setup_nscf ( newgrid, xq, elph_mat )
++  CALL setup_nscf ( newgrid, xq, elph_mat .OR. (elph_tetra == 3))
+   !
+   CALL init_run()
+   !
+diff --git a/PHonon/examples/tetra_example/reference/a2F.dat b/PHonon/examples/tetra_example/reference/a2F.dat
+deleted file mode 100644
+index 59a4eeecb..000000000
+--- a/PHonon/examples/tetra_example/reference/a2F.dat
++++ /dev/null
+@@ -1,501 +0,0 @@
+-         500
+-    0.603941072241960E-03    0.634994875635918E-02    0.840376200995999E+02    0.840376200995999E+02
+-    0.608517586847083E-03    0.662149290381449E-02    0.874041881736951E+02    0.874041881736951E+02
+-    0.613094101452206E-03    0.689560855162726E-02    0.907943585440825E+02    0.907943585440825E+02
+-    0.617670616057329E-03    0.717225890072713E-02    0.942081312107619E+02    0.942081312107619E+02
+-    0.622247130662453E-03    0.745140715204376E-02    0.976455061737335E+02    0.976455061737335E+02
+-    0.626823645267576E-03    0.773301650650679E-02    0.101106483432997E+03    0.101106483432997E+03
+-    0.631400159872699E-03    0.801705016504590E-02    0.104591062988553E+03    0.104591062988553E+03
+-    0.635976674477822E-03    0.830347132859071E-02    0.108099244840401E+03    0.108099244840401E+03
+-    0.640553189082945E-03    0.859224319807088E-02    0.111631028988540E+03    0.111631028988540E+03
+-    0.645129703688068E-03    0.888332897441607E-02    0.115186415432972E+03    0.115186415432972E+03
+-    0.649706218293192E-03    0.917669185855594E-02    0.118765404173697E+03    0.118765404173697E+03
+-    0.654282732898315E-03    0.947229505142013E-02    0.122367995210713E+03    0.122367995210713E+03
+-    0.658859247503438E-03    0.977010175393830E-02    0.125994188544021E+03    0.125994188544021E+03
+-    0.663435762108561E-03    0.100700751670401E-01    0.129643984173621E+03    0.129643984173621E+03
+-    0.668012276713684E-03    0.103721784916552E-01    0.133317382099514E+03    0.133317382099514E+03
+-    0.672588791318807E-03    0.106763749287132E-01    0.137014382321698E+03    0.137014382321698E+03
+-    0.677165305923931E-03    0.109826276791437E-01    0.140734984840175E+03    0.140734984840175E+03
+-    0.681741820529054E-03    0.112908999438766E-01    0.144479189654944E+03    0.144479189654944E+03
+-    0.686318335134177E-03    0.116011549238413E-01    0.148246996766004E+03    0.148246996766004E+03
+-    0.690894849739300E-03    0.119133558199675E-01    0.152038406173357E+03    0.152038406173357E+03
+-    0.695471364344423E-03    0.122274658331850E-01    0.155853417877002E+03    0.155853417877002E+03
+-    0.700047878949546E-03    0.125434481644233E-01    0.159692031876939E+03    0.159692031876939E+03
+-    0.704624393554670E-03    0.128612660146120E-01    0.163554248173169E+03    0.163554248173169E+03
+-    0.709200908159793E-03    0.131808825846810E-01    0.167440066765690E+03    0.167440066765690E+03
+-    0.713777422764916E-03    0.135022610755597E-01    0.171349487654503E+03    0.171349487654503E+03
+-    0.718353937370039E-03    0.138253646881779E-01    0.175282510839609E+03    0.175282510839609E+03
+-    0.722930451975162E-03    0.141501566234652E-01    0.179239136321006E+03    0.179239136321006E+03
+-    0.727506966580285E-03    0.144766000823512E-01    0.183219364098696E+03    0.183219364098696E+03
+-    0.732083481185409E-03    0.148046582657657E-01    0.187223194172678E+03    0.187223194172678E+03
+-    0.736659995790532E-03    0.151342943746383E-01    0.191250626542952E+03    0.191250626542952E+03
+-    0.741236510395655E-03    0.154654716098985E-01    0.195301661209517E+03    0.195301661209517E+03
+-    0.745813025000778E-03    0.157981531724761E-01    0.199376298172376E+03    0.199376298172376E+03
+-    0.750389539605901E-03    0.161323022633008E-01    0.203474537431526E+03    0.203474537431525E+03
+-    0.754966054211024E-03    0.164678820833021E-01    0.207596378986968E+03    0.207596378986968E+03
+-    0.759542568816148E-03    0.168048558334097E-01    0.211741822838702E+03    0.211741822838702E+03
+-    0.764119083421271E-03    0.171431867145533E-01    0.215910868986728E+03    0.215910868986728E+03
+-    0.768695598026394E-03    0.174828379276625E-01    0.220103517431047E+03    0.220103517431047E+03
+-    0.773272112631517E-03    0.178237726736670E-01    0.224319768171657E+03    0.224319768171657E+03
+-    0.777848627236640E-03    0.181659541534965E-01    0.228559621208560E+03    0.228559621208560E+03
+-    0.782425141841763E-03    0.185093455680805E-01    0.232823076541755E+03    0.232823076541755E+03
+-    0.787001656446887E-03    0.188539101183488E-01    0.237110134171242E+03    0.237110134171242E+03
+-    0.791578171052010E-03    0.191996110052310E-01    0.241420794097021E+03    0.241420794097021E+03
+-    0.796154685657133E-03    0.195464114296567E-01    0.245755056319091E+03    0.245755056319091E+03
+-    0.800731200262256E-03    0.198942745925556E-01    0.250112920837455E+03    0.250112920837455E+03
+-    0.805307714867379E-03    0.202431636948573E-01    0.254494387652110E+03    0.254494387652110E+03
+-    0.809884229472502E-03    0.205930419374916E-01    0.258899456763057E+03    0.258899456763057E+03
+-    0.814460744077626E-03    0.209438725213880E-01    0.263328128170297E+03    0.263328128170297E+03
+-    0.819037258682749E-03    0.212956186474762E-01    0.267780401873828E+03    0.267780401873828E+03
+-    0.823613773287872E-03    0.216482435166858E-01    0.272256277873652E+03    0.272256277873652E+03
+-    0.828190287892995E-03    0.220017103299466E-01    0.276755756169767E+03    0.276755756169767E+03
+-    0.832766802498118E-03    0.223559822881881E-01    0.281278836762175E+03    0.281278836762175E+03
+-    0.837343317103242E-03    0.227110225923401E-01    0.285825519650875E+03    0.285825519650875E+03
+-    0.841919831708365E-03    0.230667944433321E-01    0.290395804835867E+03    0.290395804835867E+03
+-    0.846496346313488E-03    0.234232610420938E-01    0.294989692317151E+03    0.294989692317151E+03
+-    0.851072860918611E-03    0.237803855895549E-01    0.299607182094727E+03    0.299607182094727E+03
+-    0.855649375523734E-03    0.241381312866450E-01    0.304248274168595E+03    0.304248274168595E+03
+-    0.860225890128857E-03    0.244964613342938E-01    0.308912968538756E+03    0.308912968538756E+03
+-    0.864802404733981E-03    0.248553389334309E-01    0.313601265205208E+03    0.313601265205208E+03
+-    0.869378919339104E-03    0.252147272849861E-01    0.318313164167952E+03    0.318313164167952E+03
+-    0.873955433944227E-03    0.255745895898888E-01    0.323048665426989E+03    0.323048665426989E+03
+-    0.878531948549350E-03    0.259348890490688E-01    0.327807768982318E+03    0.327807768982318E+03
+-    0.883108463154473E-03    0.262955888634557E-01    0.332590474833939E+03    0.332590474833939E+03
+-    0.887684977759596E-03    0.266566522339793E-01    0.337396782981851E+03    0.337396782981851E+03
+-    0.892261492364719E-03    0.270180423615690E-01    0.342226693426056E+03    0.342226693426056E+03
+-    0.896838006969843E-03    0.273797224471547E-01    0.347080206166554E+03    0.347080206166554E+03
+-    0.901414521574966E-03    0.277416556916659E-01    0.351957321203343E+03    0.351957321203343E+03
+-    0.905991036180089E-03    0.281167437358932E-01    0.357061373137839E+03    0.357061373137839E+03
+-    0.910567550785212E-03    0.285131847387302E-01    0.362507204502951E+03    0.362507204502951E+03
+-    0.915144065390335E-03    0.289107498755623E-01    0.367971303675803E+03    0.367971303675803E+03
+-    0.919720579995459E-03    0.293093818722024E-01    0.373453670656393E+03    0.373453670656393E+03
+-    0.924297094600582E-03    0.297090234544633E-01    0.378954305444722E+03    0.378954305444722E+03
+-    0.928873609205705E-03    0.301096173481579E-01    0.384473208040792E+03    0.384473208040792E+03
+-    0.933450123810828E-03    0.305111062790988E-01    0.390010378444600E+03    0.390010378444600E+03
+-    0.938026638415951E-03    0.309134329730991E-01    0.395565816656146E+03    0.395565816656146E+03
+-    0.942603153021074E-03    0.313165618526095E-01    0.401139855174306E+03    0.401139855174306E+03
+-    0.947179667626198E-03    0.317206213293650E-01    0.406735274433258E+03    0.406735274433258E+03
+-    0.951756182231321E-03    0.321256410680212E-01    0.412353281191788E+03    0.412353281191788E+03
+-    0.956332696836444E-03    0.325316642005642E-01    0.417995319291959E+03    0.417995319291959E+03
+-    0.960909211441567E-03    0.329386555433862E-01    0.423661456463017E+03    0.423661456463017E+03
+-    0.965485726046690E-03    0.333465759868557E-01    0.429351692704964E+03    0.429351692704964E+03
+-    0.970062240651813E-03    0.337553864213411E-01    0.435066028017797E+03    0.435066028017797E+03
+-    0.974638755256937E-03    0.341650477372112E-01    0.440804462401520E+03    0.440804462401520E+03
+-    0.979215269862060E-03    0.345690338815000E-01    0.446495907427020E+03    0.446495907427020E+03
+-    0.983791784467183E-03    0.346518245335130E-01    0.448843815934484E+03    0.448843815934484E+03
+-    0.988368299072306E-03    0.341581591494828E-01    0.446016811530241E+03    0.446016811530241E+03
+-    0.992944813677429E-03    0.335138010589519E-01    0.442209464837906E+03    0.442209464837906E+03
+-    0.997521328282552E-03    0.328159185482277E-01    0.437934002043070E+03    0.437934002043070E+03
+-    0.100209784288768E-02    0.322108313723265E-01    0.434400444603087E+03    0.434400444603087E+03
+-    0.100667435749280E-02    0.319488190576129E-01    0.433684410774617E+03    0.433684410774617E+03
+-    0.101125087209792E-02    0.321539998038973E-01    0.436938335458512E+03    0.436938335458512E+03
+-    0.101582738670304E-02    0.328036549430714E-01    0.444139099743471E+03    0.444139099743471E+03
+-    0.102040390130817E-02    0.336406270634885E-01    0.453196041287857E+03    0.453196041287857E+03
+-    0.102498041591329E-02    0.344019882678945E-01    0.461837119270564E+03    0.461837119270564E+03
+-    0.102955693051841E-02    0.352140206986759E-01    0.471080872051881E+03    0.471080872051881E+03
+-    0.103413344512354E-02    0.360753799224218E-01    0.480964525357158E+03    0.480964525357158E+03
+-    0.103870995972866E-02    0.369157027239362E-01    0.490948948954063E+03    0.490948948954063E+03
+-    0.104328647433378E-02    0.377023995586565E-01    0.500653012393689E+03    0.500653012393689E+03
+-    0.104786298893891E-02    0.384374729890326E-01    0.510076715676037E+03    0.510076715676037E+03
+-    0.105243950354403E-02    0.391229255775146E-01    0.519220058801107E+03    0.519220058801107E+03
+-    0.105701601814915E-02    0.397632200010250E-01    0.528103305251015E+03    0.528103305251015E+03
+-    0.106159253275428E-02    0.403801845060012E-01    0.536893679404966E+03    0.536893679404966E+03
+-    0.106616904735940E-02    0.409790143978947E-01    0.545628468284636E+03    0.545628468284636E+03
+-    0.107074556196452E-02    0.415616779222416E-01    0.554323078205765E+03    0.554323078205765E+03
+-    0.107532207656965E-02    0.421320099241045E-01    0.563007199261154E+03    0.563007199261154E+03
+-    0.107989859117477E-02    0.426988813002789E-01    0.571750073547901E+03    0.571750073547901E+03
+-    0.108447510577989E-02    0.432635166790572E-01    0.580558693628882E+03    0.580558693628882E+03
+-    0.108905162038502E-02    0.438262889167335E-01    0.589433059504100E+03    0.589433059504100E+03
+-    0.109362813499014E-02    0.443876113022996E-01    0.598373623209230E+03    0.598373623209230E+03
+-    0.109820464959526E-02    0.449491052019277E-01    0.607394140440900E+03    0.607394140440900E+03
+-    0.110278116420039E-02    0.455125189138629E-01    0.616507941951930E+03    0.616507941951930E+03
+-    0.110735767880551E-02    0.460821000140271E-01    0.625747597225541E+03    0.625747597225541E+03
+-    0.111193419341063E-02    0.466587500679833E-01    0.635118276532045E+03    0.635118276532045E+03
+-    0.111651070801575E-02    0.472427452472688E-01    0.644619979871443E+03    0.644619979871443E+03
+-    0.112108722262088E-02    0.478343617234205E-01    0.654252707243734E+03    0.654252707243734E+03
+-    0.112566373722600E-02    0.484338756679758E-01    0.664016458648917E+03    0.664016458648917E+03
+-    0.113024025183112E-02    0.490415632524719E-01    0.673911234086995E+03    0.673911234086995E+03
+-    0.113481676643625E-02    0.496578461829658E-01    0.683938591012554E+03    0.683938591012554E+03
+-    0.113939328104137E-02    0.502837834412401E-01    0.694106921058228E+03    0.694106921058228E+03
+-    0.114396979564649E-02    0.509197647832321E-01    0.704417475164880E+03    0.704417475164880E+03
+-    0.114854631025162E-02    0.515660629442435E-01    0.714870253332510E+03    0.714870253332510E+03
+-    0.115312282485674E-02    0.522229583000592E-01    0.725466727422448E+03    0.725466727422448E+03
+-    0.115769933946186E-02    0.528913016988168E-01    0.736407928607415E+03    0.736407928607415E+03
+-    0.116227585406699E-02    0.535693746246659E-01    0.747710900447812E+03    0.747710900447812E+03
+-    0.116685236867211E-02    0.542549625196569E-01    0.759459742959248E+03    0.759459742959248E+03
+-    0.117142888327723E-02    0.549434708890666E-01    0.771450559279103E+03    0.771450559279103E+03
+-    0.117600539788236E-02    0.556304944488960E-01    0.783317387005742E+03    0.783317387005742E+03
+-    0.118058191248748E-02    0.563135577145541E-01    0.794799753897335E+03    0.794799753897335E+03
+-    0.118515842709260E-02    0.569919187590445E-01    0.805893076325211E+03    0.805893076325211E+03
+-    0.118973494169773E-02    0.576649781970073E-01    0.816605043189280E+03    0.816605043189280E+03
+-    0.119431145630285E-02    0.583326922882756E-01    0.826997749371837E+03    0.826997749371837E+03
+-    0.119888797090797E-02    0.589948045501661E-01    0.837109006067141E+03    0.837109006067141E+03
+-    0.120346448551310E-02    0.596514473009810E-01    0.847039591509810E+03    0.847039591509810E+03
+-    0.120804100011822E-02    0.603070967542156E-01    0.857464406018886E+03    0.857464406018886E+03
+-    0.121261751472334E-02    0.609641499006368E-01    0.868463857678212E+03    0.868463857678212E+03
+-    0.121719402932846E-02    0.616240733495543E-01    0.879986345757246E+03    0.879986345757246E+03
+-    0.122177054393359E-02    0.622893907696495E-01    0.892075383814236E+03    0.892075383814236E+03
+-    0.122634705853871E-02    0.629625268721938E-01    0.904736971575846E+03    0.904736971575846E+03
+-    0.123092357314383E-02    0.636459632534970E-01    0.917975498917974E+03    0.917975498917974E+03
+-    0.123550008774896E-02    0.643440301176582E-01    0.932006239078663E+03    0.932006239078663E+03
+-    0.124007660235408E-02    0.650639018156484E-01    0.947222898992020E+03    0.947222898992020E+03
+-    0.124465311695920E-02    0.658086065375928E-01    0.963582081100764E+03    0.963582081100764E+03
+-    0.124922963156433E-02    0.665639089028091E-01    0.980275947057146E+03    0.980275947057146E+03
+-    0.125380614616945E-02    0.673270029352367E-01    0.997090673833325E+03    0.997090673833325E+03
+-    0.125838266077457E-02    0.680993047292337E-01    0.101402626142929E+04    0.101402626142929E+04
+-    0.126295917537970E-02    0.688836812839415E-01    0.103116553405285E+04    0.103116553405285E+04
+-    0.126753568998482E-02    0.696847436020158E-01    0.104869940248166E+04    0.104869940248166E+04
+-    0.127211220458994E-02    0.705105360740210E-01    0.106689566577317E+04    0.106689566577317E+04
+-    0.127668871919507E-02    0.713643706273841E-01    0.108578901078040E+04    0.108578901078040E+04
+-    0.128126523380019E-02    0.722488044876578E-01    0.110537943750336E+04    0.110537943750336E+04
+-    0.128584174840531E-02    0.731663948803947E-01    0.112566694594205E+04    0.112566694594205E+04
+-    0.129041826301044E-02    0.741196990311482E-01    0.114665153609647E+04    0.114665153609647E+04
+-    0.129499477761556E-02    0.751112741654702E-01    0.116833320796661E+04    0.116833320796661E+04
+-    0.129957129222068E-02    0.761436775089137E-01    0.119071196155249E+04    0.119071196155249E+04
+-    0.130414780682580E-02    0.772194662870310E-01    0.121378779685409E+04    0.121378779685409E+04
+-    0.130872432143093E-02    0.783411977253753E-01    0.123756071387142E+04    0.123756071387142E+04
+-    0.131330083603605E-02    0.795114290494991E-01    0.126203071260449E+04    0.126203071260449E+04
+-    0.131787735064117E-02    0.807327174849549E-01    0.128719779305328E+04    0.128719779305328E+04
+-    0.132245386524630E-02    0.820098803661022E-01    0.131316359532651E+04    0.131316359532651E+04
+-    0.132703037985142E-02    0.833942916640887E-01    0.134213734942261E+04    0.134213734942261E+04
+-    0.133160689445654E-02    0.849064608740909E-01    0.137489862833937E+04    0.137489862833937E+04
+-    0.133618340906167E-02    0.864777403859484E-01    0.140818585779589E+04    0.140818585779589E+04
+-    0.134075992366679E-02    0.881106254351625E-01    0.144199903779216E+04    0.144199903779216E+04
+-    0.134533643827191E-02    0.898086163479548E-01    0.147634933547749E+04    0.147634933547749E+04
+-    0.134991295287704E-02    0.915780068469288E-01    0.151127900495747E+04    0.151127900495747E+04
+-    0.135448946748216E-02    0.934179246530700E-01    0.154673118730060E+04    0.154673118730060E+04
+-    0.135906598208728E-02    0.952097807339475E-01    0.158074998375664E+04    0.158074998375664E+04
+-    0.136364249669241E-02    0.971630625064728E-01    0.161677520191638E+04    0.161677520191638E+04
+-    0.136821901129753E-02    0.993927089687192E-01    0.165682276148670E+04    0.165682276148670E+04
+-    0.137279552590265E-02    0.101472603619775E+00    0.169398874270015E+04    0.169398874270015E+04
+-    0.137737204050778E-02    0.103402015144612E+00    0.172827322876356E+04    0.172827322876356E+04
+-    0.138194855511290E-02    0.105194374442825E+00    0.175989304269100E+04    0.175989304269100E+04
+-    0.138652506971802E-02    0.106871393889000E+00    0.178921095319695E+04    0.178921095319695E+04
+-    0.139110158432314E-02    0.108439839742022E+00    0.181634829016724E+04    0.181634829016724E+04
+-    0.139567809892827E-02    0.109899307977456E+00    0.184130815692467E+04    0.184130815692467E+04
+-    0.140025461353339E-02    0.111255617548695E+00    0.186419329565626E+04    0.186419329565626E+04
+-    0.140483112813851E-02    0.112511311657177E+00    0.188505358129914E+04    0.188505358129914E+04
+-    0.140940764274364E-02    0.113664547552547E+00    0.190387485411124E+04    0.190387485411124E+04
+-    0.141398415734876E-02    0.114707643461514E+00    0.192058092537649E+04    0.192058092537649E+04
+-    0.141856067195388E-02    0.115584526576888E+00    0.193425336461645E+04    0.193425336461645E+04
+-    0.142313718655901E-02    0.116261933253748E+00    0.194426922014209E+04    0.194426922014209E+04
+-    0.142771370116413E-02    0.116758960620720E+00    0.195084427400701E+04    0.195084427400701E+04
+-    0.143229021576925E-02    0.117093696299681E+00    0.195419015147377E+04    0.195419015147377E+04
+-    0.143686673037438E-02    0.117428804939376E+00    0.195691741703965E+04    0.195691741703965E+04
+-    0.144144324497950E-02    0.117807701709711E+00    0.195964310415331E+04    0.195964310415331E+04
+-    0.144601975958462E-02    0.118224787251178E+00    0.196221472937820E+04    0.196221472937820E+04
+-    0.145059627418975E-02    0.118687424332256E+00    0.196467926227665E+04    0.196467926227665E+04
+-    0.145517278879487E-02    0.119224645431905E+00    0.196737080709577E+04    0.196737080709577E+04
+-    0.145974930339999E-02    0.119843625460805E+00    0.197035034078609E+04    0.197035034078609E+04
+-    0.146432581800512E-02    0.120534369956489E+00    0.197345990173507E+04    0.197345990173507E+04
+-    0.146890233261024E-02    0.121284222130895E+00    0.197646107445826E+04    0.197646107445826E+04
+-    0.147347884721536E-02    0.122023944769194E+00    0.197838130821245E+04    0.197838130821245E+04
+-    0.147805536182049E-02    0.122724695511283E+00    0.197871784848137E+04    0.197871784848137E+04
+-    0.148263187642561E-02    0.123454360545608E+00    0.197900030069216E+04    0.197900030069216E+04
+-    0.148720839103073E-02    0.124313515090027E+00    0.198176046973054E+04    0.198176046973054E+04
+-    0.149178490563585E-02    0.125317813620975E+00    0.198707164413118E+04    0.198707164413118E+04
+-    0.149636142024098E-02    0.126504686304866E+00    0.199526679550350E+04    0.199526679550350E+04
+-    0.150093793484610E-02    0.127789656570267E+00    0.200447019035432E+04    0.200447019035432E+04
+-    0.150551444945122E-02    0.129141120295579E+00    0.201429997168347E+04    0.201429997168347E+04
+-    0.151009096405635E-02    0.130560479657196E+00    0.202520892029564E+04    0.202520892029564E+04
+-    0.151466747866147E-02    0.132052783150072E+00    0.203728427720189E+04    0.203728427720189E+04
+-    0.151924399326659E-02    0.133633902412114E+00    0.205059488633636E+04    0.205059488633636E+04
+-    0.152382050787172E-02    0.135212164299770E+00    0.206294076693041E+04    0.206294076693041E+04
+-    0.152839702247684E-02    0.136761626110473E+00    0.207372000474058E+04    0.207372000474058E+04
+-    0.153297353708196E-02    0.138372772665641E+00    0.208518135567577E+04    0.208518135567577E+04
+-    0.153755005168709E-02    0.140031048519578E+00    0.209685183300711E+04    0.209685183300711E+04
+-    0.154212656629221E-02    0.141661609391877E+00    0.210695186370640E+04    0.210695186370640E+04
+-    0.154670308089733E-02    0.143318719223846E+00    0.211682931979111E+04    0.211682931979111E+04
+-    0.155127959550246E-02    0.145017308923558E+00    0.212676026163059E+04    0.212676026163059E+04
+-    0.155585611010758E-02    0.146599189546912E+00    0.213277330991758E+04    0.213277330991758E+04
+-    0.156043262471270E-02    0.148179757810934E+00    0.213772407249082E+04    0.213772407249082E+04
+-    0.156500913931783E-02    0.149847397968467E+00    0.214421509958304E+04    0.214421509958304E+04
+-    0.156958565392295E-02    0.151464436292835E+00    0.214892521210662E+04    0.214892521210662E+04
+-    0.157416216852807E-02    0.153296439299444E+00    0.215837642146380E+04    0.215837642146380E+04
+-    0.157873868313319E-02    0.155492306090898E+00    0.217611314604016E+04    0.217611314604016E+04
+-    0.158331519773832E-02    0.157826672373302E+00    0.219611579843425E+04    0.219611579843425E+04
+-    0.158789171234344E-02    0.160333865194404E+00    0.221924163984243E+04    0.221924163984243E+04
+-    0.159246822694856E-02    0.163060535889272E+00    0.224646697829458E+04    0.224646697829458E+04
+-    0.159704474155369E-02    0.165856853412492E+00    0.227406676064591E+04    0.227406676064591E+04
+-    0.160162125615881E-02    0.168676465074843E+00    0.230148921001474E+04    0.230148921001474E+04
+-    0.160619777076393E-02    0.171532564531344E+00    0.232863404678214E+04    0.232863404678214E+04
+-    0.161077428536906E-02    0.174493721569070E+00    0.235572727897892E+04    0.235572727897892E+04
+-    0.161535079997418E-02    0.177514111810731E+00    0.238461784040245E+04    0.238461784040245E+04
+-    0.161992731457930E-02    0.180497024177326E+00    0.241208449163973E+04    0.241208449163973E+04
+-    0.162450382918443E-02    0.183409897061539E+00    0.243714282050245E+04    0.243714282050245E+04
+-    0.162908034378955E-02    0.186401469087701E+00    0.246488819837181E+04    0.246488819837181E+04
+-    0.163365685839467E-02    0.189454421188842E+00    0.249391005900722E+04    0.249391005900722E+04
+-    0.163823337299980E-02    0.192461319496587E+00    0.252051114953424E+04    0.252051114953424E+04
+-    0.164280988760492E-02    0.195419921860231E+00    0.254474693861618E+04    0.254474693861618E+04
+-    0.164738640221004E-02    0.198327118901662E+00    0.256668942011576E+04    0.256668942011576E+04
+-    0.165196291681517E-02    0.201184527724764E+00    0.258655599088788E+04    0.258655599088788E+04
+-    0.165653943142029E-02    0.204002248363146E+00    0.260475170503255E+04    0.260475170503255E+04
+-    0.166111594602541E-02    0.206825586404606E+00    0.262273749457758E+04    0.262273749457758E+04
+-    0.166569246063053E-02    0.209682404885872E+00    0.264148805425891E+04    0.264148805425891E+04
+-    0.167026897523566E-02    0.212553485518509E+00    0.266040034932678E+04    0.266040034932678E+04
+-    0.167484548984078E-02    0.215416446385833E+00    0.267886360555601E+04    0.267886360555601E+04
+-    0.167942200444590E-02    0.218236552040054E+00    0.269598257504215E+04    0.269598257504215E+04
+-    0.168399851905103E-02    0.220996786056805E+00    0.271144217362307E+04    0.271144217362307E+04
+-    0.168857503365615E-02    0.223692039008420E+00    0.272521910083995E+04    0.272521910083995E+04
+-    0.169315154826127E-02    0.226319928357309E+00    0.273732961398363E+04    0.273732961398363E+04
+-    0.169772806286640E-02    0.228878732409101E+00    0.274779681351544E+04    0.274779681351544E+04
+-    0.170230457747152E-02    0.231365187231057E+00    0.275662230866157E+04    0.275662230866157E+04
+-    0.170688109207664E-02    0.233776093463421E+00    0.276380865714539E+04    0.276380865714539E+04
+-    0.171145760668177E-02    0.236138361463329E+00    0.276978283711100E+04    0.276978283711100E+04
+-    0.171603412128689E-02    0.238468191185993E+00    0.277483486099283E+04    0.277483486099283E+04
+-    0.172061063589201E-02    0.240764372452112E+00    0.277900702498324E+04    0.277900702498324E+04
+-    0.172518715049714E-02    0.243023493110845E+00    0.278229935273039E+04    0.278229935273039E+04
+-    0.172976366510226E-02    0.245242139717187E+00    0.278471184423427E+04    0.278471184423427E+04
+-    0.173434017970738E-02    0.247416559701156E+00    0.278623995894194E+04    0.278623995894194E+04
+-    0.173891669431251E-02    0.249540741733109E+00    0.278684915524805E+04    0.278684915524805E+04
+-    0.174349320891763E-02    0.251611814959895E+00    0.278655226476014E+04    0.278655226476014E+04
+-    0.174806972352275E-02    0.253627010160787E+00    0.278536054552671E+04    0.278536054552671E+04
+-    0.175264623812788E-02    0.255582949904594E+00    0.278327399754774E+04    0.278327399754774E+04
+-    0.175722275273300E-02    0.257476256760123E+00    0.278029262082324E+04    0.278029262082324E+04
+-    0.176179926733812E-02    0.259311004232380E+00    0.277651302012649E+04    0.277651302012649E+04
+-    0.176637578194324E-02    0.261123994258360E+00    0.277244353142818E+04    0.277244353142818E+04
+-    0.177095229654837E-02    0.262919936876771E+00    0.276815801170731E+04    0.276815801170731E+04
+-    0.177552881115349E-02    0.264465412395823E+00    0.276077351853529E+04    0.276077351853529E+04
+-    0.178010532575861E-02    0.265241174751625E+00    0.274413958823170E+04    0.274413958823170E+04
+-    0.178468184036374E-02    0.264866309852089E+00    0.271438534371099E+04    0.271438534371099E+04
+-    0.178925835496886E-02    0.263259014045541E+00    0.267168277662597E+04    0.267168277662597E+04
+-    0.179383486957398E-02    0.269762104048911E+00    0.273162703402405E+04    0.273162703402405E+04
+-    0.179841138417911E-02    0.288120373823377E+00    0.291542359455245E+04    0.291542359455245E+04
+-    0.180298789878423E-02    0.299089805302965E+00    0.299217147780262E+04    0.299217147780262E+04
+-    0.180756441338935E-02    0.300958169612718E+00    0.296091030222872E+04    0.296091030222872E+04
+-    0.181214092799448E-02    0.292982190105316E+00    0.282808921334350E+04    0.282808921334350E+04
+-    0.181671744259960E-02    0.273225738317953E+00    0.259354776321872E+04    0.259354776321872E+04
+-    0.182129395720472E-02    0.241209594994249E+00    0.226406782599052E+04    0.226406782599052E+04
+-    0.182587047180985E-02    0.198714104164998E+00    0.186520094455316E+04    0.186520094455316E+04
+-    0.183044698641497E-02    0.159137046513190E+00    0.151406774179272E+04    0.151406774179272E+04
+-    0.183502350102009E-02    0.144923933935786E+00    0.137843544996230E+04    0.137843544996230E+04
+-    0.183960001562522E-02    0.133665250951070E+00    0.127290045146006E+04    0.127290045146006E+04
+-    0.184417653023034E-02    0.124452823241415E+00    0.118811183678333E+04    0.118811183678333E+04
+-    0.184875304483546E-02    0.118193251420546E+00    0.113057478874976E+04    0.113057478874976E+04
+-    0.185332955944058E-02    0.114553737966214E+00    0.109590902589269E+04    0.109590902589269E+04
+-    0.185790607404571E-02    0.113072771072982E+00    0.107837967224412E+04    0.107837967224412E+04
+-    0.186248258865083E-02    0.112480269794275E+00    0.106837297359146E+04    0.106837297359146E+04
+-    0.186705910325595E-02    0.112504671923081E+00    0.106370166152175E+04    0.106370166152175E+04
+-    0.187163561786108E-02    0.113110665837821E+00    0.106415253052948E+04    0.106415253052948E+04
+-    0.187621213246620E-02    0.114303546363243E+00    0.106969072503335E+04    0.106969072503335E+04
+-    0.188078864707132E-02    0.115757711346439E+00    0.107760952105401E+04    0.107760952105401E+04
+-    0.188536516167645E-02    0.117247996661313E+00    0.108598515662214E+04    0.108598515662214E+04
+-    0.188994167628157E-02    0.118752286448307E+00    0.109445017451208E+04    0.109445017451208E+04
+-    0.189451819088669E-02    0.120260832549377E+00    0.110285223350556E+04    0.110285223350556E+04
+-    0.189909470549182E-02    0.121754385455369E+00    0.111091928286485E+04    0.111091928286485E+04
+-    0.190367122009694E-02    0.123231039033476E+00    0.111865132258996E+04    0.111865132258996E+04
+-    0.190824773470206E-02    0.124699280589005E+00    0.112620276660562E+04    0.112620276660562E+04
+-    0.191282424930719E-02    0.126171386230745E+00    0.113378043988564E+04    0.113378043988564E+04
+-    0.191740076391231E-02    0.127583704717514E+00    0.114059513558242E+04    0.114059513558242E+04
+-    0.192197727851743E-02    0.128919390528522E+00    0.114644145596251E+04    0.114644145596251E+04
+-    0.192655379312256E-02    0.130179165643389E+00    0.115133257821472E+04    0.115133257821472E+04
+-    0.193113030772768E-02    0.131355263010420E+00    0.115519209988742E+04    0.115519209988742E+04
+-    0.193570682233280E-02    0.132436869772044E+00    0.115790980580599E+04    0.115790980580599E+04
+-    0.194028333693793E-02    0.133580236285886E+00    0.116158904349473E+04    0.116158904349473E+04
+-    0.194485985154305E-02    0.134705972486295E+00    0.116495452439557E+04    0.116495452439557E+04
+-    0.194943636614817E-02    0.135797705650878E+00    0.116775741366173E+04    0.116775741366173E+04
+-    0.195401288075329E-02    0.136896063059540E+00    0.117042163011807E+04    0.117042163011807E+04
+-    0.195858939535842E-02    0.138052073048492E+00    0.117355592961605E+04    0.117355592961605E+04
+-    0.196316590996354E-02    0.139277268597726E+00    0.117733972823597E+04    0.117733972823597E+04
+-    0.196774242456866E-02    0.140660272092734E+00    0.118281743411388E+04    0.118281743411388E+04
+-    0.197231893917379E-02    0.142275820488330E+00    0.119069304004429E+04    0.119069304004429E+04
+-    0.197689545377891E-02    0.143838172796469E+00    0.119767747343111E+04    0.119767747343111E+04
+-    0.198147196838403E-02    0.145340396854334E+00    0.120375775386534E+04    0.120375775386534E+04
+-    0.198604848298916E-02    0.146899454390837E+00    0.121063498334942E+04    0.121063498334942E+04
+-    0.199062499759428E-02    0.148378056493761E+00    0.121641098393581E+04    0.121641098393581E+04
+-    0.199520151219940E-02    0.149844597066187E+00    0.122204454588586E+04    0.122204454588586E+04
+-    0.199977802680453E-02    0.151283806580269E+00    0.122733045437502E+04    0.122733045437502E+04
+-    0.200435454140965E-02    0.152684771817585E+00    0.123212511715218E+04    0.123212511715218E+04
+-    0.200893105601477E-02    0.154054832459075E+00    0.123653689792326E+04    0.123653689792326E+04
+-    0.201350757061990E-02    0.155563441205793E+00    0.124283657467674E+04    0.124283657467674E+04
+-    0.201808408522502E-02    0.157276058785246E+00    0.125189071328796E+04    0.125189071328796E+04
+-    0.202266059983014E-02    0.159034662151784E+00    0.126150795865910E+04    0.126150795865910E+04
+-    0.202723711443527E-02    0.160746347020846E+00    0.127042321766966E+04    0.127042321766966E+04
+-    0.203181362904039E-02    0.162415700839491E+00    0.127869964984952E+04    0.127869964984952E+04
+-    0.203639014364551E-02    0.164121083106514E+00    0.128736885529142E+04    0.128736885529142E+04
+-    0.204096665825063E-02    0.165964218426391E+00    0.129780640682286E+04    0.129780640682286E+04
+-    0.204554317285576E-02    0.167782780151207E+00    0.130775339769980E+04    0.130775339769980E+04
+-    0.205011968746088E-02    0.169575607144589E+00    0.131720982792223E+04    0.131720982792223E+04
+-    0.205469620206600E-02    0.171341538270162E+00    0.132617569749015E+04    0.132617569749015E+04
+-    0.205927271667113E-02    0.173079412391551E+00    0.133465100640356E+04    0.133465100640356E+04
+-    0.206384923127625E-02    0.174788068372382E+00    0.134263575466247E+04    0.134263575466247E+04
+-    0.206842574588137E-02    0.176466345076279E+00    0.135012994226687E+04    0.135012994226687E+04
+-    0.207300226048650E-02    0.178113081366869E+00    0.135713356921676E+04    0.135713356921676E+04
+-    0.207757877509162E-02    0.179727116107776E+00    0.136364663551214E+04    0.136364663551214E+04
+-    0.208215528969674E-02    0.181307288162626E+00    0.136966914115302E+04    0.136966914115302E+04
+-    0.208673180430187E-02    0.182852436395044E+00    0.137520108613939E+04    0.137520108613939E+04
+-    0.209130831890699E-02    0.184361399668655E+00    0.138024247047125E+04    0.138024247047125E+04
+-    0.209588483351211E-02    0.185833016847086E+00    0.138479329414860E+04    0.138479329414860E+04
+-    0.210046134811724E-02    0.187266126793960E+00    0.138885355717145E+04    0.138885355717145E+04
+-    0.210503786272236E-02    0.188659568372905E+00    0.139242325953979E+04    0.139242325953979E+04
+-    0.210961437732748E-02    0.190012180447543E+00    0.139550240125362E+04    0.139550240125362E+04
+-    0.211419089193261E-02    0.191322801881503E+00    0.139809098231294E+04    0.139809098231294E+04
+-    0.211876740653773E-02    0.192590271538407E+00    0.140018900271776E+04    0.140018900271776E+04
+-    0.212334392114285E-02    0.193813428281882E+00    0.140179646246807E+04    0.140179646246807E+04
+-    0.212792043574798E-02    0.194991110975554E+00    0.140291336156387E+04    0.140291336156387E+04
+-    0.213249695035310E-02    0.196122158483047E+00    0.140353970000516E+04    0.140353970000516E+04
+-    0.213707346495822E-02    0.197205409667987E+00    0.140367547779196E+04    0.140367547779196E+04
+-    0.214164997956334E-02    0.198239703393999E+00    0.140332069492423E+04    0.140332069492423E+04
+-    0.214622649416847E-02    0.199223878524708E+00    0.140247535140201E+04    0.140247535140201E+04
+-    0.215080300877359E-02    0.200156773923741E+00    0.140113944722527E+04    0.140113944722527E+04
+-    0.215537952337871E-02    0.201037228454721E+00    0.139931298239403E+04    0.139931298239403E+04
+-    0.215995603798384E-02    0.201864080981275E+00    0.139699595690827E+04    0.139699595690827E+04
+-    0.216453255258896E-02    0.202636170367028E+00    0.139418837076802E+04    0.139418837076802E+04
+-    0.216910906719408E-02    0.203352335475605E+00    0.139089022397325E+04    0.139089022397325E+04
+-    0.217368558179921E-02    0.204011415170631E+00    0.138710151652398E+04    0.138710151652398E+04
+-    0.217826209640433E-02    0.204612248315732E+00    0.138282224842020E+04    0.138282224842020E+04
+-    0.218283861100945E-02    0.205153673774534E+00    0.137805241966191E+04    0.137805241966191E+04
+-    0.218741512561458E-02    0.205634530410661E+00    0.137279203024912E+04    0.137279203024912E+04
+-    0.219199164021970E-02    0.206053657087738E+00    0.136704108018181E+04    0.136704108018181E+04
+-    0.219656815482482E-02    0.206409892669392E+00    0.136079956946000E+04    0.136079956946000E+04
+-    0.220114466942995E-02    0.206702076019247E+00    0.135406749808369E+04    0.135406749808369E+04
+-    0.220572118403507E-02    0.206929046000929E+00    0.134684486605286E+04    0.134684486605286E+04
+-    0.221029769864019E-02    0.207089641478064E+00    0.133913167336753E+04    0.133913167336753E+04
+-    0.221487421324531E-02    0.207182701314275E+00    0.133092792002769E+04    0.133092792002769E+04
+-    0.221945072785044E-02    0.207207064373189E+00    0.132223360603335E+04    0.132223360603335E+04
+-    0.222402724245556E-02    0.207161569518432E+00    0.131304873138450E+04    0.131304873138450E+04
+-    0.222860375706068E-02    0.207045055613628E+00    0.130337329608113E+04    0.130337329608113E+04
+-    0.223318027166581E-02    0.206856361522402E+00    0.129320730012326E+04    0.129320730012326E+04
+-    0.223775678627093E-02    0.206594326108382E+00    0.128255074351089E+04    0.128255074351089E+04
+-    0.224233330087605E-02    0.206257788235190E+00    0.127140362624400E+04    0.127140362624400E+04
+-    0.224690981548118E-02    0.205845586766453E+00    0.125976594832261E+04    0.125976594832261E+04
+-    0.225148633008630E-02    0.205356560565796E+00    0.124763770974671E+04    0.124763770974671E+04
+-    0.225606284469142E-02    0.204789548496845E+00    0.123501891051630E+04    0.123501891051630E+04
+-    0.226063935929655E-02    0.204143389423225E+00    0.122190955063139E+04    0.122190955063139E+04
+-    0.226521587390167E-02    0.203416922208560E+00    0.120830963009197E+04    0.120830963009197E+04
+-    0.226979238850679E-02    0.202608985716477E+00    0.119421914889804E+04    0.119421914889804E+04
+-    0.227436890311192E-02    0.201718418810601E+00    0.117963810704960E+04    0.117963810704960E+04
+-    0.227894541771704E-02    0.200744060354557E+00    0.116456650454666E+04    0.116456650454666E+04
+-    0.228352193232216E-02    0.199684749211970E+00    0.114900434138921E+04    0.114900434138921E+04
+-    0.228809844692729E-02    0.198539324246466E+00    0.113295161757725E+04    0.113295161757725E+04
+-    0.229267496153241E-02    0.197306604919034E+00    0.111640826202783E+04    0.111640826202783E+04
+-    0.229725147613753E-02    0.195979295196074E+00    0.109935177806251E+04    0.109935177806251E+04
+-    0.230182799074266E-02    0.194550157298452E+00    0.108175981450324E+04    0.108175981450324E+04
+-    0.230640450534778E-02    0.192991977529072E+00    0.106348420787684E+04    0.106348420787684E+04
+-    0.231098101995290E-02    0.191230796272648E+00    0.104405889525886E+04    0.104405889525886E+04
+-    0.231555753455802E-02    0.189301836264340E+00    0.102374354792210E+04    0.102374354792210E+04
+-    0.232013404916315E-02    0.187217661702796E+00    0.100267765342557E+04    0.100267765342557E+04
+-    0.232471056376827E-02    0.184987051738564E+00    0.980939156158497E+03    0.980939156158497E+03
+-    0.232928707837339E-02    0.182648632951257E+00    0.958785266424335E+03    0.958785266424335E+03
+-    0.233386359297852E-02    0.180220116030098E+00    0.936354909196802E+03    0.936354909196802E+03
+-    0.233844010758364E-02    0.177705117606122E+00    0.913628373713442E+03    0.913628373713442E+03
+-    0.234301662218876E-02    0.175139501183284E+00    0.890794357446436E+03    0.890794357446436E+03
+-    0.234759313679389E-02    0.172525646472957E+00    0.867865991323359E+03    0.867865991323359E+03
+-    0.235216965139901E-02    0.169768775504775E+00    0.844152694880022E+03    0.844152694880022E+03
+-    0.235674616600413E-02    0.166532527640010E+00    0.817181225706584E+03    0.817181225706584E+03
+-    0.236132268060926E-02    0.182202752469748E+00    0.909765570170331E+03    0.909765570170331E+03
+-    0.236589919521438E-02    0.203727509184847E+00    0.104178616722580E+04    0.104178616722580E+04
+-    0.237047570981950E-02    0.217686212451131E+00    0.112760582613036E+04    0.112760582613036E+04
+-    0.237505222442463E-02    0.224281440852346E+00    0.116756317345870E+04    0.116756317345870E+04
+-    0.237962873902975E-02    0.223701005671601E+00    0.116196651241569E+04    0.116196651241569E+04
+-    0.238420525363487E-02    0.216176232550115E+00    0.111143525622905E+04    0.111143525622905E+04
+-    0.238878176824000E-02    0.201998771875954E+00    0.101701373938082E+04    0.101701373938082E+04
+-    0.239335828284512E-02    0.181123356367645E+00    0.877341765236579E+03    0.877341765236579E+03
+-    0.239793479745024E-02    0.154841201262511E+00    0.699730837671168E+03    0.699730837671168E+03
+-    0.240251131205537E-02    0.124379202263148E+00    0.490793887718571E+03    0.490793887718571E+03
+-    0.240708782666049E-02    0.115528737239348E+00    0.426325862853433E+03    0.426325862853433E+03
+-    0.241166434126561E-02    0.115384438989178E+00    0.420523808284034E+03    0.420523808284034E+03
+-    0.241624085587073E-02    0.116640131547796E+00    0.423949633536362E+03    0.423949633536362E+03
+-    0.242081737047586E-02    0.118242248140865E+00    0.429444734514082E+03    0.429444734514082E+03
+-    0.242539388508098E-02    0.120082109266851E+00    0.436208596361906E+03    0.436208596361906E+03
+-    0.242997039968610E-02    0.122106290691630E+00    0.443868821124217E+03    0.443868821124217E+03
+-    0.243454691429123E-02    0.124299073083000E+00    0.452318818640749E+03    0.452318818640749E+03
+-    0.243912342889635E-02    0.126668489100338E+00    0.461589322068339E+03    0.461589322068339E+03
+-    0.244369994350147E-02    0.129207113208166E+00    0.471585190162248E+03    0.471585190162248E+03
+-    0.244827645810660E-02    0.131897918376462E+00    0.482193726704688E+03    0.482193726704688E+03
+-    0.245285297271172E-02    0.134740015579903E+00    0.493414931695660E+03    0.493414931695660E+03
+-    0.245742948731684E-02    0.137732515793167E+00    0.505248805135164E+03    0.505248805135164E+03
+-    0.246200600192197E-02    0.140874529990931E+00    0.517695347023202E+03    0.517695347023202E+03
+-    0.246658251652709E-02    0.144165169147872E+00    0.530754557359771E+03    0.530754557359771E+03
+-    0.247115903113221E-02    0.147603544238667E+00    0.544426436144872E+03    0.544426436144872E+03
+-    0.247573554573734E-02    0.151188766237994E+00    0.558710983378505E+03    0.558710983378505E+03
+-    0.248031206034246E-02    0.154919946120530E+00    0.573608199060670E+03    0.573608199060670E+03
+-    0.248488857494758E-02    0.158796194860953E+00    0.589118083191368E+03    0.589118083191368E+03
+-    0.248946508955271E-02    0.162817449656514E+00    0.605243982248175E+03    0.605243982248175E+03
+-    0.249404160415783E-02    0.166992706548216E+00    0.622025874273676E+03    0.622025874273676E+03
+-    0.249861811876295E-02    0.171323998750615E+00    0.639475412119653E+03    0.639475412119653E+03
+-    0.250319463336807E-02    0.175783369343678E+00    0.657485853994738E+03    0.657485853994738E+03
+-    0.250777114797320E-02    0.180303235839629E+00    0.675794347445799E+03    0.675794347445799E+03
+-    0.251234766257832E-02    0.184878010119784E+00    0.694381967878860E+03    0.694381967878860E+03
+-    0.251692417718344E-02    0.189502762310645E+00    0.713232126024438E+03    0.713232126024438E+03
+-    0.252150069178857E-02    0.194166355168656E+00    0.732302891829881E+03    0.732302891829881E+03
+-    0.252607720639369E-02    0.198775183661665E+00    0.751224445867109E+03    0.751224445867109E+03
+-    0.253065372099881E-02    0.203314454512704E+00    0.769937413494892E+03    0.769937413494892E+03
+-    0.253523023560394E-02    0.207678813015678E+00    0.788025506760180E+03    0.788025506760180E+03
+-    0.253980675020906E-02    0.211833313952437E+00    0.805347820842533E+03    0.805347820842533E+03
+-    0.254438326481418E-02    0.215778876380921E+00    0.821904355741950E+03    0.821904355741950E+03
+-    0.254895977941931E-02    0.219517766977138E+00    0.837700449383306E+03    0.837700449383306E+03
+-    0.255353629402443E-02    0.223128663756024E+00    0.853044657322465E+03    0.853044657322465E+03
+-    0.255811280862955E-02    0.226728138589441E+00    0.868399611734461E+03    0.868399611734461E+03
+-    0.256268932323468E-02    0.230353798679562E+00    0.883914240491789E+03    0.883914240491789E+03
+-    0.256726583783980E-02    0.234005985088221E+00    0.899588543594445E+03    0.899588543594445E+03
+-    0.257184235244492E-02    0.237698288678487E+00    0.915476092966608E+03    0.915476092966608E+03
+-    0.257641886705005E-02    0.241561663491237E+00    0.932107466285435E+03    0.932107466285435E+03
+-    0.258099538165517E-02    0.245628244940603E+00    0.949618476729493E+03    0.949618476729493E+03
+-    0.258557189626029E-02    0.249896457622381E+00    0.968009124298772E+03    0.968009124298772E+03
+-    0.259014841086542E-02    0.254364726132367E+00    0.987279408993271E+03    0.987279408993271E+03
+-    0.259472492547054E-02    0.259031475066358E+00    0.100742933081299E+04    0.100742933081299E+04
+-    0.259930144007566E-02    0.263895129020149E+00    0.102845888975794E+04    0.102845888975794E+04
+-    0.260387795468078E-02    0.268954112589537E+00    0.105036808582810E+04    0.105036808582810E+04
+-    0.260845446928591E-02    0.274206850370319E+00    0.107315691902349E+04    0.107315691902349E+04
+-    0.261303098389103E-02    0.279651766958291E+00    0.109682538934410E+04    0.109682538934410E+04
+-    0.261760749849615E-02    0.285287286949250E+00    0.112137349678994E+04    0.112137349678994E+04
+-    0.262218401310128E-02    0.291111834938992E+00    0.114680124136100E+04    0.114680124136100E+04
+-    0.262676052770640E-02    0.297123835523312E+00    0.117310862305727E+04    0.117310862305727E+04
+-    0.263133704231152E-02    0.303321713298009E+00    0.120029564187877E+04    0.120029564187877E+04
+-    0.263591355691665E-02    0.309703892858877E+00    0.122836229782550E+04    0.122836229782550E+04
+-    0.264049007152177E-02    0.316353796382443E+00    0.125764115135866E+04    0.125764115135866E+04
+-    0.264506658612689E-02    0.323432747262077E+00    0.128878097020837E+04    0.128878097020837E+04
+-    0.264964310073202E-02    0.330938199807565E+00    0.132179859702188E+04    0.132179859702188E+04
+-    0.265421961533714E-02    0.338863273757664E+00    0.135669403179921E+04    0.135669403179921E+04
+-    0.265879612994226E-02    0.347201088851130E+00    0.139346727454036E+04    0.139346727454036E+04
+-    0.266337264454739E-02    0.356114951167061E+00    0.143279031484036E+04    0.143279031484036E+04
+-    0.266794915915251E-02    0.366341878795572E+00    0.147767112057437E+04    0.147767112057437E+04
+-    0.267252567375763E-02    0.377633752311583E+00    0.152736252029393E+04    0.152736252029393E+04
+-    0.267710218836275E-02    0.390114061356285E+00    0.158314425882936E+04    0.158314425882936E+04
+-    0.268167870296788E-02    0.404682127392201E+00    0.164917188192950E+04    0.164917188192950E+04
+-    0.268625521757300E-02    0.421606994839083E+00    0.172658151929801E+04    0.172658151929801E+04
+-    0.269083173217812E-02    0.442316664583152E+00    0.182071285797717E+04    0.182071285797717E+04
+-    0.269540824678325E-02    0.470716507039538E+00    0.194704519708083E+04    0.194704519708083E+04
+-    0.269998476138837E-02    0.510507201984031E+00    0.212305214209550E+04    0.212305214209550E+04
+-    0.270456127599349E-02    0.914827610430453E+00    0.395043346422066E+04    0.395043346422066E+04
+-    0.270913779059862E-02    0.114331554072706E+01    0.474325045734441E+04    0.474325045734441E+04
+-    0.271371430520374E-02    0.712661593295711E+00    0.302302363345852E+04    0.302302363345852E+04
+-    0.271829081980886E-02    0.813152303065408E+00    0.347061488991366E+04    0.347061488991366E+04
+-    0.272286733441399E-02    0.913888243806694E+00    0.391787159277468E+04    0.391787159277468E+04
+-    0.272744384901911E-02    0.100448734770966E+01    0.431929816440300E+04    0.431929816440300E+04
+-    0.273202036362423E-02    0.111004448947683E+01    0.478878519633761E+04    0.478878519633761E+04
+-    0.273659687822936E-02    0.121324706878755E+01    0.523764172423047E+04    0.523764172423047E+04
+-    0.274117339283448E-02    0.128152050541259E+01    0.552080514176205E+04    0.552080514176205E+04
+-    0.274574990743960E-02    0.128212673689658E+01    0.551419536997904E+04    0.551419536997904E+04
+-    0.275032642204473E-02    0.124401666576686E+01    0.533958287326847E+04    0.533958287326847E+04
+-    0.275490293664985E-02    0.118927327729961E+01    0.509107215212017E+04    0.509107215212017E+04
+-    0.275947945125497E-02    0.111989288178386E+01    0.477907490931515E+04    0.477907490931515E+04
+-    0.276405596586010E-02    0.104268537509149E+01    0.443302113760705E+04    0.443302113760705E+04
+-    0.276863248046522E-02    0.959021238763198E+00    0.405991719516367E+04    0.405991719516367E+04
+-    0.277320899507034E-02    0.889729341343751E+00    0.375599548547176E+04    0.375599548547176E+04
+-    0.277778550967546E-02    0.824982230836351E+00    0.347713566061083E+04    0.347713566061083E+04
+-    0.278236202428059E-02    0.762027195077129E+00    0.320898749662175E+04    0.320898749662175E+04
+-    0.278693853888571E-02    0.730244033955479E+00    0.306454556272563E+04    0.306454556272563E+04
+-    0.279151505349083E-02    0.698698756681705E+00    0.292225953061499E+04    0.292225953061499E+04
+-    0.279609156809596E-02    0.667631571642520E+00    0.278370408629391E+04    0.278370408629391E+04
+-    0.280066808270108E-02    0.636722859392836E+00    0.264784611380084E+04    0.264784611380084E+04
+-    0.280524459730620E-02    0.605456831701592E+00    0.251275840774672E+04    0.251275840774672E+04
+-    0.280982111191133E-02    0.573161802956893E+00    0.237579616058428E+04    0.237579616058428E+04
+-    0.281439762651645E-02    0.538884770804278E+00    0.223293633169771E+04    0.223293633169771E+04
+-    0.281897414112157E-02    0.502483256972133E+00    0.208388731019931E+04    0.208388731019931E+04
+-    0.282355065572670E-02    0.463877883670978E+00    0.192864463408419E+04    0.192864463408419E+04
+-    0.282812717033182E-02    0.422990254376140E+00    0.176720830335228E+04    0.176720830335228E+04
+-    0.283270368493694E-02    0.395885922351848E+00    0.165244605997466E+04    0.165244605997466E+04
+-    0.283728019954207E-02    0.369743479263945E+00    0.154098696120200E+04    0.154098696120200E+04
+-    0.284185671414719E-02    0.343384990528436E+00    0.142893558405426E+04    0.142893558405426E+04
+-    0.284643322875231E-02    0.316805112218264E+00    0.131629192853147E+04    0.131629192853147E+04
+-    0.285100974335744E-02    0.289998500406360E+00    0.120305599463359E+04    0.120305599463359E+04
+-    0.285558625796256E-02    0.262959811165668E+00    0.108922778236065E+04    0.108922778236065E+04
+-    0.286016277256768E-02    0.235683700569127E+00    0.974807291712626E+03    0.974807291712626E+03
+-    0.286473928717281E-02    0.208166819777766E+00    0.859803366185071E+03    0.859803366185071E+03
+-    0.286931580177793E-02    0.180533472868755E+00    0.744790795071838E+03    0.744790795071838E+03
+-    0.287389231638305E-02    0.152941407750287E+00    0.630469558235560E+03    0.630469558235560E+03
+-    0.287846883098817E-02    0.126243603345067E+00    0.520467823788039E+03    0.520467823788039E+03
+-    0.288304534559330E-02    0.100940657329470E+00    0.416527448128747E+03    0.416527448128747E+03
+-    0.288762186019842E-02    0.835658535405389E-01    0.343903594658950E+03    0.343903594658950E+03
+diff --git a/PHonon/examples/tetra_example/reference/aluminum.McMillan.gp b/PHonon/examples/tetra_example/reference/aluminum.McMillan.gp
+new file mode 100644
+index 000000000..f1b0a7c7e
+--- /dev/null
++++ b/PHonon/examples/tetra_example/reference/aluminum.McMillan.gp
+@@ -0,0 +1,6 @@
++unset key
++set xlabel "mu*"
++set ylabel "T_c [K]"
++set xrange [0.0:    0.31910E+00]
++plot     0.25479E+03*exp(   -0.14537E+01/(    0.39780E+00-x*    0.12466E+01))
++pause -1
+diff --git a/PHonon/examples/tetra_example/reference/aluminum.a2F.dat b/PHonon/examples/tetra_example/reference/aluminum.a2F.dat
+new file mode 100644
+index 000000000..27786d466
+--- /dev/null
++++ b/PHonon/examples/tetra_example/reference/aluminum.a2F.dat
+@@ -0,0 +1,501 @@
++ # Frequency[Ry], a2F, DOS[Ry], Partial DOS(Atom 1), PDOS(Atom 2), ..
++    0.577047658343745E-05    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.115409531668749E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.173114297503124E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.230819063337498E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.288523829171873E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.346228595006247E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.403933360840622E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.461638126674996E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.519342892509371E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.577047658343745E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.634752424178120E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.692457190012495E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.750161955846869E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.807866721681244E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.865571487515618E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.923276253349993E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.980981019184367E-04    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.103868578501874E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.109639055085312E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.115409531668749E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.121180008252187E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.126950484835624E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.132720961419061E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.138491438002499E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.144261914585936E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.150032391169374E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.155802867752811E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.161573344336249E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.167343820919686E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.173114297503124E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.178884774086561E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.184655250669999E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.190425727253436E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.196196203836873E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.201966680420311E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.207737157003748E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.213507633587186E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.219278110170623E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.225048586754061E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.230819063337498E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.236589539920936E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.242360016504373E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.248130493087811E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.253900969671248E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.259671446254685E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.265441922838123E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.271212399421560E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.276982876004998E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.282753352588435E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.288523829171873E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.294294305755310E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.300064782338748E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.305835258922185E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.311605735505623E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.317376212089060E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.323146688672497E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.328917165255935E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.334687641839372E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.340458118422810E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.346228595006247E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.351999071589685E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.357769548173122E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.363540024756560E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.369310501339997E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.375080977923435E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.380851454506872E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.386621931090309E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.392392407673747E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.398162884257184E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.403933360840622E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.409703837424059E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.415474314007497E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.421244790590934E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.427015267174372E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.432785743757809E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.438556220341247E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.444326696924684E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.450097173508121E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.455867650091559E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.461638126674996E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.467408603258434E-03    0.000000000000000E+00    0.000000000000000E+00    0.000000000000000E+00
++    0.473179079841871E-03    0.129856202551575E-04    0.194554533971462E+00    0.194554533971462E+00
++    0.478949556425309E-03    0.147230497045460E-03    0.219715972092498E+01    0.219715972092498E+01
++    0.484720033008746E-03    0.279480727526490E-03    0.415439371610581E+01    0.415439371610581E+01
++    0.490490509592184E-03    0.409738781056993E-03    0.606685011609680E+01    0.606685011609681E+01
++    0.496260986175621E-03    0.690582897378158E-03    0.100795011991596E+02    0.100795011991596E+02
++    0.502031462759059E-03    0.972342659566631E-03    0.140576759037935E+02    0.140576759037935E+02
++    0.507801939342496E-03    0.125270975405448E-02    0.179701461483006E+02    0.179701461483006E+02
++    0.513572415925933E-03    0.153336251362310E-02    0.218437125700896E+02    0.218437125700896E+02
++    0.519342892509371E-03    0.181520997889198E-02    0.256932274987293E+02    0.256932274987292E+02
++    0.525113369092808E-03    0.209904197403867E-02    0.295317567050635E+02    0.295317567050635E+02
++    0.530883845676246E-03    0.238599206771964E-02    0.333773712553853E+02    0.333773712553853E+02
++    0.536654322259683E-03    0.267620860219538E-02    0.372331808194379E+02    0.372331808194379E+02
++    0.542424798843121E-03    0.296963444653947E-02    0.410991853972215E+02    0.410991853972214E+02
++    0.548195275426558E-03    0.326621246982548E-02    0.449753849887358E+02    0.449753849887358E+02
++    0.553965752009996E-03    0.356612618431832E-02    0.488655315795783E+02    0.488655315795784E+02
++    0.559736228593433E-03    0.387061866927743E-02    0.527900033697675E+02    0.527900033697675E+02
++    0.565506705176871E-03    0.417982265193624E-02    0.567520115927079E+02    0.567520115927079E+02
++    0.571277181760308E-03    0.449366436939860E-02    0.607515562483997E+02    0.607515562483997E+02
++    0.577047658343745E-03    0.481207005876834E-02    0.647886373368429E+02    0.647886373368429E+02
++    0.582818134927183E-03    0.513496595714929E-02    0.688632548580375E+02    0.688632548580375E+02
++    0.588588611510620E-03    0.546227830164525E-02    0.729754088119834E+02    0.729754088119833E+02
++    0.594359088094058E-03    0.579393332936007E-02    0.771250991986806E+02    0.771250991986806E+02
++    0.600129564677495E-03    0.612985727739757E-02    0.813123260181292E+02    0.813123260181293E+02
++    0.605900041260933E-03    0.646997638286156E-02    0.855370892703292E+02    0.855370892703293E+02
++    0.611670517844370E-03    0.681421688285587E-02    0.897993889552804E+02    0.897993889552804E+02
++    0.617440994427808E-03    0.716250501448435E-02    0.940992250729831E+02    0.940992250729831E+02
++    0.623211471011245E-03    0.751476701485078E-02    0.984365976234371E+02    0.984365976234372E+02
++    0.628981947594683E-03    0.787092912105900E-02    0.102811506606642E+03    0.102811506606643E+03
++    0.634752424178120E-03    0.823091757021288E-02    0.107223952022599E+03    0.107223952022599E+03
++    0.640522900761557E-03    0.859465859941618E-02    0.111673933871307E+03    0.111673933871307E+03
++    0.646293377344995E-03    0.896207844577276E-02    0.116161452152767E+03    0.116161452152767E+03
++    0.652063853928432E-03    0.933310334638646E-02    0.120686506866977E+03    0.120686506866978E+03
++    0.657834330511870E-03    0.970765953836104E-02    0.125249098013940E+03    0.125249098013940E+03
++    0.663604807095307E-03    0.100856732588004E-01    0.129849225593653E+03    0.129849225593653E+03
++    0.669375283678745E-03    0.104670707448083E-01    0.134486889606118E+03    0.134486889606118E+03
++    0.675145760262182E-03    0.108517782334887E-01    0.139162090051334E+03    0.139162090051334E+03
++    0.680916236845620E-03    0.112397219619452E-01    0.143874826929302E+03    0.143874826929301E+03
++    0.686686713429057E-03    0.116308281672818E-01    0.148625100240021E+03    0.148625100240021E+03
++    0.692457190012495E-03    0.120250230866023E-01    0.153412909983491E+03    0.153412909983491E+03
++    0.698227666595932E-03    0.124222329570105E-01    0.158238256159713E+03    0.158238256159713E+03
++    0.703998143179369E-03    0.128223840156101E-01    0.163101138768686E+03    0.163101138768685E+03
++    0.709768619762807E-03    0.132254024995052E-01    0.168001557810410E+03    0.168001557810410E+03
++    0.715539096346244E-03    0.136312146457994E-01    0.172939513284885E+03    0.172939513284885E+03
++    0.721309572929682E-03    0.140397466915966E-01    0.177915005192113E+03    0.177915005192112E+03
++    0.727080049513119E-03    0.144509248740006E-01    0.182928033532091E+03    0.182928033532091E+03
++    0.732850526096557E-03    0.148646754301153E-01    0.187978598304821E+03    0.187978598304821E+03
++    0.738621002679994E-03    0.152809245970444E-01    0.193066699510302E+03    0.193066699510301E+03
++    0.744391479263432E-03    0.156995986118919E-01    0.198192337148534E+03    0.198192337148534E+03
++    0.750161955846869E-03    0.161206237117614E-01    0.203355511219518E+03    0.203355511219518E+03
++    0.755932432430307E-03    0.165439261337569E-01    0.208556221723253E+03    0.208556221723253E+03
++    0.761702909013744E-03    0.169694321149822E-01    0.213794468659740E+03    0.213794468659740E+03
++    0.767473385597182E-03    0.173970678925412E-01    0.219070252028978E+03    0.219070252028978E+03
++    0.773243862180619E-03    0.178267597035374E-01    0.224383571830967E+03    0.224383571830967E+03
++    0.779014338764056E-03    0.182584337850749E-01    0.229734428065707E+03    0.229734428065706E+03
++    0.784784815347494E-03    0.186920163742576E-01    0.235122820733199E+03    0.235122820733199E+03
++    0.790555291930931E-03    0.191274337081890E-01    0.240548749833443E+03    0.240548749833441E+03
++    0.796325768514369E-03    0.195646120239733E-01    0.246012215366437E+03    0.246012215366437E+03
++    0.802096245097806E-03    0.200034775587141E-01    0.251513217332183E+03    0.251513217332182E+03
++    0.807866721681244E-03    0.204439565495153E-01    0.257051755730680E+03    0.257051755730680E+03
++    0.813637198264681E-03    0.208859752334807E-01    0.262627830561929E+03    0.262627830561930E+03
++    0.819407674848119E-03    0.213294598477140E-01    0.268241441825929E+03    0.268241441825929E+03
++    0.825178151431556E-03    0.217743366293192E-01    0.273892589522681E+03    0.273892589522681E+03
++    0.830948628014993E-03    0.222205318154001E-01    0.279581273652183E+03    0.279581273652183E+03
++    0.836719104598431E-03    0.226679716430605E-01    0.285307494214437E+03    0.285307494214438E+03
++    0.842489581181868E-03    0.231165823494040E-01    0.291071251209443E+03    0.291071251209442E+03
++    0.848260057765306E-03    0.235662901715349E-01    0.296872544637200E+03    0.296872544637201E+03
++    0.854030534348743E-03    0.240170213465568E-01    0.302711374497708E+03    0.302711374497709E+03
++    0.859801010932181E-03    0.244687021115734E-01    0.308587740790967E+03    0.308587740790966E+03
++    0.865571487515618E-03    0.249212587036887E-01    0.314501643516978E+03    0.314501643516978E+03
++    0.871341964099056E-03    0.253746173600063E-01    0.320453082675741E+03    0.320453082675742E+03
++    0.877112440682493E-03    0.258287043176302E-01    0.326442058267254E+03    0.326442058267254E+03
++    0.882882917265931E-03    0.262834458136644E-01    0.332468570291519E+03    0.332468570291519E+03
++    0.888653393849368E-03    0.267387680852120E-01    0.338532618748535E+03    0.338532618748534E+03
++    0.894423870432805E-03    0.271945973693778E-01    0.344634203638303E+03    0.344634203638302E+03
++    0.900194347016243E-03    0.276508599032651E-01    0.350773324960822E+03    0.350773324960820E+03
++    0.905964823599680E-03    0.281214771732217E-01    0.357169855601472E+03    0.357169855601472E+03
++    0.911735300183118E-03    0.286215566528173E-01    0.364040104624457E+03    0.364040104624458E+03
++    0.917505776766555E-03    0.291233978272249E-01    0.370939417314054E+03    0.370939417314054E+03
++    0.923276253349993E-03    0.296268859350365E-01    0.377867793670264E+03    0.377867793670266E+03
++    0.929046729933430E-03    0.301319062148432E-01    0.384825233693087E+03    0.384825233693086E+03
++    0.934817206516868E-03    0.306383439052371E-01    0.391811737382523E+03    0.391811737382525E+03
++    0.940587683100305E-03    0.311460842895986E-01    0.398827305429898E+03    0.398827305429898E+03
++    0.946358159683743E-03    0.316552150445831E-01    0.405874995506027E+03    0.405874995506025E+03
++    0.952128636267180E-03    0.321658753508514E-01    0.412958471008490E+03    0.412958471008487E+03
++    0.957899112850618E-03    0.326781211645050E-01    0.420080110273242E+03    0.420080110273241E+03
++    0.963669589434055E-03    0.331918835232926E-01    0.427240076259233E+03    0.427240076259234E+03
++    0.969440066017492E-03    0.337070840416744E-01    0.434438368966465E+03    0.434438368966467E+03
++    0.975210542600930E-03    0.342236443341089E-01    0.441674988394937E+03    0.441674988394939E+03
++    0.980981019184367E-03    0.346741859091464E-01    0.448212984066530E+03    0.448212984066527E+03
++    0.986751495767805E-03    0.343778967447538E-01    0.447475354922011E+03    0.447475354922009E+03
++    0.992521972351242E-03    0.335653890057847E-01    0.442574112118595E+03    0.442574112118595E+03
++    0.998292448934680E-03    0.326912003874030E-01    0.437225808286508E+03    0.437225808286508E+03
++    0.100406292551812E-02    0.320298072928702E-01    0.433594014781654E+03    0.433594014781654E+03
++    0.100983340210155E-02    0.320454538323627E-01    0.435608127251751E+03    0.435608127251751E+03
++    0.101560387868499E-02    0.327773615264977E-01    0.443902413716173E+03    0.443902413716173E+03
++    0.102137435526843E-02    0.338223155840856E-01    0.455265110609948E+03    0.455265110609949E+03
++    0.102714483185187E-02    0.347613688286417E-01    0.466076545388516E+03    0.466076545388517E+03
++    0.103291530843530E-02    0.358578126378330E-01    0.478487173868791E+03    0.478487173868791E+03
++    0.103868578501874E-02    0.369250844657990E-01    0.491116257320537E+03    0.491116257320538E+03
++    0.104445626160218E-02    0.379071305708405E-01    0.503299392545469E+03    0.503299392545466E+03
++    0.105022673818562E-02    0.388079688243177E-01    0.515036579543583E+03    0.515036579543584E+03
++    0.105599721476905E-02    0.396322992275403E-01    0.526333418039397E+03    0.526333418039398E+03
++    0.106176769135249E-02    0.404115906379845E-01    0.537420611401078E+03    0.537420611401079E+03
++    0.106753816793593E-02    0.411622835416997E-01    0.548421275640929E+03    0.548421275640926E+03
++    0.107330864451937E-02    0.418885323254539E-01    0.559367812094005E+03    0.559367812094009E+03
++    0.107907912110280E-02    0.426038758430835E-01    0.570365488388932E+03    0.570365488388930E+03
++    0.108484959768624E-02    0.433155733132479E-01    0.581467540172306E+03    0.581467540172301E+03
++    0.109062007426968E-02    0.440243748351008E-01    0.592673967444126E+03    0.592673967444125E+03
++    0.109639055085312E-02    0.447316519324130E-01    0.603991633547746E+03    0.603991633547750E+03
++    0.110216102743655E-02    0.454408612091357E-01    0.615449243320096E+03    0.615449243320091E+03
++    0.110793150401999E-02    0.461588707664357E-01    0.627098826521165E+03    0.627098826521165E+03
++    0.111370198060343E-02    0.468881949674764E-01    0.638956537463064E+03    0.638956537463066E+03
++    0.111947245718687E-02    0.476293903138902E-01    0.651022376145792E+03    0.651022376145790E+03
++    0.112524293377030E-02    0.483830133073123E-01    0.663296342569347E+03    0.663296342569347E+03
++    0.113101341035374E-02    0.491496204493753E-01    0.675778436733729E+03    0.675778436733726E+03
++    0.113678388693718E-02    0.499302584584432E-01    0.688473907507572E+03    0.688473907507577E+03
++    0.114255436352062E-02    0.507266081853648E-01    0.701394831978993E+03    0.701394831978997E+03
++    0.114832484010405E-02    0.515392641249600E-01    0.714541690029864E+03    0.714541690029866E+03
++    0.115409531668749E-02    0.523688964978424E-01    0.727940609692837E+03    0.727940609692832E+03
++    0.115986579327093E-02    0.532162209817145E-01    0.741906116132634E+03    0.741906116132628E+03
++    0.116563626985437E-02    0.540772223872614E-01    0.756498254942886E+03    0.756498254942892E+03
++    0.117140674643780E-02    0.549449432957831E-01    0.771597827457881E+03    0.771597827457874E+03
++    0.117717722302124E-02    0.558102093378228E-01    0.786478388460319E+03    0.786478388460321E+03
++    0.118294769960468E-02    0.566688549252621E-01    0.800744338022707E+03    0.800744338022706E+03
++    0.118871817618812E-02    0.575194835326025E-01    0.814396092664147E+03    0.814396092664146E+03
++    0.119448865277155E-02    0.583616199746836E-01    0.827517249061158E+03    0.827517249061153E+03
++    0.120025912935499E-02    0.591948242371572E-01    0.840190250941527E+03    0.840190250941522E+03
++    0.120602960593843E-02    0.600214766896886E-01    0.852929696281852E+03    0.852929696281853E+03
++    0.121180008252187E-02    0.608492854889272E-01    0.866603882718302E+03    0.866603882718299E+03
++    0.121757055910530E-02    0.616813003331102E-01    0.881118524741580E+03    0.881118524741583E+03
++    0.122334103568874E-02    0.625223004812528E-01    0.896530371514036E+03    0.896530371514030E+03
++    0.122911151227218E-02    0.633771562554256E-01    0.912851792683416E+03    0.912851792683416E+03
++    0.123488198885562E-02    0.642522467894349E-01    0.930255054266340E+03    0.930255054266340E+03
++    0.124065246543905E-02    0.651606335241744E-01    0.949466847311997E+03    0.949466847312000E+03
++    0.124642294202249E-02    0.661046406172606E-01    0.970280308685080E+03    0.970280308685079E+03
++    0.125219341860593E-02    0.670621437941352E-01    0.991406563798462E+03    0.991406563798471E+03
++    0.125796389518937E-02    0.680335733101984E-01    0.101272391889668E+04    0.101272391889668E+04
++    0.126373437177280E-02    0.690238703501636E-01    0.103435669322615E+04    0.103435669322614E+04
++    0.126950484835624E-02    0.700433983266196E-01    0.105670833384770E+04    0.105670833384770E+04
++    0.127527532493968E-02    0.711050377334105E-01    0.108015508560338E+04    0.108015508560338E+04
++    0.128104580152311E-02    0.722141523488992E-01    0.110470815426563E+04    0.110470815426564E+04
++    0.128681627810655E-02    0.733758607706769E-01    0.113036753983446E+04    0.113036753983446E+04
++    0.129258675468999E-02    0.745952815963350E-01    0.115713324230987E+04    0.115713324230986E+04
++    0.129835723127343E-02    0.758775334234628E-01    0.118500526169186E+04    0.118500526169186E+04
++    0.130412770785686E-02    0.772277348496537E-01    0.121398359798042E+04    0.121398359798042E+04
++    0.130989818444030E-02    0.786510044724962E-01    0.124406825117556E+04    0.124406825117556E+04
++    0.131566866102374E-02    0.801524608895811E-01    0.127525922127727E+04    0.127525922127727E+04
++    0.132143913760718E-02    0.817375875893348E-01    0.130757300926575E+04    0.130757300926575E+04
++    0.132720961419061E-02    0.834733963966311E-01    0.134380916202306E+04    0.134380916202305E+04
++    0.133298009077405E-02    0.853938164560581E-01    0.138521407268622E+04    0.138521407268623E+04
++    0.133875056735749E-02    0.874094105248048E-01    0.142745338732019E+04    0.142745338732019E+04
++    0.134452104394093E-02    0.895257824125350E-01    0.147053387691392E+04    0.147053387691391E+04
++    0.135029152052436E-02    0.917539850199508E-01    0.151452293138159E+04    0.151452293138159E+04
++    0.135606199710780E-02    0.940726288979944E-01    0.155898301676896E+04    0.155898301676896E+04
++    0.136183247369124E-02    0.962745945076079E-01    0.160051124596173E+04    0.160051124596172E+04
++    0.136760295027468E-02    0.991334909201170E-01    0.165189093823717E+04    0.165189093823718E+04
++    0.137337342685811E-02    0.101755803626677E+00    0.169871080131103E+04    0.169871080131103E+04
++    0.137914390344155E-02    0.104141907962805E+00    0.174100442234681E+04    0.174100442234682E+04
++    0.138491438002499E-02    0.106322926861917E+00    0.177927990829076E+04    0.177927990829076E+04
++    0.139068485660843E-02    0.108330031903214E+00    0.181406635092712E+04    0.181406635092712E+04
++    0.139645533319186E-02    0.110164264497772E+00    0.184540022076240E+04    0.184540022076239E+04
++    0.140222580977530E-02    0.111835439229378E+00    0.187345741702698E+04    0.187345741702697E+04
++    0.140799628635874E-02    0.113345935591085E+00    0.189829544269465E+04    0.189829544269465E+04
++    0.141376676294218E-02    0.114684489607910E+00    0.191980419972083E+04    0.191980419972083E+04
++    0.141953723952561E-02    0.115765742465739E+00    0.193660348030552E+04    0.193660348030552E+04
++    0.142530771610905E-02    0.116538530115357E+00    0.194770165479441E+04    0.194770165479439E+04
++    0.143107819269249E-02    0.117029030205582E+00    0.195334256825029E+04    0.195334256825029E+04
++    0.143684866927593E-02    0.117443674868566E+00    0.195676660782828E+04    0.195676660782829E+04
++    0.144261914585936E-02    0.117927426927364E+00    0.196018453607031E+04    0.196018453607030E+04
++    0.144838962244280E-02    0.118473189962343E+00    0.196335295887400E+04    0.196335295887400E+04
++    0.145416009902624E-02    0.119115482622794E+00    0.196662605910027E+04    0.196662605910027E+04
++    0.145993057560968E-02    0.119886950987859E+00    0.197035640269395E+04    0.197035640269395E+04
++    0.146570105219311E-02    0.120771418193938E+00    0.197426833847653E+04    0.197426833847653E+04
++    0.147147152877655E-02    0.121723852934038E+00    0.197763417164649E+04    0.197763417164648E+04
++    0.147724200535999E-02    0.122621898496598E+00    0.197867489868586E+04    0.197867489868589E+04
++    0.148301248194343E-02    0.123541929570078E+00    0.197906672680880E+04    0.197906672680878E+04
++    0.148878295852686E-02    0.124661627075543E+00    0.198323226366144E+04    0.198323226366146E+04
++    0.149455343511030E-02    0.126043523364317E+00    0.199178802570918E+04    0.199178802570918E+04
++    0.150032391169374E-02    0.127639631806206E+00    0.200322708959271E+04    0.200322708959271E+04
++    0.150609438827718E-02    0.129344623193632E+00    0.201565516960684E+04    0.201565516960683E+04
++    0.151186486486061E-02    0.131159161066347E+00    0.202987867303961E+04    0.202987867303961E+04
++    0.151763534144405E-02    0.133103597913394E+00    0.204601411582570E+04    0.204601411582569E+04
++    0.152340581802749E-02    0.135098890782032E+00    0.206196026740419E+04    0.206196026740418E+04
++    0.152917629461093E-02    0.137050239561573E+00    0.207545805720498E+04    0.207545805720496E+04
++    0.153494677119436E-02    0.139120825591149E+00    0.209051767145711E+04    0.209051767145712E+04
++    0.154071724777780E-02    0.141187508445890E+00    0.210400148569234E+04    0.210400148569233E+04
++    0.154648772436124E-02    0.143268294887686E+00    0.211645016504768E+04    0.211645016504767E+04
++    0.155225820094468E-02    0.145400380168252E+00    0.212862982782839E+04    0.212862982782839E+04
++    0.155802867752811E-02    0.147311370035265E+00    0.213364803153621E+04    0.213364803153622E+04
++    0.156379915411155E-02    0.149449278348527E+00    0.214302094237751E+04    0.214302094237751E+04
++    0.156956963069499E-02    0.151484003269331E+00    0.214895298472137E+04    0.214895298472136E+04
++    0.157534010727843E-02    0.153859665763166E+00    0.216240012602394E+04    0.216240012602394E+04
++    0.158111058386186E-02    0.156721949433964E+00    0.218656502780340E+04    0.218656502780339E+04
++    0.158688106044530E-02    0.159774759747984E+00    0.221354070907223E+04    0.221354070907222E+04
++    0.159265153702874E-02    0.163204116112750E+00    0.224782937005891E+04    0.224782937005889E+04
++    0.159842201361217E-02    0.166736076351354E+00    0.228259526047373E+04    0.228259526047377E+04
++    0.160419249019561E-02    0.170294493622968E+00    0.231693207544596E+04    0.231693207544596E+04
++    0.160996296677905E-02    0.174006799624438E+00    0.235139270916366E+04    0.235139270916366E+04
++    0.161573344336249E-02    0.177799970451284E+00    0.238732041986337E+04    0.238732041986337E+04
++    0.162150391994592E-02    0.181541457502876E+00    0.242128275846969E+04    0.242128275846969E+04
++    0.162727439652936E-02    0.185218471022912E+00    0.245308576383993E+04    0.245308576383994E+04
++    0.163304487311280E-02    0.189082671143423E+00    0.249051044545777E+04    0.249051044545779E+04
++    0.163881534969624E-02    0.192873756317065E+00    0.252404631362776E+04    0.252404631362778E+04
++    0.164458582627967E-02    0.196586859897222E+00    0.255382067486289E+04    0.255382067486289E+04
++    0.165035630286311E-02    0.200219766373887E+00    0.258010218154013E+04    0.258010218154014E+04
++    0.165612677944655E-02    0.203781290984639E+00    0.260343495350296E+04    0.260343495350297E+04
++    0.166189725602999E-02    0.207344746403346E+00    0.262620845954675E+04    0.262620845954678E+04
++    0.166766773261342E-02    0.210952530453273E+00    0.264991732031729E+04    0.264991732031732E+04
++    0.167343820919686E-02    0.214571570033937E+00    0.267356687024822E+04    0.267356687024823E+04
++    0.167920868578030E-02    0.218138648455911E+00    0.269549024340450E+04    0.269549024340448E+04
++    0.168497916236374E-02    0.221611677153962E+00    0.271479034375282E+04    0.271479034375281E+04
++    0.169074963894717E-02    0.224980406004461E+00    0.273141867743006E+04    0.273141867743008E+04
++    0.169652011553061E-02    0.228240877428484E+00    0.274541750832487E+04    0.274541750832488E+04
++    0.170229059211405E-02    0.231387676607948E+00    0.275680571156062E+04    0.275680571156060E+04
++    0.170806106869749E-02    0.234417486310519E+00    0.276563195652735E+04    0.276563195652730E+04
++    0.171383154528092E-02    0.237379933136410E+00    0.277269610161393E+04    0.277269610161395E+04
++    0.171960202186436E-02    0.240289974839993E+00    0.277833451783915E+04    0.277833451783914E+04
++    0.172537249844780E-02    0.243142172181627E+00    0.278257317082032E+04    0.278257317082034E+04
++    0.173114297503124E-02    0.245929677635274E+00    0.278541206055742E+04    0.278541206055739E+04
++    0.173691345161467E-02    0.248643860276254E+00    0.278682734625805E+04    0.278682734625803E+04
++    0.174268392819811E-02    0.251275022705622E+00    0.278678537367098E+04    0.278678537367099E+04
++    0.174845440478155E-02    0.253818095621884E+00    0.278531863884455E+04    0.278531863884453E+04
++    0.175422488136499E-02    0.256266370138144E+00    0.278242836265965E+04    0.278242836265963E+04
++    0.175999535794842E-02    0.258613610660139E+00    0.277812158646402E+04    0.277812158646402E+04
++    0.176576583453186E-02    0.260903843811161E+00    0.277304764445805E+04    0.277304764445804E+04
++    0.177153631111530E-02    0.263166233805941E+00    0.276761915545636E+04    0.276761915545635E+04
++    0.177730678769874E-02    0.264906794528472E+00    0.275578355691170E+04    0.275578355691169E+04
++    0.178307726428217E-02    0.265134923692100E+00    0.272612511517084E+04    0.272612511517082E+04
++    0.178884774086561E-02    0.263425699093950E+00    0.267551457442954E+04    0.267551457442956E+04
++    0.179461821744905E-02    0.273450753456025E+00    0.277176862047842E+04    0.277176862047839E+04
++    0.180038869403249E-02    0.294064546825050E+00    0.296359694688500E+04    0.296359694688497E+04
++    0.180615917061592E-02    0.301499714373990E+00    0.298222864115899E+04    0.298222864115899E+04
++    0.181192964719936E-02    0.293541566278681E+00    0.283533550799948E+04    0.283533550799949E+04
++    0.181770012378280E-02    0.266986109822987E+00    0.252616900857947E+04    0.252616900857951E+04
++    0.182347060036624E-02    0.221594365722647E+00    0.207570845167873E+04    0.207570845167874E+04
++    0.182924107694967E-02    0.163061517502480E+00    0.155172657338194E+04    0.155172657338194E+04
++    0.183501155353311E-02    0.144715427200410E+00    0.137657310144253E+04    0.137657310144253E+04
++    0.184078203011655E-02    0.130894098946385E+00    0.124736845960678E+04    0.124736845960678E+04
++    0.184655250669999E-02    0.120672131665114E+00    0.115352730711762E+04    0.115352730711763E+04
++    0.185232298328342E-02    0.115079465153790E+00    0.110143496313365E+04    0.110143496313366E+04
++    0.185809345986686E-02    0.112976345455481E+00    0.107742752457121E+04    0.107742752457121E+04
++    0.186386393645030E-02    0.112380459458071E+00    0.106611187583721E+04    0.106611187583721E+04
++    0.186963441303374E-02    0.112745544628126E+00    0.106315346259301E+04    0.106315346259302E+04
++    0.187540488961717E-02    0.114043494609291E+00    0.106835091511195E+04    0.106835091511194E+04
++    0.188117536620061E-02    0.115873434588065E+00    0.107829186988542E+04    0.107829186988542E+04
++    0.188694584278405E-02    0.117757266693131E+00    0.108888316910539E+04    0.108888316910539E+04
++    0.189271631936749E-02    0.119660623157411E+00    0.109957153517345E+04    0.109957153517344E+04
++    0.189848679595092E-02    0.121549224098521E+00    0.110985021883372E+04    0.110985021883372E+04
++    0.190425727253436E-02    0.123411376349736E+00    0.111959713602087E+04    0.111959713602086E+04
++    0.191002774911780E-02    0.125269308066402E+00    0.112919508988336E+04    0.112919508988335E+04
++    0.191579822570124E-02    0.127090918249776E+00    0.113829728708754E+04    0.113829728708754E+04
++    0.192156870228467E-02    0.128796038958037E+00    0.114592988180744E+04    0.114592988180743E+04
++    0.192733917886811E-02    0.130380037570903E+00    0.115203813874154E+04    0.115203813874154E+04
++    0.193310965545155E-02    0.131826262746355E+00    0.115645817472979E+04    0.115645817472980E+04
++    0.193888013203498E-02    0.133221600225376E+00    0.116041773770131E+04    0.116041773770131E+04
++    0.194465060861842E-02    0.134648328111210E+00    0.116477762868712E+04    0.116477762868712E+04
++    0.195042108520186E-02    0.136023355514102E+00    0.116826816877492E+04    0.116826816877492E+04
++    0.195619156178530E-02    0.137431636522799E+00    0.117180065967142E+04    0.117180065967142E+04
++    0.196196203836873E-02    0.138941181225976E+00    0.117622410224502E+04    0.117622410224501E+04
++    0.196773251495217E-02    0.140654224716476E+00    0.118279910634532E+04    0.118279910634531E+04
++    0.197350299153561E-02    0.142683752596346E+00    0.119259213223271E+04    0.119259213223271E+04
++    0.197927346811905E-02    0.144616144783329E+00    0.120082960212433E+04    0.120082960212433E+04
++    0.198504394470248E-02    0.146565792048042E+00    0.120926669435804E+04    0.120926669435806E+04
++    0.199081442128592E-02    0.148435810641603E+00    0.121662441219522E+04    0.121662441219521E+04
++    0.199658489786936E-02    0.150280494066776E+00    0.122367124483564E+04    0.122367124483563E+04
++    0.200235537445280E-02    0.152074204764434E+00    0.123006418678951E+04    0.123006418678950E+04
++    0.200812585103623E-02    0.153807552043821E+00    0.123569119800966E+04    0.123569119800966E+04
++    0.201389632761967E-02    0.155702265356806E+00    0.124353093530319E+04    0.124353093530318E+04
++    0.201966680420311E-02    0.157892774098789E+00    0.125535354150726E+04    0.125535354150725E+04
++    0.202543728078655E-02    0.160082686099341E+00    0.126705900927352E+04    0.126705900927352E+04
++    0.203120775736998E-02    0.162198862175979E+00    0.127767198400818E+04    0.127767198400818E+04
++    0.203697823395342E-02    0.164365029692465E+00    0.128881754776893E+04    0.128881754776893E+04
++    0.204274871053686E-02    0.166680872306008E+00    0.130181018299058E+04    0.130181018299058E+04
++    0.204851918712030E-02    0.168956913959318E+00    0.131402297014136E+04    0.131402297014136E+04
++    0.205428966370373E-02    0.171190827194951E+00    0.132545590922124E+04    0.132545590922124E+04
++    0.206006014028717E-02    0.173380284555455E+00    0.133610900023024E+04    0.133610900023024E+04
++    0.206583061687061E-02    0.175522958583380E+00    0.134598224316835E+04    0.134598224316837E+04
++    0.207160109345405E-02    0.177616521821279E+00    0.135507563803558E+04    0.135507563803558E+04
++    0.207737157003748E-02    0.179658646811701E+00    0.136338918483192E+04    0.136338918483193E+04
++    0.208314204662092E-02    0.181647006097200E+00    0.137092288355738E+04    0.137092288355737E+04
++    0.208891252320436E-02    0.183579272220322E+00    0.137767673421195E+04    0.137767673421194E+04
++    0.209468299978780E-02    0.185453117723622E+00    0.138365073679563E+04    0.138365073679562E+04
++    0.210045347637123E-02    0.187266215149649E+00    0.138884489130843E+04    0.138884489130843E+04
++    0.210622395295467E-02    0.189016237040956E+00    0.139325919775034E+04    0.139325919775036E+04
++    0.211199442953811E-02    0.190700855940092E+00    0.139689365612137E+04    0.139689365612137E+04
++    0.211776490612155E-02    0.192317744389607E+00    0.139974826642151E+04    0.139974826642151E+04
++    0.212353538270498E-02    0.193864574932055E+00    0.140182302865076E+04    0.140182302865077E+04
++    0.212930585928842E-02    0.195339020109984E+00    0.140311794280913E+04    0.140311794280914E+04
++    0.213507633587186E-02    0.196738752465949E+00    0.140363300889661E+04    0.140363300889661E+04
++    0.214084681245530E-02    0.198061444542496E+00    0.140336822691321E+04    0.140336822691321E+04
++    0.214661728903873E-02    0.199304768882177E+00    0.140232359685892E+04    0.140232359685892E+04
++    0.215238776562217E-02    0.200466398027547E+00    0.140049911873375E+04    0.140049911873376E+04
++    0.215815824220561E-02    0.201544004521152E+00    0.139789479253769E+04    0.139789479253769E+04
++    0.216392871878905E-02    0.202535260905544E+00    0.139451061827074E+04    0.139451061827075E+04
++    0.216969919537248E-02    0.203437839723277E+00    0.139034659593291E+04    0.139034659593290E+04
++    0.217546967195592E-02    0.204249413516899E+00    0.138540272552419E+04    0.138540272552417E+04
++    0.218124014853936E-02    0.204967654828961E+00    0.137967900704459E+04    0.137967900704459E+04
++    0.218701062512280E-02    0.205590236202015E+00    0.137317544049410E+04    0.137317544049409E+04
++    0.219278110170623E-02    0.206114830178609E+00    0.136589202587273E+04    0.136589202587274E+04
++    0.219855157828967E-02    0.206539109301300E+00    0.135782876318046E+04    0.135782876318047E+04
++    0.220432205487311E-02    0.206860746112634E+00    0.134898565241731E+04    0.134898565241732E+04
++    0.221009253145655E-02    0.207077413155163E+00    0.133936269358328E+04    0.133936269358328E+04
++    0.221586300803998E-02    0.207186782971437E+00    0.132895988667837E+04    0.132895988667837E+04
++    0.222163348462342E-02    0.207186528104010E+00    0.131777723170256E+04    0.131777723170256E+04
++    0.222740396120686E-02    0.207074321095430E+00    0.130581472865587E+04    0.130581472865588E+04
++    0.223317443779029E-02    0.206847834488249E+00    0.129307237753829E+04    0.129307237753829E+04
++    0.223894491437373E-02    0.206504740825019E+00    0.127955017834983E+04    0.127955017834983E+04
++    0.224471539095717E-02    0.206042712648287E+00    0.126524813109048E+04    0.126524813109049E+04
++    0.225048586754061E-02    0.205459422500610E+00    0.125016623576025E+04    0.125016623576025E+04
++    0.225625634412404E-02    0.204752542924534E+00    0.123430449235913E+04    0.123430449235913E+04
++    0.226202682070748E-02    0.203919746462610E+00    0.121766290088712E+04    0.121766290088713E+04
++    0.226779729729092E-02    0.202958705657391E+00    0.120024146134423E+04    0.120024146134423E+04
++    0.227356777387436E-02    0.201867093051430E+00    0.118204017373045E+04    0.118204017373045E+04
++    0.227933825045779E-02    0.200642581187273E+00    0.116305903804579E+04    0.116305903804578E+04
++    0.228510872704123E-02    0.199282842607474E+00    0.114329805429024E+04    0.114329805429024E+04
++    0.229087920362467E-02    0.197785549854582E+00    0.112275722246380E+04    0.112275722246381E+04
++    0.229664968020811E-02    0.196143958580486E+00    0.110142034913594E+04    0.110142034913594E+04
++    0.230242015679154E-02    0.194341621378322E+00    0.107923557245304E+04    0.107923557245305E+04
++    0.230819063337498E-02    0.192311642208112E+00    0.105581922849003E+04    0.105581922849003E+04
++    0.231396110995842E-02    0.189974062825954E+00    0.103069041263613E+04    0.103069041263614E+04
++    0.231973158654186E-02    0.187387381167834E+00    0.100431886054147E+04    0.100431886054147E+04
++    0.232550206312529E-02    0.184566345336723E+00    0.976866959636101E+03    0.976866959636106E+03
++    0.233127253970873E-02    0.181589353920047E+00    0.948861295842678E+03    0.948861295842680E+03
++    0.233704301629217E-02    0.178459861523770E+00    0.920342431489583E+03    0.920342431489583E+03
++    0.234281349287561E-02    0.175233917466652E+00    0.891563220544534E+03    0.891563220544539E+03
++    0.234858396945904E-02    0.171931987836324E+00    0.862638932945005E+03    0.862638932945004E+03
++    0.235435444604248E-02    0.168257590864321E+00    0.831406533681169E+03    0.831406533681166E+03
++    0.236012492262592E-02    0.175872069679869E+00    0.871160840010190E+03    0.871160840010185E+03
++    0.236589539920936E-02    0.204003986280656E+00    0.104349608627845E+04    0.104349608627845E+04
++    0.237166587579279E-02    0.220206500752464E+00    0.114304420775898E+04    0.114304420775899E+04
++    0.237743635237623E-02    0.224806196724204E+00    0.116994391679441E+04    0.116994391679442E+04
++    0.238320682895967E-02    0.218169523742363E+00    0.112474855142650E+04    0.112474855142648E+04
++    0.238897730554311E-02    0.200938827702301E+00    0.100997512424243E+04    0.100997512424243E+04
++    0.239474778212654E-02    0.173217919330646E+00    0.824216055987901E+03    0.824216055987909E+03
++    0.240051825870998E-02    0.137744992479475E+00    0.582898950675631E+03    0.582898950675631E+03
++    0.240628873529342E-02    0.115699648230580E+00    0.428263887706877E+03    0.428263887706877E+03
++    0.241205921187686E-02    0.115444817520013E+00    0.420487806286534E+03    0.420487806286534E+03
++    0.241782968846029E-02    0.117160477361466E+00    0.425630814600298E+03    0.425630814600295E+03
++    0.242360016504373E-02    0.119329689979768E+00    0.433375348431608E+03    0.433375348431608E+03
++    0.242937064162717E-02    0.121823699804139E+00    0.442759635096837E+03    0.442759635096837E+03
++    0.243514111821061E-02    0.124587795664512E+00    0.453412088862191E+03    0.453412088862191E+03
++    0.244091159479404E-02    0.127632580452794E+00    0.465355569039408E+03    0.465355569039408E+03
++    0.244668207137748E-02    0.130932412797183E+00    0.478356490314879E+03    0.478356490314881E+03
++    0.245245254796092E-02    0.134473712399887E+00    0.492333060636453E+03    0.492333060636451E+03
++    0.245822302454436E-02    0.138254692873450E+00    0.507285280004127E+03    0.507285280004129E+03
++    0.246399350112779E-02    0.142273567830421E+00    0.523213148417905E+03    0.523213148417904E+03
++    0.246976397771123E-02    0.146528550883347E+00    0.540116665877785E+03    0.540116665877787E+03
++    0.247553445429467E-02    0.151017855644776E+00    0.557995832383764E+03    0.557995832383766E+03
++    0.248130493087811E-02    0.155739695727256E+00    0.576850647935848E+03    0.576850647935852E+03
++    0.248707540746154E-02    0.160692284743332E+00    0.596681112534033E+03    0.596681112534031E+03
++    0.249284588404498E-02    0.165881996366181E+00    0.617520248010218E+03    0.617520248010219E+03
++    0.249861636062842E-02    0.171320380673971E+00    0.639421793381020E+03    0.639421793381022E+03
++    0.250438683721186E-02    0.176955944551955E+00    0.662189706110777E+03    0.662189706110779E+03
++    0.251015731379529E-02    0.182685636841261E+00    0.685424684174740E+03    0.685424684174742E+03
++    0.251592779037873E-02    0.188496393296346E+00    0.709081352905024E+03    0.709081352905028E+03
++    0.252169826696217E-02    0.194375453338137E+00    0.733113946489061E+03    0.733113946489061E+03
++    0.252746874354561E-02    0.200175490385113E+00    0.756941026482815E+03    0.756941026482811E+03
++    0.253323922012904E-02    0.205819066987088E+00    0.780255347583692E+03    0.780255347583689E+03
++    0.253900969671248E-02    0.211139353851728E+00    0.802395405643311E+03    0.802395405643317E+03
++    0.254478017329592E-02    0.216127279504823E+00    0.823318316928663E+03    0.823318316928662E+03
++    0.255055064987936E-02    0.220800155804401E+00    0.843085407054062E+03    0.843085407054062E+03
++    0.255632112646279E-02    0.225337419140125E+00    0.862403180808689E+03    0.862403180808689E+03
++    0.256209160304623E-02    0.229904036984159E+00    0.881926730080432E+03    0.881926730080432E+03
++    0.256786207962967E-02    0.234512662750093E+00    0.901703881065952E+03    0.901703881065947E+03
++    0.257363255621310E-02    0.239218619548955E+00    0.921955863281157E+03    0.921955863281165E+03
++    0.257940303279654E-02    0.244228329432510E+00    0.943522526449116E+03    0.943522526449120E+03
++    0.258517350937998E-02    0.249558867204806E+00    0.966485373783625E+03    0.966485373783622E+03
++    0.259094398596342E-02    0.255207087860697E+00    0.990844405284690E+03    0.990844405284690E+03
++    0.259671446254685E-02    0.261169846395046E+00    0.101659962095231E+04    0.101659962095230E+04
++    0.260248493913029E-02    0.267443997802717E+00    0.104375102078649E+04    0.104375102078649E+04
++    0.260825541571373E-02    0.274026397078572E+00    0.107229860478722E+04    0.107229860478722E+04
++    0.261402589229717E-02    0.280913899217470E+00    0.110224237295451E+04    0.110224237295452E+04
++    0.261979636888060E-02    0.288103359214270E+00    0.113358232528836E+04    0.113358232528836E+04
++    0.262556684546404E-02    0.295591632063838E+00    0.116631846178875E+04    0.116631846178875E+04
++    0.263133732204748E-02    0.303375572761032E+00    0.120045078245571E+04    0.120045078245570E+04
++    0.263710779863092E-02    0.311452947926027E+00    0.123598283620199E+04    0.123598283620198E+04
++    0.264287827521435E-02    0.320047646155279E+00    0.127380629005963E+04    0.127380629005963E+04
++    0.264864875179779E-02    0.329324735365954E+00    0.131461130035010E+04    0.131461130035011E+04
++    0.265441922838123E-02    0.339270460237240E+00    0.135839786707340E+04    0.135839786707339E+04
++    0.266018970496467E-02    0.349871065448335E+00    0.140516599022951E+04    0.140516599022950E+04
++    0.266596018154810E-02    0.361781747145664E+00    0.145757844705155E+04    0.145757844705155E+04
++    0.267173065813154E-02    0.375692335941977E+00    0.151867607989910E+04    0.151867607989910E+04
++    0.267750113471498E-02    0.391324037292981E+00    0.158849162577513E+04    0.158849162577514E+04
++    0.268327161129842E-02    0.410231966975829E+00    0.167437708019182E+04    0.167437708019181E+04
++    0.268904208788185E-02    0.433405478753773E+00    0.178040367961315E+04    0.178040367961315E+04
++    0.269481256446529E-02    0.466486157918137E+00    0.192821213013660E+04    0.192821213013661E+04
++    0.270058304104873E-02    0.516789644649138E+00    0.215084574654930E+04    0.215084574654926E+04
++    0.270635351763217E-02    0.111819123041152E+01    0.476888922832140E+04    0.476888922832140E+04
++    0.271212399421560E-02    0.715731361072015E+00    0.301151895994521E+04    0.301151895994523E+04
++    0.271789447079904E-02    0.804015139282659E+00    0.342983450884593E+04    0.342983450884593E+04
++    0.272366494738248E-02    0.930357225199345E+00    0.399083455345771E+04    0.399083455345769E+04
++    0.272943542396592E-02    0.104650607365252E+01    0.450579950597900E+04    0.450579950597898E+04
++    0.273520590054935E-02    0.118473675235459E+01    0.511549426549502E+04    0.511549426549504E+04
++    0.274097637713279E-02    0.127987009478959E+01    0.551403837406100E+04    0.551403837406098E+04
++    0.274674685371623E-02    0.127629424123400E+01    0.548694388981515E+04    0.548694388981513E+04
++    0.275251733029967E-02    0.122032378688099E+01    0.523172016561549E+04    0.523172016561554E+04
++    0.275828780688310E-02    0.113975705535391E+01    0.486818860690332E+04    0.486818860690331E+04
++    0.276405828346654E-02    0.104354708965239E+01    0.443681921226163E+04    0.443681921226162E+04
++    0.276982876004998E-02    0.937048950143270E+00    0.396234867129971E+04    0.396234867129971E+04
++    0.277559923663342E-02    0.856660419214421E+00    0.361299119406994E+04    0.361299119406993E+04
++    0.278136971321685E-02    0.772424892709281E+00    0.325416698415591E+04    0.325416698415591E+04
++    0.278714018980029E-02    0.729323810457387E+00    0.306013456501825E+04    0.306013456501827E+04
++    0.279291066638373E-02    0.689569391239993E+00    0.288113856688463E+04    0.288113856688462E+04
++    0.279868114296717E-02    0.650459712502653E+00    0.270778694841925E+04    0.270778694841926E+04
++    0.280445161955060E-02    0.611062950391573E+00    0.253667493190288E+04    0.253667493190289E+04
++    0.281022209613404E-02    0.570268812210390E+00    0.236360331232517E+04    0.236360331232516E+04
++    0.281599257271748E-02    0.526323779078486E+00    0.218126153007135E+04    0.218126153007136E+04
++    0.282176304930092E-02    0.478928174174094E+00    0.198900505734328E+04    0.198900505734329E+04
++    0.282753352588435E-02    0.427922801509569E+00    0.178683232322393E+04    0.178683232322393E+04
++    0.283330400246779E-02    0.392383536972152E+00    0.163755617940763E+04    0.163755617940763E+04
++    0.283907447905123E-02    0.359311395732007E+00    0.149665946714448E+04    0.149665946714447E+04
++    0.284484495563467E-02    0.325891136071644E+00    0.135481628818424E+04    0.135481628818423E+04
++    0.285061543221810E-02    0.292111996159235E+00    0.121202664252691E+04    0.121202664252691E+04
++    0.285638590880154E-02    0.257963214162945E+00    0.106829053017252E+04    0.106829053017251E+04
++    0.286215638538498E-02    0.223434028250946E+00    0.923607951121022E+03    0.923607951121020E+03
++    0.286792686196841E-02    0.188590081728395E+00    0.778317639286173E+03    0.778317639286171E+03
++    0.287369733855185E-02    0.153734529067154E+00    0.633790395263320E+03    0.633790395263321E+03
++    0.287946781513529E-02    0.120159129010096E+00    0.495519211934669E+03    0.495519211934667E+03
++    0.288523829171873E-02    0.916039122250913E-01    0.377310951754902E+03    0.377310951754902E+03
+diff --git a/PHonon/examples/tetra_example/reference/lambda.in b/PHonon/examples/tetra_example/reference/lambda.in
+index 8ee6569cc..d0c8b517e 100644
+--- a/PHonon/examples/tetra_example/reference/lambda.in
++++ b/PHonon/examples/tetra_example/reference/lambda.in
+@@ -1,7 +1,20 @@
+-&input
+-      ne = 500, 
+-  ltetra = 2, 
+-  fildyn = "al.dyn", 
+-  mustar = 0.1, 
+-  prefix = "/home/kawamura/programs/QE/dfpttetra/tempdir/aluminum",
++Al electron-phonon
++&INPUTPH
++          prefix = 'aluminum',
++          outdir = '/mnt/c/Users/kawamuura/program/QE/qe_priv/tempdir/',
++          fildyn = 'al.dyn'
++        fildvscf = 'dv',
++         fildrho = 'drho',
++           ldisp = .true.,
++        lshift_q = .true.,
++             nq1 = 4, 
++             nq2 = 4,
++             nq3 = 4,
++ electron_phonon = "lambda_tetra"
++             nk1 = 16,
++             nk2 = 16,
++             nk3 = 16,
++/
++&INPUTa2F
++ nfreq = 500
+ /
+diff --git a/PHonon/examples/tetra_example/reference/lambda.out b/PHonon/examples/tetra_example/reference/lambda.out
+index 2234224d3..1521d6b90 100644
+--- a/PHonon/examples/tetra_example/reference/lambda.out
++++ b/PHonon/examples/tetra_example/reference/lambda.out
+@@ -1,33 +1,83 @@
+-    # of frequency grid :          500
+-                 ltetra :            2
+-   Dynamical mtrix file : al.dyn
+-                    mu* :   0.100000000000000     
+-                 prefix : /home/kawamura/programs/QE/dfpttetra/tempdir/aluminum
+-   open data-file.xml
+-   Lattice parameter[a.u.] :    7.62821686200000     
+-   Direct lattice vector[a] : 
+-  -0.50000   0.00000   0.50000
+-   0.00000   0.50000   0.50000
+-  -0.50000   0.50000   0.00000
+-   Reciprocal lattice vector[2pi/a] : 
+-  -1.00000  -1.00000   1.00000
+-   1.00000   1.00000   1.00000
+-  -1.00000   1.00000  -1.00000
+-   # of atoms :            1
+-   # of species :            1
+-   # of modes :            3
+- Atomic masses [AMU]
+-Atom.  1 :     0.26980E+02
+-   # of BZ symmetry :           48
+-          q grid :            4           4           4
+-          Total # of q :           64
+-          # of irreducible q :           10
+-          lambda :   0.397787500000000     
+-   omegalog[Ryd] :   1.936523140606222E-003
+-   omegalog[THz] :    6.37085128889197     
+-     omegalog[K] :    305.752545614457     
+-    Tc(McMillan) :    1.24356278757688     
+- Optimized tetrahedron method is used.
+-   Energy distance :   4.576514605123168E-006
+-   lambda :   0.394844162068448     
+-   omglog :   1.962537910808473E-003
++
++     Program ALPHA2F v.6.1 starts on 16Mar2017 at 21:38: 5 
++
++     This program is part of the open-source Quantum ESPRESSO suite
++     for quantum simulation of materials; please cite
++         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
++          URL http://www.quantum-espresso.org", 
++     in publications or presentations arising from this work. More details at
++     http://www.quantum-espresso.org/quote
++
++     Parallel version (MPI), running on     4 processors
++     R & G space division:  proc/nbgrp/npool/nimage =       4
++
++     Reading data from directory:
++     /mnt/c/Users/kawamuura/program/QE/qe_priv/tempdir/aluminum.save
++
++   Info: using nr1, nr2, nr3 values from input
++
++   Info: using nr1, nr2, nr3 values from input
++
++     IMPORTANT: XC functional enforced from input :
++     Exchange-correlation      = PBE ( 1  4  3  4 0 0)
++     Any further DFT definition will be discarded
++     Please, verify this is what you really want
++
++
++     Parallelization info
++     --------------------
++     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
++     Min          75      75     27                  869      869     186
++     Max          76      76     28                  872      872     189
++     Sum         301     301    109                 3479     3479     749
++
++
++     Check: negative/imaginary core charge=   -0.000013    0.000000
++
++
++     Dynamical matrices for ( 4, 4, 4)  uniform grid of q-points
++     With a half shift
++     (  10q-points):
++       N         xq(1)         xq(2)         xq(3) 
++       1  -0.125000000   0.125000000   0.125000000
++       2  -0.375000000   0.375000000  -0.125000000
++       3   0.375000000  -0.375000000   0.625000000
++       4   0.125000000  -0.125000000   0.375000000
++       5  -0.125000000   0.625000000   0.125000000
++       6   0.625000000  -0.125000000   0.875000000
++       7   0.375000000   0.125000000   0.625000000
++       8  -0.125000000  -0.875000000   0.125000000
++       9  -0.375000000   0.375000000   0.375000000
++      10   0.375000000  -0.375000000   1.125000000
++     Because shifted q grid is used, q2r will not work !
++ 
++   Calculation of alpha2F
++ 
++     Number of Frequencies :          500
++     Frequency Step [Ry] :    5.7704765834374548E-006
++     [opt_tetra]  Optimized tetrahedron method is used.
++
++     Writing a2F to a file aluminum.a2F.dat
++
++     Compute lambda and omega_ln from a2F to verify it.
++              lambda :   0.39550689823347090     
++       omega_ln [Ry] :    1.9534874159646749E-003
++ 
++   Compute lambda and omega_ln directly from omega_q and lambda_q
++ 
++             lambda :   0.39780000000000026     
++     omega_ln [Ryd] :    1.9364697007809161E-003
++     omega_ln [THz] :    6.3706792775163130     
++       omega_ln [K] :    305.74401901354645     
++
++   For plotting T_c from the McMillan formula, please type
++     $ gnuplot aluminum.McMillan.gp
++
++     ALPHA2F      :     0.92s CPU         1.47s WALL
++
++
++   This run was terminated on:  21:38: 7  16Mar2017            
++
++=------------------------------------------------------------------------------=
++   JOB DONE.
++=------------------------------------------------------------------------------=

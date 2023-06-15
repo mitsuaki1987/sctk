@@ -1,0 +1,33 @@
+&CONTROL
+ calculation = 'vc-relax'
+  pseudo_dir = './'
+/
+&SYSTEM
+       ibrav = 0
+         nat = 3
+        ntyp = 2
+     ecutwfc = 60.0
+     ecutrho = 240.0
+ occupations = 'tetrahedra_opt'
+/
+&ELECTRONS
+ conv_thr = 3.000000e-10
+ mixing_beta = 0.3
+/
+&IONS
+/
+&CELL
+/
+CELL_PARAMETERS angstrom
+   3.072263267   0.000000000   0.000000000
+  -1.536131635   2.660657665   0.000000000
+   0.000000000   0.000000000   3.511486466
+ATOMIC_SPECIES
+ B 10.811000 B.pbe-nc.UPF
+ Mg 24.305000 Mg.pbe-n-nc.UPF
+ATOMIC_POSITIONS crystal
+ Mg 0.000000 0.000000 0.000000
+ B 0.333333 0.666667 0.500000
+ B 0.666667 0.333333 0.500000
+K_POINTS automatic
+ 8 8 6 0 0 0

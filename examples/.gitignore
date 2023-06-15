@@ -1,0 +1,12 @@
+matdyn*
+pwscf.*
+*.frmsf
+*.dat
+a2F.dos*
+elph.gamma.*
+dyna2F
+elph_dir/
+lambda
+*.ps
+*.xmgr
+gam.lines
