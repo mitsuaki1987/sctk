@@ -14,7 +14,7 @@ CONTAINS
 SUBROUTINE lambda_sf()
   !
   USE kinds, ONLY : DP
-  USE mp_world, ONLY : mpime, world_comm
+  USE mp_world, ONLY : mpime
   !
   USE sctk_dmuxc, ONLY : apply_xc_spin
   USE sctk_invert, ONLY : invert, hermite
@@ -27,9 +27,6 @@ SUBROUTINE lambda_sf()
   !
   INTEGER :: ig, ipol
   REAL(dp) :: stoner(2:2*npol)
-  LOGICAL :: approx
-  !
-  approx = .false.
   !
   CALL start_clock("lambda_sf")
   !
@@ -42,49 +39,24 @@ SUBROUTINE lambda_sf()
      WRITE(*,'(/,9x,"Stoner factor:")')
      WRITE(*,'(/,11x,3(e12.5,2x))') stoner(2:2*npol)
   END IF
-  CALL mp_bcast(stoner, 0, world_comm)
+  !
+  DO ig = ngv0, ngv1
+     wscr(ig,ig,0:nmf,2:2*npol) = wscr(ig,ig,0:nmf,2:2*npol) - 1.0_dp
+  END DO
+  !
+  DO ipol = 2, 2*npol
+     CALL invert(wscr(1:ngv,ngv0:ngv1,0:nmf,ipol))
+  END DO
+  !
+  DO ig = ngv0, ngv1
+     wscr(ig,ig,0:nmf,2:2*npol) = wscr(ig,ig,0:nmf,2:2*npol) + 1.0_dp
+  END DO
   !
   CALL hermite()
-  !
-  IF(approx) THEN
-     !
-     DO ipol = 2, 2*npol
-        wscr(1:ngv,ngv0:ngv1,0:nmf,ipol) = wscr(1:ngv,ngv0:ngv1,0:nmf,ipol) &
-        &                                / (1.0_dp - stoner(ipol))
-     END DO
-     !
-  ELSE
-     !
-     wscr(1:ngv,ngv0:ngv1,0:nmf,2:2*npol) = - wscr(1:ngv,ngv0:ngv1,0:nmf,2:2*npol)
-     DO ig = ngv0, ngv1
-        wscr(ig,ig,0:nmf,2:2*npol) = 1.0_dp + wscr(ig,ig,0:nmf,2:2*npol)
-     END DO
-     !
-     CALL apply_xc_spin()
-     !
-     DO ipol = 2, 2*npol
-        CALL invert(wscr(1:ngv,ngv0:ngv1,0:nmf,ipol))
-     END DO
-     !
-     CALL apply_xc_spin()
-     !
-     DO ig = ngv0, ngv1
-        wscr(ig,ig,0:nmf,2:2*npol) = wscr(ig,ig,0:nmf,2:2*npol) - 1.0_dp
-     END DO
-     !
-     CALL hermite()
-     !
-  END IF
   !
   CALL apply_xc_spin()
   !
-  CALL hermite()
-  !
-  IF(npol == 1) THEN
-     wscr(1:ngv,ngv0:ngv1,0:nmf,2) = - 3.0_dp*wscr(1:ngv,ngv0:ngv1,0:nmf,2)
-  ELSE
-     wscr(1:ngv,ngv0:ngv1,0:nmf,2:2*npol) = - wscr(1:ngv,ngv0:ngv1,0:nmf,2:2*npol)
-  END IF
+  IF(npol == 1) wscr(1:ngv,ngv0:ngv1,0:nmf,2) = 3.0_dp*wscr(1:ngv,ngv0:ngv1,0:nmf,2)
   !
   CALL stop_clock("lambda_sf")
   !

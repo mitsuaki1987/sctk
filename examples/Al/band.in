@@ -1,23 +1,23 @@
 &CONTROL
  calculation = 'bands'
-  pseudo_dir = './'
+  pseudo_dir = '../../../pseudo/'
 /
 &SYSTEM
        ibrav = 0
          nat = 1
         ntyp = 1
-     ecutwfc = 65.000000
-     ecutrho = 260.000000
+     ecutwfc = 35.0
+     ecutrho = 280.0
         nbnd = 15
 /
 &ELECTRONS
 /
 CELL_PARAMETERS angstrom
-   0.000000000   2.012277204   2.012277204
-   2.012277204   0.000000000   2.012277204
-   2.012277204   2.012277204   0.000000000
+   0.000000000   2.016009830   2.016009830
+   2.016009830   0.000000000   2.016009830
+   2.016009830   2.016009830   0.000000000
 ATOMIC_SPECIES
- Al 26.981539 Al.pbe-n-nc.UPF
+ Al 26.981539 Al.pbe-n-rrkjus_psl.0.1.UPF
 ATOMIC_POSITIONS crystal
  Al 0.000000 0.000000 0.000000
 K_POINTS crystal

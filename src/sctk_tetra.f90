@@ -152,54 +152,50 @@ END SUBROUTINE calc_dosk
 !
 ! Integration weight with tetrahedron method
 !
-SUBROUTINE tetraweight(nkd0,indx2,wghtd)
+SUBROUTINE tetraweight(wghtd)
   !
-  USE wvfct, ONLY : nbnd
-  USE mp_pools, ONLY : inter_pool_comm
   USE kinds, ONLY : DP
   USE cell_base, ONLY : omega
-  USE wvfct, ONLY : et, nbnd
+  USE wvfct, ONLY : et
   USE ktetra, ONLY : wlsm, tetra, ntetra
   USE klist, ONLY : nks
   USE ener, ONLY : ef
   USE lsda_mod, ONLY : nspin
   !
-  USE sctk_val, ONLY : nmf, nbnd_p, bnd0_p
+  USE sctk_val, ONLY : nmf, nb, bdsp
   !
   !
   IMPLICIT NONE
   !
-  INTEGER,INTENT(IN) :: nkd0, indx2(20,6 * nks)
-  COMPLEX(dp),INTENT(OUT) :: wghtd(nbnd*(nmf+1),nbnd_p,nkd0)
+  COMPLEX(dp),INTENT(OUT) :: wghtd((nmf+1)*nb(2),nb(1),nks)
   !
-  INTEGER :: it, ibnd_p, ibnd_g, ii, ntetra0, ntetra1, itetra(4)
+  INTEGER :: it, ibnd, ii, itetra(4)
   REAL(dp) :: thr = 1e-8_dp, V
-  REAL(dp) :: e(4), a(4,4), ei0(4,nbnd), ej0(4,nbnd), ei1(4), ej1(4,nbnd), tsmall(4,4)
-  COMPLEX(dp) :: w1(nbnd*(nmf+1),4), w2(nbnd*(nmf+1),4)
+  REAL(dp) :: e(4), a(4,4), ei0(4,nb(1)), ej0(4,nb(2)), ei1(4), ej1(4,nb(2)), tsmall(4,4)
+  COMPLEX(dp) :: w1(nb(2)*(nmf+1),4), w2(nb(2)*(nmf+1),4)
   !
-  CALL divide(inter_pool_comm, ntetra, ntetra0, ntetra1)
-  !
-  wghtd(1:nbnd*(nmf+1),1:nbnd_p,1:nkd0) = 0.0_dp
+  wghtd(1:nb(2)*(nmf+1),1:nb(1),1:nks) = 0.0_dp
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(ntetra0,ntetra1,nbnd,wlsm,nmf,et,wghtd,thr,ef,tetra,indx2,nks,nbnd_p,bnd0_p) &
-  !$OMP & PRIVATE(it,ii,ibnd_p,ibnd_g,itetra,ei0,ej0,ei1,ej1,w1,w2,a,e,V,tsmall)
+  !$OMP & SHARED(wlsm,nmf,et,wghtd,thr,ef,tetra,nks,nb,bdsp,ntetra) &
+  !$OMP & PRIVATE(it,ii,ibnd,itetra,ei0,ej0,ei1,ej1,w1,w2,a,e,V,tsmall)
   !
-  DO it = ntetra0, ntetra1
+  DO it = 1, ntetra
      !
-     DO ibnd_g = 1, nbnd
-        ei0(1:4,ibnd_g) = MATMUL(wlsm(1:4,1:20), et(ibnd_g, tetra(1:20,it)      )) - ef
-        ej0(1:4,ibnd_g) = MATMUL(wlsm(1:4,1:20), et(ibnd_g, tetra(1:20,it) + nks)) - ef
+     DO ibnd = 1, nb(1)
+        ei0(1:4,ibnd) = MATMUL(wlsm(1:4,1:20), et(ibnd+bdsp(1), tetra(1:20,it)      )) - ef
+     END DO
+     DO ibnd = 1, nb(2)
+        ej0(1:4,ibnd) = MATMUL(wlsm(1:4,1:20), et(ibnd+bdsp(2), tetra(1:20,it) + nks)) - ef
      END DO
      !
      !$OMP DO
-     DO ibnd_p = 1, nbnd_p
+     DO ibnd = 1, nb(1)
         !
-        ibnd_g = ibnd_p + bnd0_p
-        w1(1:(nmf+1)*nbnd,1:4) = 0.0_dp
+        w1(1:(nmf+1)*nb(2),1:4) = 0.0_dp
         !
         itetra(1) = 0
-        e(1:4) = ei0(1:4, ibnd_g)
+        e(1:4) = ei0(1:4, ibnd)
         CALL hpsort (4, e, itetra)
         !
         DO ii = 1, 4
@@ -219,13 +215,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
               tsmall(3, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
               tsmall(4, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
               !
-              ei1(1:4       ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd_g))
-              ej1(1:4,1:nbnd) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd))
+              ei1(1:4        ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd))
+              ej1(1:4,1:nb(2)) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nb(2)))
               !
               CALL tetra2(ei1,ej1,w2)
               !
-              w1(1:(nmf+1)*nbnd,itetra(1:4)) = w1(1:(nmf+1)*nbnd,          itetra(1:4)) &
-              &                   + V * MATMUL(w2(1:(nmf+1)*nbnd,1:4), tsmall(1:4,1:4))
+              w1(1:(nmf+1)*nb(2),itetra(1:4)) = w1(1:(nmf+1)*nb(2),          itetra(1:4)) &
+              &                    + V * MATMUL(w2(1:(nmf+1)*nb(2),1:4), tsmall(1:4,1:4))
               !
            END IF
            !
@@ -242,13 +238,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
               tsmall(3, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
               tsmall(4, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
               !
-              ei1(1:4       ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd_g))
-              ej1(1:4,1:nbnd) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd))
+              ei1(1:4        ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd))
+              ej1(1:4,1:nb(2)) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nb(2)))
               !
               CALL tetra2(ei1,ej1,w2)
               !
-              w1(1:(nmf+1)*nbnd,itetra(1:4)) = w1(1:(nmf+1)*nbnd,          itetra(1:4)) &
-              &                   + V * MATMUL(w2(1:(nmf+1)*nbnd,1:4), tsmall(1:4,1:4))
+              w1(1:(nmf+1)*nb(2),itetra(1:4)) = w1(1:(nmf+1)*nb(2),          itetra(1:4)) &
+              &                    + V * MATMUL(w2(1:(nmf+1)*nb(2),1:4), tsmall(1:4,1:4))
               !
            END IF
            !
@@ -263,13 +259,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
               tsmall(3, 1:4) = (/0.0_dp, a(2,3), a(3,2), 0.0_dp/)
               tsmall(4, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
               !
-              ei1(1:4       ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd_g))
-              ej1(1:4,1:nbnd) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd))
+              ei1(1:4        ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd))
+              ej1(1:4,1:nb(2)) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nb(2)))
               !
               CALL tetra2(ei1,ej1,w2)
               !
-              w1(1:(nmf+1)*nbnd,itetra(1:4)) = w1(1:(nmf+1)*nbnd,          itetra(1:4)) &
-              &                   + V * MATMUL(w2(1:(nmf+1)*nbnd,1:4), tsmall(1:4,1:4))
+              w1(1:(nmf+1)*nb(2),itetra(1:4)) = w1(1:(nmf+1)*nb(2),          itetra(1:4)) &
+              &                    + V * MATMUL(w2(1:(nmf+1)*nb(2),1:4), tsmall(1:4,1:4))
               !
            END IF
            !
@@ -284,13 +280,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
               tsmall(3, 1:4) = (/0.0_dp, a(2,3), a(3,2), 0.0_dp/)
               tsmall(4, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
               !
-              ei1(1:4       ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd_g))
-              ej1(1:4,1:nbnd) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd))
+              ei1(1:4        ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd))
+              ej1(1:4,1:nb(2)) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nb(2)))
               !
               CALL tetra2(ei1,ej1,w2)
               !
-              w1(1:(nmf+1)*nbnd,itetra(1:4)) = w1(1:(nmf+1)*nbnd,          itetra(1:4)) &
-              &                   + V * MATMUL(w2(1:(nmf+1)*nbnd,1:4), tsmall(1:4,1:4))
+              w1(1:(nmf+1)*nb(2),itetra(1:4)) = w1(1:(nmf+1)*nb(2),          itetra(1:4)) &
+              &                    + V * MATMUL(w2(1:(nmf+1)*nb(2),1:4), tsmall(1:4,1:4))
               !
            END IF
            !
@@ -307,13 +303,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
               tsmall(3, 1:4) = (/0.0_dp, 0.0_dp, 1.0_dp, 0.0_dp/)
               tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
               !
-              ei1(1:4       ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd_g))
-              ej1(1:4,1:nbnd) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd))
+              ei1(1:4        ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd))
+              ej1(1:4,1:nb(2)) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nb(2)))
               !
               CALL tetra2(ei1,ej1,w2)
               !
-              w1(1:(nmf+1)*nbnd,itetra(1:4)) = w1(1:(nmf+1)*nbnd,          itetra(1:4)) &
-              &                   + V * MATMUL(w2(1:(nmf+1)*nbnd,1:4), tsmall(1:4,1:4))
+              w1(1:(nmf+1)*nb(2),itetra(1:4)) = w1(1:(nmf+1)*nb(2),          itetra(1:4)) &
+              &                    + V * MATMUL(w2(1:(nmf+1)*nb(2),1:4), tsmall(1:4,1:4))
               !
            END IF
            !
@@ -328,13 +324,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
               tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
               tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
               !
-              ei1(1:4       ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd_g))
-              ej1(1:4,1:nbnd) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd))
+              ei1(1:4        ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd))
+              ej1(1:4,1:nb(2)) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nb(2)))
               !
               CALL tetra2(ei1,ej1,w2)
               !
-              w1(1:(nmf+1)*nbnd,itetra(1:4)) = w1(1:(nmf+1)*nbnd,          itetra(1:4)) &
-              &                   + V * MATMUL(w2(1:(nmf+1)*nbnd,1:4), tsmall(1:4,1:4))
+              w1(1:(nmf+1)*nb(2),itetra(1:4)) = w1(1:(nmf+1)*nb(2),          itetra(1:4)) &
+              &                    + V * MATMUL(w2(1:(nmf+1)*nb(2),1:4), tsmall(1:4,1:4))
               !
            END IF
            !
@@ -349,13 +345,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
               tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
               tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
               !
-              ei1(1:4       ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd_g))
-              ej1(1:4,1:nbnd) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd))
+              ei1(1:4        ) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4), ibnd))
+              ej1(1:4,1:nb(2)) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nb(2)))
               !
               CALL tetra2(ei1,ej1,w2)
               !
-              w1(1:(nmf+1)*nbnd,itetra(1:4)) = w1(1:(nmf+1)*nbnd,          itetra(1:4)) &
-              &                   + V * MATMUL(w2(1:(nmf+1)*nbnd,1:4), tsmall(1:4,1:4))
+              w1(1:(nmf+1)*nb(2),itetra(1:4)) = w1(1:(nmf+1)*nb(2),          itetra(1:4)) &
+              &                    + V * MATMUL(w2(1:(nmf+1)*nb(2),1:4), tsmall(1:4,1:4))
               !
            END IF
            !
@@ -363,13 +359,13 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
            !
            ! D - 1
            !
-           ei1(1:4       ) = ei0(itetra(1:4), ibnd_g)
-           ej1(1:4,1:nbnd) = ej0(itetra(1:4), 1:nbnd)
+           ei1(1:4        ) = ei0(1:4, ibnd)
+           ej1(1:4,1:nb(2)) = ej0(1:4, 1:nb(2))
            !
            CALL tetra2(ei1,ej1,w2)
            !
-           w1(1:(nmf+1)*nbnd,1:4) = w1(1:(nmf+1)*nbnd,1:4) &
-           &                      + w2(1:(nmf+1)*nbnd,1:4)
+           w1(1:(nmf+1)*nb(2),1:4) = w1(1:(nmf+1)*nb(2),1:4) &
+           &                       + w2(1:(nmf+1)*nb(2),1:4)
            !
         ELSE
            !
@@ -377,10 +373,10 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
            !
         END IF
         !
-        wghtd(1:(nmf+1)*nbnd,ibnd_p,indx2(1:20,it)) = wghtd(1:(nmf+1)*nbnd,ibnd_p,  indx2(1:20,it)) &
-        &                                       + MATMUL(w1(1:(nmf+1)*nbnd,1:4), wlsm(1:4,1:20))
+        wghtd(1:(nmf+1)*nb(2),ibnd,tetra(1:20,it)) = wghtd(1:(nmf+1)*nb(2),ibnd,  tetra(1:20,it)) &
+        &                                      + MATMUL(w1(1:(nmf+1)*nb(2),1:4), wlsm(1:4,1:20))
         !
-     END DO ! ibnd_p
+     END DO ! ibnd
      !$OMP END DO NOWAIT
      !
   END DO ! it
@@ -388,10 +384,10 @@ SUBROUTINE tetraweight(nkd0,indx2,wghtd)
   !$OMP END PARALLEL
   !
   IF(nspin == 1) THEN
-     wghtd(1:(nmf+1)*nbnd,1:nbnd_p,1:nkd0) = wghtd(1:(nmf+1)*nbnd,1:nbnd_p,1:nkd0) &
+     wghtd(1:(nmf+1)*nb(2),1:nb(1),1:nks) = wghtd(1:(nmf+1)*nb(2),1:nb(1),1:nks) &
      &                            * 4.0_dp / (REAL(ntetra, dp) * omega)
   ELSE
-     wghtd(1:(nmf+1)*nbnd,1:nbnd_p,1:nkd0) = wghtd(1:(nmf+1)*nbnd,1:nbnd_p,1:nkd0) &
+     wghtd(1:(nmf+1)*nb(2),1:nb(1),1:nks) = wghtd(1:(nmf+1)*nb(2),1:nb(1),1:nks) &
      &                            * 2.0_dp / (REAL(ntetra, dp) * omega)
   END IF
   !
@@ -404,23 +400,22 @@ SUBROUTINE tetra2(ei0,ej0,w0)
   ! This routine take the unoccupied region.
   !
   USE kinds, ONLY : dp
-  USE wvfct, ONLY : nbnd
   !
-  USE sctk_val, ONLY : nmf
+  USE sctk_val, ONLY : nmf, nb
   !
   IMPLICIT NONE
   !
-  REAL(dp),INTENT(IN) :: ei0(4), ej0(4,nbnd)
-  COMPLEX(dp),INTENT(OUT) :: w0(0:nmf,nbnd,4)
+  REAL(dp),INTENT(IN) :: ei0(4), ej0(4,nb(2))
+  COMPLEX(dp),INTENT(OUT) :: w0(0:nmf,nb(2),4)
   !
   INTEGER :: ii, ibnd, itetra(4)
   REAL(dp) :: V, de(4), thr = 1.0e-8_dp
   REAL(dp) :: e(4), a(4,4), tsmall(4,4)
   COMPLEX(dp) :: w1(0:nmf,4)
   !
-  w0(0:nmf,1:nbnd,1:4) = 0.0_dp
+  w0(0:nmf,1:nb(2),1:4) = 0.0_dp
   !
-  DO ibnd = 1, nbnd
+  DO ibnd = 1, nb(2)
      !
      e(1:4) = ej0(1:4,ibnd)
      itetra(1) = 0

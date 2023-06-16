@@ -46,7 +46,7 @@ Superconducting Toolkitのメインプログラム sctk.x の機能は次のと�
       last_q =
       nci =
       laddxc =
-      ecutwfc =
+      ecutfock =
       nq1 =
       nq2 =
       nq3 =
@@ -95,8 +95,8 @@ last_q        正の整数  既約            遮蔽Coulomb/スピンゆらぎ�
                         :math:`{\bf q}`
                         点数
 laddxc        0 or 1    0               遮蔽を計算するときの近似のレベルを指定する. 0 : RPA, 1: 断熱的LDA.
-lsf           0 or 1    0               スピンゆらぎ相互作用を計算する(1)かしない(0)か
-ecutwfc       実数      pw.x_ での値    分極関数を計算するときの平面波カットオフ [Ry].
+lsf           0 or 1    0               スピンゆらぎ相互作用 :ref:`[3] <ref>` を計算する(1)かしない(0)か
+ecutfock      実数      pw.x_ での値    分極関数を計算するときの平面波カットオフ [Ry].
 nq1, nq2, nq3 正の整数  a2Fsaveの       波動関数データの :math:`{\bf k}` 点メッシュ.
                         :math:`{\bf k}` :ref:`twingrid` の入力と同じにしなければならない. 
                         点メッシュ数と
@@ -134,7 +134,9 @@ electron_maxstep 正の整数 100          ギャップ方程式を反復法で�
 conv_thr         正の実数 1.0e-15      ギャップ方程式を反復法で解くときの,
                                        新旧のギャップ関数の差の2乗平均に対する収束判定のしきい値. 単位 Ry.
 filedyn          文字列   "matdyn"     ph.x_ の filedyn と同じにしなければならない。
-spin_fluc        論理型   .False.      .True. にするとスピン揺らぎを含める。
+spin_fluc        論理型   .False.      .True. にするとスピン揺らぎ :ref:`[3] <ref>` を含める。
+scdft_kernel     正の整数 1            1: Lüders2005 :ref:`[4] <ref>`, 2: Sanna2020 :ref:`[5] <ref>`
+lz_coulomb       論理型   .False.      Coulomb renormalization :ref:`[6] <ref>`
 ================ ======== ============ ===================================================================
 
 入出力ファイル

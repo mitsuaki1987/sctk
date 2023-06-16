@@ -166,7 +166,6 @@ SUBROUTINE stdin_scdft()
   !
   REAL(dp) :: temp
   LOGICAL :: spin_fluc
-  CHARACTER(256) :: elph, coulomb
   !
   NAMELIST /scdft/ temp, fbee, lbee, xic, nmf, nx, ne, emin, emax, lz_coulomb, electron_maxstep, &
   &                conv_thr, fildyn, spin_fluc, scdft_kernel, freq_min, freq_min_ratio

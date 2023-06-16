@@ -10,3 +10,9 @@ lambda
 *.ps
 *.xmgr
 gam.lines
+bands.out.gnu
+deltaf.in
+lambda_mu_k.in
+qpdos.in
+tc.in
+

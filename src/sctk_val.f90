@@ -12,6 +12,9 @@ MODULE sctk_val
   IMPLICIT NONE
   !
   INTEGER,SAVE :: &
+  & nb_max,        & !<
+  & nb(2),         & !<
+  & bdsp(2),       & !<
   & scdft_kernel,  & !< 1: Luders2005, 2: Sanna2020
   & lsf,           & !< =2 for spin-fluctuation, =0 for non-sf
   & fbee,          & !< First band for Vc
@@ -27,12 +30,6 @@ MODULE sctk_val
   & ngv,           & !< # of G-vector in ecutfock
   & ngv0,          & !< # of G-vector in ecutfock
   & ngv1,          & !< # of G-vector in ecutfock
-  & nk_p,          & !< # of k par PE
-  & nk_p_max,      & !< # of k par PE (Max across inter-pool)
-  & k0_p,          & !< First k minus 1 for each PE
-  & nbnd_p,        & !< # of bands par PE
-  & nbnd_p_max,    & !< # of bands par PE (Max across intra-pool)
-  & bnd0_p,        & !< First band minus 1 for each PE
   & nx               !< = 2 * ne - 1
   !
   REAL(8),SAVE :: &
@@ -49,6 +46,7 @@ MODULE sctk_val
   & zero_kelvin
   !
   INTEGER,ALLOCATABLE,SAVE :: &
+  & kplusq(:),     & !< (nqBZ))
   & ndegen(:,:),  & !< (nqBZ, 2) Number of non-degenerated for each k
   & degen(:,:,:,:), & !< (2,nbnd, nqBZ, 2) First and last band for each degenerated bands
   & bindx(:,:),   & !< (ngap,2) band index for gap equation

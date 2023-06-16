@@ -1,0 +1,25 @@
+&CONTROL
+ calculation = 'bands'
+  pseudo_dir = './'
+/
+&SYSTEM
+       ibrav = 0
+         nat = 3
+        ntyp = 2
+     ecutwfc = 35.0
+     ecutrho = 280.0
+        nbnd = 15
+/
+&ELECTRONS
+/
+CELL_PARAMETERS angstrom
+   3.072263267   0.000000000   0.000000000
+  -1.5357264395    2.6599562197  0.000000000
+   0.000000000   0.000000000   3.511486466
+ATOMIC_SPECIES
+ B 10.811000 B.pbe-n-kjpaw_psl.0.1.upf
+ Mg 24.305000 Mg.pbe-n-kjpaw_psl.0.3.0.upf
+ATOMIC_POSITIONS crystal
+ Mg 0.000000 0.000000 0.000000
+ B 0.333333 0.666667 0.500000
+ B 0.666667 0.333333 0.500000

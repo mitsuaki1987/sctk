@@ -2532,10 +2532,10 @@ index b723e01cf..52b60c2d9 100644
  open_grid.o : ../../Modules/control_flags.o
 diff --git a/PP/src/nesting.f90 b/PP/src/nesting.f90
 new file mode 100644
-index 000000000..bc97b2498
+index 000000000..b2a213638
 --- /dev/null
 +++ b/PP/src/nesting.f90
-@@ -0,0 +1,1088 @@
+@@ -0,0 +1,1089 @@
 +!
 +! Copyright (C) 2001-2016 Quantum ESPRESSO group
 +! This file is distributed under the terms of the
@@ -3074,7 +3074,7 @@ index 000000000..bc97b2498
 +              !
 +              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
 +              !
-+              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              nesting_factor(ik) = nesting_factor(ik) + V * nesting_factor1
 +              !
 +           END IF
 +           !
@@ -3094,7 +3094,7 @@ index 000000000..bc97b2498
 +              !
 +              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
 +              !
-+              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              nesting_factor(ik) = nesting_factor(ik) + V * nesting_factor1
 +              !       
 +           END IF
 +           !          
@@ -3116,7 +3116,7 @@ index 000000000..bc97b2498
 +              !
 +              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
 +              !
-+              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              nesting_factor(ik) = nesting_factor(ik) + V * nesting_factor1
 +              !      
 +           END IF
 +           !
@@ -3136,7 +3136,7 @@ index 000000000..bc97b2498
 +              !
 +              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
 +              !
-+              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              nesting_factor(ik) = nesting_factor(ik) + V * nesting_factor1
 +              !
 +           END IF
 +           !
@@ -3156,7 +3156,7 @@ index 000000000..bc97b2498
 +              !
 +              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
 +              !
-+              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              nesting_factor(ik) = nesting_factor(ik) + V * nesting_factor1
 +              !
 +           END IF
 +           !          
@@ -3178,7 +3178,7 @@ index 000000000..bc97b2498
 +              !
 +              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
 +              !
-+              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              nesting_factor(ik) = nesting_factor(ik) + V * nesting_factor1
 +              !        
 +           END IF
 +           !
@@ -3475,6 +3475,7 @@ index 000000000..bc97b2498
 +  !
 +  DO ik = 1, nirr_k
 +     irr_k(1:3,ik) = NINT(MATMUL(xk(1:3,ik), at(1:3,1:3)) * REAL((/nk1, nk2, nk3/), kind=dp))
++     write(*,*) "debug ", irr_k(1:3,ik)
 +  END DO
 +  !
 +  ik = 0

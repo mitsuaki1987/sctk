@@ -11,7 +11,7 @@ Superconducting Toolkitは QuantumESPRESSO_ のアウトプットを用いてギ
    
    \begin{align}
    \Delta_{n {\bf k}} = -\frac{1}{2} \sum_{n' {\bf k}'}
-   \frac{{\BF K}^{el}_{n {\bf k} n' {\bf k}'} + K^{\rm el-ph}_{n {\bf k} n' {\bf k}'}}{Z_{n {\bf k}}}
+   \frac{K^{el}_{n {\bf k} n' {\bf k}'} + K^{\rm el-ph}_{n {\bf k} n' {\bf k}'}}{Z_{n {\bf k}}}
    \frac{\Delta_{n' {\bf k}'}}{E_{n' {\bf k}'}}
    \tanh\left( \frac{\beta E_{n' {\bf k}'}}{2} \right)
    \end{align}

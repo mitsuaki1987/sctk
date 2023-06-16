@@ -1,0 +1,72 @@
+--------------------------------------------------------------------------
+Open MPI's OFI driver detected multiple equidistant NICs from the current process,
+but had insufficient information to ensure MPI processes fairly pick a NIC for use.
+This may negatively impact performance. A more modern PMIx server is necessary to
+resolve this issue.
+
+Note: This message is displayed only when the OFI component's verbosity level is
+-695453520 or higher.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   macloud2
+  Local device: mlx4_0
+--------------------------------------------------------------------------
+
+     Program FERMI_VELOCITY v.6.7GPU starts on 28Jun2022 at  1:56:57 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on       1 processor cores
+     Number of MPI processes:                 1
+     Threads/MPI process:                     1
+
+     MPI processes distributed on     1 nodes
+     Reading input from nscf.in
+
+     Reading xml data from directory:
+
+     ./pwscf.save/
+     file B.pbe-n-kjpaw_psl.0.1.upf: wavefunction(s)  2P renormalized
+     file Mg.pbe-n-kjpaw_psl.0.3.0.upf: wavefunction(s)  3S renormalized
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         649     313    109                15395     5449    1011
+
+     Using Slab Decomposition
+
+
+     Check: negative core charge=   -0.000006
+
+     Number of bands :      15
+     Number of k times spin :     210
+     Number of symmetries :      24
+     Lowest band which contains FS :       3
+     Highest band which contains FS :       5
+     Max :         1.49947139     Min :         0.00000000
+
+     FERMI_VELOCI :      0.94s CPU      1.03s WALL
+
+
+   This run was terminated on:   1:56:59  28Jun2022            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

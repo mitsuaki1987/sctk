@@ -25,6 +25,8 @@ FUNCTION Zweight(beta,x0,y0,z0) RESULT(Wz)
   REAL(dp) :: thr = 1e-3_dp, tzpx, tzmx, mm, mp, pm, pp, &
   &           tx, ty, tz, x, y, z, bx, by, bz, txmy
   !
+  Wz = 0.0_dp
+  !
   IF(zero_kelvin) THEN
      IF(scdft_kernel == 1 .OR. scdft_kernel == 2) THEN
         Wz = -1d0/(x0+y0+z0)**2
@@ -218,6 +220,8 @@ FUNCTION Kweight(beta,x0,y0,z0) RESULT(Wk)
   !
   REAL(dp) :: thr = 1e-3_dp, tx, ty, tz, tg2z, x, y, z, bxymin, bx, by, bz
   REAL(dp) :: g1 = 1.33_dp, g2 = 3.88_dp
+  !
+  Wk = 0.0_dp
   !
   IF(zero_kelvin) THEN
      IF(scdft_kernel == 1) THEN

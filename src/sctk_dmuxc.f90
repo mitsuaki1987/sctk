@@ -85,6 +85,10 @@ SUBROUTINE apply_xc()
      !
      CALL start_clock("apply_xc")
      !
+     !$OMP PARALLEL DEFAULT(NONE) &
+     !$OMP & SHARED(ngv,gindx,gindx_p,dfftt,dfftp) &
+     !$OMP & PRIVATE(ig,igv)
+     !$OMP DO
      DO ig = 1, ngv
         !
         igv(3) = (gindx(ig) - 1) / (dfftt%nr1*dfftt%nr2)
@@ -93,10 +97,12 @@ SUBROUTINE apply_xc()
         WHERE(igv(1:3)*2 >= (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)) &
         &     igv(1:3) = igv(1:3) - (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)
         !
-        igv(1:3) = modulo(igv(1:3), (/dfftp%nr1, dfftp%nr2, dfftp%nr3/))
+        igv(1:3) = MODULO(igv(1:3), (/dfftp%nr1, dfftp%nr2, dfftp%nr3/))
         gindx_p(ig) = 1 + igv(1) + igv(2) * dfftp%nr1x + igv(3) * dfftp%nr1x * dfftp%nr2x
         !
      END DO
+     !$OMP END DO
+     !$OMP END PARALLEL
      !
      DO imf = 0, nmf
         DO ig = ngv0, ngv1
@@ -156,6 +162,10 @@ SUBROUTINE apply_xc_spin()
   INTEGER :: ig, imf, igv(3), gindx_p(ngv), ipol
   COMPLEX(dp) :: vec(dfftp%nnr), drho(dfftp%nnr, nspin_mag)!, dvgga(dfftp%nnr, nspin_mag)
   !
+  !$OMP PARALLEL DEFAULT(NONE) &
+  !$OMP & SHARED(ngv,gindx,gindx_p,dfftp,dfftt) &
+  !$OMP & PRIVATE(ig,igv)
+  !$OMP DO
   DO ig = 1, ngv
      !
      igv(3) = (gindx(ig) - 1) / (dfftt%nr1*dfftt%nr2)
@@ -164,10 +174,12 @@ SUBROUTINE apply_xc_spin()
      WHERE(igv(1:3)*2 >= (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)) &
      &     igv(1:3) = igv(1:3) - (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)
      !
-     igv(1:3) = modulo(igv(1:3), (/dfftp%nr1, dfftp%nr2, dfftp%nr3/))
+     igv(1:3) = MODULO(igv(1:3), (/dfftp%nr1, dfftp%nr2, dfftp%nr3/))
      gindx_p(ig) = 1 + igv(1) + igv(2) * dfftp%nr1x + igv(3) * dfftp%nr1x * dfftp%nr2x
      !
   END DO
+  !$OMP END DO
+  !$OMP END PARALLEL
   !
   DO ipol = 2, 2*npol
      !

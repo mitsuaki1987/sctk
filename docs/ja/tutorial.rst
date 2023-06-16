@@ -131,7 +131,7 @@
 
 .. code-block:: bash
 
-   $ bash PATH/twingrid.x 4 4 3 >> twin.in
+   $ bash PATH/twingrid.x 4 4 4 >> twin.in
    $ mpiexec -np 32 PATH/pw.x -nk 32 -in twin.in > twin.out
         
 **重要なパラメーター**

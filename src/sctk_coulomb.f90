@@ -18,7 +18,7 @@ SUBROUTINE Kel_frequency()
   USE constants, ONLY : pi
   USE io_global, ONLY : stdout
   USE kinds, ONLY : dp
-  USE sctk_val, ONLY : gindx, gq2, nmf, nci, mf
+  USE sctk_val, ONLY : gindx, gq2, nmf, nci, mf, kplusq, nqbz
   USE exx, ONLY : dfftt
   !
   IMPLICIT NONE
@@ -28,7 +28,7 @@ SUBROUTINE Kel_frequency()
   !
   nmf = 2*nci - 3
   !
-  ALLOCATE(gq2(dfftt%nnr), gindx(dfftt%nnr), mf(nmf))
+  ALLOCATE(gq2(dfftt%nnr), gindx(dfftt%nnr), mf(nmf), kplusq(nqbz))
   !
   x0 = COS(pi / REAL(2 * nci, dp))
   !
@@ -81,7 +81,6 @@ SUBROUTINE prepare_q()
   !
   USE kinds, ONLY : DP
   USE cell_base, ONLY : bg, tpiba
-  USE mp_pools, ONLY : npool, inter_pool_comm
   USE mp_world, ONLY : world_comm, nproc
   USE constants, ONLY : pi
   USE io_global, ONLY : stdout
@@ -94,19 +93,15 @@ SUBROUTINE prepare_q()
   USE exx, ONLY : dfftt
   USE mp, ONLY : mp_circular_shift_left, mp_barrier
   !
-  USE sctk_val, ONLY : gindx, gq2, ngv, nqbz, nk_p, k0_p, nk_p_max, &
-  &                    wfc, wfcq, becwfc, becwfcq, wscr, &
-  &                    ngv0, ngv1, lsf, nmf, nbnd_p, nbnd_p_max
+  USE sctk_val, ONLY : gindx, gq2, ngv, nqbz, wfc, wfcq, becwfc, becwfcq, wscr, &
+  &                    ngv0, ngv1, lsf, nmf, nb, nb_max, kplusq
   ! 
   IMPLICIT NONE
   !
-  INTEGER :: ik_p, ik_g, jk_p, jk_g, ib, i1, i2, i3, ikv(3), jkv(3), g0(3), ir(3), ifft, ig, igv(3), &
-  &          my_k0_p, my_nk_p, jkindx(nqbz), ipe, iqv(3), ipol
+  INTEGER :: ik, ib, i1, i2, i3, ikv(3), jkv(3), g0(3), ir(3), ifft, ig, igv(3), &
+  &          iqv(3), ipol
   REAL(dp) :: gv(3), theta, gq20, RAM_V, RAM_rho
   COMPLEX(dp) :: phase(dfftt%nnr)
-  COMPLEX(DP),ALLOCATABLE :: wfctmp(:,:,:,:), becwfctmp(:,:,:,:)
-  !
-  ALLOCATE(wfctmp(dfftt%nnr,nbnd_p_max,npol,nk_p_max), becwfctmp(nkb,nbnd_p_max,npol,nk_p_max))
   !
   ! |G+q|^2
   !
@@ -145,7 +140,7 @@ SUBROUTINE prepare_q()
   ! RAM size estimation
   !
   RAM_V = REAL(ngv,dp)**2*REAL(nmf+1)
-  RAM_rho = REAL(ngv + (ngv1-ngv0),dp)*REAL(nbnd_p_max,dp)*REAL(nk_p_max,dp)*REAL(nproc,dp)
+  RAM_rho = REAL(dfftt%nnr + ngv + (ngv1-ngv0),dp)*REAL(nb_max,dp)*REAL(nqbz,dp)*REAL(nproc,dp)
   !
   IF(lsf>0) THEN
      IF(npol == 2) THEN
@@ -169,11 +164,11 @@ SUBROUTINE prepare_q()
   !
   iqv(1:3) = NINT(MATMUL(x_q(1:3,current_iq), at(1:3,1:3)) * REAL((/nq1, nq2, nq3/), dp) - 0.5_dp)
   !
-  DO ik_g = 1, nqbz
+  DO ik = 1, nqbz
      !
-     ikv(1) = (ik_g - 1) / (nq3*nq2)
-     ikv(2) = (ik_g - 1 - ikv(1)*nq2*nq3) / nq3
-     ikv(3) =  ik_g - 1 - ikv(1)*nq2*nq3 - ikv(2)*nq3
+     ikv(1) = (ik - 1) / (nq3*nq2)
+     ikv(2) = (ik - 1 - ikv(1)*nq2*nq3) / nq3
+     ikv(3) =  ik - 1 - ikv(1)*nq2*nq3 - ikv(2)*nq3
      !
      WHERE(ikv(1:3)*2 >= (/nq1,nq2,nq3/)) ikv(1:3) = ikv(1:3) - (/nq1,nq2,nq3/)
      !
@@ -186,12 +181,7 @@ SUBROUTINE prepare_q()
      g0(1:3) = (jkv(1:3) - ikv(1:3) - iqv(1:3)) / (/nq1,nq2,nq3/)
      !
      jkv(1:3) = MODULO(jkv(1:3), (/nq1,nq2,nq3/))
-     jk_g = 1 + jkv(3) + jkv(2)*nq3 + jkv(1)*nq2*nq3
-     jkindx(ik_g) = jk_g
-     !
-     IF(ik_g <= k0_p .OR. k0_p+nk_p < ik_g) CYCLE
-     !
-     ik_p = ik_g - k0_p
+     kplusq(ik) = 1 + jkv(3) + jkv(2)*nq3 + jkv(1)*nq2*nq3
      !
      ! phi_{k}(r) = exp(i k r) u_k(r)
      ! phi_{k+G0}(r) = exp(i (k+G0) r) u_{k+G0}(r) = phi_{k}(r)
@@ -219,63 +209,32 @@ SUBROUTINE prepare_q()
      END DO ! i3
      !
      DO ipol = 1, npol
-        DO ib = 1, nbnd_p
+        !
+        ! This phase should be applied as phi(2) * phase.
+        ! But phi(2) will be rearranged below.
+        ! Therefore, it is applied as
+        ! phi(1)^* phi(2) phase = (phi(1) phase^*)^* phi(2)
+        !
+        DO ib = 1, nb(1)
            !
-           ! This phase should be applied as phi(2) * phase.
-           ! But phi(2) will be rearranged below.
-           ! Therefore, it is applied as
-           ! phi(1)^* phi(2) phase = (phi(1) phase^*)^* phi(2)
+           wfcq( 1:dfftt%nnr, ib, ipol, ik, 1) = &
+           & wfc(1:dfftt%nnr, ib, ipol, ik, 1) * CONJG(phase(1:dfftt%nnr))
            !
-           wfcq( 1:dfftt%nnr,ib,ipol,ik_p, 1) = &
-           & wfc(1:dfftt%nnr,ib,ipol,ik_p, 1) * CONJG(phase(1:dfftt%nnr))
-           wfcq( 1:dfftt%nnr,ib,ipol,ik_p, 2) = &
-           & wfc(1:dfftt%nnr,ib,ipol,ik_p, 2)
-           !
-        END DO ! ipol
-     END DO ! ib
+        END DO ! ib
+        !
+     END DO ! ipol
+     !
+     wfcq( 1:dfftt%nnr, 1:nb(2), 1:npol,        ik,  2) = &
+     & wfc(1:dfftt%nnr, 1:nb(2), 1:npol, kplusq(ik), 2)
+     !
+     IF(okvan) THEN
+        becwfcq(   1:nkb, 1:nb(1), 1:npol,        ik,  1) &
+        & = becwfc(1:nkb, 1:nb(1), 1:npol,        ik,  1)
+        becwfcq(   1:nkb, 1:nb(2), 1:npol,        ik,  2) &
+        & = becwfc(1:nkb, 1:nb(2), 1:npol, kplusq(ik), 2)
+     END IF
      !
   END DO ! ik
-  !
-  IF(okvan) becwfcq(1:nkb,1:nbnd_p,1:npol,1:nk_p, 1:2) &
-  &        = becwfc(1:nkb,1:nbnd_p,1:npol,1:nk_p, 1:2)
-  !
-  wfctmp(1:dfftt%nnr,1:nbnd_p,1:npol,1:nk_p) = wfcq(1:dfftt%nnr,1:nbnd_p,1:npol,1:nk_p,2)
-  wfcq(  1:dfftt%nnr,1:nbnd_p,1:npol,1:nk_p,2) = CMPLX(0.0_dp, 0.0_dp, KIND=dp)
-  IF (okvan) THEN
-     becwfctmp(1:nkb,1:nbnd_p,1:npol,1:nk_p) = becwfcq(1:nkb,   1:nbnd_p,1:npol,1:nk_p,2)
-     becwfcq(  1:nkb,1:nbnd_p,1:npol,1:nk_p,2) = CMPLX(0.0_dp, 0.0_dp, KIND=dp)
-  END IF
-  !
-  my_k0_p = k0_p
-  my_nk_p = nk_p
-  !
-  DO ipe = 1, npool
-     !
-     CALL mp_circular_shift_left(nk_p, 1, inter_pool_comm )
-     CALL mp_circular_shift_left(k0_p,  1, inter_pool_comm )
-     CALL circular_shift_wrapper_c(    dfftt%nnr*npol*nbnd_p_max,nk_p_max,inter_pool_comm,wfctmp)
-     IF(okvan) CALL circular_shift_wrapper_c(nkb*npol*nbnd_p_max,nk_p_max,inter_pool_comm,becwfctmp)
-     !
-     DO ik_p = 1, my_nk_p
-        !
-        ik_g = ik_p + my_k0_p
-        jk_g = jkindx(ik_g)
-        IF(jk_g <= k0_p .OR. k0_p+nk_p < jk_g) CYCLE
-        !
-        jk_p = jk_g - k0_p
-        !
-        wfcq(    1:dfftt%nnr,1:nbnd_p,1:npol,ik_p,2) = &
-        & wfctmp(1:dfftt%nnr,1:nbnd_p,1:npol,jk_p)
-        IF (okvan) THEN
-           becwfcq(    1:nkb,1:nbnd_p,1:npol,ik_p,2) = &
-           & becwfctmp(1:nkb,1:nbnd_p,1:npol,jk_p)
-        END IF
-        !
-     END DO
-     !
-  END DO
-  !
-  DEALLOCATE(wfctmp, becwfctmp)
   !
 END SUBROUTINE prepare_q
 !>
@@ -284,31 +243,27 @@ END SUBROUTINE prepare_q
 !>
 SUBROUTINE fermi_factor(wght)
   !
-  USE wvfct, ONLY : nbnd
   USE kinds, ONLY : DP
-  USE ktetra, ONLY : ntetra, tetra
   USE cell_base, ONLY : at
   USE disp,  ONLY : nq1, nq2, nq3, x_q
   USE start_k, ONLY : nk1, nk2, nk3
   USE mp_world, ONLY : world_comm
-  USE mp_pools, ONLY : inter_pool_comm, npool
-  USE mp, ONLY : mp_sum, mp_barrier, mp_circular_shift_left
+  USE mp, ONLY : mp_sum, mp_barrier
   USE wvfct, ONLY : et, nbnd
   USE klist, ONLY : nks
   USE control_ph, ONLY : current_iq
   USE io_global, ONLY : stdout
   !
   USE sctk_tetra, ONLY : tetraweight, interpol_indx
-  USE sctk_val, ONLY : nbnd_p, nbnd_p_max, nk_p, nk_p_max, k0_p, nmf
+  USE sctk_val, ONLY : nb, nb_max, nqbz, nmf
   !
   IMPLICIT NONE
   !
-  COMPLEX(dp),INTENT(OUT) :: wght((nmf+1)*nbnd*nbnd_p_max,nk_p_max) !< integration weight
+  COMPLEX(dp),INTENT(OUT) :: wght(nmf+1, nqbz, nb_max, nb_max) !< integration weight
   !
-  INTEGER :: ntetra0, ntetra1, nks0, it, ik, ii, dik(3), ikv(3), ik_p, &
-  &          indx2(20, ntetra), indx3(20 * ntetra), kintp(8), ikq, iproc
+  INTEGER :: ik, ii, dik(3), ikv(3), kintp(8), ikq
   REAL(dp) :: kv(3), wintp(8), RAM_wghtd
-  COMPLEX(dp),ALLOCATABLE :: wghtd(:,:)
+  COMPLEX(dp),ALLOCATABLE :: wghtd(:,:,:,:)
   !
   CALL start_clock("fermi_factor")
   !
@@ -328,78 +283,36 @@ SUBROUTINE fermi_factor(wght)
      !
   END DO
   !
-  indx2(1:20,1:ntetra) = 0
-  indx3(1:20 * ntetra) = 0
-  !
-  CALL divide(inter_pool_comm, ntetra,ntetra0,ntetra1)
-  !
-  nks0 = 0
-  DO it = ntetra0, ntetra1
-     !
-     DO ii = 1, 20
-        !
-        DO ik = 1, nks0
-           !
-           IF(tetra(ii,it) == indx3(ik)) THEN
-              !
-              indx2(ii,it) = ik
-              GOTO 10
-              !
-           END IF
-           !
-        END DO
-        !
-        nks0 = nks0 + 1
-        indx2(ii,it) = nks0
-        indx3(nks0) = tetra(ii,it)
-        !
-10      CONTINUE
-        !
-     END DO
-     !
-  END DO
-  !
-  RAM_wghtd = REAL(nmf+1, dp)*REAL(nbnd, dp)*REAL(nbnd_p, dp)*REAL(nks0, dp)
+  RAM_wghtd = REAL(nmf+1, dp)*REAL(nb(1)*nb(2), dp)*REAL(nks, dp)
   CALL mp_sum(RAM_wghtd, world_comm)
   WRITE(stdout,'(9x,"Total RAM for Weight on dense grid : ",e10.2," GB")') RAM_wghtd*16.0e-9_dp
   CALL mp_barrier(world_comm)
-  ALLOCATE(wghtd((nmf+1)*nbnd*nbnd_p,nks0))
+  ALLOCATE(wghtd(nmf+1, nb(2), nb(1), nks))
   !
-  CALL tetraweight(nks0,indx2,wghtd)
+  CALL tetraweight(wghtd)
   !
   ! Interpolation of weight
   !
-  wght(1:(nmf+1)*nbnd*nbnd_p_max,1:nk_p_max) = 0.0_dp
+  wght(1:nmf+1, 1:nqbz, 1:nb_max, 1:nb_max) = 0.0_dp
   !
-  DO iproc = 1, npool
+  DO ik = 1, nks
      !
-     CALL mp_circular_shift_left(wght,1,inter_pool_comm)
-     CALL mp_circular_shift_left(nk_p,1,inter_pool_comm)
-     CALL mp_circular_shift_left(k0_p,1,inter_pool_comm)
+     ikv(1) = (ik - 1) / (nk3*nk2)
+     ikv(2) = (ik - 1 - ikv(1)*nk2*nk3) / nk3
+     ikv(3) =  ik - 1 - ikv(1)*nk2*nk3 - ikv(2)*nk3
      !
-     DO ik = 1, nks0
+     kv(1:3) = REAL(ikv(1:3), dp) / REAL((/nk1,nk2,nk3/), dp)
+     CALL interpol_indx((/nq1,nq2,nq3/), kv, kintp, wintp)
+     !
+     DO ii = 1, 8
         !
-        ikv(1) = (indx3(ik) - 1) / (nk3*nk2)
-        ikv(2) = (indx3(ik) - 1 - ikv(1)*nk2*nk3) / nk3
-        ikv(3) =  indx3(ik) - 1 - ikv(1)*nk2*nk3 - ikv(2)*nk3
+        wght(     1:nmf+1, kintp(ii), 1:nb(2), 1:nb(1)) &
+        & = wght( 1:nmf+1, kintp(ii), 1:nb(2), 1:nb(1)) &
+        & + wghtd(1:nmf+1,            1:nb(2), 1:nb(1), ik) * wintp(ii)
         !
-        kv(1:3) = REAL(ikv(1:3), dp) / REAL((/nk1,nk2,nk3/), dp)
-        CALL interpol_indx((/nq1,nq2,nq3/),kv,kintp,wintp)
-        !
-        DO ii = 1, 8
-           IF(k0_p < kintp(ii) .AND. kintp(ii) <= k0_p + nk_p) THEN
-              !
-              ik_p = kintp(ii) - k0_p
-              !
-              wght(     1:(nmf+1)*nbnd*nbnd_p, ik_p) &
-              & = wght( 1:(nmf+1)*nbnd*nbnd_p, ik_p) &
-              & + wghtd(1:(nmf+1)*nbnd*nbnd_p, ik) * wintp(ii)
-              !
-           END IF
-        END DO ! ii
-        !
-     END DO ! ik
-  END DO ! iproc
+     END DO ! ii
+     !
+  END DO ! ik
   !
   DEALLOCATE(wghtd)
   !
@@ -411,22 +324,23 @@ END SUBROUTINE fermi_factor
 !>
 SUBROUTINE make_scrn()
   !
-  USE wvfct, ONLY : nbnd
   USE kinds, ONLY : DP
-  USE mp_world, ONLY : nproc
   USE fft_scalar, ONLY : cfft3d
   USE noncollin_module, ONLY : npol
+  USE exx, ONLY : dfftt
   USE us_exx, ONLY : addusxx_r
   USE mp, ONLY : mp_circular_shift_left, mp_sum, mp_barrier
   USE mp_world, ONLY : world_comm
   USE io_global, ONLY : stdout
+  USE uspp, ONLY : nkb, okvan
   !
-  USE sctk_val, ONLY : ngv, nmf, nbnd_p_max, nbnd_p, nk_p, &
-  &                    wscr, lsf, ngv0, ngv1, nk_p_max
+  USE sctk_val, ONLY : ngv, nmf, nqbz, nb_max, wfcq, becwfcq, &
+  &                    wscr, lsf, ngv0, ngv1, nb
+  USE mp_kel, ONLY : nproc_band1, nproc_band2, band1_comm, band2_comm
   !
   IMPLICIT NONE
   !
-  INTEGER :: ik_p, ibnd_p, jbnd_g, ikib, imf, ipe, ipol, npol2, nwscr
+  INTEGER :: ik, ibnd, jbnd, imf, iproc1, iproc2, ipol, npol2, nwscr, jbnd_ik
   REAL(DP) :: RAM_wght
   !
   COMPLEX(dp),ALLOCATABLE :: rho1(:,:,:), rho2(:,:,:), wght(:,:,:,:)
@@ -450,59 +364,80 @@ SUBROUTINE make_scrn()
   !
   ! Calc f * (1 - f') / (e - e' + iw)
   !
-  RAM_wght = REAL(nmf+1,dp)*REAL(nbnd,DP)*REAL(nbnd_p_max)*REAL(nk_p_max)
+  RAM_wght = REAL(nmf+1,dp)*REAL(nb_max**2,DP)*REAL(nqbz)
   CALL mp_sum(RAM_wght, world_comm)
   WRITE(stdout,'(9x,"Total RAM for weight on coarse grid : ",e10.2," GB")') RAM_wght*16.0e-9_dp
   CALL mp_barrier(world_comm)
-  ALLOCATE(wght(0:nmf,nbnd,nbnd_p_max,nk_p_max))
+  ALLOCATE(wght(0:nmf,nqbz,nb_max,nb_max))
   CALL fermi_factor(wght)
   !
   ! Average the weights for degenerated states
   !
-  CALL average_wght_kel(nmf+1, wght(0:nmf,1:nbnd,1:nbnd_p_max,1:nk_p_max))
+  CALL average_wght_kel(nmf+1, wght(0:nmf,1:nqbz,1:nb_max,1:nb_max))
   !
   ! Calc. Chi
   !
-  ALLOCATE(rho1(ngv,nbnd_p_max*nk_p_max,npol2), rho2(ngv0:ngv1,nbnd_p_max*nk_p_max,npol2))
+  ALLOCATE(rho1(ngv,nqbz*nb_max,npol2), rho2(ngv0:ngv1,nqbz*nb_max,npol2))
   !
-  DO jbnd_g = 1, nbnd
+  DO iproc1 = 1, nproc_band1
      !
-     CALL calc_rhog(npol2, jbnd_g, rho1)
+     CALL mp_circular_shift_left(nb(1), 1, band1_comm )
+     CALL circular_shift_wrapper_c(dfftt%nnr, nb_max*npol*nqbz, band1_comm, &
+     &                             wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 1))
+     IF(okvan) CALL circular_shift_wrapper_c(nkb, nb_max*npol*nqbz, band1_comm, &
+     &                                       becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 1))
+     CALL circular_shift_wrapper_c(nmf+1, nqbz*nb_max*nb_max, band1_comm, &
+     &                             wght(0:nmf, 1:nqbz, 1:nb_max, 1:nb_max))
      !
-     DO ipe = 1, nproc
+     DO iproc2 = 1, nproc_band2
         !
-        CALL mp_circular_shift_left(nbnd_p, 1, world_comm )
-        CALL mp_circular_shift_left(nk_p, 1, world_comm )
-        CALL circular_shift_wrapper_c(ngv,nbnd_p_max*nk_p_max*npol2,world_comm,rho1)
-        CALL circular_shift_wrapper_c(nmf+1,nbnd_p_max*nbnd*nk_p_max,world_comm,wght)
+        CALL mp_circular_shift_left(nb(2), 1, band2_comm )
+        CALL circular_shift_wrapper_c(dfftt%nnr, nb_max*npol*nqbz, band2_comm, &
+        &                             wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2))
+        IF(okvan) CALL circular_shift_wrapper_c(nkb, nb_max*npol*nqbz, band2_comm, &
+        &                                       becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2))
+        CALL circular_shift_wrapper_c(nmf+1, nqbz*nb_max*nb_max, band2_comm, &
+        &                             wght(0:nmf, 1:nqbz, 1:nb_max, 1:nb_max))
         !
-        DO imf = 0, nmf
+        DO ibnd = 1, nb(1)
            !
-           ikib = 0
-           DO ik_p = 1, nk_p
-              DO ibnd_p = 1, nbnd_p
-                 ikib = ikib + 1
-                 rho2(ngv0:ngv1,ikib,1:npol2) = REAL(wght(imf,jbnd_g,ibnd_p,ik_p),dp) &
-                 &                            * CONJG(rho1(ngv0:ngv1,ikib,1:npol2))
+           CALL calc_rhog(npol2, ibnd, rho1)
+           !
+           DO imf = 0, nmf
+              !
+              !$OMP PARALLEL DEFAULT(NONE) &
+              !$OMP & SHARED(nb,nqbz,ngv0,ngv1,npol2,rho1,rho2,wght,imf,ibnd) &
+              !$OMP & PRIVATE(jbnd_ik,jbnd,ik)
+              !$OMP DO
+              DO jbnd_ik = 1, nb(2)*nqbz
+                 !
+                 jbnd = 1 + (jbnd_ik-1) / nqbz
+                 ik   = 1 +  jbnd_ik-1 -  nqbz*(jbnd-1)
+                 !
+                 rho2(ngv0:ngv1,jbnd_ik,1:npol2) = REAL(wght(imf,ik,jbnd,ibnd),dp) &
+                 &                        * CONJG(rho1(ngv0:ngv1,jbnd_ik,1:npol2))
+                 !
               END DO
-           END DO
+              !$OMP END DO
+              !$OMP END PARALLEL
+              !
+              CALL start_clock("zgemm(make_scrn)")
+              !
+              DO ipol = 1, npol2
+                 CALL zgemm("N", "T", ngv, ngv1-ngv0+1, nqbz*nb(2), &
+                 &  (1.0_dp, 0.0_dp), rho1(1:ngv,            1:nqbz*nb_max, ipol), ngv, &
+                 &                    rho2(       ngv0:ngv1, 1:nqbz*nb_max, ipol), ngv1-ngv0+1, &
+                 &  (1.0_dp, 0.0_dp), wscr(1:ngv, ngv0:ngv1,    imf, ipol), ngv  )
+                 !
+              END DO
+              !
+              CALL stop_clock("zgemm(make_scrn)")
+              !
+           END DO ! imf = 0, nmf
            !
-           CALL start_clock("zgemm(make_scrn)")
-           !
-           DO ipol = 1, npol2
-              CALL zgemm("N", "T", ngv, ngv1-ngv0+1, ikib, &
-              &  (1.0_dp, 0.0_dp), rho1(1:ngv,            1:ikib, ipol), ngv, &
-              &                    rho2(       ngv0:ngv1, 1:ikib, ipol), ngv1-ngv0+1, &
-              &  (1.0_dp, 0.0_dp), wscr(1:ngv, ngv0:ngv1,    imf, ipol), ngv  )
-           END DO
-           !
-           CALL stop_clock("zgemm(make_scrn)")
-           !
-        END DO ! imf = 0, nmf
-        !
-     END DO ! ipe = 1, nproc
-     !
-  END DO
+        END DO ! ibnd = 1, nb(1)
+     END DO ! iproc2 = 1, nproc_band2
+  END DO ! iproc1 = 1, nproc_band1
   !
   IF(nwscr == 2) &
   &  wscr(1:ngv, ngv0:ngv1, 0:nmf, 2) = wscr(1:ngv, ngv0:ngv1, 0:nmf, 1)
@@ -517,23 +452,25 @@ END SUBROUTINE make_scrn
 !>
 SUBROUTINE make_Kel()
   !
-  USE wvfct, ONLY : nbnd
   USE kinds, ONLY : DP
   USE cell_base, ONLY : omega
-  USE mp_world, ONLY : world_comm, nproc
+  USE mp_world, ONLY : world_comm
   USE mp, ONLY : mp_sum, mp_circular_shift_left, mp_barrier
   USE fft_scalar, ONLY : cfft3d
   USE noncollin_module, ONLY : npol
   USE us_exx, ONLY : addusxx_r
+  USE exx, ONLY : dfftt
   USE io_global, ONLY : stdout
+  USE uspp, ONLY : nkb, okvan
   !
-  USE sctk_val, ONLY : gq2, ngv, nmf, nbnd_p, nbnd_p_max, &
-  &                    ngv0, ngv1, Kel, Wscr, lsf, nk_p, nk_p_max
+  USE sctk_val, ONLY : gq2, ngv, nmf, nb, nb_max, wfcq, becwfcq, &
+  &                    ngv0, ngv1, Kel, Wscr, lsf, nqbz
+  USE mp_kel, ONLY : nproc_band1, nproc_band2, band1_comm, band2_comm
   !
   IMPLICIT NONE
   !
-  INTEGER :: ik_p, ibnd_p, jbnd_g, imf, ipe, ipol, jpol, npol2, nwscr, &
-  &          ikib, nKel
+  INTEGER :: ik, ibnd, jbnd, imf, iproc1, iproc2, ipol, jpol, npol2, &
+  &          nwscr, nKel, jbnd_ik
   REAL(dp) :: RAM_Kel
   !
   COMPLEX(dp),ALLOCATABLE :: rho1(:,:,:), rho2(:,:), Kel0(:,:), Kel_temp(:,:,:,:)
@@ -556,106 +493,132 @@ SUBROUTINE make_Kel()
      nKel = 1
   END IF
   !
-  RAM_Kel = REAL(nmf+2,dp)*REAL(nbnd,DP)*REAL(nbnd_p_max)*REAL(nk_p_max)*REAL(nKel,DP)
+  RAM_Kel = REAL(nmf+2,dp)*REAL(nb_max**2,DP)*REAL(nqbz)*REAL(nKel,DP)
   CALL mp_sum(RAM_Kel, world_comm)
   WRITE(stdout,'(9x,"Total RAM for Kel : ",e10.2," GB")') RAM_Kel*8.0e-9_dp
   CALL mp_barrier(world_comm)
-  ALLOCATE(Kel(0:nmf+1,nbnd,nbnd_p_max,nk_p_max,nKel))
-  Kel(0:nmf + 1,1:nbnd,1:nbnd_p_max,1:nk_p_max,1:nKel) = 0.0_dp
+  ALLOCATE(Kel(0:nmf+1,nqbz,nb_max,nb_max,nKel))
+  Kel(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max, 1:nKel) = 0.0_dp
   !
-  ALLOCATE(rho1(ngv,nbnd_p_max*nk_p_max,npol2), rho2(nbnd_p_max*nk_p_max,ngv0:ngv1), &
-  &        Kel0(nbnd_p_max*nk_p_max,nwscr))
+  ALLOCATE(rho1(ngv,nqbz*nb_max,npol2), rho2(ngv0:ngv1, nqbz*nb_max), &
+  &        Kel0(nqbz*nb_max,nwscr))
   !
-  DO jbnd_g = 1, nbnd
+  DO iproc1 = 1, nproc_band1
      !
-     CALL calc_rhog(npol2, jbnd_g, rho1)
+     CALL mp_circular_shift_left(nb(1), 1, band1_comm )
+     CALL circular_shift_wrapper_c(dfftt%nnr, nb_max*npol*nqbz, band1_comm, &
+     &                             wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 1))
+     IF(okvan) CALL circular_shift_wrapper_c(nkb, nb_max*npol*nqbz, band1_comm, &
+     &                                       becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 1))
+     CALL circular_shift_wrapper_r(nmf+2, nqbz*nb_max*nb_max*nKel, band1_comm, &
+     &                             Kel(0:nmf+1, 1:nqbz, 1:nb_max, 1:nb_max, 1:nKel))
      !
-     ! Infinite frequency -> Bare Coulomb
-     !
-     ikib = 0
-     DO ik_p = 1, nk_p
-        DO ibnd_p = 1, nbnd_p
-           ikib = ikib + 1
-           Kel(nmf + 1,jbnd_g,ibnd_p,ik_p,1) = SUM(REAL(rho1(1:ngv,ikib,1) &
-           &                                    * CONJG(rho1(1:ngv,ikib,1)), dp) &
-           &                                    /        gq2(1:ngv))  / omega
-        END DO ! ibnd_p
-     END DO ! ik_p
-     !
-     DO ipe = 1, nproc
+     DO iproc2 = 1, nproc_band2
         !
-        CALL mp_circular_shift_left(nk_p, 1, world_comm )
-        CALL mp_circular_shift_left(nbnd_p,  1, world_comm )
-        CALL circular_shift_wrapper_c(ngv,nk_p_max*nbnd_p_max*npol2,world_comm,rho1)
-        IF(lsf>0) THEN
-           CALL circular_shift_wrapper_r(nmf + 2,nbnd*nbnd_p_max*nk_p_max*2,world_comm,Kel)
-        ELSE
-           CALL circular_shift_wrapper_r(nmf + 2,nbnd*nbnd_p_max*nk_p_max,world_comm,Kel)
-        END IF
+        CALL mp_circular_shift_left(nb(2), 1, band2_comm )
+        CALL circular_shift_wrapper_c(dfftt%nnr, nb_max*npol*nqbz, band2_comm, &
+        &                             wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2))
+        IF(okvan) CALL circular_shift_wrapper_c(nkb, nb_max*npol*nqbz, band2_comm, &
+        &                                       becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2))
+        CALL circular_shift_wrapper_r(nmf+2, nqbz*nb_max*nb_max*nKel, band2_comm, &
+        &                             Kel(0:nmf+1, 1:nqbz, 1:nb_max, 1:nb_max, 1:nKel))
         !
-        DO imf = 0, nmf
+        DO ibnd = 1, nb(1)
            !
-           DO ipol = 1, nwscr
-              !
-              IF(nwscr == 2) THEN
-                 jpol = 1
-              ELSE
-                 jpol = ipol
-              END IF
-              !
-              CALL start_clock("zgemm(make_kel)")
-              !
-              CALL zgemm("T", "N", nbnd_p*nk_p, ngv1-ngv0+1, ngv, &
-              &          (1.0_dp, 0.0_dp), rho1(1:ngv,1:nbnd_p*nk_p,jpol), ngv, &
-              &                            Wscr(1:ngv,                      ngv0:ngv1, imf,ipol),ngv, &
-              &          (0.0_dp, 0.0_dp), rho2(      1:nbnd_p_max*nk_p_max,ngv0:ngv1), nbnd_p_max*nk_p_max)
-              !
-              CALL stop_clock("zgemm(make_kel)")
-              !
-              DO ikib = 1, nbnd_p*nk_p
-                 Kel0(ikib,ipol) = zdotc(ngv1-ngv0+1, &
-                 &                       rho2(ikib,ngv0), nbnd_p_max*nk_p_max, &
-                 &                       rho1(ngv0:ngv1,ikib,jpol), 1)
-              END DO !ikib
-              !
-           END DO ! ipol = 1, nwscr
+           CALL calc_rhog(npol2, ibnd, rho1)
            !
-           ikib = 0
-           DO ik_p = 1, nk_p
-              DO ibnd_p = 1, nbnd_p
-                 ikib = ikib + 1
-                 !
-                 Kel(imf,   jbnd_g,ibnd_p,ik_p,1) = Kel(imf,jbnd_g,ibnd_p,ik_p,1) + REAL(Kel0(ikib,1), dp) / omega
+           ! Infinite frequency -> Bare Coulomb
+           !
+           !$OMP PARALLEL DEFAULT(NONE) &
+           !$OMP & SHARED(nb,nqbz,ngv,rho1,gq2,omega,nmf,Kel,ibnd) &
+           !$OMP & PRIVATE(jbnd_ik,jbnd,ik)
+           !$OMP DO
+           DO jbnd_ik = 1, nb(2)*nqbz
+              !
+              jbnd = 1 + (jbnd_ik-1) / nqbz
+              ik   = 1 +  jbnd_ik-1 -  nqbz*(jbnd-1)
+              !
+              Kel(nmf + 1,ik,jbnd,ibnd,1) = SUM(REAL(rho1(1:ngv,jbnd_ik,1) &
+              &                              * CONJG(rho1(1:ngv,jbnd_ik,1)), dp) &
+              &                              /        gq2(1:ngv))  / omega
+              !
+           END DO ! jbnd_ik = 1, nb(2)*nqbz
+           !$OMP END DO
+           !$OMP END PARALLEL
+           !
+           DO imf = 0, nmf
+              !
+              DO ipol = 1, nwscr
                  !
                  IF(nwscr == 2) THEN
-                    Kel(imf,jbnd_g,ibnd_p,ik_p,2) = Kel(imf,jbnd_g,ibnd_p,ik_p,2) + REAL(Kel0(ikib,2), dp) / omega
-                 ELSE IF(nwscr == 4) THEN
-                    Kel(imf,jbnd_g,ibnd_p,ik_p,2) = Kel(imf,jbnd_g,ibnd_p,ik_p,2) + REAL(SUM(Kel0(ikib,2:4)), dp) / omega
+                    jpol = 1
+                 ELSE
+                    jpol = ipol
                  END IF
                  !
-              END DO ! ibnd_p
-           END DO ! ik_p
-           !
-        END DO ! imf = 0, nmf
-        !
-     END DO ! ipe = 1, nproc
-     !
-  END DO ! jbnd
+                 CALL start_clock("zgemm(make_kel)")
+                 !
+                 CALL zgemm("T", "N", ngv1-ngv0+1, nqbz*nb(2), ngv, &
+                 &          (1.0_dp, 0.0_dp), Wscr(1:ngv, ngv0:ngv1, imf,ipol), ngv, &
+                 &                            rho1(1:ngv,            1:nqbz*nb_max, jpol), ngv, &
+                 &          (0.0_dp, 0.0_dp), rho2(       ngv0:ngv1, 1:nqbz*nb_max), ngv1 - ngv0 + 1)
+                 !
+                 CALL stop_clock("zgemm(make_kel)")
+                 !
+                 !$OMP PARALLEL DEFAULT(NONE) &
+                 !$OMP & SHARED(nb,nqbz,nb_max,ngv0,ngv1,rho1,rho2,Kel0,ipol,jpol) &
+                 !$OMP & PRIVATE(jbnd_ik)
+                 !$OMP DO
+                 DO jbnd_ik = 1, nb(2)*nqbz
+                    Kel0(jbnd_ik, ipol) = DOT_PRODUCT(rho1(ngv0:ngv1, jbnd_ik, jpol), &
+                    &                                 rho2(ngv0:ngv1, jbnd_ik      )  )
+                    !
+                 END DO ! jbnd_ik = 1, nb(2)*nqbz
+                 !$OMP END DO
+                 !$OMP END PARALLEL
+                 !
+              END DO ! ipol = 1, nwscr
+              !
+              !$OMP PARALLEL DEFAULT(NONE) &
+              !$OMP & SHARED(nb,nqbz,omega,nmf,Kel,ibnd,nwscr,Kel0,imf) &
+              !$OMP & PRIVATE(jbnd_ik,jbnd,ik)
+              !$OMP DO
+              DO jbnd_ik = 1, nb(2)*nqbz
+                 !
+                 jbnd = 1 + (jbnd_ik-1) / nqbz
+                 ik   = 1 +  jbnd_ik-1 -  nqbz*(jbnd-1)
+                 !
+                 Kel(imf,ik,   jbnd,ibnd,1) = Kel(imf,ik,jbnd,ibnd,1) + REAL(Kel0(jbnd_ik,1), dp) / omega
+                 !
+                 IF(nwscr == 2) THEN
+                    Kel(imf,ik,jbnd,ibnd,2) = Kel(imf,ik,jbnd,ibnd,2) + REAL(Kel0(jbnd_ik,2), dp) / omega
+                 ELSE IF(nwscr == 4) THEN
+                    Kel(imf,ik,jbnd,ibnd,2) = Kel(imf,ik,jbnd,ibnd,2) + REAL(SUM(Kel0(jbnd_ik,2:4)), dp) / omega
+                 END IF
+                 !
+              END DO ! jbnd_ik = 1, nb(2)*nqbz
+              !$OMP END DO
+              !$OMP END PARALLEL
+              !
+           END DO ! imf = 0, nmf
+        END DO
+     END DO
+  END DO
   !
   DEALLOCATE(rho1, rho2, Kel0)
   !
   ! Average the weights for degenerated states
   !
-  ALLOCATE(Kel_temp(0:nmf + 1,nbnd,nbnd_p_max,nk_p_max))
+  ALLOCATE(Kel_temp(0:nmf + 1,nqbz,nb_max,nb_max))
   IF(lsf>0) THEN
-     Kel_temp(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p) = CMPLX(Kel(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p,1), &
-     &                                                  Kel(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p,2), DP)
+     Kel_temp(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max) = CMPLX(Kel(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max, 1), &
+     &                                                       Kel(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max, 2), DP)
   ELSE
-     Kel_temp(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p) = CMPLX(Kel(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p,1), 0.0_dp, DP)
+     Kel_temp(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max) = CMPLX(Kel(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max, 1), 0.0_dp, DP)
   END IF
-  CALL average_wght_kel(nmf+2, Kel_temp(0:nmf+1,1:nbnd,1:nbnd_p_max,1:nk_p_max))
-  Kel(          0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p,1) = REAL( Kel_temp(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p), DP)
-  IF(lsf>0) Kel(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p,2) = AIMAG(Kel_temp(0:nmf + 1,1:nbnd,1:nbnd_p,1:nk_p))
+  CALL average_wght_kel(nmf+2, Kel_temp(0:nmf+1,1:nqbz,1:nb_max,1:nb_max))
+  Kel(          0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max, 1) = REAL( Kel_temp(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max), DP)
+  IF(lsf>0) Kel(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max, 2) = AIMAG(Kel_temp(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max))
   !
   DEALLOCATE(Kel_temp)
   !
@@ -665,92 +628,66 @@ END SUBROUTINE make_Kel
 !>
 !>
 !>
-SUBROUTINE average_wght_kel(nmf0,wght)
+SUBROUTINE average_wght_kel(nmf0, wght)
   !
   USE kinds, ONLY : dp
   USE wvfct, ONLY : nbnd
-  USE mp_pools, ONLY : intra_pool_comm, nproc_pool
-  USE mp, ONLY : mp_circular_shift_left
-  USE mp, ONLY : mp_barrier !debug
-  USE mp_world, ONLY : world_comm ! debug
+  USE mp, ONLY : mp_sum
+  USE mp_world, ONLY : world_comm
   !
-  USE sctk_val, ONLY : nbnd_p, nbnd_p_max, bnd0_p, nk_p, nk_p_max, k0_p, degen, ndegen
+  USE sctk_val, ONLY : degen, ndegen, nqbz, nb, bdsp, nb_max, kplusq
   !
   IMPLICIT NONE
   !
   INTEGER,INTENT(IN) :: nmf0
-  COMPLEX(DP),INTENT(INOUT) :: wght(nmf0,nbnd,nbnd_p_max,nk_p_max)
+  COMPLEX(DP),INTENT(INOUT) :: wght(nmf0,nqbz, nb_max, nb_max)
   !
-  INTEGER :: ik_p, ik_g, ibnd, my_nbnd_p, my_bnd0_p, iproc, idegen
-  COMPLEX(DP) :: wght_ave(nmf0,nbnd_p_max)
-  COMPLEX(DP),ALLOCATABLE :: wght_tmp(:,:,:,:)
+  INTEGER :: ik, jk, ibnd, idegen
+  COMPLEX(DP) :: wght_ave(nmf0, nbnd)
+  COMPLEX(DP),ALLOCATABLE :: wght_tmp(:,:,:)
   !
-  ALLOCATE(wght_tmp(nmf0,nbnd_p_max,nbnd,nk_p_max))
+  ALLOCATE(wght_tmp(nmf0,nbnd,nbnd))
   !
-  DO ik_p = 1, nk_p
+  DO ik = 1, nqbz
      !
-     ik_g = ik_p + k0_p
+     wght_tmp(1:nmf0, 1:nbnd, 1:nbnd) = 0.0_dp
+     wght_tmp(1:nmf0,    bdsp(2)+1:bdsp(2)+nb(2), bdsp(1)+1:bdsp(1)+nb(1)) &
+     & = wght(1:nmf0, ik,        1:        nb(2),         1:        nb(1))
+     CALL mp_sum(wght_tmp, world_comm)
      !
-     DO idegen = 1, ndegen(ik_g,2)
-        wght_ave(1:nmf0,1:nbnd_p) = SUM(wght(1:nmf0,degen(1,idegen,ik_g,2): &
-        &                                           degen(2,idegen,ik_g,2),1:nbnd_p,ik_p), 2) &
-        &                      / REAL(degen(2,idegen,ik_g,2) - degen(1,idegen,ik_g,2) + 1, DP)
-        DO ibnd = degen(1,idegen,ik_g,2), degen(2,idegen,ik_g,2)
-           wght(1:nmf0,ibnd,1:nbnd_p,ik_p)  = wght_ave(1:nmf0,1:nbnd_p)
+     DO idegen = 1, ndegen(ik, 1)
+        wght_ave(1:nmf0, 1:nbnd) = SUM(wght_tmp(1:nmf0, 1:nbnd, degen(1, idegen, ik, 1): &
+        &                                                       degen(2, idegen, ik, 1)), 3) &
+        &                      / REAL(degen(2, idegen, ik,1) - degen(1,idegen,ik,1) + 1, DP)
+        !
+        DO ibnd = degen(1,idegen, ik, 1), degen(2, idegen, ik, 1)
+           wght_tmp(1:nmf0, 1:nbnd, ibnd)  = wght_ave(1:nmf0, 1:nbnd)
         END DO
      END DO
      !
-  END DO
-  !
-  wght_tmp(1:nmf0,1:nbnd_p_max,1:nbnd,1:nk_p_max) = 0.0_dp
-  my_nbnd_p = nbnd_p
-  my_bnd0_p = bnd0_p
-  DO iproc = 1, nproc_pool
-     !
-     CALL mp_circular_shift_left(bnd0_p, 1, intra_pool_comm )
-     CALL mp_circular_shift_left(nbnd_p, 1, intra_pool_comm )
-     CALL circular_shift_wrapper_c(nmf0,nbnd*nbnd_p_max*nk_p_max,intra_pool_comm,wght)
-     !
-     wght_tmp(1:nmf0,          1:          my_nbnd_p,bnd0_p+1:bnd0_p+nbnd_p,1:nk_p_max) &
-     & = wght(1:nmf0,my_bnd0_p+1:my_bnd0_p+my_nbnd_p,       1:       nbnd_p,1:nk_p_max)
-     !
-  END DO
-  !
-  DO ik_p = 1, nk_p
-     !
-     ik_g = ik_p + k0_p
-     !
-     DO idegen = 1, ndegen(ik_g,1)
-        wght_ave(1:nmf0,1:my_nbnd_p) = SUM(wght_tmp(1:nmf0,1:my_nbnd_p,degen(1,idegen,ik_g,1): &
-        &                                                            degen(2,idegen,ik_g,1),ik_p), 3) &
-        &                      / REAL(degen(2,idegen,ik_g,1) - degen(1,idegen,ik_g,1) + 1, DP)
-        DO ibnd = degen(1,idegen,ik_g,1), degen(2,idegen,ik_g,1)
-           wght_tmp(1:nmf0,1:my_nbnd_p,ibnd,ik_p)  = wght_ave(1:nmf0,1:my_nbnd_p)
+     jk = kplusq(ik)
+     DO idegen = 1, ndegen(jk, 2)
+        wght_ave(1:nmf0,1 :nbnd) = SUM(wght_tmp(1:nmf0, degen(1, idegen, jk, 2): &
+        &                                               degen(2, idegen, jk, 2), 1:nbnd), 2) &
+        &                      / REAL(degen(2, idegen, jk, 2) - degen(1, idegen, jk, 2) + 1, DP)
+        !
+        DO ibnd = degen(1, idegen, jk, 2), degen(2, idegen, jk, 2)
+           wght_tmp(1:nmf0, ibnd, 1:nbnd)  = wght_ave(1:nmf0, 1:nbnd)
         END DO
      END DO
      !
-  END DO
-  !
-  DO iproc = 1, nproc_pool
-     !
-     CALL mp_circular_shift_left(bnd0_p, 1, intra_pool_comm )
-     CALL mp_circular_shift_left(nbnd_p, 1, intra_pool_comm )
-     CALL circular_shift_wrapper_c(nmf0,nbnd*nbnd_p_max*nk_p_max,intra_pool_comm,wght)
-     !
-     wght(        1:nmf0,my_bnd0_p+1:my_bnd0_p+my_nbnd_p,       1:       nbnd_p,1:nk_p_max) &
-     & = wght_tmp(1:nmf0,          1:          my_nbnd_p,bnd0_p+1:bnd0_p+nbnd_p,1:nk_p_max)
+     wght(        1:nmf0, ik,     1:        nb(2),         1:        nb(1)) &
+     & = wght_tmp(1:nmf0, bdsp(2)+1:bdsp(2)+nb(2), bdsp(1)+1:bdsp(1)+nb(1))
      !
   END DO
   !
   DEALLOCATE(wght_tmp)
   !
-  CALL mp_barrier(world_comm)
-  !
 END SUBROUTINE average_wght_kel
 !>
 !>
 !>
-SUBROUTINE calc_rhog(npol2, jbnd_g, rho1)
+SUBROUTINE calc_rhog(npol2, ibnd, rho1)
   !
   USE kinds, ONLY : DP
   USE cell_base, ONLY : omega
@@ -759,114 +696,114 @@ SUBROUTINE calc_rhog(npol2, jbnd_g, rho1)
   USE exx, ONLY : dfftt
   USE us_exx, ONLY : addusxx_r
   USE uspp, ONLY : nkb, okvan
-  USE mp_pools, ONLY : intra_pool_comm
-  USE mp, ONLY : mp_max, mp_circular_shift_left, mp_sum
   !
-  USE sctk_val, ONLY : gindx, ngv, wfcq, becwfcq, nk_p, nk_p_max, nbnd_p, nbnd_p_max, bnd0_p
+  USE sctk_val, ONLY : gindx, ngv, wfcq, becwfcq, nqbz, nb_max, nb
   !
   IMPLICIT none
   !
-  INTEGER,INTENT(IN) :: npol2, jbnd_g
-  COMPLEX(DP),INTENT(OUT) :: rho1(ngv,nbnd_p_max*nk_p_max,npol2)
+  INTEGER,INTENT(IN) :: npol2, ibnd
+  COMPLEX(DP),INTENT(OUT) :: rho1(ngv, nqbz*nb_max, npol2)
   !
-  INTEGER:: ibnd_p, jbnd_p, ik_p, ikib, ipol
-  COMPLEX(dp) :: rho0(dfftt%nnr,4), rho4(dfftt%nnr)
-  COMPLEX(dp),ALLOCATABLE :: wfc2(:,:,:), becwfc2(:,:,:)
+  INTEGER:: jbnd, ik, ipol, jbnd_ik
+  COMPLEX(dp),ALLOCATABLE :: rho0(:,:,:), rho4(:)
   !
-  ALLOCATE(wfc2(dfftt%nnr,npol,nk_p_max))
-  IF(okvan) ALLOCATE(becwfc2(nkb,npol,nk_p_max))
+  ALLOCATE(rho0(dfftt%nnr,nqbz*nb_max, npol2))
   !
-  IF(bnd0_p < jbnd_g .AND. jbnd_g <= bnd0_p+nbnd_p) THEN
-     jbnd_p = jbnd_g - bnd0_p
-     wfc2(1:dfftt%nnr,1:npol,1:nk_p_max) = wfcq(1:dfftt%nnr,jbnd_p,1:npol,1:nk_p_max,2)
-     IF(okvan) becwfc2(1:nkb,1:npol,1:nk_p_max) = becwfcq(1:nkb,jbnd_p,1:npol,1:nk_p_max,2)
-  ELSE
-     wfc2(1:dfftt%nnr,1:npol,1:nk_p_max) = 0.0_dp
-     IF(okvan) becwfc2(1:nkb,1:npol,1:nk_p_max) = 0.0_dp
-  END IF
-  CALL mp_sum(wfc2, intra_pool_comm)
-  IF(okvan) CALL mp_sum(becwfc2, intra_pool_comm)
+  CALL start_clock("wfc*wfc=rho")
   !
-  ikib = 0
-  DO ik_p = 1, nk_p
+  !$OMP PARALLEL DEFAULT(NONE) &
+  !$OMP & SHARED(nb,nqbz,npol2,dfftt,npol,wfcq,becwfcq,omega,ibnd,okvan,rho0,nkb) &
+  !$OMP & PRIVATE(jbnd_ik, jbnd, ik, ipol, rho4)
+  !
+  ALLOCATE(rho4(dfftt%nnr))
+  !
+  !$OMP DO
+  DO jbnd_ik = 1, nb(2)*nqbz
      !
-     DO ibnd_p = 1, nbnd_p
+     jbnd = 1 + (jbnd_ik-1) / nqbz
+     ik   = 1 +  jbnd_ik-1 -  nqbz*(jbnd-1)
+     !
+     ! debug
+     !rho4(1:dfftt%nnr) = conjg(wfcq(1:dfftt%nnr,ibnd,1,ik, 1)) * wfcq(1:dfftt%nnr,ibnd,1,ik, 1)
+     !write(*,'(a,2f15.8)',advance="no") "debug1", sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
+     !IF(okvan) then
+     !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) / omega
+     !   CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd,1,ik,1), &
+     !   &                                 becwfcq(1:nkb,ibnd,1,ik,1))
+     !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) * omega
+     !   write(*,'(2f15.8)',advance="no") sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
+     !END IF
+     !rho4(1:dfftt%nnr) = conjg(wfcq(1:dfftt%nnr,ibnd,1,ik, 2)) * wfcq(1:dfftt%nnr,ibnd,1,ik, 2)
+     !write(*,'(a,2f15.8)',advance="no") "debug1", sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
+     !IF(okvan) then
+     !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) / omega
+     !   CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd,1,ik,2), &
+     !   &                                 becwfcq(1:nkb,ibnd,1,ik,2))
+     !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) * omega
+     !   write(*,'(2f15.8)') sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
+     !END IF
+     ! end debug
+     !
+     rho0(1:dfftt%nnr, jbnd_ik, 1:npol2) = CMPLX(0.0_dp, 0.0_dp, kind=dp)
+     DO ipol = 1, npol
         !
-        ikib = ikib + 1
+        rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd, ipol, ik, 1)) &
+        &                       * wfcq(1:dfftt%nnr, jbnd, ipol, ik, 2) / omega
+        IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd, ipol, ik, 1), &
+        &                                           becwfcq(1:nkb, jbnd, ipol, ik, 2))
+        rho0(1:dfftt%nnr, jbnd_ik,1) = rho0(1:dfftt%nnr, jbnd_ik,1) + rho4(1:dfftt%nnr) * omega
         !
-        ! debug
-        !rho4(1:dfftt%nnr) = conjg(wfcq(1:dfftt%nnr,ibnd_p,1,ik_p, 1)) * wfcq(1:dfftt%nnr,ibnd_p,1,ik_p, 1)
-        !write(*,'(a,2f15.8)',advance="no") "debug1", sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
-        !IF(okvan) then
-        !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) / omega
-        !   CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd_p,1,ik_p,1), &
-        !   &                                 becwfcq(1:nkb,ibnd_p,1,ik_p,1))
-        !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) * omega
-        !   write(*,'(2f15.8)',advance="no") sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
-        !END IF
-        !rho4(1:dfftt%nnr) = conjg(wfcq(1:dfftt%nnr,ibnd_p,1,ik_p, 2)) * wfcq(1:dfftt%nnr,ibnd_p,1,ik_p, 2)
-        !write(*,'(a,2f15.8)',advance="no") "debug1", sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
-        !IF(okvan) then
-        !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) / omega
-        !   CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd_p,1,ik_p,2), &
-        !   &                                 becwfcq(1:nkb,ibnd_p,1,ik_p,2))
-        !   rho4(1:dfftt%nnr) = rho4(1:dfftt%nnr) * omega
-        !   write(*,'(2f15.8)') sum(rho4(1:dfftt%nnr)) / dble(dfftt%nnr)
-        !END IF
-        ! end debug
-        !
-        CALL start_clock("wfc*wfc=rho")
-        !
-        rho0(1:dfftt%nnr, 1:npol2) = CMPLX(0.0_dp, 0.0_dp, kind=dp)
-        DO ipol = 1, npol
+        IF(npol2 == 4) THEN
            !
-           rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr,ibnd_p,ipol,ik_p,1)) &
-           &                       * wfc2(1:dfftt%nnr,       ipol,ik_p) / omega
-           IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd_p,ipol,ik_p,1), &
-           &                                           becwfc2(1:nkb,       ipol,ik_p))
-           rho0(1:dfftt%nnr,1) = rho0(1:dfftt%nnr,1) + rho4(1:dfftt%nnr) * omega
+           rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd,   ipol, ik, 1)) &
+           &                       * wfcq(1:dfftt%nnr, jbnd, 3-ipol, ik, 2) / omega
+           IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd,   ipol, ik, 1), &
+           &                                           becwfcq(1:nkb, jbnd, 3-ipol, ik, 2))
+           rho0(1:dfftt%nnr, jbnd_ik,2) = rho0(1:dfftt%nnr, jbnd_ik,2) + rho4(1:dfftt%nnr) * omega
            !
-           IF(npol2 == 4) THEN
-              !
-              rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr,ibnd_p,  ipol,ik_p,1)) &
-              &                       * wfc2(1:dfftt%nnr,       3-ipol,ik_p) / omega
-              IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd_p,  ipol,ik_p,1), &
-              &                                           becwfc2(1:nkb,       3-ipol,ik_p))
-              rho0(1:dfftt%nnr,2) = rho0(1:dfftt%nnr,2) + rho4(1:dfftt%nnr) * omega
-              !
-              rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr,ibnd_p,  ipol,ik_p,1)) &
-              &                       * wfc2(1:dfftt%nnr,       3-ipol,ik_p) / omega
-              IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd_p,  ipol,ik_p,1), &
-              &                                           becwfc2(1:nkb,       3-ipol,ik_p))
-              rho0(1:dfftt%nnr,3) = rho0(1:dfftt%nnr,3) &
-              &                   + rho4(1:dfftt%nnr) * REAL(3-2*ipol, dp) * omega
-              !
-              rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr,ibnd_p,ipol,ik_p,1)) &
-              &                       * wfc2(1:dfftt%nnr,       ipol,ik_p) / omega
-              IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb,ibnd_p,ipol,ik_p,1), &
-              &                                           becwfc2(1:nkb,       ipol,ik_p))
-              rho0(1:dfftt%nnr,4) = rho0(1:dfftt%nnr,4) &
-              &                   + rho4(1:dfftt%nnr) * REAL(3-2*ipol, dp) * omega
-              !
-           END IF
+           rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd,   ipol, ik, 1)) &
+           &                       * wfcq(1:dfftt%nnr, jbnd, 3-ipol, ik, 2) / omega
+           IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd,   ipol, ik, 1), &
+           &                                           becwfcq(1:nkb, jbnd, 3-ipol, ik, 2))
+           rho0(1:dfftt%nnr, jbnd_ik,3) = rho0(1:dfftt%nnr, jbnd_ik,3) &
+           &                   + rho4(1:dfftt%nnr) * REAL(3-2*ipol, dp) * omega
            !
-        END DO ! ipol
-        !
-        CALL stop_clock("wfc*wfc=rho")
-        !
-        CALL start_clock("fft[rho]")
-        !
-        DO ipol = 1, npol2
-           CALL cfft3d (rho0(1:dfftt%nnr,ipol), &
-           & dfftt%nr1, dfftt%nr2, dfftt%nr3, dfftt%nr1, dfftt%nr2, dfftt%nr3, 1, -1)
+           rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd, ipol, ik, 1)) &
+           &                       * wfcq(1:dfftt%nnr, jbnd, ipol, ik, 2) / omega
+           IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd, ipol, ik, 1), &
+           &                                           becwfcq(1:nkb, jbnd, ipol, ik, 2))
+           rho0(1:dfftt%nnr, jbnd_ik,4) = rho0(1:dfftt%nnr, jbnd_ik,4) &
+           &                   + rho4(1:dfftt%nnr) * REAL(3-2*ipol, dp) * omega
            !
-           rho1(1:ngv, ikib,ipol) = rho0(gindx(1:ngv),ipol)
-        END DO ! ipol
+        END IF
         !
-        CALL stop_clock("fft[rho]")
+     END DO ! ipol
+     !
+  END DO ! jbnd_ik = nb(2)*nqbz
+  !$OMP END DO
+  !
+  DEALLOCATE(rho4)
+  !
+  !$OMP END PARALLEL
+  !
+  CALL stop_clock("wfc*wfc=rho")
+  !
+  CALL start_clock("fft[rho]")
+  !
+  DO ipol = 1, npol2
+     DO jbnd_ik = 1, nb(2)*nqbz
         !
-     END DO ! ibnd_p
-  END DO ! ik_p
+        CALL cfft3d (rho0(1:dfftt%nnr, jbnd_ik, ipol), &
+        & dfftt%nr1, dfftt%nr2, dfftt%nr3, dfftt%nr1, dfftt%nr2, dfftt%nr3, 1, -1)
+        !
+        rho1(1:ngv, jbnd_ik, ipol) = rho0(gindx(1:ngv), jbnd_ik, ipol)
+        !
+     END DO ! jbnd_ik = nb(2)*nqbz
+  END DO ! ipol
+  !
+  CALL stop_clock("fft[rho]")
+  !
+  DEALLOCATE(rho0)
   !
 END SUBROUTINE calc_rhog
 !>
@@ -892,13 +829,12 @@ SUBROUTINE Coulomb_parameter()
   USE noncollin_module, ONLY : npol
   USE mp, ONLY : mp_sum, mp_circular_shift_left
   !
-  USE sctk_val, ONLY : nmf, mf, Kel, lsf, bnd0_p, nbnd_p, &
-  &                    k0_p, nk_p
+  USE sctk_val, ONLY : nmf, mf, Kel, lsf, nb, bdsp
   !
   IMPLICIT NONE
   !
-  INTEGER :: ntetra0, ntetra1, ii, ikv(3), ik, ik_p, imf, kintp(8), nkel, ikel, &
-  &          b_low_p, b_high_p, b_low_g, b_high_g
+  INTEGER :: ntetra0, ntetra1, ii, ikv(3), ik, imf, kintp(8), nkel, ikel, &
+  &          b_low_p(2), b_high_p(2), b_low_g(2), b_high_g(2)
   REAL(dp) :: dost(2), kv(3), mu(0:nmf+1,2), wintp(8), scale_mu
   REAL(dp),allocatable :: wght(:,:,:)
   !
@@ -928,11 +864,17 @@ SUBROUTINE Coulomb_parameter()
   !
   mu(0:nmf+1, 1:nkel) = 0.0_dp
   !
-  b_low_g = MAX(b_low, bnd0_p+1)
-  b_high_g = MIN(b_high, bnd0_p+nbnd_p)
-  b_low_p = b_low_g - bnd0_p
-  b_high_p = b_high_g - bnd0_p
+  DO ii = 1, 2
+     b_low_g( ii) = MAX(b_low,  bdsp(ii)+1)
+     b_high_g(ii) = MIN(b_high, bdsp(ii)+nb(ii))
+     b_low_p( ii) = b_low_g( ii) - bdsp(ii)
+     b_high_p(ii) = b_high_g(ii) - bdsp(ii)
+  END DO
   !
+  !$OMP PARALLEL DEFAULT(NONE) &
+  !$OMP & SHARED(nks,nk1,nk2,nk3,nq1,nq2,nq3,nkel,nmf,Kel,b_low_p,b_high_p,b_low_g,b_high_g,wght,mu) &
+  !$OMP & PRIVATE(ik,ikv,kv,ikel,imf,ii,kintp,wintp)
+  !$OMP DO REDUCTION(+:mu)
   DO ik = 1, nks
      !
      ikv(1) = (ik - 1) / (nk3*nk2)
@@ -946,21 +888,17 @@ SUBROUTINE Coulomb_parameter()
         DO imf = 0, nmf + 1
            DO ii = 1, 8
               !
-              IF(k0_p < kintp(ii) .AND. kintp(ii) <= k0_p + nk_p) THEN
-                 !
-                 ik_p = kintp(ii) - k0_p
-                 !
-                 mu(imf,ikel) = mu(imf,ikel) + &
-                 & SUM(Kel(imf,b_low:b_high,b_low_p:b_high_p,       ik_p, ikel) &
-                 &     * wght( b_low:b_high,b_low_g:b_high_g,ik)) * wintp(ii)
-                 !
-              END IF
+              mu(imf,ikel) = mu(imf,ikel) + &
+              & SUM(Kel(imf, kintp(ii), b_low_p(2):b_high_p(2), b_low_p(1):b_high_p(1), ikel) &
+              &     * wght(             b_low_g(2):b_high_g(2), b_low_g(1):b_high_g(1), ik)) * wintp(ii)
               !
            END DO ! ii = 1, 8
         END DO ! imf = 0, nmf + 1
      END DO ! ikel = 1, nkel
      !
   END DO ! ik = 1, nks
+  !$OMP END DO
+  !$OMP END PARALLEL
   !
   CALL mp_sum(mu, world_comm)
   !
@@ -999,13 +937,13 @@ SUBROUTINE chebyshev_interpol()
   USE mp, ONLY : mp_sum, mp_max
   USE io_global, ONLY : stdout
   !
-  USE sctk_val, ONLY : Kel, nqbz, nmf, lsf, mf, nci, nk_p, nbnd_p
+  USE sctk_val, ONLY : Kel, nqbz, nmf, lsf, mf, nci, nqbz, nb
   !
   IMPLICIT NONE
   !
-  INTEGER :: ik, ib, jb, imf, jmf, ikel, nkel
+  INTEGER :: ik, ib, jb, imf, jmf, ikel, nkel, ik_jb_ib
   REAL(dp) :: coef(nci,nci), Kel0(nci), Kel1(0:nmf+1), cheb(1:nci,0:nmf+1), &
-  &           err(0:nmf+1), aveer(0:nmf+1), maxer(0:nmf+1), mf0, x0
+  &           err0(0:nmf+1), aveer(0:nmf+1), maxer(0:nmf+1), mf0, x0
   !
   IF(lsf>0) THEN
      nkel = 2
@@ -1044,30 +982,36 @@ SUBROUTINE chebyshev_interpol()
      aveer(0:nmf+1) = 0.0_dp
      maxer(0:nmf+1) = 0.0_dp
      !
-     DO ik = 1, nk_p
-        DO ib = 1, nbnd_p
-           DO jb = 1, nbnd
-              !
-              Kel0(1:nci) = 0.0_dp
-              DO imf = 1, nci
-                 DO jmf = 1, nci
-                    Kel0(imf) = Kel0(imf) + coef(imf,jmf)*Kel((jmf-1)*2,jb,ib,ik,ikel)
-                 END DO
-              END DO
-              !
-              Kel1(0:nmf+1) = MATMUL(Kel0(1:nci), cheb(1:nci, 0:nmf+1))
-              !
-              err(0:nmf+1) = ABS((Kel1(0:nmf+1)  -     Kel(0:nmf+1,jb,ib,ik,ikel))) &
-              &  * 2.0_dp / (ABS( Kel1(0:nmf+1)) + ABS(Kel(0:nmf+1,jb,ib,ik,ikel)))
-              !
-              aveer(0:nmf+1) = aveer(0:nmf+1) + err(0:nmf+1)
-              maxer(0:nmf+1) = MAX(maxer(0:nmf+1), err(0:nmf+1))
-              !
-              Kel(0:nci-1,jb,ib,ik,ikel) = Kel0(1:nci)
-              !
-           END DO  ! jb
-        END DO ! ib
-     END DO ! ik
+     !$OMP PARALLEL DEFAULT(NONE) &
+     !$OMP & SHARED(nqbz,nb,nci,ikel,coef,Kel,cheb,nmf,aveer,maxer) &
+     !$OMP & PRIVATE(ik_jb_ib,ib,jb,ik,Kel1,Kel0,imf,jmf,err0)
+     !$OMP DO REDUCTION(+:aveer) REDUCTION(MAX:maxer)
+     DO ik_jb_ib = 1, nqbz*nb(2)*nb(1)
+        !
+        ib = 1 + (ik_jb_ib-1) / (nqbz*nb(2))
+        jb = 1 + (ik_jb_ib-1  -  nqbz*nb(2)*(ib-1)) / nqbz
+        ik = 1 +  ik_jb_ib-1  -  nqbz*nb(2)*(ib-1)  - nqbz*(jb-1)
+        !
+        Kel0(1:nci) = 0.0_dp
+        DO imf = 1, nci
+           DO jmf = 1, nci
+              Kel0(imf) = Kel0(imf) + coef(imf,jmf)*Kel((jmf-1)*2,ik,jb,ib,ikel)
+           END DO
+        END DO
+        !
+        Kel1(0:nmf+1) = MATMUL(Kel0(1:nci), cheb(1:nci, 0:nmf+1))
+        !
+        err0(0:nmf+1) = ABS((Kel1(0:nmf+1)  -     Kel(0:nmf+1,ik,jb,ib,ikel))) &
+        &   * 2.0_dp / (ABS( Kel1(0:nmf+1)) + ABS(Kel(0:nmf+1,ik,jb,ib,ikel)))
+        !
+        aveer(0:nmf+1) = aveer(0:nmf+1) + err0(0:nmf+1)
+        maxer(0:nmf+1) = MAX(maxer(0:nmf+1), err0(0:nmf+1))
+        !
+        Kel(0:nci-1,ik,jb,ib,ikel) = Kel0(1:nci)
+        !
+     END DO ! ik_jb_ib = 1, nqbz*nb(1)*nb(2)
+     !$OMP END DO NOWAIT
+     !$OMP END PARALLEL
      !
      IF(ikel == 1) THEN
         WRITE(stdout,'(/,9x,"Verify the Chebyshev interpolation for Coulom",/)')
@@ -1109,12 +1053,11 @@ SUBROUTINE write_Kel()
   USE mp, ONLY : mp_circular_shift_left
   USE io_files, ONLY : prefix, tmp_dir
   !
-  USE sctk_val, ONLY : Kel, nqbz, lsf, nci, bnd0_p, nbnd_p, nbnd_p_max, &
-  &                    k0_p, nk_p, nk_p_max, nmf
+  USE sctk_val, ONLY : Kel, nqbz, lsf, nci, nb, bdsp, nmf, nb_max
   !
   IMPLICIT NONE
   !
-  INTEGER :: fo = 20, nkel, iproc
+  INTEGER :: fo = 20, nkel, iproc, ik
   CHARACTER(LEN=6), EXTERNAL :: int_to_char
   REAL(DP),ALLOCATABLE :: Kel_all(:,:,:,:,:)
   !
@@ -1123,16 +1066,21 @@ SUBROUTINE write_Kel()
   ELSE
      nkel = 1
   END IF
-  IF(mpime==0) ALLOCATE(Kel_all(0:nci-1,nbnd,nbnd,nqbz,nkel))
+  IF(mpime==0) THEN
+     ALLOCATE(Kel_all(0:nci-1,nbnd,nbnd,nqbz,nkel))
+  ELSE
+     ALLOCATE(Kel_all(1,1,1,1,1))
+  END IF
   !
   DO iproc = 1, nproc
-     CALL mp_circular_shift_left(nbnd_p, 1, world_comm )
-     CALL mp_circular_shift_left(bnd0_p, 1, world_comm )
-     CALL mp_circular_shift_left(k0_p, 1, world_comm )
-     CALL mp_circular_shift_left(nk_p, 1, world_comm )
-     CALL circular_shift_wrapper_r(nmf + 2,nbnd*nbnd_p_max*nk_p_max*nkel,world_comm,Kel)
-     IF(mpime==0) Kel_all(0:nci-1,1:nbnd,bnd0_p+1:bnd0_p+nbnd_p,k0_p+1:k0_p+nk_p,1:nkel) &
-     &              = Kel(0:nci-1,1:nbnd,       1:       nbnd_p,     1:     nk_p,1:nkel)
+     CALL mp_circular_shift_left(nb, 1, world_comm )
+     CALL mp_circular_shift_left(bdsp, 1, world_comm )
+     CALL circular_shift_wrapper_r(nmf + 2,nqbz*nb_max*nb_max*nkel, world_comm, Kel)
+     DO ik = 1, nqbz
+        IF(mpime==0) Kel_all(0:nci-1,     bdsp(2)+1:bdsp(2)+nb(2), bdsp(1)+1:bdsp(1)+nb(1), ik,1:nkel) &
+        &              = Kel(0:nci-1, ik,         1:        nb(2),         1:        nb(1),    1:nkel)
+        !
+     END DO
   END DO
   !
   IF(mpime == 0) THEN
@@ -1154,8 +1102,7 @@ SUBROUTINE write_Kel()
      !
   END IF
   !
-  IF(mpime==0) DEALLOCATE(Kel_all)
-  DEALLOCATE(Kel)
+  DEALLOCATE(Kel_all, Kel)
   !
 END SUBROUTINE write_Kel
 !

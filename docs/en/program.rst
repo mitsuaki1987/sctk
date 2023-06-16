@@ -4,8 +4,8 @@
 
 .. _sctk:
 
-Features
-========
+Reference manual
+================
 
 Features of the main program of Superconducting-Toolkit, sctk.x,
 is as follows:
@@ -50,7 +50,7 @@ The format of the input file is as follows:
       last_q =
       nci =
       laddxc =
-      ecutwfc =
+      ecutfock =
       nq1 =
       nq2 =
       nq3 =
@@ -105,7 +105,7 @@ last_q        Positive  Number of       Last :math:`{\bf q}` for computing scree
 laddxc        0 or 1    0               Specify the approximation used in the calculation of 
                                         screened Coulomb interaction. 0 : RPA, 1: Adiabatic LDA.
 lsf           0 or 1    0               Whether the spin-fluctuation is computed (1) or not (0)
-ecutwfc       Real      Same as pw.x_   Cutoff of plane waves for the polarization function. [Ry].
+ecutfock      Real      Same as pw.x_   Cutoff of plane waves for the polarization function. [Ry].
 nq1, nq2, nq3 Positive  Same as         The :math:`{\bf k}` mesh of the Kohn-Sham orbitals.
               integer   :math:`{\bf k}` It must be the same as the :ref:`twingrid` input.
                         mesh of a2Fsave
@@ -156,7 +156,10 @@ conv_thr         Positive  1.0e-15      The convergence threshold for the gap eq
                  number                 gap function becomes lower than it,
                                         the system is thought to be converged. Ry unit.
 filedyn          String    "matdyn"     It must be the same as filedyn in ph.x_.
-spin_fluc        Logical   .False.      If .True., the spin-fluctuation is included.
+spin_fluc        Logical   .False.      If .True., the spin-fluctuation :ref:`[3] <ref>` is included.
+scdft_kernel     Positive  1            1: Lüders2005 :ref:`[4] <ref>`, 2: Sanna2020 :ref:`[5] <ref>`
+                 integer
+lz_coulomb       Logical   .False.      Coulomb renormalization :ref:`[6] <ref>`
 ================ ========= ============ ===================================================================
 
 Data files

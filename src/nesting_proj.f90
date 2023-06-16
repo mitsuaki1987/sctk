@@ -1110,6 +1110,8 @@ PROGRAM nesting_proj
   ALLOCATE(equiv(nk1, nk2, nk3))
   CALL rotate_k_fs(equiv)
   !
+  ef1 = 0.0_dp
+  ef2 = 0.0_dp
   IF (nspin == 2) THEN
      ns = 2
      IF(two_fermi_energies) THEN

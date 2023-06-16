@@ -1,0 +1,151 @@
+--------------------------------------------------------------------------
+Open MPI's OFI driver detected multiple equidistant NICs from the current process,
+but had insufficient information to ensure MPI processes fairly pick a NIC for use.
+This may negatively impact performance. A more modern PMIx server is necessary to
+resolve this issue.
+
+Note: This message is displayed only when the OFI component's verbosity level is
+-737150800 or higher.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   macloud2
+  Local device: mlx4_0
+--------------------------------------------------------------------------
+
+     Program SCTK v.6.7GPU starts on 28Jun2022 at  2:35:25 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on      24 processor cores
+     Number of MPI processes:                 1
+     Threads/MPI process:                    24
+
+     MPI processes distributed on     1 nodes
+
+     Reading xml data from directory:
+
+     ./pwscf.save/
+     file B.pbe-n-kjpaw_psl.0.1.upf: wavefunction(s)  2P renormalized
+     file Mg.pbe-n-kjpaw_psl.0.3.0.upf: wavefunction(s)  3S renormalized
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         649     313    121                15395     5449    1155
+
+     Using Slab Decomposition
+
+
+     Check: negative core charge=   -0.000006
+     Dense k-grid : 16  16  12
+     Number of k(dense) : 210
+     [opt_tetra]  Optimized tetrahedron method is used.
+
+     Number of bands :      15
+     Number of k times spin :     210
+     Number of symmetries :      24
+     Lowest band which contains FS :       3
+     Highest band which contains FS :       5
+     [opt_tetra]  Optimized tetrahedron method is used.
+
+     #####  Read from STDIN  #####
+
+                    Temparature[K] : -0.10000E+00
+                         Xi cutoff : -0.10000E+01
+                        First band : 1
+                         Last band : 15
+        # of Matsubara frequencies : 10
+                           # of xi : 100
+            # of energy for QP-DOS : 50
+              Minimum energy scale :  0.10000E-06
+       Max energy for QP-DOS [meV] :  0.50000E+01
+             Convergense threshold :  0.10000E-14
+                      Max itration : 100
+                  Spin-fluctuation : T
+                      SCDFT kernel : 1
+                         Z_Coulomb : F
+                   Min. freq.[THz] :  0.00000E+00
+                  Min. freq. ratio : -0.10000E+01
+
+     #####  Read from elph*.dat  #####
+
+       k grid for MEs : 4  4  3
+       Number of modes : 9
+
+
+     Dynamical matrices for ( 4, 4, 3)  uniform grid of q-points
+     With a half shift
+     (  12 q-points):
+       N         xq(1)         xq(2)         xq(3) 
+       1   0.125000000   0.216506351   0.145452854
+       2   0.125000000   0.216506351  -0.436358562
+       3   0.125000000   0.505181486   0.145452854
+       4   0.125000000   0.505181486  -0.436358562
+       5   0.125000000  -0.360843918   0.145452854
+       6   0.125000000  -0.360843918  -0.436358562
+       7   0.125000000  -0.072168784   0.145452854
+       8   0.125000000  -0.072168784  -0.436358562
+       9   0.375000000   0.649519053   0.145452854
+      10   0.375000000   0.649519053  -0.436358562
+      11   0.375000000  -0.216506351   0.145452854
+      12   0.375000000  -0.216506351  -0.436358562
+     Because shifted q grid is used, q2r will not work !
+
+     #####  Read from vc*.dat  #####
+
+       Dimention of Chebyshev interpolation : 5
+
+     #####  Average matrix in grid  #####
+
+       nindmax : 4
+         Total RAM for Vc per process :   0.53E+00 GB
+         Total RAM for gg per process :   0.11E+00 GB
+         Total RAM for Vc (temporary) per process :   0.21E-02 GB
+         Total RAM for gg (temporary) per process :   0.41E-03 GB
+
+     #####  Read gap function  #####
+
+       Number of total points for gap equation : 10713  8800
+
+     #####  Compute renormalization factor : Z  #####
+
+
+     #####  Integrate gapeq  #####
+
+        8800                       NaN   1.6548694269063999        5.6477146662174809     
+
+     #####  Compute qpdos  #####
+
+
+     #####  Clock summary  #####
+
+     read_elph    :      0.06s CPU      0.08s WALL (       1 calls)
+     read_Coulomb :      0.00s CPU      0.02s WALL (       1 calls)
+     expand_g_v_f :      9.06s CPU      1.01s WALL (       1 calls)
+     make_Z_qpdos :  10848.57s CPU    906.74s WALL (       1 calls)
+     gapeq_rhs_qp :  10462.88s CPU    877.53s WALL (       1 calls)
+
+     SCTK         :      5h56m CPU  29m55.44s WALL
+
+
+   This run was terminated on:   3: 5:20  28Jun2022            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

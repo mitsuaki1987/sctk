@@ -11,7 +11,7 @@ MODULE sctk_invert
   !
 CONTAINS
 !
-! Invertion of matrices
+! Inversion of matrices
 !
 SUBROUTINE invert(matrix)
   !
@@ -44,7 +44,7 @@ SUBROUTINE invert(matrix)
      !
      DO ig = 1, ngv
         !
-        ! Percial pivotting
+        ! Partial pivoting
         !
         jg = MAX(ig, ngv0)
         maxpiv( 1:nproc) = 0.0_dp
@@ -94,7 +94,7 @@ SUBROUTINE invert(matrix)
         IF(ngv0 <= ig  .AND. ig  <= ngv1) matrix2(1:ngv,ig) = key2(1:ngv)
         IF(ngv0 <= jg  .AND. jg  <= ngv1) matrix2(1:ngv,jg) = key1(1:ngv)
         !
-        ! Ordinally Gauss-Jordan
+        ! Ordinary Gauss-Jordan
         !
         IF(ngv0 <= ig .AND. ig <= ngv1) THEN
            !
@@ -187,15 +187,23 @@ SUBROUTINE hermite()
         &                  wrcv, cnt, dsp, MPI_DOUBLE_COMPLEX, world_comm, ierr)
         IF(ierr /= 0) CALL errore('lambda_sf', 'mpi_alltoallv', ierr)
         !
-        jg = 0
         DO ip = 0, nproc - 1
+           !
            cnt0 = cnt(ip) / (ngv1 - ngv0 + 1)
            dsp0 = dsp(ip) / (ngv1 - ngv0 + 1)
+           !
+           !$OMP PARALLEL DEFAULT(NONE) &
+           !$OMP & SHARED(ngv0,ngv1,dsp0,cnt0,wscr,wrcv,imf,ipol,dsp,ip) &
+           !$OMP & PRIVATE(ig,jg)
+           !$OMP DO
            DO ig = ngv0, ngv1
+              jg = dsp(ip) + (ig - ngv0) * cnt0
               wscr(   dsp0+1:dsp0+cnt0, ig, imf, ipol) &
               & = wrcv(jg+1:  jg+cnt0)
-              jg = jg + cnt0
            END DO
+           !$OMP END DO
+           !$OMP END PARALLEL
+           !
         END DO
 #else
         wscr(1:ngv,1:ngv,imf,ipol) = wsnd(1:ngv,1:ngv)
