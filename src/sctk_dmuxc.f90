@@ -21,9 +21,8 @@ SUBROUTINE generate_dmuxc()
   USE fft_base,  ONLY : dfftp
   USE eqv,       ONLY : dmuxc
   USE scf,              ONLY : rho, rho_core
-  USE noncollin_module, ONLY : nspin_gga, nspin_mag, noncolin
+  USE noncollin_module, ONLY : nspin_gga, nspin_mag, noncolin, domag
   USE gvect, ONLY : ngm
-  USE spin_orb, ONLY : domag
   !
   REAL(DP) :: rho_of_r(dfftp%nnr)
   COMPLEX(DP) :: rho_of_g(ngm)
@@ -69,7 +68,7 @@ SUBROUTINE apply_xc()
   USE fft_base,  ONLY : dfftp
   USE eqv,               ONLY : dmuxc
   USE fft_interfaces,    ONLY : fwfft, invfft
-  USE dft_mod,           ONLY : xclib_dft_is
+  USE xc_lib,            ONLY : xclib_dft_is
   USE noncollin_module,  ONLY : nspin_mag
   USE exx, ONLY : dfftt
   !
@@ -151,7 +150,7 @@ SUBROUTINE apply_xc_spin()
   USE fft_base,  ONLY : dfftp
   USE eqv,               ONLY : dmuxc
   USE fft_interfaces,    ONLY : fwfft, invfft
-  USE dft_mod,           ONLY : xclib_dft_is
+  USE xc_lib,            ONLY : xclib_dft_is
   USE noncollin_module,  ONLY : nspin_mag, npol
   USE exx, ONLY : dfftt
   !

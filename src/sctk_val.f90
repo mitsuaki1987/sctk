@@ -33,7 +33,7 @@ MODULE sctk_val
   & ngv1,          & !< # of G-vector in ecutfock
   & nx               !< = 2 * ne - 1
   !
-  REAL(8),SAVE :: &
+  REAL(dp),SAVE :: &
   & bisec_min,  & !< Lower bound for bisection method
   & bisec_max,  & !< Upper bound for bisection method
   & freq_min,       & !< below this, ignore that mode
@@ -58,7 +58,7 @@ MODULE sctk_val
   & kindx(:,:),   & !< (ngap,2) k point for gap equation
   & npw(:,:)        !< (nk,2). # of PWs
   !
-  REAL(8),ALLOCATABLE,SAVE :: &
+  REAL(dp),ALLOCATABLE,SAVE :: &
   & delta(:,:),     & !< (ngap,2) Kohn-Sham gap functions [Ry]
   & dk(:,:),        & !< (ngap,2) Weight of k
   & dltF(:,:,:),    & !< (nx,nbf,nk) Kohn-Sham gap functions [Ry] at Fermi surface
@@ -87,7 +87,7 @@ MODULE sctk_val
   & Z(:,:),         & !< (ngap,2) Renormalization factor for grid 1      
   & ZF(:,:,:)         !< (nx,nbf,nks) Renormalization factor ar Fermi surface
   !
-  COMPLEX(8),ALLOCATABLE,SAVE :: &
+  COMPLEX(dp),ALLOCATABLE,SAVE :: &
   & becwfc(:,:,:,:,:), & !< (nkb,npol,nbnd,nks,2) beta*wfc(G)
   & becwfcq(:,:,:,:,:), & !< (nkb,npol,nbnd,nks,2) beta*wfc(G)
   & wfc0(:,:,:,:,:), & !< (npwmax,npol,nbnd,nks,2) wfc(G)

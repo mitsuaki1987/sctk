@@ -5,13 +5,12 @@ include ../../make.inc
 # location of needed modules and included files (if any)
 MODFLAGS= $(BASEMOD_FLAGS) \
           $(MOD_FLAG)../../PW/src \
+          $(MOD_FLAG)../../dft-d3 \
           $(MOD_FLAG)../../LR_Modules \
           $(MOD_FLAG)../../PP/src \
           $(MOD_FLAG)../../PHonon/PH $(MOD_FLAG).
-IFLAGS=
 
 SCTKOBJS = \
-nesting_proj.o \
 sctk_broyden.o \
 sctk_cnt_dsp.o \
 sctk_clock.o \
@@ -23,7 +22,6 @@ sctk_ini_delta.o \
 sctk_invert.o \
 sctk_io_delta.o \
 sctk_kernel_weight.o \
-sctk_main.o \
 sctk_qpdos.o \
 sctk_read_file.o \
 sctk_rotate_kernel.o \
@@ -37,12 +35,10 @@ sctk_write_hash.o \
 sctk_z.o
 
 LRMODS = ../../LR_Modules/liblrmod.a
-PWOBJS = ../../PW/src/libpw.a
+PWOBJS = ../../PW/src/libpw.a ../../KS_Solvers/libks_solvers.a ../../dft-d3/libdftd3qe.a
 PHOBJS = ../../PHonon/PH/libph.a
 PPOBJS = ../../PP/src/libpp.a
-QEMODS = ../../Modules/libqemod.a ../../KS_Solvers/libks_solvers.a ../../upflib/libupf.a ../../XClib/xc_lib.a \
-         ../../FFTXlib/libqefft.a ../../LAXlib/libqela.a ../../UtilXlib/libutil.a ../../dft-d3/libdftd3qe.a
-
+QEMODS = $(BASEMODS)
 TLDEPS= pw ph pp
 
 all : tldeps libs-sctk sctk.x twingrid.x nesting_proj.x
@@ -54,13 +50,17 @@ hash:
 
 sctk.x : sctk_main.o libsctk.a $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
 	$(LD) $(LDFLAGS) -o $@ sctk_main.o libsctk.a \
-		 $(PPOBJS) $(PHOBJS) $(LRMODS) $(PWOBJS) $(QEMODS) $(LIBOBJS) $(QELIBS)
-	- ( cd ../../bin ; ln -fs ../SCTK/src/sctk.x . )
+		 $(PPOBJS) $(PHOBJS) $(LRMODS) $(PWOBJS) $(QEMODS) $(QELIBS)
+	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
 
 nesting_proj.x : nesting_proj.o $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
 	$(LD) $(LDFLAGS) -o $@ nesting_proj.o \
 		 $(PPOBJS) $(PHOBJS) $(LRMODS) $(PWOBJS) $(QEMODS) $(LIBOBJS) $(QELIBS)
-	- ( cd ../../bin ; ln -fs ../SCTK/src/nesting_proj.x . )
+	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
+
+nesting.x : nesting.o $(MODULES) $(PPOBJS)
+	$(LD) $(LDFLAGS) -o $@ nesting.o $(PPOBJS) $(MODULES) $(QELIBS)
+	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
 
 twingrid.x : twingrid.sh
 	cp twingrid.sh twingrid.x

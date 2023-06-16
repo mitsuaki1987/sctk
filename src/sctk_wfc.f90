@@ -138,6 +138,7 @@ SUBROUTINE fft_wfc()
   USE cell_base, ONLY : bg
   USE uspp, ONLY : nkb, okvan
   USE disp, ONLY : nq1, nq2, nq3
+  USE uspp_init, ONLY : init_us_2
   !
   USE sctk_val, ONLY : igv, npw, wfc0, nb, nb_max, &
   &                    wfc, wfcq, becwfc, becwfcq, nqbz
