@@ -14,6 +14,7 @@ SUBROUTINE sctk_print_clock()
   !
   USE io_global, ONLY : stdout
   USE input_parameters, ONLY : calculation
+  USE uspp, ONLY : okvan
   !
   USE sctk_val, ONLY : laddxc, lsf
   !
@@ -28,6 +29,22 @@ SUBROUTINE sctk_print_clock()
      CALL print_clock("make_kel")
      IF(laddxc>0) CALL print_clock("apply_xc")
      IF(lsf>0) CALL print_clock("lambda_sf")
+     !
+     WRITE(stdout,'(/,5x,"#####  In make_scrn #####",/)')
+     CALL print_clock("fermi_factor")
+     CALL print_clock("zgemm(make_scrn)")
+     !
+     WRITE(stdout,'(/,5x,"#####  In make_kel #####",/)')
+     CALL print_clock("zgemm(make_kel)")
+     !
+     WRITE(stdout,'(/,5x,"#####  In make_scrn and make_kel #####",/)')
+     CALL print_clock("wfc*wfc=rho")
+     CALL print_clock("fft[rho]")
+     !
+     IF(okvan) THEN
+        WRITE(stdout,'(/,5x,"#####  In wfc*wfc=rho #####",/)')
+        CALL print_clock("addusxx")
+     END IF
      !
   ELSE ! calculation = scdft, lambda_mu_k, qpdos, deltaf, ultrasonic
      !

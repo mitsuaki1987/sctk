@@ -21,6 +21,8 @@ SUBROUTINE ini_delta(lallocate)
   USE io_global, ONLY : stdout, ionode, ionode_id
   USE modes, ONLY : nmodes
   USE disp,  ONLY : nqs
+  USE io_files, ONLY : prefix, tmp_dir
+  USE input_parameters, ONLY : restart_mode
   USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, &
   &                     ngap, ngap1, ngap2, nx, omg0, xi, xi0
   !
@@ -30,17 +32,21 @@ SUBROUTINE ini_delta(lallocate)
   !
   LOGICAL,INTENT(IN) :: lallocate
   !
-  INTEGER :: it, fi = 10, is, cnt, dsp
+  INTEGER :: it, fi = 10, ios, cnt, dsp
   REAL(dp) :: thr, Z0, dosf
   CHARACTER(1) :: tmp
   !
-  IF(ionode) OPEN(fi, file = 'delta.dat',status="old", action = 'read',iostat = is)
-  !
-  CALL mp_bcast(is,    ionode_id, world_comm )
-  !
-  IF(is == 0) THEN
+  IF(TRIM(restart_mode) == "restart") THEN
+     !
+     WRITE(stdout,'(7x,a)') &
+     &  "Initial delta is read from file (" // TRIM(tmp_dir) // TRIM(prefix) // "_delta.dat)"
      !
      IF(ionode) THEN
+        !
+        OPEN(fi, file = TRIM(tmp_dir) // TRIM(prefix) // '.scgap', &
+        &    status="old", action = 'read', iostat = ios)
+        IF(ios /= 0) CALL errore("ini_delta", &
+        &                        "Can not open" // TRIM(tmp_dir) // TRIM(prefix) // ".scgap", 1)
         !
         READ(fi,*) tmp, ngap1, ngap2
         !
@@ -78,50 +84,39 @@ SUBROUTINE ini_delta(lallocate)
      CALL mp_bcast(kindx, ionode_id, world_comm )
      CALL mp_bcast(bindx, ionode_id, world_comm )
      !
-     IF(MAXVAL(ABS(delta(1:ngap1,1))) > 1e-8_dp) THEN
-        !
-        WRITE(stdout,'(7x,"Initial delta is read from file (delta.dat)")')
-        !
-        dosf = SUM(dk(1:ngap1,1), ABS(xi(1:ngap1,1)) < emin)
-        dosf = dosf / dx0(minloc(ABS(xi0(1:nx)), 1))
-        WRITE(stdout,'(7x,"DOS(E_F)[Ry^-1/cell/spin] : ",e12.5)') dosf
-        !
-        dosf = SUM(dk(1:ngap2,2), ABS(xi(1:ngap2,2)) < emin)
-        dosf = dosf / dx0(minloc(ABS(xi0(1:nx)), 1))
-        WRITE(stdout,'(7x,"DOS(E_F)[Ry^-1/cell/spin] : ",e12.5)') dosf
-        !
-        GOTO 5
-        !
-     END IF ! (MAXVAL(ABS(delta(1:ngap1,1))) > 1e-8_dp)
+     dosf = SUM(dk(1:ngap1,1), ABS(xi(1:ngap1,1)) < emin)
+     dosf = dosf / dx0(minloc(ABS(xi0(1:nx)), 1))
+     WRITE(stdout,'(7x,"DOS(E_F)[Ry^-1/cell/spin] : ",e12.5)') dosf
      !
-     ! If delta read from file is too small
+     dosf = SUM(dk(1:ngap2,2), ABS(xi(1:ngap2,2)) < emin)
+     dosf = dosf / dx0(minloc(ABS(xi0(1:nx)), 1))
+     WRITE(stdout,'(7x,"DOS(E_F)[Ry^-1/cell/spin] : ",e12.5)') dosf
      !
-     WRITE(stdout,'(7x,"Delta from file is too small !")')
+     IF(MAXVAL(ABS(delta(1:ngap1,1))) < 1.0e-8_dp) &
+     &  WRITE(stdout,'(7x,"!!!CAUTION!!! Delta from file is too small.")')
      !
-     DEALLOCATE(xi, delta, dk, kindx, bindx)
+  ELSE
      !
-  END IF ! (is == 0)
-  !
-  WRITE(stdout,'(7x,"Initial delta is theta function")')
-  !
-  CALL compute_d3k()
-  !
-  ALLOCATE(delta(ngap,2))
-  !
-  CALL cnt_and_dsp(nqs,cnt,dsp)
-  thr = MAXVAL(omg0(1:nmodes,1:cnt))
-  CALL mp_max(thr, world_comm)
-  !
-  IF(ionode) THEN
-     CALL random_seed()
-     CALL random_number(delta(1:ngap,1:2))
-     delta(1:ngap,1:2) = delta(1:ngap,1:2) * thr
+     WRITE(stdout,'(7x,"Initial delta is theta function")')
+     !
+     CALL compute_d3k()
+     !
+     ALLOCATE(delta(ngap,2))
+     !
+     CALL cnt_and_dsp(nqs,cnt,dsp)
+     thr = MAXVAL(omg0(1:nmodes,1:cnt))
+     CALL mp_max(thr, world_comm)
+     !
+     IF(ionode) THEN
+        CALL random_seed()
+        CALL random_number(delta(1:ngap,1:2))
+        delta(1:ngap,1:2) = delta(1:ngap,1:2) * thr
+     END IF
+     CALL mp_bcast(delta,    ionode_id, world_comm )
+     !
+     !delta(1:ngap,1:2) = thr**2 / (thr + xi(1:ngap,1:2))
+     !
   END IF
-  CALL mp_bcast(delta,    ionode_id, world_comm )
-  !
-  !delta(1:ngap,1:2) = thr**2 / (thr + xi(1:ngap,1:2))
-  !
-5 continue
   !
 END SUBROUTINE ini_delta
 !

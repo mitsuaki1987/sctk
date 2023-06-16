@@ -19,13 +19,14 @@ SUBROUTINE read_elph()
   USE mp_world, ONLY : world_comm
   USE modes, ONLY : nmodes
   USE io_global, ONLY : ionode, ionode_id, stdout
-  USE mp, ONLY : mp_bcast
+  USE mp, ONLY : mp_bcast, mp_max
   USE disp,  ONLY : nq1, nq2, nq3, x_q, nqs
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE output,        ONLY : fildyn
   USE cell_base, ONLY : bg
+  USE io_files, ONLY : prefix, tmp_dir
   !
-  USE sctk_val, ONLY : gg0, nqbz, omg0
+  USE sctk_val, ONLY : gg0, nqbz, omg0, freq_min, freq_min_ratio
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
   !
@@ -44,8 +45,10 @@ SUBROUTINE read_elph()
   !
   IF(ionode) THEN
      fi = find_free_unit()
-     OPEN(fi, file = "elph1.dat", iostat=ios, status="old")
-     IF(ios /= 0) CALL errore("read_elph", "Can not open elph.dat", 1)
+     OPEN(fi, file = TRIM(tmp_dir) // "_ph0/" // TRIM(prefix) // ".q_1/" &
+     &               // TRIM(prefix) // ".elph1", iostat=ios, status="old")
+     IF(ios /= 0) CALL errore("read_elph", &
+     &                        "Can not open " // TRIM(tmp_dir) // TRIM(prefix) // ".elph1", 1)
      READ(fi,*) nq1, nq2, nq3
      READ(fi,*) elph_nbnd_min, elph_nbnd_max
      READ(fi,*) qvec(1:3)
@@ -80,8 +83,11 @@ SUBROUTINE read_elph()
   DO iq = 1, cnt
      !
      fi = find_free_unit()
-     OPEN(fi, file = "elph"//TRIM(int_to_char(dsp+iq))//".dat", iostat=ios, status="old") !, form = 'unformatted')
-     IF(ios /= 0) CALL errore("read_elph", "Can not open elph.dat", dsp+iq)
+     OPEN(fi, file = TRIM(tmp_dir) // "_ph0/" // TRIM(prefix) // ".q_" // TRIM(int_to_char(dsp+iq)) // "/" &
+     &               // TRIM(prefix) // ".elph" // TRIM(int_to_char(dsp+iq)), &
+     &    iostat=ios, status="old") !, form = 'unformatted')
+     IF(ios /= 0) CALL errore("read_elph", &
+     &  "Can not open " // TRIM(tmp_dir) // TRIM(prefix) // ".elph"//TRIM(int_to_char(dsp+iq)), dsp+iq)
      !
      READ(fi,*) iqv(1:3)
      IF(.NOT. ALL(iqv(1:3) == (/nq1, nq2, nq3/))) &
@@ -116,6 +122,11 @@ SUBROUTINE read_elph()
   !
   DEALLOCATE(ggc)
   !
+  IF(freq_min_ratio > 0.0) THEN
+     freq_min = freq_min_ratio * MAXVAL(omg0(1:nmodes,1:cnt))
+     CALL mp_max(freq_min, world_comm)
+  END IF
+  !
   CALL stop_clock("read_elph")
   !
 END SUBROUTINE read_elph
@@ -130,8 +141,9 @@ SUBROUTINE read_Coulomb()
   USE disp,  ONLY : nq1, nq2, nq3, x_q, nqs
   USE cell_base, ONLY : bg
   USE mp_world, ONLY : world_comm, mpime
+  USE io_files, ONLY : prefix, tmp_dir
   !
-  USE sctk_val, ONLY : nqbz, Vc0, lsf, nci
+  USE sctk_val, ONLY : nqbz, Vc0, lsf, nci, lz_coulomb
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
   !
@@ -147,8 +159,10 @@ SUBROUTINE read_Coulomb()
   !
   IF(mpime==0) THEN
      fi = find_free_unit()
-     OPEN(fi, file = "vel1.dat", form = 'unformatted', iostat=ios, status="old")
-     IF(ios /= 0) CALL errore("read_Coulomb", "Can not open vel.dat", 1)
+     OPEN(fi, file = TRIM(tmp_dir) // TRIM(prefix) // ".vel1", &
+     &    form = 'unformatted', iostat=ios, status="old")
+     IF(ios /= 0) CALL errore("read_Coulomb", &
+     &                        "Can not open " // TRIM(tmp_dir) // TRIM(prefix) // ".vel1", 1)
      READ(fi) iqv(1:3)
      READ(fi) nb0
      READ(fi) qvec(1:3)
@@ -165,9 +179,10 @@ SUBROUTINE read_Coulomb()
   DO iq = 1, cnt
      !
      fi = find_free_unit()
-     OPEN(fi, file = "vel"//TRIM(int_to_char(iq+dsp))//".dat", &
+     OPEN(fi, file = TRIM(tmp_dir) // TRIM(prefix) // ".vel"//TRIM(int_to_char(iq+dsp)), &
      &    form = 'unformatted', iostat=ios, status="old")
-     IF(ios /= 0) CALL errore("read_Coulomb", "Can not open vel.dat", iq+dsp)
+     IF(ios /= 0) CALL errore("read_Coulomb", &
+     &  "Can not open " // TRIM(tmp_dir) // TRIM(prefix) // ".vel"//TRIM(int_to_char(iq+dsp)), iq+dsp)
      !
      READ(fi) iqv(1:3)
      IF(.NOT. ALL(iqv(1:3) == (/nq1,nq2,nq3/))) &
@@ -189,10 +204,25 @@ SUBROUTINE read_Coulomb()
      READ(fi) vc0(1:nci,1:nbnd,1:nbnd,1:nqbz,iq)
      !
      IF(lsf==2) THEN
+        !
         READ(fi) vc0(nci+1:nci*2,1:nbnd,1:nbnd,1:nqbz,iq)
+        !
+        ! V1 = V_C + V_S
+        !
         vc0(        1:nci,  1:nbnd,1:nbnd,1:nqbz,iq) &
         & = vc0(    1:nci,  1:nbnd,1:nbnd,1:nqbz,iq) &
         & + vc0(nci+1:nci*2,1:nbnd,1:nbnd,1:nqbz,iq)
+        !
+        IF(lz_coulomb) THEN
+           !
+           ! V2 = V_S - V_C = 2 V_S - (V_C + V_S))
+           !
+           vc0(    nci+1:nci*2,1:nbnd,1:nbnd,1:nqbz,iq) &
+           & = vc0(nci+1:nci*2,1:nbnd,1:nbnd,1:nqbz,iq) * 2.0_dp &
+           & - vc0(    1:nci  ,1:nbnd,1:nbnd,1:nqbz,iq)
+           !
+        END IF
+        !
      END IF
      !
      CLOSE(fi)
@@ -210,7 +240,7 @@ SUBROUTINE read_a2fsave()
   USE kinds, ONLY : DP
   USE parameters, ONLY : npk
   USE mp_world, ONLY : world_comm
-  USE io_files, ONLY : prefix
+  USE io_files, ONLY : prefix, tmp_dir
   USE io_global, ONLY : ionode, ionode_id, stdout
   USE mp, ONLY : mp_bcast
   USE start_k, ONLY : nk1, nk2, nk3
@@ -225,12 +255,12 @@ SUBROUTINE read_a2fsave()
   !
   INTEGER :: fi, ik, i1, i2, i3, s_dummy(3,3,48), t_rev_dummy(48)
   INTEGER,ALLOCATABLE :: equiv(:,:,:)
-  REAL(8),ALLOCATABLE :: et0(:,:)
+  REAL(dp),ALLOCATABLE :: et0(:,:)
   INTEGER, EXTERNAL :: find_free_unit
   !
   IF ( ionode ) THEN
      fi = find_free_unit()
-     OPEN(fi, file = TRIM(prefix) // ".a2Fsave")
+     OPEN(fi, file = TRIM(tmp_dir) // TRIM(prefix) // ".a2Fsave")
      READ(fi,*) nbnd, nks
      ALLOCATE(et0(nbnd,nks))
      READ(fi,*) et0(1:nbnd,1:nks)
@@ -281,6 +311,7 @@ SUBROUTINE read_a2fsave()
            ik = ik + 1
            et(1:nbnd,ik) = et0(1:nbnd, equiv(i1,i2,i3))
            xk(1:3,ik) = REAL((/i1, i2, i3/), DP) / REAL((/nk1, nk2, nk3/), DP)
+           WHERE((/i1, i2, i3/)*2 >= (/nk1, nk2, nk3/)) xk(1:3,ik) = xk(1:3,ik) - 1.0_dp
            xk(1:3,ik) = MATMUL(bg(1:3,1:3), xk(1:3,ik))
            wk(ik) = 1.0_dp / REAL(nks, DP)
         END DO
@@ -300,5 +331,46 @@ SUBROUTINE read_a2fsave()
   DEALLOCATE(et0,equiv)
   !
 END SUBROUTINE read_a2fsave
+!
+SUBROUTINE degenerated_band()
+  !
+  USE kinds, ONLY : DP
+  USE wvfct, ONLY : nbnd, et
+  USE sctk_val, ONLY : degen, ndegen
+  USE klist, ONLY : nks
+  !
+  INTEGER :: ibnd, iks, ii, nksb2
+  REAL(DP) :: et0, et1
+  !
+  nksb2 = nks / 2
+  !
+  ALLOCATE(ndegen(nksb2,2), degen(2,nbnd,nksb2,2))
+  !
+  DO ii = 1, 2
+     DO iks = 1, nksb2
+        !
+        ndegen(iks,ii) = 1
+        degen(1,ndegen(iks,ii),iks,ii) = 1
+        et0 = et(1,iks + nksb2*(ii-1))
+        !
+        DO ibnd = 2, nbnd
+           !
+           et1 = et(ibnd,iks + nksb2*(ii-1))
+           !
+           IF(ABS(et0 - et1) > 1.0e-7_dp) THEN
+              degen(2,ndegen(iks,ii),iks,ii) = ibnd - 1
+              et0 = et1
+              ndegen(iks,ii) = ndegen(iks,ii) + 1
+              degen(1,ndegen(iks,ii),iks,ii) = ibnd
+           END IF
+           !
+        END DO
+        !
+        degen(2,ndegen(iks,ii),iks,ii) = nbnd
+        !
+     END DO
+  END DO
+  !
+END SUBROUTINE degenerated_band
 !
 END MODULE sctk_read_file

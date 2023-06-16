@@ -11,6 +11,7 @@ MODFLAGS= $(BASEMOD_FLAGS) \
 IFLAGS=
 
 SCTKOBJS = \
+nesting_proj.o \
 sctk_broyden.o \
 sctk_cnt_dsp.o \
 sctk_clock.o \
@@ -37,20 +38,25 @@ sctk_z.o
 LRMODS = ../../LR_Modules/liblrmod.a
 PWOBJS = ../../PW/src/libpw.a
 PHOBJS = ../../PHonon/PH/libph.a
-PPOBJS = ../../PP/src/fermisurfer_common.o
-QEMODS = ../../Modules/libqemod.a ../../KS_Solvers/libks_solvers.a \
-         ../../FFTXlib/libqefft.a ../../LAXlib/libqela.a ../../UtilXlib/libutil.a
+PPOBJS = ../../PP/src/libpp.a
+QEMODS = ../../Modules/libqemod.a ../../KS_Solvers/libks_solvers.a ../../upflib/libupf.a ../../XClib/xc_lib.a \
+         ../../FFTXlib/libqefft.a ../../LAXlib/libqela.a ../../UtilXlib/libutil.a ../../dft-d3/libdftd3qe.a
 
 TLDEPS= pw ph pp
 
-all : tldeps libs-sctk sctk.x twingrid.x
+all : tldeps libs-sctk sctk.x twingrid.x nesting_proj.x
 
 libs-sctk : libsctk.a
 
-sctk.x : sctk_main.o libsctk.a $(PWOBJS) $(LRMODS) $(PHOBJS) $(PPOBJS) $(LIBOBJS)
+sctk.x : sctk_main.o libsctk.a $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
 	$(LD) $(LDFLAGS) -o $@ sctk_main.o libsctk.a \
 		 $(PPOBJS) $(PHOBJS) $(LRMODS) $(PWOBJS) $(QEMODS) $(LIBOBJS) $(QELIBS)
 	- ( cd ../../bin ; ln -fs ../SCTK/src/sctk.x . )
+
+nesting_proj.x : nesting_proj.o $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
+	$(LD) $(LDFLAGS) -o $@ nesting_proj.o \
+		 $(PPOBJS) $(PHOBJS) $(LRMODS) $(PWOBJS) $(QEMODS) $(LIBOBJS) $(QELIBS)
+	- ( cd ../../bin ; ln -fs ../SCTK/src/nesting_proj.x . )
 
 twingrid.x : twingrid.sh
 	cp twingrid.sh twingrid.x

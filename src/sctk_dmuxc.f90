@@ -69,11 +69,12 @@ SUBROUTINE apply_xc()
   USE fft_base,  ONLY : dfftp
   USE eqv,               ONLY : dmuxc
   USE fft_interfaces,    ONLY : fwfft, invfft
-  USE funct,             ONLY : dft_is_gradient
+  USE dft_mod,           ONLY : xclib_dft_is
   USE noncollin_module,  ONLY : nspin_mag
+  USE exx, ONLY : dfftt
   !
   USE sctk_invert, ONLY : invert
-  USE sctk_val, ONLY : gindx, gq2, laddxc, nf, ngv, ngv0, ngv1, nmf, wscr
+  USE sctk_val, ONLY : gindx, gq2, laddxc, ngv, ngv0, ngv1, nmf, wscr
   !
   IMPLICIT NONE
   !
@@ -86,10 +87,11 @@ SUBROUTINE apply_xc()
      !
      DO ig = 1, ngv
         !
-        igv(3) = (gindx(ig) - 1) / (nf(1)*nf(2))
-        igv(2) = (gindx(ig) - 1 - igv(3)*nf(2)*nf(1)) / nf(1)
-        igv(1) =  gindx(ig) - 1 - igv(3)*nf(2)*nf(1) - igv(2)*nf(1)
-        WHERE(igv(1:3)*2 >= nf(1:3)) igv(1:3) = igv(1:3) - nf(1:3)
+        igv(3) = (gindx(ig) - 1) / (dfftt%nr1*dfftt%nr2)
+        igv(2) = (gindx(ig) - 1 - igv(3)*dfftt%nr2*dfftt%nr1) / dfftt%nr1
+        igv(1) =  gindx(ig) - 1 - igv(3)*dfftt%nr2*dfftt%nr1 - igv(2)*dfftt%nr1
+        WHERE(igv(1:3)*2 >= (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)) &
+        &     igv(1:3) = igv(1:3) - (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)
         !
         igv(1:3) = modulo(igv(1:3), (/dfftp%nr1, dfftp%nr2, dfftp%nr3/))
         gindx_p(ig) = 1 + igv(1) + igv(2) * dfftp%nr1x + igv(3) * dfftp%nr1x * dfftp%nr2x
@@ -110,7 +112,7 @@ SUBROUTINE apply_xc()
            !
            vec(1:dfftp%nnr) = vec(1:dfftp%nnr) * dmuxc(1:dfftp%nnr,1,1)
            !
-           IF(dft_is_gradient()) THEN
+           IF(xclib_dft_is('GRADIENT')) THEN
               dvgga(1:dfftp%nnr, 1:4) = 0.0_dp
               CALL dgradcorr2(drho, dvgga)
               vec(1:dfftp%nnr) = vec(1:dfftp%nnr) + dvgga(1:dfftp%nnr, 1)
@@ -143,10 +145,11 @@ SUBROUTINE apply_xc_spin()
   USE fft_base,  ONLY : dfftp
   USE eqv,               ONLY : dmuxc
   USE fft_interfaces,    ONLY : fwfft, invfft
-  USE funct,             ONLY : dft_is_gradient
+  USE dft_mod,           ONLY : xclib_dft_is
   USE noncollin_module,  ONLY : nspin_mag, npol
+  USE exx, ONLY : dfftt
   !
-  USE sctk_val, ONLY : gindx, nf, nmf, ngv, ngv0, ngv1, wscr
+  USE sctk_val, ONLY : gindx, nmf, ngv, ngv0, ngv1, wscr
   !
   IMPLICIT NONE
   !
@@ -155,10 +158,11 @@ SUBROUTINE apply_xc_spin()
   !
   DO ig = 1, ngv
      !
-     igv(3) = (gindx(ig) - 1) / (nf(1)*nf(2))
-     igv(2) = (gindx(ig) - 1 - igv(3)*nf(2)*nf(1)) / nf(1)
-     igv(1) =  gindx(ig) - 1 - igv(3)*nf(2)*nf(1) - igv(2)*nf(1)
-     WHERE(igv(1:3)*2 >= nf(1:3)) igv(1:3) = igv(1:3) - nf(1:3)
+     igv(3) = (gindx(ig) - 1) / (dfftt%nr1*dfftt%nr2)
+     igv(2) = (gindx(ig) - 1 - igv(3)*dfftt%nr2*dfftt%nr1) / dfftt%nr1
+     igv(1) =  gindx(ig) - 1 - igv(3)*dfftt%nr2*dfftt%nr1 - igv(2)*dfftt%nr1
+     WHERE(igv(1:3)*2 >= (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)) &
+     &     igv(1:3) = igv(1:3) - (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)
      !
      igv(1:3) = modulo(igv(1:3), (/dfftp%nr1, dfftp%nr2, dfftp%nr3/))
      gindx_p(ig) = 1 + igv(1) + igv(2) * dfftp%nr1x + igv(3) * dfftp%nr1x * dfftp%nr2x
@@ -183,7 +187,7 @@ SUBROUTINE apply_xc_spin()
            vec(1:dfftp%nnr) = drho( 1:dfftp%nnr, ipol) &
            &                * dmuxc(1:dfftp%nnr, ipol, ipol)
            !
-           !IF(dft_is_gradient()) THEN ! tentative: sGGA turn off
+           !IF(xclib_dft_is('GRADIENT')) THEN ! tentative: sGGA turn off
            !   CALL dgradcorr2(drho, dvgga) 
            !   vec(1:dfftp%nnr) = vec(1:dfftp%nnr) + dvgga(1:dfftp%nnr, ipol)
            !END IF
@@ -207,7 +211,7 @@ SUBROUTINE dmxc_nc_para( length, rho_in, dmuxc )
   !! Computes the derivative of the xc potential with respect to the 
   !! local density and magnetization in the non-collinear case.
   !
-  USE xc_lda_lsda,  ONLY: xc_lsda
+  USE qe_drivers_lda_lsda,  ONLY: xc_lsda
   USE kinds,        ONLY: DP
   !
   IMPLICIT NONE
@@ -363,8 +367,8 @@ END SUBROUTINE dmxc_nc_para
 !!  USE kinds,                ONLY : DP
 !!  USE gvect,                ONLY : g
 !!  USE noncollin_module,     ONLY : nspin_gga
-!!  USE funct,                ONLY : gcx_spin, gcc_spin, &
-!!                                   dft_is_gradient, get_igcc
+!!  USE funct,                ONLY : gcx_spin, gcc_spin, get_igcc
+!!  USE dft_mod,              ONLY : xclib_dft_is
 !!  USE fft_base,             ONLY : dfftp
 !!  USE gc_lr,            ONLY : grho, vsgga
 !!  USE scf, ONLY : rho

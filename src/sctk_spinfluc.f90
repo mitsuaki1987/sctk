@@ -18,7 +18,6 @@ SUBROUTINE lambda_sf()
   !
   USE sctk_dmuxc, ONLY : apply_xc_spin
   USE sctk_invert, ONLY : invert, hermite
-  USE sctk_cnt_dsp, ONLY : cnt_and_dsp_full
   USE noncollin_module, ONLY : npol
   USE mp, ONLY : mp_bcast
   !

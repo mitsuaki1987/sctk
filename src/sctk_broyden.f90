@@ -21,6 +21,7 @@ SUBROUTINE broyden_gapeq(lout_delta,dabs)
   USE control_flags, ONLY : niter, tr2
   USE sctk_val, ONLY : delta, dk, emin, ngap, ngap1, ngap2, xi
   USE constants, ONLY : RYTOEV
+  USE io_files, ONLY : prefix, tmp_dir
   !
   USE sctk_gapeq_rhs, ONLY : gapeq_rhs
   USE sctk_io_delta, ONLY : out_delta
@@ -107,16 +108,6 @@ SUBROUTINE broyden_gapeq(lout_delta,dabs)
         !
      END IF
      !
-     IF(mpime == 0) THEN
-        IF(MODULO(itr, 2) == 0) THEN
-           CALL out_delta("delta.evn")
-           CALL system("rm -f delta.odd")
-        ELSE
-           CALL out_delta("delta.odd")
-           CALL system("rm -f delta.evn")
-        END IF
-     END IF
-     !
      ! Update Jacobian with drhs
      !
      drhs(1:ngap,1:2) = rhs(1:ngap,1:2) - rhs0(1:ngap,1:2)
@@ -151,8 +142,7 @@ SUBROUTINE broyden_gapeq(lout_delta,dabs)
   dabs = 0.5_dp * SUM(dave(1:2))
   !
   IF(mpime == 0) THEN
-     IF(lout_delta) CALL out_delta("delta.dat")
-     CALL system("rm -f delta.evn delta.odd")
+     IF(lout_delta) CALL out_delta(TRIM(tmp_dir) // TRIM(prefix) // ".scgap")
   END IF
   !
   WRITE(stdout,'(/,7x,"Not converged ! res = ",e12.5,/)') res
@@ -172,8 +162,7 @@ SUBROUTINE broyden_gapeq(lout_delta,dabs)
   dabs = 0.5_dp * SUM(dave(1:2))
   !
   IF(mpime == 0) THEN
-     IF(lout_delta) CALL out_delta("delta.dat")
-     CALL system("rm -f delta.evn delta.odd")
+     IF(lout_delta) CALL out_delta(TRIM(tmp_dir) // TRIM(prefix) // ".scgap")
   END IF
   !
   WRITE(stdout,'(/,7x,"Converged ! iter = ",i0,/)') itr

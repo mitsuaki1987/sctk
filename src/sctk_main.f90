@@ -42,28 +42,37 @@ PROGRAM sctk_main
   USE io_global, ONLY : stdout
   USE environment,ONLY : environment_start, environment_end
   USE mp_global,  ONLY : mp_startup, mp_global_end
-  USE input_parameters, ONLY : calculation
-  USE mp_world, ONLY : mpime
+  USE mp_pools, ONLY : npool
+  USE input_parameters, ONLY : calculation, restart_mode
+  USE mp_world, ONLY : mpime, nproc
+  USE mp_exx, ONLY : negrp
   USE wvfct, ONLY : et
   USE control_ph, ONLY : start_q, last_q, current_iq
   USE elph_tetra_mod, ONLY : lshift_q
   USE constants, ONLY: eV_to_kelvin, K_BOLTZMANN_RY
+  USE exx, ONLY : exx_fft_create
+  USE uspp, ONLY : okvan
+  USE control_flags,  ONLY : tqr
+  USE io_files, ONLY : prefix, tmp_dir
   !
   USE sctk_wfc, ONLY : get_wfcg, fft_wfc
   USE sctk_dmuxc, ONLY : generate_dmuxc, apply_xc
-  USE sctk_coulomb, ONLY : make_scrn, make_kel, alloc_Kel, Coulomb_parameter, &
+  USE sctk_coulomb, ONLY : make_scrn, make_kel, Kel_frequency, Coulomb_parameter, &
   &                       prepare_q, chebyshev_interpol, write_Kel
   USE sctk_invert, ONLY : invert
   USE sctk_io_delta, ONLY : read_delta, write_dos, output_frmsf
   USE sctk_stdin, ONLY : stdin_scdft, stdin_Kel, stdin_control
-  USE sctk_read_file, ONLY : read_elph, read_Coulomb, read_a2Fsave
+  USE sctk_read_file, ONLY : read_elph, read_Coulomb, read_a2Fsave, degenerated_band
   USE sctk_rotate_kernel, ONLY : expand_g_v, expand_g_v_f
   USE sctk_ini_delta, ONLY : ini_delta, ini_lambda_mu, energy_grid
   USE sctk_z, ONLY : make_Z, make_Z_f, make_Z_qpdos
   USE sctk_gapeq_rhs, ONLY : make_effint, gapeq_rhs_f, &
   &                          gapeq_rhs_qpdos, make_lambda_mu_f
   USE sctk_broyden, ONLY : broyden_gapeq
-  !USE sctk_val, ONLY : Kel ! debug
+  !USE wvfct, ONLY : nbnd ! debug
+  !USE sctk_val, ONLY : Kel, nk_p, k0_p, nbnd_p, bnd0_p, nmf, nqbz ! debug
+  !USE mp, ONLY : mp_sum ! debug
+  !USE mp_world, ONLY : world_comm ! debug
   USE sctk_val, ONLY : dltF, ZF, laddxc, Wscr, lsf, beta, zero_kelvin
   USE sctk_usonic, ONLY : calc_fvel, calc_usonic
   USE sctk_qpdos, ONLY : egrid, calc_sdos
@@ -75,6 +84,7 @@ PROGRAM sctk_main
   INTEGER :: iq, ibisec
   REAL(dp) :: dabs, delta0, tcmid, tcmin, tcmax
   LOGICAL :: needwf = .FALSE.
+  !REAL(DP),ALLOCATABLE :: Kel_all(:,:,:,:,:) !debug
   !
   ! initialise environment
   !
@@ -83,8 +93,12 @@ PROGRAM sctk_main
 #endif
   CALL environment_start ( 'SCTK' )
   !
+  IF (nproc /= npool*negrp) &
+  & CALL errore ('sctk_main', 'npool(-nk) times band-group(-nb) must equal to the number of processes.', npool)
+  !
   CALL stdin_control()
   CALL read_file_new ( needwf )
+  caLL degenerated_band()
   CALL read_a2Fsave()
   lshift_q = .TRUE.
   !
@@ -92,6 +106,8 @@ PROGRAM sctk_main
      !
      WRITE(stdout,'(/,5x,"#####  Read from STDIN  #####",/)') 
      CALL stdin_Kel()
+     IF(okvan) tqr = .TRUE.
+     CALL exx_fft_create()
      !
      WRITE(stdout,'(/,5x,"#####  Read gvectors.dat & evc.dat  #####",/)')
      CALL get_wfcg()
@@ -107,7 +123,7 @@ PROGRAM sctk_main
      END IF
      !
      WRITE(stdout,'(/,5x,"#####  Set frequency grid  #####",/)')
-     CALL alloc_Kel()
+     CALL Kel_frequency()
      !
      WRITE(stdout,'(/,5x,"#####  Compute K_el  #####",/)')
      !
@@ -130,11 +146,19 @@ PROGRAM sctk_main
         !
         CALL Coulomb_parameter()
         !
-        !IF(mpime==0) WRITE(80+iq,'(3e25.15)') Kel(:,:,:,:,1) !debug
+        !!!!!!!!  start debug
+        !ALLOCATE(Kel_all(0:nmf+1,nbnd,nbnd,nqbz,lsf+1))
+        !Kel_all(0:nmf+1,1:nbnd,1:nbnd,1:nqbz,1:lsf+1) = 0.0_dp
+        !Kel_all(0:nmf+1,1:nbnd,bnd0_p+1:bnd0_p+nbnd_p,k0_p+1:k0_p+nk_p,1:lsf+1) &
+        !& = Kel(0:nmf+1,1:nbnd,       1:       nbnd_p,     1:     nk_p,1:lsf+1)
+        !CALL mp_sum(Kel_all,world_comm)
+        !IF(mpime==0) WRITE(80+iq,'(3e25.15)') Kel_all(:,:,:,:,1) !debug
         !IF(lsf>0) THEN
         !   IF(mpime==0) WRITE(80+iq,*) 
-        !   IF(mpime==0) WRITE(80+iq,'(2e25.15)') Kel(0:1,:,:,:,2) !debug
+        !   IF(mpime==0) WRITE(80+iq,'(2e25.15)') Kel_all(0:1,:,:,:,2) !debug
         !END IF
+        !DEALLOCATE(Kel_all)
+        !!!!!!!!  finish debug
         CALL chebyshev_interpol()
         CALL write_Kel()
         !
@@ -192,6 +216,7 @@ PROGRAM sctk_main
               CALL errore ('sctk_main', 'No SC even at the zero Kelvin.', 1)
            ELSE
               tcmin = 0.0_dp
+              restart_mode = "restart"
            END IF
            !
            ! Find upper limit of Tc
@@ -269,8 +294,8 @@ PROGRAM sctk_main
            !
            WRITE(stdout,'(/,5x,"#####  Write mu.frmsf and lambda_frmsf  #####",/)')
            IF(mpime == 0) THEN
-              CALL output_frmsf(et, dltF, "mu.frmsf")
-              CALL output_frmsf(et, ZF, "lambda.frmsf")
+              CALL output_frmsf(et, dltF, TRIM(tmp_dir) // TRIM(prefix) // "_mu.frmsf")
+              CALL output_frmsf(et, ZF, TRIM(tmp_dir) // TRIM(prefix) // "_lambda.frmsf")
            END IF
            !
         ELSE ! calculation = qpdos, deltaf, ultrasonic
@@ -306,8 +331,8 @@ PROGRAM sctk_main
                  WRITE(stdout,'(/,5x,"#####  Write delta.frmsf  #####",/)')
                  !
                  IF(mpime == 0) THEN
-                    CALL output_frmsf(et, dltF, "delta.frmsf")
-                    CALL output_frmsf(et, ZF, "Z.frmsf")
+                    CALL output_frmsf(et, dltF, TRIM(tmp_dir) // TRIM(prefix) // "_delta.frmsf")
+                    CALL output_frmsf(et, ZF, TRIM(tmp_dir) // TRIM(prefix) // "_Z.frmsf")
                  END IF
                  !
               ELSE ! calculation = ultrasonic

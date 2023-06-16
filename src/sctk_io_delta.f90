@@ -19,6 +19,7 @@ SUBROUTINE read_delta()
   USE mp_world, ONLY : mpime, world_comm
   USE mp, ONLY : mp_bcast
   USE io_global, ONLY : ionode_id
+  USE io_files, ONLY : prefix, tmp_dir
   USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap, ngap1, ngap2, xi
   !
   IMPLICIT NONE
@@ -29,8 +30,9 @@ SUBROUTINE read_delta()
   !
   IF(mpime == 0) THEN
      !
-     OPEN(fi, file = 'delta.dat',status="old", action = 'read',iostat = is)
-     IF(is /= 0) CALL errore("read_delta", "Can not open delta.dat", 1)
+     OPEN(fi, file = TRIM(tmp_dir) // TRIM(prefix) // '.scgap',status="old", action = 'read',iostat = is)
+     IF(is /= 0) CALL errore("read_delta", &
+     &                       "Can not open" // TRIM(tmp_dir) // TRIM(prefix) // ".scgap", 1)
      !
      READ(fi,*) tmp, ngap1, ngap2
      !
@@ -107,10 +109,11 @@ SUBROUTINE write_dos()
   USE kinds, ONLY : DP
   USE sctk_val, ONLY : e0, ne, sdos
   USE constants, ONLY : RYTOEV
+  USE io_files, ONLY : prefix, tmp_dir
   !
   INTEGER :: ie, fo = 20
   !
-  OPEN(fo, file = 'qpdos.dat')
+  OPEN(fo, file = TRIM(tmp_dir) // TRIM(prefix) // '.qpdos')
   !
   DO ie = 1, ne
      WRITE(fo,*) e0(ie) * RYTOEV * 1.0e3_dp, sdos(ie)

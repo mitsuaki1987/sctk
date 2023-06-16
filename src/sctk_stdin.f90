@@ -19,7 +19,7 @@ SUBROUTINE stdin_control()
   USE mp_world, ONLY : world_comm
   USE mp, ONLY : mp_bcast
   USE io_files, ONLY : prefix, tmp_dir
-  USE input_parameters, ONLY : calculation
+  USE input_parameters, ONLY : calculation, restart_mode
   !
   IMPLICIT NONE
   !
@@ -31,6 +31,7 @@ SUBROUTINE stdin_control()
   CALL get_environment_variable('ESPRESSO_TMPDIR', outdir)
   IF(TRIM(outdir) == ' ') outdir = './'
   calculation = 'kel'
+  restart_mode = 'from_scratch'
   !
   IF(ionode) THEN
      !
@@ -43,6 +44,7 @@ SUBROUTINE stdin_control()
   CALL mp_bcast(prefix,  ionode_id, world_comm)
   CALL mp_bcast(tmp_dir, ionode_id, world_comm)
   CALL mp_bcast(calculation, ionode_id, world_comm)
+  CALL mp_bcast(restart_mode, ionode_id, world_comm)
   !
   IF(TRIM(calculation) /= "kel" .AND. &
   &  TRIM(calculation) /= "scdft" .AND. &
@@ -53,6 +55,12 @@ SUBROUTINE stdin_control()
   &  TRIM(calculation) /= "lambda_mu_k") THEN
      WRITE(*,*) "calculation = ", TRIM(calculation)
      CALL errore ('stdin_control', 'Invalid input for keyword calculation.', 1)
+  END IF
+  !
+  IF(TRIM(restart_mode) /= "from_scratch" .AND. &
+  &  TRIM(restart_mode) /= "restart") THEN
+     WRITE(*,*) "restart_mode = ", TRIM(restart_mode)
+     CALL errore ('stdin_control', 'Invalid input for keyword restart_mode.', 1)
   END IF
   !
   RETURN
@@ -68,7 +76,7 @@ SUBROUTINE stdin_Kel()
   USE io_global, ONLY : ionode, ionode_id
   USE mp_world, ONLY : world_comm
   USE mp, ONLY : mp_bcast
-  USE gvecw, ONLY : ecutwfc
+  USE exx, ONLY : ecutfock
   USE control_ph, ONLY : start_q, last_q
   USE start_k, ONLY : nk1, nk2, nk3
   USE disp,  ONLY : nq1, nq2, nq3, nqs
@@ -78,7 +86,7 @@ SUBROUTINE stdin_Kel()
   !
   IMPLICIT NONE
   !
-  NAMELIST /kel/ start_q, last_q, nci, laddxc, ecutwfc, nq1, nq2, nq3, lsf
+  NAMELIST /kel/ start_q, last_q, nci, laddxc, ecutfock, nq1, nq2, nq3, lsf
   !
   IF(ionode) THEN
      !
@@ -99,7 +107,7 @@ SUBROUTINE stdin_Kel()
      WRITE(*,'(7x,"           The last q : ",i0)') last_q
      WRITE(*,'(7x,"               laddxc : ",i0)') laddxc
      WRITE(*,'(7x,"                  lsf : ",i0)') lsf
-     WRITE(*,'(7x,"Cutoff kinetic energy : ",e12.5)') ecutwfc
+     WRITE(*,'(7x,"Cutoff kinetic energy : ",e12.5)') ecutfock
      !
   END IF
   !
@@ -111,7 +119,7 @@ SUBROUTINE stdin_Kel()
   CALL mp_bcast(nci,        ionode_id, world_comm )
   CALL mp_bcast(laddxc,     ionode_id, world_comm )
   CALL mp_bcast(lsf,        ionode_id, world_comm )
-  CALL mp_bcast(ecutwfc,    ionode_id, world_comm )
+  CALL mp_bcast(ecutfock,   ionode_id, world_comm )
   !
   ! Compute irreducible q grid
   !
@@ -129,7 +137,7 @@ SUBROUTINE stdin_Kel()
   WRITE(*,'(7x,"          The first q : ",i0)') start_q
   WRITE(*,'(7x,"           The last q : ",i0)') last_q
   WRITE(*,'(7x,"               laddxc : ",i0)') laddxc
-  WRITE(*,'(7x,"Cutoff kinetic energy : ",e12.5)') ecutwfc
+  WRITE(*,'(7x,"Cutoff kinetic energy : ",e12.5)') ecutfock
   !
   CALL errore ('stdin_Kel', 'reading namelist Kel', 1)
   !
@@ -148,19 +156,20 @@ SUBROUTINE stdin_scdft()
   USE input_parameters, ONLY : electron_maxstep, conv_thr
   USE wvfct, ONLY : nbnd
   USE output,        ONLY : fildyn
-  USE constants, ONLY: K_BOLTZMANN_RY
+  USE constants, ONLY: K_BOLTZMANN_RY, RY_TO_THZ
   !
   USE sctk_val, ONLY : beta, emax, emin, fbee, lbee, ne, nmf, nx, xic, mf, wmf, &
-  &                    zero_kelvin, lsf
+  &                    zero_kelvin, lsf, scdft_kernel, lz_coulomb, freq_min, freq_min_ratio
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   !
   IMPLICIT NONE
   !
   REAL(dp) :: temp
   LOGICAL :: spin_fluc
+  CHARACTER(256) :: elph, coulomb
   !
-  NAMELIST /scdft/ temp, fbee, lbee, xic, nmf, nx, ne, emin, emax, &
-  &                electron_maxstep, conv_thr, fildyn, spin_fluc
+  NAMELIST /scdft/ temp, fbee, lbee, xic, nmf, nx, ne, emin, emax, lz_coulomb, electron_maxstep, &
+  &                conv_thr, fildyn, spin_fluc, scdft_kernel, freq_min, freq_min_ratio
   !
   IF(ionode) THEN
      !
@@ -177,6 +186,10 @@ SUBROUTINE stdin_scdft()
      conv_thr = 1.0e-15_dp
      fildyn       = 'matdyn'
      spin_fluc = .FALSE.
+     scdft_kernel = 1
+     lz_coulomb = .FALSE.
+     freq_min = 0.0_dp
+     freq_min_ratio = -1.0
      !
      READ(5,scdft,err=100)
      !
@@ -199,12 +212,18 @@ SUBROUTINE stdin_scdft()
      WRITE(*,'(7x,"Max energy for QP-DOS [meV] : ",e12.5)') emax
      WRITE(*,'(7x,"      Convergense threshold : ",e12.5)') conv_thr
      WRITE(*,'(7x,"               Max itration : ",i0)') electron_maxstep
-     WRITE(*,'(7x,"           Spin-fluvtuation : ",l)') spin_fluc
+     WRITE(*,'(7x,"           Spin-fluctuation : ",l)') spin_fluc
+     WRITE(*,'(7x,"               SCDFT kernel : ",i0)') scdft_kernel
+     WRITE(*,'(7x,"                  Z_Coulomb : ",l)') lz_coulomb
+     WRITE(*,'(7x,"            Min. freq.[THz] : ",e12.5)') freq_min
+     WRITE(*,'(7x,"           Min. freq. ratio : ",e12.5)') freq_min_ratio
      IF(spin_fluc) THEN
         lsf = 2
      ELSE
         lsf = 1
      END IF
+     !
+     freq_min = freq_min / RY_TO_THZ
      !
   END IF
   !
@@ -221,6 +240,10 @@ SUBROUTINE stdin_scdft()
   CALL mp_bcast(electron_maxstep, ionode_id, world_comm )
   CALL mp_bcast(conv_thr,         ionode_id, world_comm )
   CALL mp_bcast(lsf,              ionode_id, world_comm )
+  CALL mp_bcast(scdft_kernel,     ionode_id, world_comm )
+  CALL mp_bcast(lz_coulomb,       ionode_id, world_comm )
+  CALL mp_bcast(freq_min,         ionode_id, world_comm )
+  CALL mp_bcast(freq_min_ratio,   ionode_id, world_comm )
   !
   niter = electron_maxstep
   tr2 = conv_thr
@@ -232,7 +255,7 @@ SUBROUTINE stdin_scdft()
   CALL weightspoints_gl(nmf,mf,wmf(1:nmf,2))
   !
   wmf(1:nmf,1) = 2.0_dp / (pi * (mf(1:nmf)**2 + 1.0_dp)) * wmf(1:nmf,2)
-  wmf(1:nmf,2) = 2.0_dp * mf(1:nmf) / (pi * (mf(1:nmf)**2 + 1.0_dp)**2) * wmf(1:nmf,2)
+  wmf(1:nmf,2) = -2.0_dp * mf(1:nmf) / (pi * (mf(1:nmf)**2 + 1.0_dp)**2) * wmf(1:nmf,2)
   mf(1:nmf) = (1.0_dp + mf(1:nmf)) / (1.0_dp - mf(1:nmf))
   !
   RETURN

@@ -1,5 +1,5 @@
 diff --git a/LR_Modules/dfpt_tetra_mod.f90 b/LR_Modules/dfpt_tetra_mod.f90
-index b6f58d30e..05754ea08 100644
+index d341ff695..650c01760 100644
 --- a/LR_Modules/dfpt_tetra_mod.f90
 +++ b/LR_Modules/dfpt_tetra_mod.f90
 @@ -18,7 +18,10 @@ MODULE dfpt_tetra_mod
@@ -14,19 +14,104 @@ index b6f58d30e..05754ea08 100644
    !
    LOGICAL,SAVE :: dfpt_tetra_linit = .FALSE.
    !
+@@ -1525,12 +1528,13 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+   call hpsort (4, e, itetra)
+   !
+   thr = MAXVAL(e(1:4)) * 1e-3_dp
+-  thr2 = 1e-8_dp
++  thr2 = 1e-9_dp
+   !
+   DO ii = 1, 4
+      IF(e(ii) < thr2) THEN
+         IF(ii == 3) THEN
+-           CALL errore("dfpt_tetra_lindhard", "Nesting occurs.", 0)
++           write(*,*) e(1:4)
++           CALL errore("dfpt_tetra_lindhard", "Nesting occurs.", 1)
+         END IF
+         le(ii) = 0.0_dp
+         e(ii) = 0.0_dp
+@@ -1562,7 +1566,7 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+            IF(ANY(w(itetra(1:4)) < 0.0_dp)) THEN
+               WRITE(*,'(100e15.5)') e(1:4)
+               WRITE(*,'(100e15.5)') w(itetra(1:4))
+-              CALL errore("dfpt_tetra_lindhard", "4=3=2", 0)
++              CALL errore("dfpt_tetra_lindhard", "Case : 4=3=2", 1)
+            END IF
+            !
+         END IF
+@@ -1578,7 +1582,7 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+         IF(ANY(w(itetra(1:4)) < 0.0_dp)) THEN
+            WRITE(*,'(100e15.5)') e(1:4)
+            WRITE(*,'(100e15.5)') w(itetra(1:4))
+-           CALL errore("dfpt_tetra_lindhard", "4=3 2=1", 0)
++           CALL errore("dfpt_tetra_lindhard", "Case : 4=3, 2=1", 1)
+         END IF
+         !
+      ELSE
+@@ -1593,7 +1597,7 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+         IF(ANY(w(itetra(1:4)) < 0.0_dp)) THEN
+            WRITE(*,'(100e15.5)') e(1:4)
+            WRITE(*,'(100e15.5)') w(itetra(1:4))
+-           CALL errore("dfpt_tetra_lindhard", "4=3", 0)
++           CALL errore("dfpt_tetra_lindhard", "Case : 4=3", 1)
+         END IF
+         !
+      END IF
+@@ -1610,7 +1614,7 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+         IF(ANY(w(itetra(1:4)) < 0.0_dp)) THEN
+            WRITE(*,'(100e15.5)') e(1:4)
+            WRITE(*,'(100e15.5)') w(itetra(1:4))
+-           CALL errore("dfpt_tetra_lindhard", "3=2=1", 0)
++           CALL errore("dfpt_tetra_lindhard", "Case : 3=2=1", 1)
+         END IF
+         !
+      ELSE
+@@ -1625,7 +1629,7 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+         IF(ANY(w(itetra(1:4)) < 0.0_dp)) THEN
+            WRITE(*,'(100e15.5)') e(1:4)
+            WRITE(*,'(100e15.5)') w(itetra(1:4))
+-           CALL errore("dfpt_tetra_lindhard", "3=2", 0)
++           CALL errore("dfpt_tetra_lindhard", "Case : 3=2", 1)
+         END IF
+         !
+      END IF
+@@ -1641,12 +1645,12 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+      IF(ANY(w(itetra(1:4)) < 0.0_dp)) THEN
+         WRITE(*,'(100e15.5)') e(1:4)
+         WRITE(*,'(100e15.5)') w(itetra(1:4))
+-        CALL errore("dfpt_tetra_lindhard", "2=1", 0)
++        CALL errore("dfpt_tetra_lindhard", "Case : 2=1", 1)
+      END IF
+      !
+   ELSE
+      !
+-     ! DIFferent each other.
++     ! Different each other.
+      !
+      w(itetra(4)) = dfpt_tetra_lindhard_1234(e(4),e(1),e(2),e(3),le(4),le(1),le(2),le(3))
+      w(itetra(3)) = dfpt_tetra_lindhard_1234(e(3),e(1),e(2),e(4),le(3),le(1),le(2),le(4))
+@@ -1656,7 +1660,7 @@ SUBROUTINE dfpt_tetra_lindhard(ei,ej,w)
+      IF(ANY(w(itetra(1:4)) < 0.0_dp)) THEN
+         WRITE(*,'(100e15.5)') e(1:4)
+         WRITE(*,'(100e15.5)') w(itetra(1:4))
+-        CALL errore("dfpt_tetra_lindhard", "Something wrong.", 0)
++        CALL errore("dfpt_tetra_lindhard", "Case : Different each other", 1)
+      END IF
+      !
+   END IF
 diff --git a/LR_Modules/setup_nscf.f90 b/LR_Modules/setup_nscf.f90
-index 435ae6517..7bfba3678 100644
+index 56e255e4d..bd062795d 100644
 --- a/LR_Modules/setup_nscf.f90
 +++ b/LR_Modules/setup_nscf.f90
-@@ -54,6 +54,7 @@ SUBROUTINE setup_nscf ( newgrid, xq, elph_mat )
+@@ -52,6 +52,7 @@ SUBROUTINE setup_nscf ( newgrid, xq, elph_mat )
    LOGICAL, INTENT (IN) :: newgrid
    LOGICAL, INTENT (IN) :: elph_mat  ! used to be passed through a module. 
    !
 +  INTEGER :: t_rev_dummy(48)
    REAL (DP), ALLOCATABLE :: rtau (:,:,:)
+   INTEGER  :: t_rev_eff(48), ik
    LOGICAL  :: magnetic_sym, sym(48)
-   LOGICAL  :: skip_equivalence
-@@ -138,8 +139,14 @@ SUBROUTINE setup_nscf ( newgrid, xq, elph_mat )
+@@ -148,8 +149,14 @@ SUBROUTINE setup_nscf ( newgrid, xq, elph_mat )
    !
    IF ( ltetra .AND. (tetra_type /= 0) ) THEN
       IF (ALLOCATED(tetra)) DEALLOCATE(tetra)
@@ -43,18 +128,160 @@ index 435ae6517..7bfba3678 100644
    END IF
    !
    IF ( lsda ) THEN
+diff --git a/PHonon/PH/alpha2f.f90 b/PHonon/PH/alpha2f.f90
+index d77691e32..24405d5f5 100644
+--- a/PHonon/PH/alpha2f.f90
++++ b/PHonon/PH/alpha2f.f90
+@@ -22,6 +22,10 @@ MODULE alpha2f_vals
+   !
+   INTEGER :: nfreq
+   !
++  REAL(DP),SAVE :: &
++  & freq_min, &
++  & freq_min_ratio
++  !
+   REAL(DP),ALLOCATABLE,SAVE :: &
+   & omg(:,:), & ! (nmodes,nqs) Phonon frequencies on irreducible q
+   & lam(:,:), & ! (nmodes,nqs) El-Ph coupling  on irreducible q
+@@ -148,11 +152,10 @@ SUBROUTINE read_lam()
+   !
+   USE kinds,     ONLY : DP
+   USE disp,      ONLY : nqs, x_q
+-  USE cell_base, ONLY : at
+   USE modes,     ONLY : nmodes
+   USE output,    ONLY : fildyn
+   !
+-  USE alpha2f_vals, ONLY : omg, lam
++  USE alpha2f_vals, ONLY : omg, lam, freq_min, freq_min_ratio
+   !
+   IMPLICIT NONE
+   !
+@@ -187,18 +190,20 @@ SUBROUTINE read_lam()
+      !
+      DO im = 1, nmodes
+         READ(fi,'(a19,f8.4)') ctmp, lam(im,iq)
+-        IF (omg(im,iq) > 0.0_dp) THEN
+-           omg(im,iq) = SQRT(omg(im,iq))
+-        ELSE
+-           omg(im,iq) = 1.0_dp
+-           lam(im,iq) = 0.0_dp
+-        END IF
+      END DO
+      !
+      CLOSE(fi)
+      !
+   END DO
+   !
++  ! w^2 (input) -> w
++  !
++  omg(1:nmodes,1:nqs) = sign(SQRT(ABS(omg(1:nmodes,1:nqs))), omg(1:nmodes,1:nqs))
++  !
++  IF(freq_min_ratio > 0.0) THEN
++     freq_min = freq_min_ratio * MAXVAL(omg(1:nmodes,1:nqs))
++  END IF
++  !
+ END SUBROUTINE read_lam
+ !
+ !-------------------------------------------------------------------
+@@ -210,7 +215,7 @@ SUBROUTINE compute_a2F()
+   USE kinds,     ONLY : DP
+   USE ions_base, ONLY : nat
+   USE modes,     ONLY : nmodes
+-  USE ktetra,    ONLY : ntetra, tetra, opt_tetra_init, opt_tetra_partialdos
++  USE ktetra,    ONLY : ntetra, opt_tetra_init, opt_tetra_partialdos
+   USE wvfct,     ONLY : et, nbnd
+   USE io_global, ONLY : stdout
+   USE cell_base, ONLY : at, bg
+@@ -307,15 +312,15 @@ SUBROUTINE compute_lambda()
+   USE modes,     ONLY : nmodes  
+   USE constants, ONLY : RY_TO_THZ, K_BOLTZMANN_RY
+   USE ktetra,    ONLY : ntetra, wlsm, tetra
+-  USE disp,      ONLY : nqs
++  USE disp,      ONLY : nqs, x_q
+   USE io_global, ONLY : stdout
+   USE io_files,  ONLY : prefix
+   !
+-  USE alpha2f_vals, ONLY : omg, lam
++  USE alpha2f_vals, ONLY : omg, lam, freq_min
+   !
+   IMPLICIT NONE
+   !
+-  INTEGER :: ii, itetra, iq, fo
++  INTEGER :: ii, itetra, iq, fo, imode
+   REAL(DP) :: omglog, lambda, wq(nqs)
+   !
+   INTEGER, EXTERNAL :: find_free_unit
+@@ -331,8 +336,15 @@ SUBROUTINE compute_lambda()
+   lambda = 0.0_dp
+   omglog = 0.0_dp
+   DO iq = 1, nqs
+-     lambda = lambda + wq(iq) * SUM(lam(1:nmodes, iq))
+-     omglog = omglog + wq(iq) * SUM(LOG(omg(1:nmodes,iq)) * lam(1:nmodes,iq))
++     DO imode = 1, nmodes
++        IF(omg(imode, iq) > freq_min) THEN
++           lambda = lambda + wq(iq) * lam(imode, iq)
++           omglog = omglog + wq(iq) * LOG(omg(imode,iq)) * lam(imode,iq)
++        ELSE
++           WRITE(stdout,'(a,i0,a,i0,a,3f10.5,a,e15.5)') &
++           & "IGNORE iq=", iq, ", imode=", imode, ", x_q=", x_q(1:3,iq), ", omega[THz]=", omg(imode,iq)*RY_TO_THZ
++        END IF
++     END DO
+   END DO
+   omglog = omglog / lambda
+   omglog = EXP(omglog)
+@@ -377,20 +389,23 @@ PROGRAM alpha2f
+   ! This routine reads lambda*.dat and compute a^2F, phonon DOS, lambda,
+   ! & omega_ln 
+   !
++  USE kinds,          ONLY : DP
+   USE mp_global,      ONLY : mp_startup, mp_global_end
+   USE environment,    ONLY : environment_start, environment_end
+   USE elph_tetra_mod, ONLY : in_alpha2f
+   USE io_global,      ONLY : qestdin, ionode
++  USE modes,          ONLY : nmodes
++  USE ions_base,      ONLY : nat
++  USE constants,      ONLY : RY_TO_THZ
+   !
+-  USE alpha2f_vals,     ONLY : nfreq
++  USE alpha2f_vals,     ONLY : nfreq, freq_min, freq_min_ratio
+   USE alpha2f_routines, ONLY : read_lam, compute_a2f, compute_lambda, read_polarization
+   !
+   implicit none
+   !
+   CHARACTER (LEN=256) :: auxdyn
+-  INTEGER :: ios
+   !
+-  NAMELIST /INPUTA2F/ nfreq
++  NAMELIST /INPUTA2F/ nfreq, freq_min, freq_min_ratio
+   !
+ #if defined(__MPI)
+   CALL mp_startup()
+@@ -399,8 +414,13 @@ PROGRAM alpha2f
+   in_alpha2f = .TRUE.
+   !
+   CALL phq_readin()
++  nmodes = 3 * nat
+   !
++  nfreq = 100
++  freq_min = 0.0_dp
++  freq_min_ratio = -1.0
+   IF(ionode) READ( qestdin, INPUTA2F )
++  freq_min = freq_min / RY_TO_THZ
+   !
+   CALL check_initial_status(auxdyn)
+   !
 diff --git a/PHonon/PH/do_q2r.f90 b/PHonon/PH/do_q2r.f90
-index aeb159287..3bba057bc 100644
+index 68e72a2c4..d411a5428 100644
 --- a/PHonon/PH/do_q2r.f90
 +++ b/PHonon/PH/do_q2r.f90
-@@ -23,6 +23,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
-                          read_dyn_mat, read_dyn_mat_tail, &
-                          write_dyn_mat_header, write_ifc
+@@ -25,6 +25,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
    USE environment, ONLY : environment_start, environment_end
-+  USE elph_tetra_mod, ONLY : lshift_q
-+  USE constants, ONLY : pi
    USE rigid,       ONLY : rgd_blk
    USE el_phon,     ONLY : el_ph_nsigma
++  USE constants,   ONLY : pi
++  USE elph_tetra_mod, ONLY : lshift_q
+   !
+   IMPLICIT NONE
    !
 @@ -48,6 +50,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
    INTEGER :: na, nt
@@ -87,27 +314,57 @@ index aeb159287..3bba057bc 100644
  
             IF(nc(m(1),m(2),m(3)).EQ.0) THEN
                nc(m(1),m(2),m(3))=1
-@@ -238,6 +249,28 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
+@@ -238,6 +249,58 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d)
          END DO
       END DO
       !
 +     ! Phase for shifted q-grid
 +     !
++     ! C(R) = sum_q exp(2*pi*i*(q+0.5)*R/N) C(q+0.5)
++     !      = exp(pi*i*R/N) sum_q exp(2*pi*i*q*R/N) C(q+0.5)
++     !
++     ! C(R-N) = exp(pi*i*(R-N)/N) sum_q exp(2 pi i q (R-N) / N) C(q+0.5)
++     !        = - exp(pi*i*R/N) sum_q exp(2*pi*i*q*R/N) C(q+0.5)
++     !
++     ! C(N/2) = -C(-N/2) = 0
++     !
 +     IF(lshift_q) THEN
-+        DO l3 = 1, nr3
-+           qshift_phase = pi * REAL(l3-1,DP) / REAL(nr3,DP)
++        DO m3 = 0, nr3 - 1
++           !
++           qshift_phase = pi * REAL(m3,DP) / REAL(nr3,DP)
 +           qshift_coef(3) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
-+           IF(l3 > nr3/2) qshift_coef(3) = -qshift_coef(3)
-+           DO l2 = 1, nr2
-+              qshift_phase = pi * REAL(l2-1,DP) / REAL(nr2,DP)
++           !
++           IF(2*m3 > nr3) THEN
++              qshift_coef(3) = - qshift_coef(3)
++           ELSE IF(2*m3 == nr3) THEN
++              qshift_coef(3) = 0.0_dp
++           END IF
++           !
++           DO m2 = 0, nr2 - 1
++              !
++              qshift_phase = pi * REAL(m2,DP) / REAL(nr2,DP)
 +              qshift_coef(2) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
-+              IF(l2 > nr2/2) qshift_coef(2) = -qshift_coef(2)
-+              DO l1 = 1, nr1
-+                 qshift_phase = pi * REAL(l1-1,DP) / REAL(nr1,DP)
++              !
++              IF (2*m2 > nr2) THEN
++                 qshift_coef(2) = - qshift_coef(2)
++              ELSE IF (2*m2 == nr2) THEN
++                 qshift_coef(2) = 0.0_dp
++              END IF
++              !
++              DO m1 = 0, nr1 - 1
++                 !
++                 qshift_phase = pi * REAL(m1,DP) / REAL(nr1,DP)
 +                 qshift_coef(1) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
-+                 IF(l1 > nr1/2) qshift_coef(1) = -qshift_coef(1)
-+                 phid(    l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) &
-+                 & = phid(l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) * PRODUCT(qshift_coef(1:3))
++                 !
++                 IF (2*m1 > nr1) THEN
++                    qshift_coef(1) = -qshift_coef(1)
++                 ELSE IF (2*m1 == nr1) THEN
++                    qshift_coef(1) = 0.0_dp
++                 END IF
++                 !
++                 phid(    1+m1+nr1*m2+nr1*nr2*m3,:,:,:,:) &
++                 & = phid(1+m1+nr1*m2+nr1*nr2*m3,:,:,:,:) * PRODUCT(qshift_coef(1:3))
++                 !
 +              END DO
 +           END DO
 +        END DO
@@ -116,27 +373,16 @@ index aeb159287..3bba057bc 100644
       ! Real space force constants written to file (analytical part)
       !
       IF (xmldyn) THEN
-@@ -320,6 +353,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -320,6 +383,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
    USE mp,         ONLY : mp_bcast
    USE mp_world,   ONLY : world_comm
    USE el_phon,    ONLY : el_ph_nsigma
-+  USE elph_tetra_mod, ONLY : lshift_q
 +  USE constants,  ONLY : pi
++  USE elph_tetra_mod, ONLY : lshift_q
    !
    IMPLICIT NONE
    INTEGER, INTENT(IN) :: nqtot, nat, nr1, nr2, nr3
-@@ -330,8 +365,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
-   !
-   REAL(DP), PARAMETER :: eps=1.D-5, eps12=1.d-12
-   INTEGER  :: isig, filea2F, nstar, count_q, nq, nq_log, iq, &
--              icar, ipol, m1,m2,m3, m(3), nr(3), j1,j2, na1, na2, nn
--  LOGICAL  :: lq
-+       icar, ipol, m1,m2,m3, m(3), nr(3), j1,j2, na1, na2, nn, l1, l2, l3
-+  LOGICAL :: lq
-   REAL(DP) :: deg, ef, dosscf
-   REAL(DP) :: q(3,48), xq, resi
-   character(len=256) :: name
-@@ -339,6 +374,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -339,6 +404,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
    CHARACTER(LEN=6) :: int_to_char
    LOGICAL :: exst
    INTEGER :: ios
@@ -145,7 +391,7 @@ index aeb159287..3bba057bc 100644
  
    !
    ALLOCATE (gaminp(3,3,nat,nat,48), gamout(nr1*nr2*nr3,3,3,nat,nat) )
-@@ -388,13 +425,20 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -388,13 +455,20 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
                do icar=1,3
                   xq = xq + at(icar,ipol) * q(icar,nq) * nr(ipol)
                end do
@@ -167,27 +413,57 @@ index aeb159287..3bba057bc 100644
             !
             if(nc(m(1),m(2),m(3)) == 0) then
                nc(m(1),m(2),m(3)) = 1
-@@ -425,6 +469,28 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -425,6 +499,58 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
       end do
       gamout = gamout / DBLE (nr1*nr2*nr3)
       !
 +     ! Phase for shifted q-grid
 +     !
++     ! C(R) = sum_q exp(2*pi*i*(q+0.5)*R/N) C(q+0.5)
++     !      = exp(pi*i*R/N) sum_q exp(2*pi*i*q*R/N) C(q+0.5)
++     !
++     ! C(R-N) = exp(pi*i*(R-N)/N) sum_q exp(2 pi i q (R-N) / N) C(q+0.5)
++     !        = - exp(pi*i*R/N) sum_q exp(2*pi*i*q*R/N) C(q+0.5)
++     !
++     ! C(-N/2) = -C(N/2) = 0
++     !
 +     IF(lshift_q) THEN
-+        DO l3 = 1, nr3
-+           qshift_phase = pi * REAL(l3-1,DP) / REAL(nr3,DP)
++        DO m3 = 0, nr3 - 1
++           !
++           qshift_phase = pi * REAL(m3,DP) / REAL(nr3,DP)
 +           qshift_coef(3) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
-+           IF(l3 > nr3/2) qshift_coef(3) = -qshift_coef(3)
-+           DO l2 = 1, nr2
-+              qshift_phase = pi * REAL(l2-1,DP) / REAL(nr2,DP)
++           !
++           IF(2*m3 > nr3) THEN
++              qshift_coef(3) = -qshift_coef(3)
++           ELSE IF(2*m3 == nr3) THEN
++              qshift_coef(3) = 0.0_dp
++           END IF
++           !
++           DO m2 = 0, nr2 - 1
++              !
++              qshift_phase = pi * REAL(m2,DP) / REAL(nr2,DP)
 +              qshift_coef(2) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
-+              IF(l2 > nr2/2) qshift_coef(2) = -qshift_coef(2)
-+              DO l1 = 1, nr1
-+                 qshift_phase = pi * REAL(l1-1,DP) / REAL(nr1,DP)
++              !
++              IF(2*m2 > nr2) THEN
++                 qshift_coef(2) = -qshift_coef(2)
++              ELSE IF(2*m2 == nr2) THEN
++                 qshift_coef(2) = 0.0_dp
++              END IF
++              !
++              DO m1 = 0, nr1 - 1
++                 !
++                 qshift_phase = pi * REAL(m1,DP) / REAL(nr1,DP)
 +                 qshift_coef(1) = CMPLX(COS(qshift_phase), SIN(qshift_phase), kind=DP)
-+                 IF(l1 > nr1/2) qshift_coef(1) = -qshift_coef(1)
-+                 gamout(    l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) &
-+                 & = gamout(l1+nr1*(l2-1)+nr1*nr2*(l3-1),:,:,:,:) * PRODUCT(qshift_coef(1:3))
++                 !
++                 IF(2*m1 > nr1) THEN
++                    qshift_coef(1) = -qshift_coef(1)
++                 ELSE IF(2*m1 == nr1) THEN
++                    qshift_coef(1) = 0.0_dp
++                 END IF
++                 !
++                 gamout(    1+m1+nr1*m2+nr1*nr2*m3,:,:,:,:) &
++                 & = gamout(1+m1+nr1*m2+nr1*nr2*m3,:,:,:,:) * PRODUCT(qshift_coef(1:3))
++                 !
 +              END DO
 +           END DO
 +        END DO
@@ -197,10 +473,10 @@ index aeb159287..3bba057bc 100644
       !
       filea2F = 60 + isig
 diff --git a/PHonon/PH/elph_scdft_mod.f90 b/PHonon/PH/elph_scdft_mod.f90
-index 513befc8e..7dc906883 100644
+index 513befc8e..0e1864c7e 100644
 --- a/PHonon/PH/elph_scdft_mod.f90
 +++ b/PHonon/PH/elph_scdft_mod.f90
-@@ -27,42 +27,24 @@ SUBROUTINE elph_scdft()
+@@ -27,42 +27,25 @@ SUBROUTINE elph_scdft()
    ! expand that to whole BZ.
    !
    USE kinds, ONLY : dp
@@ -241,6 +517,7 @@ index 513befc8e..7dc906883 100644
 -  INTEGER,ALLOCATABLE :: symq(:,:,:), eqBZ(:), sBZ(:), indx(:), cnt(:), dsp(:)
 -  REAL(dp),ALLOCATABLE :: gg_col(:,:), gg(:,:,:,:)
 +  USE noncollin_module, ONLY : nspin_lsda
++  USE io_files, ONLY : prefix, tmp_dir
    !
 -  CHARACTER(100) :: chiq, elphname
 +  INTEGER :: ik, ib, jb, ii, elph_unit, nrcv
@@ -251,7 +528,7 @@ index 513befc8e..7dc906883 100644
    INTEGER, EXTERNAL :: find_free_unit
    !
    WRITE(stdout,*) "[elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)"
-@@ -73,173 +55,49 @@ SUBROUTINE elph_scdft()
+@@ -73,173 +56,49 @@ SUBROUTINE elph_scdft()
    WRITE(stdout,*) "[elph_scdft]  Highest band which contains FS : ", elph_nbnd_max
    WRITE(stdout,*) "[elph_scdft]    # of bands which contains FS : ", nbnd_fs
    !
@@ -451,17 +728,17 @@ index 513befc8e..7dc906883 100644
    !
    ! Write el-ph to file elph.dat
    !
-@@ -247,8 +105,7 @@ SUBROUTINE elph_scdft()
+@@ -247,8 +106,7 @@ SUBROUTINE elph_scdft()
       !
       elph_unit = find_free_unit()
       !
 -     WRITE(chiq,*) current_iq
 -     WRITE(elphname,'(a,a,a)') "elph", TRIM(ADJUSTL(chiq)), ".dat"
-+     WRITE(elphname,'(a,i0,a)') "elph", current_iq, ".dat"
++     WRITE(elphname,'(3a,i0)') TRIM(tmp_dir), TRIM(prefix), ".elph", current_iq
       !
       OPEN(elph_unit,file = TRIM(elphname))
       !
-@@ -258,13 +115,13 @@ SUBROUTINE elph_scdft()
+@@ -258,73 +116,38 @@ SUBROUTINE elph_scdft()
       ! 
       !# of band
       !
@@ -477,7 +754,13 @@ index 513befc8e..7dc906883 100644
       !
       WRITE(elph_unit,*) 3 * nat
       !
-@@ -277,54 +134,19 @@ SUBROUTINE elph_scdft()
+      ! Frequences[Ryd]
+      !
+      DO ii = 1, 3 * nat
+-        WRITE(elph_unit,*) SQRT(ABS(w2(ii)))
++        WRITE(elph_unit,*) SIGN(SQRT(ABS(w2(ii))), w2(ii))
+      END DO
+      WRITE(elph_unit,*) ""
       !
       ! Electron-Phonon matrix
       !
@@ -536,7 +819,7 @@ index 513befc8e..7dc906883 100644
    !----------------------------------------------------------------------
    !
    ! This routine gathers a real matrix to PE 0.
-@@ -333,8 +155,8 @@ SUBROUTINE elph_scdft_gather_r(snd,nsnd,rcv,nrcv,mype,npe,comm)
+@@ -333,8 +156,8 @@ SUBROUTINE elph_scdft_gather_r(snd,nsnd,rcv,nrcv,mype,npe,comm)
    USE mp, ONLY : mp_sum, mp_gather
    !
    INTEGER,INTENT(IN) :: nsnd, nrcv, mype, npe, comm
@@ -547,7 +830,7 @@ index 513befc8e..7dc906883 100644
    !
    INTEGER :: cnt(0:npe - 1), dsp(0:npe - 1), ipe
    !
-@@ -350,113 +172,6 @@ SUBROUTINE elph_scdft_gather_r(snd,nsnd,rcv,nrcv,mype,npe,comm)
+@@ -350,113 +173,6 @@ SUBROUTINE elph_scdft_gather_r(snd,nsnd,rcv,nrcv,mype,npe,comm)
    !
    CALL mp_gather(snd(1:nsnd), rcv(1:nrcv), cnt, dsp, 0, comm)
    !
@@ -676,10 +959,10 @@ index a9ccdf637..8974a6830 100644
    CONTAINS
   !
 diff --git a/PHonon/PH/make.depend b/PHonon/PH/make.depend
-index cf5341ee4..1219528e7 100644
+index fc60607b7..aff747668 100644
 --- a/PHonon/PH/make.depend
 +++ b/PHonon/PH/make.depend
-@@ -459,6 +459,7 @@ do_phonon.o : elph_tetra_mod.o
+@@ -518,6 +518,7 @@ do_phonon.o : elph_tetra_mod.o
  do_phonon.o : phcom.o
  do_phonon.o : yambo.o
  do_q2r.o : ../../FFTXlib/fft_scalar.o
@@ -687,7 +970,7 @@ index cf5341ee4..1219528e7 100644
  do_q2r.o : ../../Modules/environment.o
  do_q2r.o : ../../Modules/io_files.o
  do_q2r.o : ../../Modules/io_global.o
-@@ -467,6 +468,7 @@ do_q2r.o : ../../Modules/mp_global.o
+@@ -526,6 +527,7 @@ do_q2r.o : ../../Modules/mp_global.o
  do_q2r.o : ../../Modules/mp_images.o
  do_q2r.o : ../../Modules/mp_world.o
  do_q2r.o : ../../UtilXlib/mp.o
@@ -695,7 +978,7 @@ index cf5341ee4..1219528e7 100644
  do_q2r.o : elph.o
  do_q2r.o : io_dyn_mat.o
  do_q2r.o : io_dyn_mat_old.o
-@@ -806,21 +808,15 @@ el_ph_collect.o : ../../Modules/mp_pools.o
+@@ -920,21 +922,15 @@ el_ph_collect.o : ../../Modules/mp_pools.o
  el_ph_collect.o : ../../PW/src/pwcom.o
  el_ph_collect.o : ../../UtilXlib/mp.o
  elph.o : ../../Modules/kind.o
@@ -717,7 +1000,7 @@ index cf5341ee4..1219528e7 100644
  elph_scdft_mod.o : ../../UtilXlib/mp.o
  elph_scdft_mod.o : elph.o
  elph_scdft_mod.o : phcom.o
-@@ -1003,6 +999,7 @@ matdyn.o : ../../PW/src/pwcom.o
+@@ -1123,6 +1119,7 @@ matdyn.o : ../../PW/src/pwcom.o
  matdyn.o : ../../PW/src/symm_base.o
  matdyn.o : ../../PW/src/tetra.o
  matdyn.o : ../../UtilXlib/mp.o
@@ -725,64 +1008,35 @@ index cf5341ee4..1219528e7 100644
  matdyn.o : elph.o
  matdyn.o : io_dyn_mat.o
  matdyn.o : rigid.o
-@@ -1324,6 +1321,7 @@ q2r.o : ../../Modules/kind.o
+@@ -1470,6 +1467,7 @@ q2r.o : ../../Modules/kind.o
  q2r.o : ../../Modules/mp_global.o
  q2r.o : ../../Modules/mp_world.o
  q2r.o : ../../UtilXlib/mp.o
 +q2r.o : elph_tetra_mod.o
  q2r.o : elph.o
- q2trans.o : ../../FFTXlib/fft_scalar.o
- q2trans.o : ../../Modules/constants.o
-@@ -1431,6 +1429,7 @@ run_nscf.o : ../../PW/src/pwcom.o
- run_nscf.o : ../../PW/src/scf_mod.o
+ q_points.o : ../../Modules/cell_base.o
+ q_points.o : ../../Modules/io_global.o
+@@ -1556,6 +1554,7 @@ run_nscf.o : ../../PW/src/scf_mod.o
  run_nscf.o : acfdtest.o
+ run_nscf.o : ahc.o
  run_nscf.o : elph.o
 +run_nscf.o : elph_tetra_mod.o
  run_nscf.o : phcom.o
- run_nscf.o : save_ph_input.o
  save_ph_input.o : ../../Modules/io_files.o
-diff --git a/PHonon/PH/matdyn.f90 b/PHonon/PH/matdyn.f90
-index 916bb2fb4..965d4d76a 100644
---- a/PHonon/PH/matdyn.f90
-+++ b/PHonon/PH/matdyn.f90
-@@ -148,6 +148,7 @@ PROGRAM matdyn
-   USE el_phon,    ONLY : el_ph_nsigma
- 
-   USE ifconstants, ONLY : frc, atm, zeu, tau_blk, ityp_blk, m_loc
-+  USE elph_tetra_mod, ONLY : lshift_q
-   !
-   IMPLICIT NONE
-   !
-@@ -217,7 +218,7 @@ PROGRAM matdyn
-        &           fldos, nk1, nk2, nk3, l1, l2, l3, ntyp, readtau, fltau, &
-        &           la2F, ndos, DeltaE, q_in_band_form, q_in_cryst_coord, &
-        &           eigen_similarity, fldyn, na_ifc, fd, point_label_type, &
--       &           nosym, loto_2d, fildyn, fildyn_prefix, el_ph_nsigma
-+       &           nosym, loto_2d, fildyn, fildyn_prefix, el_ph_nsigma, lshift_q
-   !
-   CALL mp_startup()
-   CALL environment_start('MATDYN')
-@@ -253,6 +254,7 @@ PROGRAM matdyn
-      l2=1
-      l3=1
-      la2F=.false.
-+     lshift_q =.false.
-      q_in_band_form=.FALSE.
-      eigen_similarity=.FALSE.
-      q_in_cryst_coord = .FALSE.
-@@ -294,6 +296,7 @@ PROGRAM matdyn
-      CALL mp_bcast(na_ifc,ionode_id, world_comm)
-      CALL mp_bcast(fd,ionode_id, world_comm)
-      CALL mp_bcast(la2F,ionode_id, world_comm)
-+     CALL mp_bcast(lshift_q,ionode_id, world_comm)
-      CALL mp_bcast(q_in_band_form,ionode_id, world_comm)
-      CALL mp_bcast(eigen_similarity,ionode_id, world_comm)
-      CALL mp_bcast(q_in_cryst_coord,ionode_id, world_comm)
+ save_ph_input.o : ../../Modules/ions_base.o
 diff --git a/PHonon/PH/q2r.f90 b/PHonon/PH/q2r.f90
-index ddfaf9c99..d216e5b28 100644
+index ddfaf9c99..281c30e01 100644
 --- a/PHonon/PH/q2r.f90
 +++ b/PHonon/PH/q2r.f90
-@@ -65,6 +65,7 @@ PROGRAM q2r
+@@ -49,6 +49,7 @@ PROGRAM q2r
+   !                   In these cases the supplementary asr are cancelled
+   !                   during the orthonormalization procedure (see below).
+   !     loto_2d    :  set to .true. to activate two-dimensional treatment of LO-TO splitting. 
++  !     lshift_q   :  It works together with the "lshift_q" in ph.x to handle shifted q-grid.  
+   !
+   !  If a file "fildyn"0 is not found, the code will ignore variable "fildyn"
+   !  and will try to read from the following cards the missing information
+@@ -65,6 +66,7 @@ PROGRAM q2r
    USE mp_global,   ONLY : mp_startup, mp_global_end
    USE io_global,   ONLY : ionode_id, ionode, stdout
    USE environment, ONLY : environment_start, environment_end
@@ -790,24 +1044,24 @@ index ddfaf9c99..d216e5b28 100644
    USE el_phon,     ONLY : el_ph_nsigma
    !
    IMPLICIT NONE
-@@ -74,7 +75,7 @@ PROGRAM q2r
+@@ -74,7 +76,7 @@ PROGRAM q2r
    LOGICAL            :: la2F, loto_2d
    INTEGER            :: ios
    !
 -  NAMELIST / input / fildyn, flfrc, prefix, zasr, la2F, loto_2d, el_ph_nsigma
-+  NAMELIST / input / fildyn, flfrc, prefix, zasr, la2F, loto_2d, lshift_q, el_ph_nsigma
++  NAMELIST / input / fildyn, flfrc, prefix, zasr, la2F, loto_2d, el_ph_nsigma, lshift_q
    !
    CALL mp_startup()
    CALL environment_start('Q2R')
-@@ -88,6 +89,7 @@ PROGRAM q2r
-   zasr = 'no'
+@@ -89,6 +91,7 @@ PROGRAM q2r
       !
    la2F=.false.
-+  lshift_q = .false.
    el_ph_nsigma=10
++  lshift_q = .false.
       !
       !
-@@ -102,6 +104,7 @@ PROGRAM q2r
+   IF (ionode)  READ ( 5, input, IOSTAT =ios )
+@@ -102,6 +105,7 @@ PROGRAM q2r
    CALL mp_bcast(zasr, ionode_id, world_comm)
    CALL mp_bcast(loto_2d, ionode_id, world_comm)
    CALL mp_bcast(la2F, ionode_id, world_comm)
@@ -816,23 +1070,23 @@ index ddfaf9c99..d216e5b28 100644
    !
    CALL do_q2r(fildyn, flfrc, prefix, zasr, la2F, loto_2d)
 diff --git a/PHonon/PH/run_nscf.f90 b/PHonon/PH/run_nscf.f90
-index c8da93d77..07f4c32e0 100644
+index 62aa4a383..94896c4b8 100644
 --- a/PHonon/PH/run_nscf.f90
 +++ b/PHonon/PH/run_nscf.f90
-@@ -43,6 +43,7 @@ SUBROUTINE run_nscf(do_band, iq)
-   USE qpoint,          ONLY : xq
-   USE klist,           ONLY : qnorm, nelec 
+@@ -45,6 +45,7 @@ SUBROUTINE run_nscf(do_band, iq)
+   USE spin_orb,        ONLY : domag
+   USE klist,           ONLY : qnorm, nelec
    USE el_phon,         ONLY : elph_mat
 +  USE elph_tetra_mod,  ONLY : elph_tetra
+   USE ahc,             ONLY : elph_ahc
    !
    IMPLICIT NONE
-   !
-@@ -98,7 +99,7 @@ SUBROUTINE run_nscf(do_band, iq)
+@@ -102,7 +103,7 @@ SUBROUTINE run_nscf(do_band, iq)
    CALL fft_type_allocate ( dfftp, at, bg, gcutm,  intra_bgrp_comm, nyfft=nyfft )
    CALL fft_type_allocate ( dffts, at, bg, gcutms, intra_bgrp_comm, nyfft=nyfft)
    !
--  CALL setup_nscf ( newgrid, xq, elph_mat )
-+  CALL setup_nscf ( newgrid, xq, elph_mat .OR. (elph_tetra == 3))
+-  CALL setup_nscf ( newgrid, xq, elph_mat .OR. elph_ahc )
++  CALL setup_nscf ( newgrid, xq, elph_mat .OR. elph_ahc .OR. (elph_tetra == 3) )
    !
    CALL init_run()
    !
@@ -2014,3 +2268,1494 @@ index 2234224d3..1521d6b90 100644
 +=------------------------------------------------------------------------------=
 +   JOB DONE.
 +=------------------------------------------------------------------------------=
+diff --git a/PHonon/examples/tetra_example/run_example b/PHonon/examples/tetra_example/run_example
+index cbd4d8e6e..0392b6dd3 100755
+--- a/PHonon/examples/tetra_example/run_example
++++ b/PHonon/examples/tetra_example/run_example
+@@ -78,6 +78,8 @@ $ECHO " done"
+ # how to run executables
+ PW_COMMAND="$PARA_PREFIX $BIN_DIR/pw.x $PARA_POSTFIX"
+ PH_COMMAND="$PARA_PREFIX $BIN_DIR/ph.x $PARA_POSTFIX"
++Q2R_COMMAND="$PARA_PREFIX $BIN_DIR/q2r.x $PARA_POSTFIX"
++MATDYN_COMMAND="$PARA_PREFIX $BIN_DIR/matdyn.x $PARA_POSTFIX"
+ ALPHA2F_COMMAND="$PARA_PREFIX $BIN_DIR/alpha2f.x"
+ $ECHO
+ $ECHO "  running pw.x as: $PW_COMMAND"
+@@ -175,6 +177,81 @@ $PH_COMMAND -in al.elph.in > al.elph.out
+ check_failure $?
+ $ECHO "  done"
+ #
++#   q2r and matdyn
++#
++cat > al.q2r.in << EOF
++&INPUT
++   fildyn = 'al.dyn'
++     la2f = .true.
++ lshift_q = .true.
++     zasr = 'crystal'
++    flfrc = 'Al444.fc'
++/
++EOF
++$ECHO "  running q2r...\c"
++$Q2R_COMMAND < al.q2r.in > al.q2r.out
++check_failure $?
++$ECHO "  done"
++#
++#
++#
++cat > matdyn.in.freq << EOF
++ &input
++      asr = 'crystal',
++ amass(1) = 26.98,
++    flfrc = 'Al444.fc',
++    flfrq = 'Al444.freq',
++     la2F = .true.,
++      dos = .false.
++ /
++  19
++  0.000 0.0 0.0     0.0
++  0.125 0.0 0.0     0.0
++  0.250 0.0 0.0     0.0
++  0.375 0.0 0.0     0.0
++  0.500 0.0 0.0     0.0
++  0.750 0.0 0.0     0.0
++  1.000 0.0 0.0     0.0
++  0.825 0.125 0.125 0.0
++  0.750 0.250 0.250 0.0
++  0.625 0.375 0.375 0.0
++  0.500 0.500 0.500 0.0
++  0.325 0.325 0.325 0.0
++  0.250 0.250 0.250 0.0
++  0.125 0.125 0.125 0.0
++  0.000 0.000 0.000 0.0
++  0.125 0.125 0.000 0.0
++  0.250 0.250 0.000 0.0
++  0.325 0.325 0.000 0.0
++  0.500 0.500 0.000 0.0
++EOF
++$ECHO "  running matdyn for frequency calculation...\c"
++$MATDYN_COMMAND < matdyn.in.freq > matdyn.out.freq
++check_failure $?
++$ECHO "  done"
++#
++#
++#
++cat > matdyn.in.dos << EOF
++ &input
++       asr = 'crystal',
++  amass(1) = 26.98,
++     flfrc = 'Al444.fc',
++     flfrq = 'Al444.freq',
++      la2F = .true.,
++       dos = .true.
++     fldos = 'phonon.dos',
++       nk1 = 16,
++       nk2 = 16,
++       nk3 = 16,
++      ndos = 100
++ /
++EOF
++$ECHO "  running matdyn for a2F(omega) calculation...\c"
++$MATDYN_COMMAND < matdyn.in.dos > matdyn.out.dos
++check_failure $?
++$ECHO "  done"
++#
+ # Eliashberg function
+ #
+ $ECHO "  running alpha2f.x for lambda and a2F calculation...\c"
+diff --git a/PP/examples/fermisurf_example/run_example b/PP/examples/fermisurf_example/run_example
+index deebc9bf7..2883447fe 100755
+--- a/PP/examples/fermisurf_example/run_example
++++ b/PP/examples/fermisurf_example/run_example
+@@ -155,11 +155,11 @@ $ECHO " Compute B2pz-projected (Wfc6+Wfc10) fermi surfaces."
+ $ECHO ""
+ $FERMI_PROJ_COMMAND -in mgb2.proj.in > FS_b2pz.out
+ check_failure $?
+-$ECHO "mv proj.frmsf b2pz.frmsf"
+-mv proj.frmsf b2pz.frmsf
++mv -v $TMP_DIR/mgb2_vfermi.frmsf $TMP_DIR/mgb2_proj.frmsf .
+ 
+ $ECHO
+-$ECHO "  Use 'fermisurfer results/b2pz.frmsf' to plot the Fermi Surface"
++$ECHO "  Use 'fermisurfer results/mgb2_vfermi.frmsf' to plot the Fermi velocity on Fermi surfaces, and"
++$ECHO "      'fermisurfer results/mgb2_proj.frmsf' to plot the B2p character on Fermi surfaces"
+ 
+ $ECHO "  cleaning $TMP_DIR...\c"
+ rm -rf $TMP_DIR/mgb2.*
+diff --git a/PP/src/Makefile b/PP/src/Makefile
+index 9b8854fb0..ff26ba723 100644
+--- a/PP/src/Makefile
++++ b/PP/src/Makefile
+@@ -29,6 +29,7 @@ ggen1d.o \
+ local_dos.o \
+ local_dos_mag.o \
+ local_dos1d.o \
++nesting.o \
+ openfil_pp.o\
+ partialdos.o \
+ paw_postproc.o \
+@@ -65,7 +66,7 @@ all : tldeps open_grid.x average.x bands.x dos.x epsilon.x initial_state.x fs.x
+       plan_avg.x plotband.x plotproj.x plotrho.x pmw.x pp.x projwfc.x \
+       pawplot.x sumpdos.x pw2wannier90.x pw2critic.x pw2gw.x \
+       wannier_ham.x wannier_plot.x molecularpdos.x \
+-      pw2bgw.x wfck2r.x fermi_velocity.x fermi_proj.x ppacf.x
++      pw2bgw.x wfck2r.x fermi_velocity.x fermi_proj.x ppacf.x nesting.x
+ 
+ 
+ libpp.a : $(PPOBJS) 
+@@ -211,11 +212,21 @@ fermi_velocity.x : fermi_velocity.o libpp.a $(MODULES) $(LIBOBJS)
+ 		fermi_velocity.o libpp.a $(MODULES) $(LIBOBJS) $(QELIBS)
+ 	- ( cd ../../bin ; ln -fs ../PP/src/$@ . )
+ 
++nodalweb.x : nodalweb.o libpp.a $(MODULES) $(LIBOBJS)
++	$(LD) $(LDFLAGS) -o $@ \
++		nodalweb.o libpp.a $(MODULES) $(LIBOBJS) $(QELIBS)
++	- ( cd ../../bin ; ln -fs ../PP/src/$@ . )
++
+ fermi_proj.x : fermi_proj.o libpp.a $(MODULES) $(LIBOBJS)
+ 	$(LD) $(LDFLAGS) -o $@ \
+ 		fermi_proj.o libpp.a $(MODULES) $(LIBOBJS) $(QELIBS)
+ 	- ( cd ../../bin ; ln -fs ../PP/src/$@ . )
+ 
++nesting.x : nesting.o libpp.a $(MODULES) $(LIBOBJS)
++	$(LD) $(LDFLAGS) -o $@ \
++		nesting.o libpp.a $(MODULES) $(LIBOBJS) $(QELIBS)
++	- ( cd ../../bin ; ln -fs ../PP/src/$@ . )
++
+ # Added by Yang Jiao
+ ppacf.x : ppacf.o libpp.a $(MODULES) $(LIBOBJS)
+ 	$(LD) $(LDFLAGS) -o $@ \
+diff --git a/PP/src/fermi_proj.f90 b/PP/src/fermi_proj.f90
+index 32cbf689d..d783ce0fc 100644
+--- a/PP/src/fermi_proj.f90
++++ b/PP/src/fermi_proj.f90
+@@ -194,6 +194,7 @@ PROGRAM fermi_proj
+   ! {Number of target WFCs}
+   ! {Index of WFC1} {Index of WFC2} {Index of WFC3} ...
+   !
++  USE io_files,             ONLY : prefix, tmp_dir
+   USE mp_global,            ONLY : mp_startup
+   USE environment,          ONLY : environment_start, environment_end
+   USE kinds,                ONLY : DP
+@@ -212,6 +213,7 @@ PROGRAM fermi_proj
+   INTEGER,ALLOCATABLE :: equiv(:,:,:)
+   REAL(DP),ALLOCATABLE :: eig(:,:,:,:,:), wfc(:,:,:,:,:), wt(:,:)
+   LOGICAL :: lbinary_data, needwf = .FALSE.
++  CHARACTER(LEN=256) :: outdir
+   !
+   CHARACTER(LEN=256), EXTERNAL :: trimcheck
+   !
+@@ -277,12 +279,15 @@ PROGRAM fermi_proj
+   !
+   IF (nspin == 2) THEN
+      CALL write_fermisurfer(eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
+-     &                      wfc(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), "proj1.frmsf")
++     &                      wfc(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_proj1.frmsf")
+      CALL write_fermisurfer(eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), &
+-     &                      wfc(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), "proj2.frmsf")
++     &                      wfc(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_proj2.frmsf")
+   ELSE
+      CALL write_fermisurfer(eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
+-     &                      wfc(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), "proj.frmsf")
++     &                      wfc(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_proj.frmsf")
+   END IF
+   !
+   DEALLOCATE(eig, equiv, wfc, wt)
+diff --git a/PP/src/fermi_velocity.f90 b/PP/src/fermi_velocity.f90
+index 0004fb588..031438e43 100644
+--- a/PP/src/fermi_velocity.f90
++++ b/PP/src/fermi_velocity.f90
+@@ -23,7 +23,7 @@ PROGRAM fermi_velocity
+   USE read_input,           ONLY : read_input_file
+   USE command_line_options, ONLY : input_file_
+   USE kinds,                ONLY : DP
+-  USE wvfct,                ONLY : nbnd, et
++  USE wvfct,                ONLY : et
+   USE start_k,              ONLY : nk1, nk2, nk3
+   USE cell_base,            ONLY : at, alat
+   USE lsda_mod,             ONLY : nspin
+@@ -135,12 +135,15 @@ PROGRAM fermi_velocity
+   !
+   IF (nspin == 2) THEN
+      CALL write_fermisurfer(eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
+-     &                       vf(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), "vfermi1.frmsf")
++     &                       vf(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_vfermi1.frmsf")
+      CALL write_fermisurfer(eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), &
+-     &                       vf(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), "vfermi2.frmsf")
++     &                       vf(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_vfermi2.frmsf")
+   ELSE
+      CALL write_fermisurfer(eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
+-     &                       vf(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), "vfermi.frmsf")
++     &                       vf(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_vfermi.frmsf")
+   END IF
+   !
+   DEALLOCATE(vf, eig, equiv)
+diff --git a/PP/src/make.depend b/PP/src/make.depend
+index b723e01cf..52b60c2d9 100644
+--- a/PP/src/make.depend
++++ b/PP/src/make.depend
+@@ -215,6 +215,7 @@ epsilon.o : ../../PW/src/pwcom.o
+ epsilon.o : ../../UtilXlib/mp.o
+ epsilon.o : ../../upflib/uspp.o
+ fermi_proj.o : ../../Modules/environment.o
++fermi_proj.o : ../../Modules/input_parameters.o
+ fermi_proj.o : ../../Modules/io_files.o
+ fermi_proj.o : ../../Modules/io_global.o
+ fermi_proj.o : ../../Modules/kind.o
+@@ -326,6 +327,21 @@ molecularpdos.o : ../../Modules/mp_global.o
+ molecularpdos.o : ../../Modules/mp_world.o
+ molecularpdos.o : ../../UtilXlib/mp.o
+ molecularpdos.o : read_proj.o
++nesting.o : ../../Modules/cell_base.o
++nesting.o : ../../Modules/command_line_options.o
++nesting.o : ../../Modules/environment.o
++nesting.o : ../../Modules/input_parameters.o
++nesting.o : ../../Modules/io_files.o
++nesting.o : ../../Modules/kind.o
++nesting.o : ../../Modules/mp_global.o
++nesting.o : ../../Modules/mp_world.o
++nesting.o : ../../Modules/parameters.o
++nesting.o : ../../Modules/read_input.o
++nesting.o : ../../PW/src/pwcom.o
++nesting.o : ../../PW/src/start_k.o
++nesting.o : ../../PW/src/tetra.o
++nesting.o : ../../UtilXlib/mp.o
++nesting.o : fermisurfer_common.o
+ open_grid.o : ../../FFTXlib/fft_interfaces.o
+ open_grid.o : ../../Modules/cell_base.o
+ open_grid.o : ../../Modules/control_flags.o
+diff --git a/PP/src/nesting.f90 b/PP/src/nesting.f90
+new file mode 100644
+index 000000000..bc97b2498
+--- /dev/null
++++ b/PP/src/nesting.f90
+@@ -0,0 +1,1088 @@
++!
++! Copyright (C) 2001-2016 Quantum ESPRESSO group
++! This file is distributed under the terms of the
++! GNU General Public License. See the file `License'
++! in the root directory of the present distribution,
++! or http://www.gnu.org/copyleft/gpl.txt .
++!
++!--------------------------------------------------------------------------
++!
++MODULE nesting_tetra
++  !
++  IMPLICIT NONE
++  !
++CONTAINS
++!
++SUBROUTINE nesting_delta1(nbnd_fs,nspin_lsda,nirr_k,irr_k,eig1,eig2,nesting_factor)
++  !---------------------------------------------------------------------
++  !
++  ! This routine computed the weight for the double-delta function.
++  !
++  USE kinds, ONLY : dp
++  USE mp, ONLY : mp_sum
++  USE mp_world, ONLY : world_comm
++  USE klist,  ONLY: nkstot
++  USE lsda_mod,   ONLY : nspin
++  USE ktetra, ONLY : tetra, ntetra, nntetra, wlsm
++  !
++  INTEGER,INTENT(IN) :: nbnd_fs, nspin_lsda, nirr_k
++  INTEGER,INTENT(IN) :: irr_k(3,nirr_k)
++  REAL(dp),INTENT(IN) :: eig1(nbnd_fs, nkstot, nspin_lsda), eig2(nbnd_fs*nirr_k,nkstot, nspin_lsda)
++  REAL(dp),INTENT(OUT) :: nesting_factor(nirr_k,nspin_lsda)
++  !
++  INTEGER :: ns, nt, ii, ibnd, itetra(4), start_t, last_t
++  REAL(dp) :: e(4), a(4,4), V, tsmall(3,4)
++  REAL(dp),ALLOCATABLE :: ei0(:,:), ej0(:,:), ej1(:,:), nesting_factor1(:)
++  !
++  nesting_factor(1:nirr_k,1:nspin_lsda) = 0.0_dp
++  !
++  CALL divide(world_comm, 6 * nkstot, start_t, last_t)
++  !
++  !$OMP PARALLEL DEFAULT(NONE) &
++  !$OMP & PRIVATE(ns,nt,ibnd,ii,e,ei0,ej0,a,V,tsmall,ej1,itetra,nesting_factor1) &
++  !$OMP & SHARED(nspin_lsda,nbnd_fs,nirr_k,start_t,last_t,eig1,eig2,tetra,wlsm,nntetra,irr_k) &
++  !$OMP & REDUCTION(+:nesting_factor)
++  !
++  ALLOCATE(ei0(4,nbnd_fs), ej0(4,nbnd_fs*nirr_k), ej1(3,nbnd_fs*nirr_k), nesting_factor1(nirr_k))
++  !
++  DO ns = 1, nspin_lsda
++     !
++     !$OMP DO
++     DO nt = start_t, last_t
++        !
++        ei0(1:4, 1:nbnd_fs) = 0.0_dp
++        ej0(1:4, 1:nbnd_fs*nirr_k) = 0.0_dp
++        DO ii = 1, nntetra
++           !
++           DO ibnd = 1, nbnd_fs
++              ei0(1:4, ibnd) = ei0(1:4, ibnd) &
++              &             + wlsm(1:4,ii) * eig1(ibnd, tetra(ii, nt), ns)
++           END DO
++           !
++           DO ibnd = 1, nbnd_fs*nirr_k
++              ej0(1:4, ibnd) = ej0(1:4, ibnd) &
++              &             + wlsm(1:4,ii) * eig2(ibnd, tetra(ii, nt), ns)
++           END DO
++           !
++        END DO
++        !
++        DO ibnd = 1, nbnd_fs
++           !
++           itetra(1) = 0
++           e(1:4) = ei0(1:4, ibnd)
++           call hpsort (4, e, itetra)
++           !
++           DO ii = 1, 4
++              a(1:4,ii) = (0.0_dp - e(ii)) / (e(1:4) - e(ii))
++           END DO
++           !
++           IF(e(1) < 0.0_dp .AND. 0.0_dp <= e(2)) THEN
++              !
++              ! A
++              !
++              !V = 3.0_dp * a(2,1) * a(3,1) * a(4,1) / (0.0_dp - e(1))
++              V = 3.0_dp * a(2,1) * a(3,1)           / (e(4) - e(1))
++              !
++              tsmall(1, 1:4) = (/a(1,2), a(2,1), 0.0_dp, 0.0_dp/)
++              tsmall(2, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(3, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++              !
++              ej1(1:3,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:3,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++              !
++              CALL nesting_delta2(nbnd_fs,nirr_k,irr_k,ej1,nesting_factor1)
++              !
++              nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++              !
++           ELSE IF( e(2) < 0.0_dp .AND. 0.0_dp <= e(3)) THEN
++              !
++              ! B - 1
++              !
++              !V = 3.0_dp * a(3,1) * a(4,1) * a(2,4) / (0.0_dp - e(1))
++              V = 3.0_dp           * a(4,1) * a(2,4) / (e(3) - e(1))
++              !
++              tsmall(1, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(2, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++              tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++              !
++              ej1(1:3,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:3,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++              !
++              CALL nesting_delta2(nbnd_fs,nirr_k,irr_k,ej1,nesting_factor1)
++              !
++              nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++              !
++              ! B - 2
++              !
++              !V = 3.0_dp * a(2,3) * a(3,1) * a(4,2) / (0.0_dp - e(1))
++              V = 3.0_dp * a(2,3)           * a(4,2) / (e(3) - e(1))
++              !
++              tsmall(1, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(2, 1:4) = (/0.0_dp, a(2,3), a(3,2), 0.0_dp/)
++              tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++              !
++              ej1(1:3,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:3,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++              !
++              CALL nesting_delta2(nbnd_fs,nirr_k,irr_k,ej1,nesting_factor1)
++              !
++              nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++              !
++           ELSE IF(e(3) < 0.0_dp .AND. 0.0_dp < e(4)) THEN
++              !
++              ! C
++              !
++              !V = 3.0_dp * a(1,4) * a(2,4) * a(3,4) / (e(4) - 0.0_dp)
++              V = 3.0_dp * a(1,4) * a(2,4)           / (e(4) - e(3))
++              !
++              tsmall(1, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++              tsmall(2, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++              tsmall(3, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
++              !
++              ej1(1:3,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:3,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++              !
++              CALL nesting_delta2(nbnd_fs,nirr_k,irr_k,ej1,nesting_factor1)
++              !
++              nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++              !
++           END IF
++           !
++        END DO
++        !
++     END DO ! nt
++     !$OMP END DO
++     !
++  END DO ! ns
++  !
++  DEALLOCATE(ei0, ej0, ej1, nesting_factor1)
++  !
++  !$OMP END PARALLEL
++  !
++  nesting_factor(1:nirr_k,1:nspin_lsda) = nesting_factor(1:nirr_k,1:nspin_lsda) / REAL(ntetra, dp)
++  IF(nspin == 1) nesting_factor(1:nirr_k,1) = 2.0_dp * nesting_factor(1:nirr_k,1)
++  !
++  CALL mp_sum(nesting_factor, world_comm)
++  !
++END SUBROUTINE nesting_delta1
++!
++!-------------------------------------------------------------------------------
++SUBROUTINE nesting_delta2(nbnd_fs,nirr_k,irr_k,ej0,nesting_factor)
++  !-----------------------------------------------------------------------------
++  !
++  ! 2nd step of tetrahedra method.
++  !
++  USE kinds, ONLY : dp
++  !
++  INTEGER,INTENT(IN) :: nbnd_fs, nirr_k
++  INTEGER,INTENT(IN) :: irr_k(3,nirr_k)
++  REAL(dp),INTENT(IN) :: ej0(3,nbnd_fs,nirr_k)
++  REAL(dp),INTENT(OUT) :: nesting_factor(nirr_k)
++  !
++  INTEGER :: ibnd, itetra(3), ii, ik
++  REAL(dp) :: e(3), a(3,3), V
++  !
++  nesting_factor(1:nirr_k) = 0.0_dp
++  !
++  DO ik = 1, nirr_k
++     !
++     IF(ALL(irr_k(1:3,ik) == 0)) CYCLE
++     !
++     DO ibnd = 1, nbnd_fs
++        !
++        IF(MAXVAL(ABS(ej0(1:3,ibnd,ik))) < 1e-10_dp) &
++        & CALL errore("nesting_delta2", "Nesting occurs.", ibnd)
++        !
++        itetra(1) = 0
++        e(1:3) = ej0(1:3,ibnd,ik)
++        call hpsort (3, e, itetra)
++        !
++        DO ii = 1, 3
++           a(1:3,ii) = (0.0_dp - e(ii)) / (e(1:3) - e(ii))
++        END DO
++        !
++        IF((e(1) < 0.0_dp .AND. 0.0_dp <= e(2)) .OR. (e(1) <= 0.0_dp .AND. 0.0_dp < e(2))) THEN
++           !
++           !V = 2.0_dp * a(2,1) * a(3,1) / (0.0_dp - e(1))
++           V = 2.0_dp * a(2,1)           / (e(3) - e(1))
++           !
++           nesting_factor(ik) = nesting_factor(ik) + V
++           !
++        ELSE IF((e(2) <= 0.0_dp .AND. 0.0_dp < e(3)) .OR. (e(2) < 0.0_dp .AND. 0.0_dp <= e(3))) THEN
++           !
++           !V = 2.0_dp * a(1,3) * a(2,3) / (e(3) - 0.0_dp)
++           V = 2.0_dp * a(1,3)           / (e(3) - e(2))
++           !
++           nesting_factor(ik) = nesting_factor(ik) + V
++           !
++        END IF
++        !
++     END DO ! ib
++     !
++  END DO
++  !
++END SUBROUTINE nesting_delta2
++!
++SUBROUTINE nesting_theta1(nbnd_fs,nspin_lsda,nirr_k,eig1,eig2,nesting_factor)
++  !---------------------------------------------------------------------
++  !
++  ! This routine computed the weight for the double-delta function.
++  !
++  USE kinds, ONLY : dp
++  USE mp, ONLY : mp_sum
++  USE mp_world, ONLY : world_comm
++  USE klist,  ONLY: nkstot
++  USE lsda_mod,   ONLY : nspin
++  USE ktetra, ONLY : tetra, ntetra, nntetra, wlsm
++  !
++  INTEGER,INTENT(IN) :: nbnd_fs, nspin_lsda, nirr_k
++  REAL(dp),INTENT(IN) :: eig1(nbnd_fs, nkstot, nspin_lsda), eig2(nbnd_fs*nirr_k,nkstot, nspin_lsda)
++  REAL(dp),INTENT(OUT) :: nesting_factor(nirr_k,nspin_lsda)
++  !
++  INTEGER :: ns, nt, ii, ibnd, itetra(4), start_t, last_t
++  REAL(dp) :: e(4), a(4,4), thr = 1.0e-8_dp, V, tsmall(4,4), ei1(4)
++  REAL(dp),ALLOCATABLE :: ei0(:,:), ej0(:,:), ej1(:,:), nesting_factor1(:)
++  !
++  nesting_factor(1:nirr_k,1:nspin_lsda) = 0.0_dp
++  !
++  CALL divide(world_comm, 6 * nkstot, start_t, last_t)
++  !
++  !$OMP PARALLEL DEFAULT(NONE) &
++  !$OMP & PRIVATE(ns,nt,ibnd,ii,e,ei0,ej0,a,V,tsmall,ei1,ej1,itetra,nesting_factor1) &
++  !$OMP & SHARED(nspin_lsda,nbnd_fs,nirr_k,start_t,last_t,eig1,eig2,tetra,wlsm,nntetra,thr) &
++  !$OMP & REDUCTION(+:nesting_factor)
++  !
++  ALLOCATE(ei0(4,nbnd_fs), ej0(4,nbnd_fs*nirr_k), ej1(4,nbnd_fs*nirr_k), nesting_factor1(nirr_k))
++  !
++  DO ns = 1, nspin_lsda
++     !
++     !$OMP DO
++     DO nt = start_t, last_t
++        !
++        ei0(1:4, 1:nbnd_fs) = 0.0_dp
++        ej0(1:4, 1:nbnd_fs*nirr_k) = 0.0_dp
++        DO ii = 1, nntetra
++           !
++           DO ibnd = 1, nbnd_fs
++              ei0(1:4, ibnd) = ei0(1:4, ibnd) &
++              &             + wlsm(1:4,ii) * eig1(ibnd, tetra(ii, nt), ns)
++           END DO
++           !
++           DO ibnd = 1, nbnd_fs*nirr_k
++              ej0(1:4, ibnd) = ej0(1:4, ibnd) &
++              &             + wlsm(1:4,ii) * eig2(ibnd, tetra(ii, nt), ns)
++           END DO
++           !
++        END DO
++        !
++        DO ibnd = 1, nbnd_fs
++           !
++           itetra(1) = 0
++           e(1:4) = ei0(1:4, ibnd)
++           call hpsort (4, e, itetra)
++           !
++           DO ii = 1, 4
++              a(1:4,ii) = (0.0_dp - e(ii)) / (e(1:4) - e(ii))
++           END DO
++           !
++           IF(e(1) <= 0.0_dp .AND. 0.0_dp < e(2)) THEN
++              !
++              ! A - 1
++              !
++              V = a(2,1) * a(3,1) * a(4,1)
++              !
++              IF(V > thr) THEN
++                 !
++                 tsmall(1, 1:4) = (/1.0_dp, 0.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(2, 1:4) = (/a(1,2), a(2,1), 0.0_dp, 0.0_dp/)
++                 tsmall(3, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++                 tsmall(4, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++                 !
++                 ei1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++                 ej1(1:4,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++                 !
++                 CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++                 !
++                 nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++                 !
++              END IF
++              !
++           ELSE IF( e(2) <= 0.0_dp .AND. 0.0_dp < e(3)) THEN
++              !
++              ! B - 1
++              !
++              V = a(3,1) * a(4,1) * a(2,4)
++              !
++              IF(V > thr) THEN
++                 !
++                 tsmall(1, 1:4) = (/1.0_dp, 0.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(2, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++                 tsmall(3, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++                 tsmall(4, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++                 !
++                 ei1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++                 ej1(1:4,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++                 !
++                 CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++                 !
++                 nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++                 !
++              END IF
++              !
++              ! B - 2
++              !
++              V = a(3,2) * a(4,2)
++              !
++              IF(V > thr) THEN
++                 !
++                 tsmall(1, 1:4) = (/1.0_dp, 0.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(2, 1:4) = (/0.0_dp, 1.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(3, 1:4) = (/0.0_dp, a(2,3), a(3,2), 0.0_dp/)
++                 tsmall(4, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++                 !
++                 ei1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++                 ej1(1:4,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++                 !
++                 CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++                 !
++                 nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++                 !
++              END IF
++              !
++              ! B - 3
++              !
++              V = a(2,3) * a(3,1) * a(4,2)
++              !
++              IF(V > thr) THEN
++                 !
++                 tsmall(1, 1:4) = (/1.0_dp, 0.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(2, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++                 tsmall(3, 1:4) = (/0.0_dp, a(2,3), a(3,2), 0.0_dp/)
++                 tsmall(4, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++                 !
++                 ei1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++                 ej1(1:4,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++                 !
++                 CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++                 !
++                 nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++                 !
++              END IF
++              !
++           ELSE IF( e(3) <= 0.0_dp .AND. 0.0_dp < e(4)) THEN
++              !
++              ! C - 1
++              !
++              V = a(4,3)
++              !
++              IF(V > thr) THEN
++                 !
++                 tsmall(1, 1:4) = (/1.0_dp, 0.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(2, 1:4) = (/0.0_dp, 1.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(3, 1:4) = (/0.0_dp, 0.0_dp, 1.0_dp, 0.0_dp/)
++                 tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
++                 !
++                 ei1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++                 ej1(1:4,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++                 !
++                 CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++                 !
++                 nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++                 !
++              END IF
++              !
++              ! C - 2
++              !
++              V = a(3,4) * a(4,2)
++              !
++              IF(V > thr) THEN
++                 !
++                 tsmall(1, 1:4) = (/1.0_dp, 0.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(2, 1:4) = (/0.0_dp, 1.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++                 tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
++                 !
++                 ei1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++                 ej1(1:4,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++                 !
++                 CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++                 !
++                 nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++                 !
++              END IF
++              !
++              ! C - 3
++              !
++              V = a(3,4) * a(2,4) * a(4,1)
++              !
++              IF(V > thr) THEN
++                 !
++                 tsmall(1, 1:4) = (/1.0_dp, 0.0_dp, 0.0_dp, 0.0_dp/)
++                 tsmall(2, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++                 tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++                 tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
++                 !
++                 ei1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++                 ej1(1:4,1:nbnd_fs*nirr_k) = MATMUL(tsmall(1:4,1:4), ej0(itetra(1:4), 1:nbnd_fs*nirr_k))
++                 !
++                 CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++                 !
++                 nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + V * nesting_factor1(1:nirr_k)
++                 !
++              END IF
++              !
++           ELSE IF( e(4) <= 0.0_dp ) THEN
++              !
++              ! D - 1
++              !
++              ei1(1:4) = e(1:4)
++              ej1(1:4,1:nbnd_fs*nirr_k) = ej0(itetra(1:4), 1:nbnd_fs*nirr_k)
++              !
++              CALL nesting_theta2(nbnd_fs,nirr_k,ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(1:nirr_k,ns) = nesting_factor(1:nirr_k,ns) + nesting_factor1(1:nirr_k)
++              !
++           END IF
++           !
++        END DO
++        !
++     END DO ! nt
++     !$OMP END DO
++     !
++  END DO ! ns
++  !
++  DEALLOCATE(ei0, ej0, ej1, nesting_factor1)
++  !
++  !$OMP END PARALLEL
++  !
++  nesting_factor(1:nirr_k,1:nspin_lsda) = nesting_factor(1:nirr_k,1:nspin_lsda) / REAL(ntetra, dp)
++  IF(nspin == 1) nesting_factor(1:nirr_k,1) = 2.0_dp * nesting_factor(1:nirr_k,1)
++  !
++  CALL mp_sum(nesting_factor, world_comm)
++  !
++END SUBROUTINE nesting_theta1
++!
++!-------------------------------------------------------------------------------
++SUBROUTINE nesting_theta2(nbnd_fs,nirr_k,ei0,ej0,nesting_factor)
++  !-----------------------------------------------------------------------------
++  !
++  ! 2nd step of tetrahedra method.
++  !
++  USE kinds, ONLY : dp
++  !
++  INTEGER,INTENT(IN) :: nbnd_fs, nirr_k
++  REAL(dp),INTENT(IN) :: ei0(4), ej0(4,nbnd_fs,nirr_k)
++  REAL(dp),INTENT(OUT) :: nesting_factor(nirr_k)
++  !
++  INTEGER :: ibnd, itetra(4), ii, ik
++  REAL(dp) :: e(4), a(4,4), V, ei1(4), ej1(4), thr = 1.0e-8_dp, &
++  &           tsmall(4,4), nesting_factor1
++  !
++  nesting_factor(1:nirr_k) = 0.0_dp
++  !
++  DO ik = 1, nirr_k
++     DO ibnd = 1, nbnd_fs
++        !
++        itetra(1) = 0
++        e(1:4) = ej0(1:4,ibnd,ik)
++        call hpsort (4, e, itetra)
++        !
++        DO ii = 1, 4
++           a(1:4,ii) = (0.0_dp - e(ii)) / (e(1:4) - e(ii))
++        END DO
++        !
++        IF(0_dp <= e(1)) THEN
++             !
++             ! A - 1
++             !
++             ej1(1:4) = e(1:4)
++             ei1(1:4) = ei0(itetra(1:4))
++             !
++             CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++             !
++             nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++             !
++        ELSE IF((e(1) < 0.0_dp .AND. 0.0_dp <= e(2)) .OR. (e(1) <= 0.0_dp .AND. 0.0_dp < e(2))) THEN
++           !
++           ! B - 1
++           !
++           V = a(1,2)
++           !
++           IF(V > thr) THEN
++              !
++              tsmall(1, 1:4) = (/a(1,2), a(2,1), 0.0_dp, 0.0_dp/)
++              tsmall(2, 1:4) = (/0.0_dp, 1.0_dp, 0.0_dp, 0.0_dp/)
++              tsmall(3, 1:4) = (/0.0_dp, 0.0_dp, 1.0_dp, 0.0_dp/)
++              tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, 0.0_dp, 1.0_dp/)
++              !
++              ej1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++              ei1(1:4) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4)))
++              !
++              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(ik) = nesting_factor(ik) + V * nesting_factor1
++              !       
++           END IF
++           !
++           ! B - 2
++           !
++           V = a(1,3) * a(2,1)
++           !
++           IF(V > thr) THEN
++              !
++              tsmall(1, 1:4) = (/a(1,2), a(2,1), 0.0_dp, 0.0_dp/)
++              tsmall(2, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(3, 1:4) = (/0.0_dp, 0.0_dp, 1.0_dp, 0.0_dp/)
++              tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, 0.0_dp, 1.0_dp/)
++              !
++              ej1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++              ei1(1:4) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4)))
++              !
++              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              !
++           END IF
++           !
++           ! B - 3
++           !
++           V = a(1,4) * a(2,1) * a(3,1)
++           !
++           IF(V > thr) THEN
++              !
++              tsmall(1, 1:4) = (/a(1,2), a(2,1), 0.0_dp, 0.0_dp/)
++              tsmall(2, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(3, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++              tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, 0.0_dp, 1.0_dp/)
++              !
++              ej1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++              ei1(1:4) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4)))
++              !
++              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              !       
++           END IF
++           !          
++        ELSE IF((e(2) < 0.0_dp .AND. 0.0_dp <= e(3)) .OR. (e(2) <= 0.0_dp .AND. 0.0_dp < e(3))) THEN
++           !          
++           ! C - 1
++           !
++           V = a(2,4) * a(1,4) * a(3,1)
++           !
++           IF(V > thr) THEN
++              !
++              tsmall(1, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(2, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++              tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++              tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, 0.0_dp, 1.0_dp/)
++              !
++              ej1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++              ei1(1:4) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4)))
++              !
++              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              !      
++           END IF
++           !
++           ! C - 2
++           !
++           V = a(1,3) * a(2,3)
++           !
++           IF(V > thr) THEN
++              !
++              tsmall(1, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(2, 1:4) = (/0.0_dp, a(2,3), a(3,2), 0.0_dp/)
++              tsmall(3, 1:4) = (/0.0_dp, 0.0_dp, 1.0_dp, 0.0_dp/)
++              tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, 0.0_dp, 1.0_dp/)
++              !
++              ej1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++              ei1(1:4) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4)))
++              !
++              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              !
++           END IF
++           !
++           ! C - 3
++           ! 
++           V = a(1,3) * a(2,4) * a(3,2)
++           !
++           IF(V > thr) THEN
++              !
++              tsmall(1, 1:4) = (/a(1,3), 0.0_dp, a(3,1), 0.0_dp/)
++              tsmall(2, 1:4) = (/0.0_dp, a(2,3), a(3,2), 0.0_dp/)
++              tsmall(3, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++              tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, 0.0_dp, 1.0_dp/)
++              !
++              ej1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++              ei1(1:4) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4)))
++              !
++              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              !
++           END IF
++           !          
++        ELSE IF((e(3) < 0.0_dp .AND. 0.0_dp <= e(4)) .OR. (e(3) <= 0.0_dp .AND. 0.0_dp < e(4))) THEN
++           !
++           ! D - 1
++           !
++           V = a(3,4) * a(2,4) * a(1,4) 
++           !          
++           IF(V > thr) THEN
++              !
++              tsmall(1, 1:4) = (/a(1,4), 0.0_dp, 0.0_dp, a(4,1)/)
++              tsmall(2, 1:4) = (/0.0_dp, a(2,4), 0.0_dp, a(4,2)/)
++              tsmall(3, 1:4) = (/0.0_dp, 0.0_dp, a(3,4), a(4,3)/)
++              tsmall(4, 1:4) = (/0.0_dp, 0.0_dp, 0.0_dp, 1.0_dp/)
++              !
++              ej1(1:4) = MATMUL(tsmall(1:4,1:4), e(1:4))
++              ei1(1:4) = MATMUL(tsmall(1:4,1:4), ei0(itetra(1:4)))
++              !
++              CALL nesting_lindhard(ei1,ej1,nesting_factor1)
++              !
++              nesting_factor(ik) = nesting_factor(ik) + nesting_factor1
++              !        
++           END IF
++           !
++        END IF        !
++     END DO ! ib
++     !
++  END DO
++  !
++END SUBROUTINE nesting_theta2
++  !
++SUBROUTINE nesting_lindhard(ei,ej,nesting_factor)
++  !---------------------------------------------------------------
++  !
++  ! This routine compute 1 / (e_{k+q} - e_{k})
++  !
++  USE kinds, ONLY : dp
++  !
++  IMPLICIT NONE
++  !
++  REAL(dp),INTENT(IN) :: ei(4), ej(4)
++  REAL(dp),INTENT(OUT) :: nesting_factor
++  !
++  INTEGER :: ii, itetra(4)
++  REAL(dp) :: e(4), le(4), thr, thr2, w
++  !
++  w = 0.0_dp
++  !
++  itetra(1) = 0
++  e(1:4) = ej(1:4) - ei(1:4)
++  call hpsort (4, e, itetra)
++  !
++  thr = MAXVAL(e(1:4)) * 1e-3_dp
++  thr2 = 1e-9_dp
++  !
++  DO ii = 1, 4
++     IF(e(ii) < thr2) THEN
++        IF(ii == 3) THEN
++           WRITE(*,*) e(1:4)
++           CALL errore("nesting_lindhard", "Nesting occurs.", 1)
++        END IF
++        le(ii) = 0.0_dp
++        e(ii) = 0.0_dp
++     ELSE
++        le(ii) = LOG(e(ii))
++     END IF
++  END DO
++  !
++  IF(e(4) - e(3) < thr ) THEN
++     IF(e(4) - e(2) < thr ) THEN
++        IF(e(4) - e(1) < thr ) THEN
++           !
++           ! e(4) = e(3) = e(2) = e(1)
++           !
++           w = (1.0_dp)/e(4)
++           !
++        ELSE
++           !
++           ! e(4) = e(3) = e(2)
++           !
++           CALL nesting_1114(e(4),e(1),le(4),le(1),w)
++           !
++           IF(w < 0.0_dp .OR. ISNAN(w)) THEN
++              WRITE(*,'(100e15.5)') e(1:4)
++              WRITE(*,'(100e15.5)') w
++              CALL errore("nesting_lindhard", "Case: e4=e3=e2", 1)
++           END IF
++           !
++        END IF
++     ELSE IF(e(2) - e(1) < thr ) THEN
++        !
++        ! e(4) = e(3), e(2) = e(1)
++        !
++        CALL nesting_1144(e(2),e(4),le(2),le(4),w)
++        !
++        IF(w < 0.0_dp .OR. ISNAN(w)) THEN
++           WRITE(*,'(100e15.5)') e(1:4)
++           WRITE(*,'(100e15.5)') w
++           CALL errore("nesting_lindhard", "Case: e4=e3/=e2=e1", 1)
++        END IF
++        !
++     ELSE
++        !
++        ! e(4) = e(3)
++        !
++        CALL nesting_1134(e(4),e(1),e(2),le(4),le(1),le(2),w)
++        !
++        IF(w < 0.0_dp .OR. ISNAN(w)) THEN
++           WRITE(*,'(100e15.5)') e(1:4)
++           WRITE(*,'(100e15.5)') w
++           CALL errore("nesting_lindhard", "Case: e4=e3", 1)
++        END IF
++        !
++     END IF
++  ELSE IF(e(3) - e(2) < thr ) THEN
++     IF(e(3) - e(1) < thr ) THEN
++        !
++        ! e(3) = e(2) = e(1)
++        !
++        CALL nesting_1114(e(3),e(4),le(3),le(4),w)
++        !
++        IF(w < 0.0_dp .OR. ISNAN(w)) THEN
++           WRITE(*,'(100e15.5)') e(1:4)
++           WRITE(*,'(100e15.5)') ei(1:4)
++           WRITE(*,'(100e15.5)') ej(1:4)
++           WRITE(*,'(100e15.5)') w
++           CALL errore("nesting_lindhard", "Case: e3=e2=e1", 1)
++        END IF
++        !
++     ELSE
++        !
++        ! e(3) = e(2)
++        !
++        CALL nesting_1134(e(3),e(1),e(4),le(3),le(1),le(4),w)
++        !
++        IF(w < 0.0_dp .OR. ISNAN(w)) THEN
++           WRITE(*,'(100e15.5)') e(1:4)
++           WRITE(*,'(100e15.5)') w
++           CALL errore("nesting_lindhard", "Case: e3=e2", 1)
++        END IF
++        !
++     END IF
++  ELSE IF(e(2) - e(1) < thr ) THEN
++     !
++     ! e(2) = e(1)
++     !
++     CALL nesting_1134(e(2),e(3),e(4),le(2),le(3),le(4),w)
++     !
++     IF(w < 0.0_dp .OR. ISNAN(w)) THEN
++        WRITE(*,'(100e15.5)') e(1:4)
++        WRITE(*,'(100e15.5)') w
++        CALL errore("nesting_lindhard", "Case: e2=e1", 1)
++     END IF
++     !
++  ELSE
++     !
++     ! Different each other.
++     !
++     CALL nesting_1234(e(1),e(2),e(3),e(4),le(1),le(2),le(3),le(4),w)
++     !
++     IF(w < 0.0_dp .OR. ISNAN(w)) THEN
++        WRITE(*,'(100e15.5)') e(1:4)
++        WRITE(*,'(100e15.5)') w
++        CALL errore("nesting_lindhard", "Case: e1/=e2/=e3/=e4", 1)
++     END IF
++     !
++  END IF
++  !
++  nesting_factor = w
++  !
++END SUBROUTINE nesting_lindhard
++!
++SUBROUTINE nesting_1234(g1,g2,g3,g4,lng1,lng2,lng3,lng4,w)
++  !
++  USE kinds, ONLY : dp
++  !
++  REAL(dp),INTENT(IN) :: g1, g2, g3, g4, lng1, lng2, lng3, lng4
++  REAL(dp),INTENT(OUT) :: w
++  !
++  REAL(dp) :: w2, w3, w4
++  !
++  w2 = (g2*(lng2 - lng1))/(g2 - g1)
++  w3 = (g3*(lng3 - lng1))/(g3 - g1)
++  w4 = (g4*(lng4 - lng1))/(g4 - g1)
++  w2 = (g2*(w2 - w3))/(g2 - g3)
++  w4 = (g4*(w4 - w3))/(g4 - g3)
++  w = (3.0_dp*(w4 - w2))/(g4 - g2)
++  !
++END SUBROUTINE nesting_1234
++!
++SUBROUTINE nesting_1134(g1,g3,g4,lng1,lng3,lng4,w)
++  !
++  USE kinds, ONLY : dp
++  !
++  REAL(dp),INTENT(IN) :: g1, g3, g4, lng1, lng3, lng4
++  REAL(dp),INTENT(OUT) :: w
++  !
++  REAL(dp) :: w3, w4
++  !
++  w3 = (g3*(lng3 - lng1))/(g3 - g1)
++  w4 = (g4*(lng4 - lng1))/(g4 - g1)
++  w3 = (g3*(w3 - 1.0_dp))/(g3 - g1)
++  w4 = (g4*(w4 - 1.0_dp))/(g4 - g1)
++  w = (3.0_dp*(w4 - w3))/(g4 - g3)
++  !
++END SUBROUTINE nesting_1134
++!
++SUBROUTINE nesting_1114(g1,g4,lng1,lng4,w)
++  !
++  USE kinds, ONLY : dp
++  !
++  REAL(dp),INTENT(IN) :: g1, g4, lng1, lng4
++  REAL(dp),INTENT(OUT) :: w
++  !
++  w = (g4*(lng4 - lng1))/(g4 - g1)
++  w = (2.0_dp*g4*(w - 1.0_dp))/(g4 - g1)
++  w = (3.0_dp*(w - 1.0_dp))/(2.0_dp*(g4 - g1))
++  !
++END SUBROUTINE nesting_1114
++!
++SUBROUTINE nesting_1144(g1,g4,lng1,lng4,w)
++  !
++  USE kinds, ONLY : dp
++  !
++  REAL(dp),INTENT(IN) :: g1, g4, lng1, lng4
++  REAL(dp),INTENT(OUT) :: w
++  !
++  w = (g1*(lng4 - lng1))/(g4 - g1)
++  w = (2.0_dp*g4*(1.0_dp - w))/(g4 - g1)
++  w = (3.0_dp*(w - 1.0_dp))/(g4 - g1)
++  !
++END SUBROUTINE nesting_1144
++!
++END MODULE nesting_tetra
++!
++! Usage :
++! $ nesting.x -in {pw.x input file}
++! Then it generates nesting.frmsf (for nspin = 1, 4) or
++! nesting.frmsf and nesting.frmsf (for nspin = 2)
++!
++!----------------------------------------------------------------------------
++PROGRAM nesting
++  !--------------------------------------------------------------------------
++  !
++  USE parameters,           ONLY : npk
++  USE input_parameters,     ONLY : prefix, outdir
++  USE io_files,             ONLY : prefix_ => prefix, tmp_dir
++  USE mp_global,            ONLY : mp_startup, mp_global_end
++  USE environment,          ONLY : environment_start, environment_end
++  USE read_input,           ONLY : read_input_file
++  USE command_line_options, ONLY : input_file_
++  USE kinds,                ONLY : DP
++  USE wvfct,                ONLY : et
++  USE start_k,              ONLY : nk1, nk2, nk3
++  USE cell_base,            ONLY : at, bg
++  USE lsda_mod,             ONLY : nspin
++  USE ener,                 ONLY : ef, ef_up, ef_dw
++  USE klist,                ONLY : nks, two_fermi_energies, xk, nkstot, wk
++  USE fermisurfer_common,   ONLY : b_low, b_high, rotate_k_fs, write_fermisurfer
++  USE ktetra,               ONLY : opt_tetra_init, tetra_type, opt_tetra_dos_t
++  USE nesting_tetra,        ONLY : nesting_delta1, nesting_theta1
++  !
++  IMPLICIT NONE
++  !
++  INTEGER :: ik, i1, i2, i3, ns, nk, nbnd_fs, nirr_k, ikqv(3), s_dummy(3,3,48), t_rev_dummy(48)
++  REAL(DP) :: ef1, ef2, dosf(2), edos
++  INTEGER,ALLOCATABLE :: equiv(:,:,:), irr_k(:,:)
++  REAL(DP),ALLOCATABLE :: eig1(:,:,:,:,:), eig2(:,:,:,:,:,:), &
++  &                       nesting_irr(:,:), nesting_full(:,:,:,:)
++  LOGICAL :: needwf = .FALSE.
++  !
++  CHARACTER(LEN=256), EXTERNAL :: trimcheck
++  !
++  CALL mp_startup ()
++  CALL environment_start ('NESTING')
++  !
++  ! ... Read pw.x input file and get prefix and outdir
++  !
++  CALL read_input_file ('PW', input_file_)
++  !
++  prefix_ = TRIM(prefix)
++  tmp_dir = trimcheck(outdir)
++  !
++  ! ... Read XML file generated by pw.x
++  !
++  CALL read_file_new( needwf)
++  !
++  ! ... Number of k and spin for each magnetic treatment
++  !
++  IF (nspin == 2) THEN
++     ns = 2
++     IF(two_fermi_energies) THEN
++        ef1 = ef_up
++        ef2 = ef_dw
++     ELSE
++        ef1 = ef
++        ef2 = ef
++     END IF
++  ELSE
++     ns = 1
++  END IF
++  nk = nks / ns
++  !
++  ! ... Find equivalent k point in irr-BZ for whole BZ
++  !
++  ALLOCATE(equiv(nk1, nk2, nk3))
++  CALL rotate_k_fs(equiv)
++  !
++  ! k in irreducible BZ
++  !
++  nirr_k = nk
++  nks = nk1 * nk2 * nk3
++  nkstot = nks
++  ALLOCATE(nesting_irr(nirr_k,ns), nesting_full(nk1,nk2,nk3,ns), irr_k(3,nirr_k))
++  !
++  DO ik = 1, nirr_k
++     irr_k(1:3,ik) = NINT(MATMUL(xk(1:3,ik), at(1:3,1:3)) * REAL((/nk1, nk2, nk3/), kind=dp))
++  END DO
++  !
++  ik = 0
++  DO i1 = 1, nk1
++     DO i2 = 1, nk2
++        DO i3 = 1, nk3
++           ik = ik + 1
++           xk(1:3,ik) = REAL((/i1, i2, i3/), DP) / REAL((/nk1, nk2, nk3/), DP)
++           WHERE((/i1, i2, i3/)*2 >= (/nk1, nk2, nk3/)) xk(1:3,ik) = xk(1:3,ik) - 1.0_dp
++           xk(1:3,ik) = MATMUL(bg(1:3,1:3), xk(1:3,ik))
++           wk(ik) = 1.0_dp / REAL(nks, DP)
++        END DO
++     END DO
++  END DO
++  !
++  ! Use tetrahedron method without symmetry
++  !
++  tetra_type = 2
++  s_dummy(1:3,1:3,1:48) = 0
++  t_rev_dummy(1:48) = 0
++  DO i1 = 1, 3
++     s_dummy(i1,i1,1:48) = 1
++  END DO
++  CALL opt_tetra_init(1, s_dummy, .False., t_rev_dummy, at, bg, npk, &
++  &                   0, 0, 0, nk1, nk2, nk3, nks, xk, 1)
++  !
++  ! Nesting function function delta(e_k)*delta(e_{k+q})
++  !
++  nbnd_fs = b_high - b_low + 1
++  ALLOCATE(eig1(nbnd_fs, nk3, nk2, nk1, ns), &
++  &        eig2(nbnd_fs, nirr_k, nk3, nk2, nk1, ns))
++  !
++  ! ... Map e_k into whole BZ (Measured from E_F)
++  !
++  DO i1 = 1, nk1
++     DO i2 = 1, nk2
++        DO i3 = 1, nk3
++           IF(nspin == 2) THEN
++              eig1(1:nbnd_fs,i3,i2,i1,1) = et(b_low:b_high, equiv(i1,i2,i3)     ) - ef1
++              eig1(1:nbnd_fs,i3,i2,i1,2) = et(b_low:b_high, equiv(i1,i2,i3) + nk) - ef2
++           ELSE
++              eig1(1:nbnd_fs,i3,i2,i1,1) = et(b_low:b_high, equiv(i1,i2,i3)     ) - ef
++           END IF
++        END DO
++     END DO
++  END DO
++  !
++  ! Compute E(k+q) by shifting grid
++  !
++  DO ik = 1, nirr_k
++     DO i1 = 1, nk1
++        DO i2 = 1, nk2
++           DO i3 = 1, nk3
++              ikqv(1:3) = (/i1, i2, i3/) - 1 + irr_k(1:3,ik)
++              ikqv(1:3) = MODULO(ikqv(1:3), (/nk1, nk2, nk3/)) + 1
++              eig2(1:nbnd_fs,ik,i3,i2,i1,1:ns) = eig1(1:nbnd_fs,ikqv(3),ikqv(2),ikqv(1),1:ns)
++           END DO
++        END DO
++     END DO
++  END DO
++  !
++  nesting_irr(1:nirr_k,1:ns) = 0.0_dp
++  !
++  CALL nesting_delta1(nbnd_fs,ns,nirr_k,irr_k,eig1,eig2,nesting_irr)
++  !
++  ! Extend nesting factor to the full BZ
++  !
++  DO i3 = 1, nk3
++     DO i2 = 1, nk2
++        DO i1 = 1, nk1
++           nesting_full(i1,i2,i3,1:ns) = nesting_irr(equiv(i1,i2,i3), 1:ns)
++        END DO
++     END DO
++  END DO
++  !
++  ! ... Output in the FermiSurfer format
++  !
++  b_low = 1
++  b_high = 1
++  IF (nspin == 2) THEN
++     !
++     CALL write_fermisurfer(nesting_full(1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      nesting_full(1:nk1, 1:nk2, 1:nk3, 1), TRIM(prefix) // "_nesting_delta1.frmsf")
++     CALL write_fermisurfer(nesting_full(1:nk1, 1:nk2, 1:nk3, 2), &
++     &                      nesting_full(1:nk1, 1:nk2, 1:nk3, 2), "nesting_delta2.frmsf")
++     !
++  ELSE
++     !
++     CALL write_fermisurfer(nesting_full(1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      nesting_full(1:nk1, 1:nk2, 1:nk3, 1), TRIM(prefix) // "_nesting_delta.frmsf")
++     !
++  END IF
++  !
++  ! Nesting function with (f_k - f_{k+q})/(e_{k+q} - e_k)
++  !
++  nesting_irr(1:nirr_k,1:ns) = 0.0_dp 
++  CALL nesting_theta1(nbnd_fs,ns,nirr_k,eig1,eig2,nesting_irr)
++  nesting_irr(1:nirr_k, 1:ns) = 2.0_dp * nesting_irr(1:nirr_k, 1:ns)
++  IF (nspin == 1) nesting_irr(1:nirr_k, 1:ns) = 2.0_dp * nesting_irr(1:nirr_k, 1:ns)
++  !
++  ! Drude term
++  !
++  edos = 0.0_dp
++  CALL opt_tetra_dos_t(eig1, nspin, nbnd_fs, nks, edos, dosf)
++  DO ik = 1, nirr_k
++    IF(ALL(irr_k(1:3,ik) == 0)) THEN
++      nesting_irr(ik, 1:ns) = nesting_irr(ik, 1:ns) + dosf(1:ns)
++    END IF
++  END DO
++  !
++  ! Extend nesting factor to the full BZ
++  !
++  DO i3 = 1, nk3
++     DO i2 = 1, nk2
++        DO i1 = 1, nk1
++           nesting_full(  i1,i2,i3,1:ns) = nesting_irr(equiv(i1,i2,i3), 1:ns)
++        END DO
++     END DO
++  END DO
++  !
++  ! ... Output in the FermiSurfer format
++  !
++  b_low = 1
++  b_high = 1
++  IF (nspin == 2) THEN
++     !
++     CALL write_fermisurfer(nesting_full(1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      nesting_full(1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_nesting_chi1.frmsf")
++     CALL write_fermisurfer(nesting_full(1:nk1, 1:nk2, 1:nk3, 2), &
++     &                      nesting_full(1:nk1, 1:nk2, 1:nk3, 2), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_nesting_chi2.frmsf")
++     !
++  ELSE
++     !
++     CALL write_fermisurfer(nesting_full(1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      nesting_full(1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_nesting_chi.frmsf")
++     !
++  END IF
++  !
++  DEALLOCATE(eig1, eig2, nesting_full, nesting_irr, equiv)
++  !
++  CALL environment_end ('NESTING')
++#if defined(__MPI)
++  CALL mp_global_end ( )
++#endif
++  !
++END PROGRAM nesting
+diff --git a/PP/src/nodalweb.f90 b/PP/src/nodalweb.f90
+new file mode 100644
+index 000000000..0d8b065e7
+--- /dev/null
++++ b/PP/src/nodalweb.f90
+@@ -0,0 +1,129 @@
++!
++! Copyright (C) 2001-2016 Quantum ESPRESSO group
++! This file is distributed under the terms of the
++! GNU General Public License. See the file `License'
++! in the root directory of the present distribution,
++! or http://www.gnu.org/copyleft/gpl.txt .
++!
++!--------------------------------------------------------------------------
++!
++! Usage :
++! $ fermi_velocity.x -in {pw.x input file}
++! Then it generates vfermi.frmsf (for nspin = 1, 4) or
++! vfermi1.frmsf and vfermi2.frmsf (for nspin = 2)
++!
++!----------------------------------------------------------------------------
++PROGRAM nodalweb
++  !--------------------------------------------------------------------------
++  !
++  USE input_parameters,     ONLY : prefix, outdir
++  USE io_files,             ONLY : prefix_ => prefix, tmp_dir
++  USE mp_global,            ONLY : mp_startup
++  USE environment,          ONLY : environment_start, environment_end
++  USE read_input,           ONLY : read_input_file
++  USE command_line_options, ONLY : input_file_
++  USE kinds,                ONLY : DP
++  USE wvfct,                ONLY : et
++  USE start_k,              ONLY : nk1, nk2, nk3
++  USE cell_base,            ONLY : at, alat
++  USE lsda_mod,             ONLY : nspin
++  USE ener,                 ONLY : ef, ef_up, ef_dw
++  USE klist,                ONLY : nks, two_fermi_energies
++  USE fermisurfer_common,   ONLY : b_low, b_high, rotate_k_fs, write_fermisurfer
++  USE constants,            ONLY : tpi
++  !
++  IMPLICIT NONE
++  !
++  INTEGER :: i1, i2, i3, ibnd, ispin, ns, nk
++  REAL(DP) :: ef1, ef2
++  INTEGER,ALLOCATABLE :: equiv(:,:,:)
++  REAL(DP),ALLOCATABLE :: eig(:,:,:,:,:), de(:,:,:,:,:)
++  LOGICAL :: needwf = .FALSE.
++  !
++  CHARACTER(LEN=256), EXTERNAL :: trimcheck
++  !
++  CALL mp_startup ()
++  CALL environment_start ('NODALWEB')
++  !
++  ! ... Read pw.x input file and get prefix and outdir
++  !
++  CALL read_input_file ('PW', input_file_)
++  !
++  prefix_ = TRIM(prefix)
++  tmp_dir = trimcheck(outdir)
++  !
++  ! ... Read XML file generated by pw.x
++  !
++  CALL read_file_new( needwf)
++  !
++  ! ... Number of k and spin for each magnetic treatment
++  !
++  IF (nspin == 2) THEN
++     ns = 2
++     IF(two_fermi_energies) THEN
++        ef1 = ef_up
++        ef2 = ef_dw
++     ELSE
++        ef1 = ef
++        ef2 = ef
++     END IF
++  ELSE
++     ns = 1
++  END IF
++  nk = nks / ns
++  !
++  ! ... Find equivalent k point in irr-BZ for whole BZ
++  !
++  ALLOCATE(equiv(nk1, nk2, nk3))
++  CALL rotate_k_fs(equiv)
++  !
++  ! one more bands
++  !
++  b_low = MAX(b_low - 1, 1)
++  b_high = MAX(b_high + 1, nbnd - 1)
++  !
++  ALLOCATE(de(b_low:b_high, nk1, nk2, nk3, ns), &
++  &       eig(b_low:b_high, nk1, nk2, nk3, ns))
++  !
++  ! ... Map e_k into whole BZ (Measured from E_F)
++  !
++  DO i3 = 1, nk3
++     DO i2 = 1, nk2
++        DO i1 = 1, nk1
++           IF(nspin == 2) THEN
++              eig(b_low:b_high,i1,i2,i3,1) = et(b_low  :b_high,   equiv(i1,i2,i3)     ) - ef1
++              eig(b_low:b_high,i1,i2,i3,2) = et(b_low  :b_high,   equiv(i1,i2,i3) + nk) - ef2
++              de( b_low:b_high,i1,i2,i3,1) = et(b_low+1:b_high+1, equiv(i1,i2,i3)     ) &
++              &                            - et(b_low  :b_high,   equiv(i1,i2,i3)     )
++              de( b_low:b_high,i1,i2,i3,2) = et(b_low+1:b_high+1, equiv(i1,i2,i3) + nk) &
++              &                            - et(b_low  :b_high,   equiv(i1,i2,i3) + nk)
++           ELSE
++              eig(b_low:b_high,i1,i2,i3,1) = et(b_low  :b_high,   equiv(i1,i2,i3)     ) - ef
++              de( b_low:b_high,i1,i2,i3,1) = et(b_low+1:b_high+1, equiv(i1,i2,i3)     ) &
++              &                            - et(b_low  :b_high,   equiv(i1,i2,i3)     )
++           END IF
++        END DO
++     END DO
++  END DO
++  !
++  ! ... Output in the FermiSurfer format
++  !
++  IF (nspin == 2) THEN
++     CALL write_fermisurfer( de(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_nodalweb1.frmsf")
++     CALL write_fermisurfer( de(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), &
++     &                      eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 2), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_nodalweb2.frmsf")
++  ELSE
++     CALL write_fermisurfer( de(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      eig(b_low:b_high, 1:nk1, 1:nk2, 1:nk3, 1), &
++     &                      TRIM(tmp_dir) // TRIM(prefix) // "_nodalweb.frmsf")
++  END IF
++  !
++  DEALLOCATE(de, eig, equiv)
++  !
++  CALL environment_end ('NODALWEB')
++  CALL stop_pp
++  !
++END PROGRAM nodalweb

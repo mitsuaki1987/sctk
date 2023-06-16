@@ -20,65 +20,55 @@ SUBROUTINE make_effint()
   USE modes, ONLY : nmodes
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   !
-  USE sctk_val, ONLY : beta, zero_kelvin, bindx, effint, gg, kindx, ngap1, ngap2, omg, Vc, xi, nci
+  USE sctk_val, ONLY : beta, bindx, effint, gg, kindx, ngap1, ngap2, &
+  &                    omg, Vc, xi, nci, freq_min
   !
   USE sctk_kernel_weight, ONLY : Kweight, calc_Kel
   !
   IMPLICIT NONE
   !
-  INTEGER :: igap, ik, ib, jgap, jk, jb, im, ngap10, ngap11
-  REAL(dp) :: x, xp, om, Kph, Kel, bx, bxp, tx, txp, tom
+  INTEGER :: igap, ik, ib, jgap, jk, jb, imode, ngap10, ngap11
+  REAL(dp) :: x, xp, om, Kph(2), Kel
   !
   CALL start_clock("make_effint")
   !
   CALL divide(world_comm, ngap1, ngap10, ngap11)
-  IF(.NOT. ALLOCATED(effint)) ALLOCATE(effint(ngap2,ngap10:ngap11))
+  IF(.NOT. ALLOCATED(effint)) ALLOCATE(effint(ngap2,ngap10:ngap11,2))
   !
   !$OMP PARALLEL DEFAULT(NONE) &
   !$OMP & SHARED(ngap10,ngap11,ngap1,ngap2,nmodes,kindx,bindx,beta,nci, &
-  !$OMP &        xi,omg,gg,Vc,effint,elph_nbnd_min,elph_nbnd_max,zero_kelvin) &
-  !$OMP & PRIVATE(igap,jgap,ik,jk,ib,jb,im,x,xp,om,Kph,Kel, &
-  !$OMP &         bx,bxp,tx,txp,tom)
+  !$OMP &        xi,omg,gg,Vc,effint,elph_nbnd_min,elph_nbnd_max,freq_min) &
+  !$OMP & PRIVATE(igap,jgap,ik,jk,ib,jb,imode,x,xp,om,Kph,Kel)
   !
   !$OMP DO
   DO igap = ngap10, ngap11
      !
      x = xi(igap,1)
-     bx = 0.5_dp * beta * x
-     tx = TANH(bx)
      ik = kindx(igap,1)
      ib = bindx(igap,1)
      !
      DO jgap = 1, ngap2
         !
         xp = xi(jgap,2)
-        bxp = 0.5_dp * beta * xp
-        txp = TANH(bxp)
         jk = kindx(jgap,2)
         jb = bindx(jgap,2)
         !
         ! Electron-phonon
         !
-        Kph = 0.0_dp
+        Kph(1:2) = 0.0_dp
         !
         IF(ALL((/elph_nbnd_min <= ib, ib <= elph_nbnd_max, &
         &        elph_nbnd_min <= jb, jb <= elph_nbnd_max/))) THEN
            !
-           IF(zero_kelvin) THEN
-              Kph = - SUM(gg(1:nmodes,jb,jk,ib,ik) / (ABS(x)+ABS(xp)+omg(1:nmodes,jk,ik)))
-           ELSE
-              DO im = 1, nmodes
-                 !
-                 om = omg(im,jk,ik) * beta * 0.5_dp
-                 tom = TANH(om)
-                 !
-                 Kph = Kph + gg(im,jb,jk,ib,ik) * beta &
-                 &         * Kweight(bx, bxp, om, tx, txp, tom)
-                 !       
-              END DO ! im
-           END IF
-           !
-           Kph = Kph * 2.0_dp
+           DO imode = 1, nmodes
+              !
+              om = omg(imode,jk,ik)
+              IF(om < freq_min) CYCLE
+              !
+              Kph(1) = Kph(1) + gg(imode,jb,jk,ib,ik) * Kweight(beta, ABS(x), ABS(xp), om)
+              Kph(2) = Kph(2) + gg(imode,jb,jk,ib,ik) * Kweight(beta, ABS(xp), ABS(x), om)
+              !       
+           END DO ! imode
            !
         END IF
         !
@@ -86,7 +76,7 @@ SUBROUTINE make_effint()
         !
         Kel = calc_Kel(ABS(x)+ABS(xp),Vc(1:nci,jb,jk,ib,ik))
         !
-        effint(jgap,igap) = Kph + Kel
+        effint(jgap,igap,1:2) = Kph(1:2) + Kel
         !
      END DO ! jgap
      !
@@ -139,10 +129,10 @@ SUBROUTINE gapeq_rhs(veco)
   chi(1:ngap2,2) = 0.5_dp * dk(1:ngap2,2) * delta(1:ngap2,2) * chi(1:ngap2,2) &
   &              / SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2)
   !
-  CALL dgemv("T", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11), ngap2, &
+  CALL dgemv("T", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,1), ngap2, &
   &    chi(1:ngap2,2), 1, 1.0_dp, veco(ngap10:ngap11,1), 1)
   !
-  CALL dgemv("N", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11), ngap2, &
+  CALL dgemv("N", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,2), ngap2, &
   &    chi(ngap10:ngap11,1), 1, 1.0_dp, veco(1:ngap2,2), 1)
   !
   ! High energy region
@@ -165,7 +155,7 @@ SUBROUTINE gapeq_rhs(veco)
      !$OMP & PRIVATE(igap,Kh)
      !$OMP DO
      DO igap = 1, ngap2
-        Kh = SUM(effint(igap,ngap10:ngap11), xi(ngap10:ngap11,1) > xic) / REAL(nh, dp)
+        Kh = SUM(effint(igap,ngap10:ngap11,2), xi(ngap10:ngap11,1) > xic) / REAL(nh, dp)
         veco(igap,2) = veco(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
      END DO
      !$OMP END DO
@@ -187,7 +177,7 @@ SUBROUTINE gapeq_rhs(veco)
      !$OMP & PRIVATE(igap,Kh)
      !$OMP DO
      DO igap = ngap10, ngap11
-        Kh = SUM(effint(1:ngap2,igap), xi(1:ngap2,2) > xic) / REAL(nh, dp)
+        Kh = SUM(effint(1:ngap2,igap,1), xi(1:ngap2,2) > xic) / REAL(nh, dp)
         veco(igap,2) = veco(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
      END DO
      !$OMP END DO
@@ -216,15 +206,15 @@ SUBROUTINE gapeq_rhs_qpdos()
   USE fermisurfer_common,   ONLY : b_low, b_high
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE sctk_val, ONLY : beta, zero_kelvin, bindx, delta, dk, dltF, ggf, kindx, &
-  &                    nci, ngap2, nx, omgf, VcF, xi, xi0, xic, ZF
+  &                    nci, ngap2, nx, omgf, VcF, xi, xi0, xic, ZF, freq_min
   !
   USE sctk_kernel_weight, ONLY : Kweight, calc_Kel
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   !
   IMPLICIT NONE
   !
-  INTEGER :: ik, ib, jgap, jk, jb, im, ix, nh, nks0, nks1
-  REAL(dp) :: x, xp, om, bx, bxp, tx, txp, tom, eqp, Kph, Kel, Kave, dlth, dosh, xmax
+  INTEGER :: ik, ib, jgap, jk, jb, imode, ix, nh, nks0, nks1
+  REAL(dp) :: x, xp, om, eqp, Kph, Kel, Kave, dlth, dosh, xmax
   !
   CALL start_clock("gapeq_rhs_qpdos")
   !
@@ -247,9 +237,9 @@ SUBROUTINE gapeq_rhs_qpdos()
   !$OMP PARALLEL DEFAULT(NONE) &
   !$OMP & SHARED(xi0,nx,nks0,nks1,ngap2,b_low,b_high,nmodes,omgf,ggf,VcF, &
   !$OMP &        xi,dk,delta,kindx,bindx,dltF,ZF,beta,elph_nbnd_min,elph_nbnd_max, &
-  !$OMP &        nh,dlth,dosh,xic,xmax,zero_kelvin,nci) &
-  !$OMP & PRIVATE(ik,ib,jgap,jk,jb,im,ix, &
-  !$OMP &         x,xp,om,bx,bxp,tx,txp,tom,eqp,Kph,Kel,Kave)
+  !$OMP &        nh,dlth,dosh,xic,xmax,zero_kelvin,nci,freq_min) &
+  !$OMP & PRIVATE(ik,ib,jgap,jk,jb,imode,ix, &
+  !$OMP &         x,xp,om,eqp,Kph,Kel,Kave)
   !
   !$OMP DO
   DO ik = nks0, nks1
@@ -260,14 +250,10 @@ SUBROUTINE gapeq_rhs_qpdos()
            !
            Kave = 0.0_dp
            x = ABS(xi0(ix))
-           bx = ABS(0.5_dp * beta * x)
-           tx = TANH(bx)
            !
            DO jgap = 1, ngap2
               !
               xp = ABS(xi(jgap,2))
-              bxp = ABS(0.5_dp * beta * xp)
-              txp = TANH(bxp)
               jk = kindx(jgap,2)
               jb = bindx(jgap,2)
               !
@@ -277,22 +263,15 @@ SUBROUTINE gapeq_rhs_qpdos()
               !
               IF(elph_nbnd_min <= jb .AND. jb <= elph_nbnd_max) THEN
                  !
-                 IF(zero_kelvin) THEN
-                    Kph = - SUM(ggf(1:nmodes,jb,jk,ib,ik) / (ABS(x)+ABS(xp)+omgf(1:nmodes,jk,ik)))
-                 ELSE
-                    DO im = 1, nmodes
-                       !
-                       om = ABS(omgf(im,jk,ik) * 0.5_dp * beta)
-                       tom = TANH(om)
-                       !
-                       Kph = Kph + ggf(im,jb,jk,ib,ik) &
-                       &   * beta * Kweight(bx, bxp, om, tx, txp, tom)
-                       !
-                    END DO ! im
-                 END IF
+                 DO imode = 1, nmodes
+                    !
+                    om = omgf(imode,jk,ik)
+                    IF(om < freq_min) CYCLE
+                    !
+                    Kph = Kph + ggf(imode,jb,jk,ib,ik) * Kweight(beta, ABS(x), ABS(xp), om)
+                    !
+                 END DO ! imode
                  !               
-                 Kph = Kph * 2.0_dp
-                 !
               END IF ! (elph_nbnd_min <= jb .AND. jb <= elph_nbnd_max)
               !
               ! Coulomb (+ spin-fluctuation)
@@ -362,16 +341,16 @@ SUBROUTINE gapeq_rhs_f()
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE constants, ONLY : RYTOEV
   !
-  USE sctk_val, ONLY : beta, bindx, delta, dk, dltf, ggf, kindx, &
+  USE sctk_val, ONLY : beta, bindx, delta, dk, dltf, ggf, kindx, freq_min, &
   &                    nci, ngap2, omgf, VcF, xi, xic, Zf, zero_kelvin
   !
-  USE sctk_kernel_weight, ONLY : Kweight_f, calc_Kel
+  USE sctk_kernel_weight, ONLY : Kweight, calc_Kel
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   !
   IMPLICIT NONE
   !
-  INTEGER :: ik, ib, jgap, jk, jb, im, nh, nks0, nks1
-  REAL(dp) :: xp, om, eqp, Kph, Kel, Kave, dlth, dosh, xmax, bxp, txp, tom
+  INTEGER :: ik, ib, jgap, jk, jb, imode, nh, nks0, nks1
+  REAL(dp) :: xp, om, eqp, Kph, Kel, Kave, dlth, dosh, xmax
   !
   CALL start_clock("gapeq_rhs_f")
   !
@@ -394,9 +373,8 @@ SUBROUTINE gapeq_rhs_f()
   !$OMP PARALLEL DEFAULT(NONE) &
   !$OMP & SHARED(nks0,nks1,ngap2,b_low,b_high,nmodes,omgf,ggf,VcF,nci, &
   !$OMP &        xi,dk,delta,kindx,bindx,dltf,Zf,beta,elph_nbnd_min,elph_nbnd_max, &
-  !$OMP &        nh,dlth,dosh,xic,xmax,zero_kelvin) &
-  !$OMP & PRIVATE(ik,ib,jgap,jk,jb,im,bxp,txp,tom, &
-  !$OMP &         xp,om,eqp,Kph,Kel,Kave)
+  !$OMP &        nh,dlth,dosh,xic,xmax,zero_kelvin,freq_min) &
+  !$OMP & PRIVATE(ik,ib,jgap,jk,jb,imode,xp,om,eqp,Kph,Kel,Kave)
   !
   !$OMP DO
   DO ik = nks0, nks1
@@ -410,8 +388,6 @@ SUBROUTINE gapeq_rhs_f()
            xp = ABS(xi(jgap,2))
            jk = kindx(jgap,2)
            jb = bindx(jgap,2)
-           bxp = 0.5_dp * beta * xp
-           txp = TANH(bxp)
            !
            ! Electron-phonon
            !
@@ -419,20 +395,14 @@ SUBROUTINE gapeq_rhs_f()
            !
            IF(elph_nbnd_min <= jb .AND. jb <= elph_nbnd_max) THEN
               !
-              IF(zero_kelvin) THEN
-                 Kph = - SUM(ggf(1:nmodes,jb,jk,ib,ik) / (ABS(xp)+omgf(1:nmodes,jk,ik)))
-              ELSE
-                 DO im = 1, nmodes
-                    !
-                    om = ABS(0.5_dp * beta * omgf(im,jk,ik))
-                    tom = TANH(om)
-                    !
-                    Kph = Kph + ggf(im,jb,jk,ib,ik) &
-                    &   * beta * Kweight_f(bxp, om, txp, tom)
-                    !
-                 END DO ! im
-              END IF
-              Kph = Kph * 2.0_dp
+              DO imode = 1, nmodes
+                 !
+                 om = omgf(imode,jk,ik)
+                 IF(om < freq_min) CYCLE
+                 !
+                 Kph = Kph + ggf(imode,jb,jk,ib,ik) * Kweight(beta, 0.0_dp, ABS(xp), om)
+                 !
+              END DO ! imode
               !
            END IF
            !
@@ -502,7 +472,7 @@ SUBROUTINE make_lambda_mu_f()
   USE io_global, ONLY : stdout
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   !
-  USE sctk_val, ONLY : bindx, dk, ggf, kindx, ngap, omgf, ZF, dltf, VcF, nci
+  USE sctk_val, ONLY : bindx, dk, ggf, kindx, ngap, omgf, ZF, dltf, VcF, nci, freq_min
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   USE sctk_tetra, ONLY : calc_dosk
   !
@@ -520,7 +490,7 @@ SUBROUTINE make_lambda_mu_f()
   CALL divide(world_comm, nks,nks0,nks1)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(nks0,nks1,b_low,b_high,ngap,kindx,bindx,ZF,dltf,dk,ggf,omgf,VcF,nmodes,nci) &
+  !$OMP & SHARED(nks0,nks1,b_low,b_high,ngap,kindx,bindx,ZF,dltf,dk,ggf,omgf,VcF,nmodes,nci,freq_min) &
   !$OMP & PRIVATE(ik,ib,jgap,jk,jb)
   !
   !$OMP DO
@@ -534,7 +504,8 @@ SUBROUTINE make_lambda_mu_f()
            jb = bindx(jgap,1)
            !
            ZF(1,ib,ik) = ZF(1,ib,ik) &
-           &         + 2.0_dp * dk(jgap,1) * SUM(ggf(1:nmodes,jb,jk,ib,ik) / ABS(omgf(1:nmodes,jk,ik)))
+           &         + 2.0_dp * dk(jgap,1) * SUM(ggf(1:nmodes,jb,jk,ib,ik) / ABS(omgf(1:nmodes,jk,ik)), &
+           &                                     omgf(1:nmodes,jk,ik) > freq_min)
            !
            dltf(1,ib,ik) = dltf(1,ib,ik) + dk(jgap,1) * calc_Kel(0.0_dp,VcF(1:nci,jb,jk,ib,ik))
            !
