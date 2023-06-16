@@ -1,0 +1,5 @@
+SUBROUTINE sctk_write_hash()
+  USE io_global, ONLY : stdout
+  IMPLICIT NONE
+  WRITE(stdout,'(/,5x,"git hash : ",a/)') "HASH"
+END SUBROUTINE sctk_write_hash

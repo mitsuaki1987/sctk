@@ -25,7 +25,7 @@ SUBROUTINE stdin_control()
   !
   CHARACTER(256) :: outdir
   CHARACTER(256), EXTERNAL :: trimcheck
-  NAMELIST /control/ prefix, outdir, calculation
+  NAMELIST /control/ prefix, outdir, calculation, restart_mode
   !
   prefix = 'pwscf'
   CALL get_environment_variable('ESPRESSO_TMPDIR', outdir)
@@ -158,8 +158,9 @@ SUBROUTINE stdin_scdft()
   USE output,        ONLY : fildyn
   USE constants, ONLY: K_BOLTZMANN_RY, RY_TO_THZ
   !
-  USE sctk_val, ONLY : beta, emax, emin, fbee, lbee, ne, nmf, nx, xic, mf, wmf, &
-  &                    zero_kelvin, lsf, scdft_kernel, lz_coulomb, freq_min, freq_min_ratio
+  USE sctk_val, ONLY : beta, emax, emin, fbee, lbee, ne, nmf, nx, xic, mf, wmf, bisec_step, &
+  &                    zero_kelvin, lsf, scdft_kernel, lz_coulomb, freq_min, freq_min_ratio, &
+  &                    bisec_min, bisec_max
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   !
   IMPLICIT NONE
@@ -168,7 +169,8 @@ SUBROUTINE stdin_scdft()
   LOGICAL :: spin_fluc
   !
   NAMELIST /scdft/ temp, fbee, lbee, xic, nmf, nx, ne, emin, emax, lz_coulomb, electron_maxstep, &
-  &                conv_thr, fildyn, spin_fluc, scdft_kernel, freq_min, freq_min_ratio
+  &                conv_thr, fildyn, spin_fluc, scdft_kernel, freq_min, freq_min_ratio, &
+  &                bisec_step, bisec_min, bisec_max
   !
   IF(ionode) THEN
      !
@@ -189,6 +191,9 @@ SUBROUTINE stdin_scdft()
      lz_coulomb = .FALSE.
      freq_min = 0.0_dp
      freq_min_ratio = -1.0
+     bisec_step = 10
+     bisec_min = -1.0
+     bisec_max = -1.0
      !
      READ(5,scdft,err=100)
      !
@@ -216,6 +221,9 @@ SUBROUTINE stdin_scdft()
      WRITE(*,'(7x,"                  Z_Coulomb : ",l)') lz_coulomb
      WRITE(*,'(7x,"            Min. freq.[THz] : ",e12.5)') freq_min
      WRITE(*,'(7x,"           Min. freq. ratio : ",e12.5)') freq_min_ratio
+     WRITE(*,'(7x,"            Bisection steps : ",i0)') bisec_step
+     WRITE(*,'(7x,"         Bisection min. [K] : ",e12.5)') bisec_min
+     WRITE(*,'(7x,"         Bisection max. [K] : ",e12.5)') bisec_max
      IF(spin_fluc) THEN
         lsf = 2
      ELSE
@@ -243,6 +251,9 @@ SUBROUTINE stdin_scdft()
   CALL mp_bcast(lz_coulomb,       ionode_id, world_comm )
   CALL mp_bcast(freq_min,         ionode_id, world_comm )
   CALL mp_bcast(freq_min_ratio,   ionode_id, world_comm )
+  CALL mp_bcast(bisec_step,       ionode_id, world_comm )
+  CALL mp_bcast(bisec_min,        ionode_id, world_comm )
+  CALL mp_bcast(bisec_max,        ionode_id, world_comm )
   !
   niter = electron_maxstep
   tr2 = conv_thr

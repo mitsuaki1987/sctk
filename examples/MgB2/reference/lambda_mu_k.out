@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
-1513736368 or higher.
+-1245685584 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program SCTK v.6.7GPU starts on 28Jun2022 at  2:25:17 
+     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:44:50 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -133,15 +133,15 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Clock summary  #####
 
-     read_elph    :      0.06s CPU      0.08s WALL (       1 calls)
-     read_Coulomb :      0.00s CPU      0.02s WALL (       1 calls)
-     expand_g_v_f :      9.20s CPU      1.01s WALL (       1 calls)
-     make_lambda_ :      1.81s CPU      0.17s WALL (       1 calls)
+     read_elph    :      0.06s CPU      0.09s WALL (       1 calls)
+     read_Coulomb :      0.01s CPU      0.02s WALL (       1 calls)
+     expand_g_v_f :      9.44s CPU      1.02s WALL (       1 calls)
+     make_lambda_ :      1.79s CPU      0.16s WALL (       1 calls)
 
-     SCTK         :     15.92s CPU      4.94s WALL
+     SCTK         :     16.09s CPU      4.91s WALL
 
 
-   This run was terminated on:   2:25:22  28Jun2022            
+   This run was terminated on:  11:44:55  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--1774843728 or higher.
+-357365584 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program PWSCF v.6.7GPU starts on 28Jun2022 at  1:57: 4 
+     Program PWSCF v.6.7GPU starts on 29Jun2022 at 11:19:58 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -831,27 +831,27 @@ Fortran runtime warning: An array temporary was created
 
      Writing output data file ./pwscf.save/
 
-     init_run     :      1.01s CPU      1.03s WALL (       1 calls)
-     electrons    :      1.25s CPU      1.27s WALL (       1 calls)
+     init_run     :      1.03s CPU      1.04s WALL (       1 calls)
+     electrons    :      1.22s CPU      1.24s WALL (       1 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.00s WALL (       1 calls)
-     potinit      :      0.43s CPU      0.44s WALL (       1 calls)
-     hinit0       :      0.56s CPU      0.56s WALL (       1 calls)
+     potinit      :      0.44s CPU      0.45s WALL (       1 calls)
+     hinit0       :      0.57s CPU      0.57s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :      1.25s CPU      1.27s WALL (       1 calls)
+     c_bands      :      1.22s CPU      1.24s WALL (       1 calls)
      v_of_rho     :      0.03s CPU      0.03s WALL (       1 calls)
-     newd         :      0.01s CPU      0.01s WALL (       1 calls)
-     PAW_pot      :      0.03s CPU      0.04s WALL (       1 calls)
+     newd         :      0.00s CPU      0.00s WALL (       1 calls)
+     PAW_pot      :      0.02s CPU      0.02s WALL (       1 calls)
 
      Called by c_bands:
      init_us_2    :      0.00s CPU      0.00s WALL (       4 calls)
-     cegterg      :      0.77s CPU      0.78s WALL (       9 calls)
+     cegterg      :      0.77s CPU      0.79s WALL (       9 calls)
 
      Called by *egterg:
      cdiaghg      :      0.04s CPU      0.04s WALL (     132 calls)
-     h_psi        :      0.63s CPU      0.64s WALL (     141 calls)
+     h_psi        :      0.63s CPU      0.65s WALL (     141 calls)
      s_psi        :      0.01s CPU      0.01s WALL (     141 calls)
      g_psi        :      0.02s CPU      0.02s WALL (     128 calls)
 
@@ -864,20 +864,20 @@ Fortran runtime warning: An array temporary was created
      calbec       :      0.02s CPU      0.02s WALL (     141 calls)
      fft          :      0.01s CPU      0.01s WALL (      13 calls)
      ffts         :      0.00s CPU      0.00s WALL (       1 calls)
-     fftw         :      0.51s CPU      0.51s WALL (    2780 calls)
+     fftw         :      0.51s CPU      0.52s WALL (    2780 calls)
      interpolate  :      0.00s CPU      0.00s WALL (       1 calls)
      davcio       :      0.00s CPU      0.00s WALL (       8 calls)
 
      Parallel routines
 
-     PWSCF        :      2.85s CPU      3.61s WALL
+     PWSCF        :      2.86s CPU      3.62s WALL
 
 
-   This run was terminated on:   1:57: 8  28Jun2022            
+   This run was terminated on:  11:20: 2  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
 =------------------------------------------------------------------------------=
-[macloud2:953499] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:953499] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:953499] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[macloud1:942243] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud1:942243] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud1:942243] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init

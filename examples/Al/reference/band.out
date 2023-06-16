@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--1474336592 or higher.
+-953612112 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud1
+  Local host:   macloud2
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program PWSCF v.6.7GPU starts on 28Jun2022 at  1:28:33 
+     Program PWSCF v.6.7GPU starts on 29Jun2022 at 11:47:30 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -290,7 +290,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  3.33E-08,  avg # of iterations = 28.2
 
-     total cpu time spent up to now is        1.4 secs
+     total cpu time spent up to now is        1.2 secs
 
      End of band structure calculation
 
@@ -611,52 +611,52 @@ Fortran runtime warning: An array temporary was created
 
      Writing output data file ./pwscf.save/
 
-     init_run     :      0.47s CPU      0.49s WALL (       1 calls)
-     electrons    :      0.61s CPU      0.61s WALL (       1 calls)
+     init_run     :      0.33s CPU      0.33s WALL (       1 calls)
+     electrons    :      0.65s CPU      0.67s WALL (       1 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.00s WALL (       1 calls)
-     potinit      :      0.14s CPU      0.15s WALL (       1 calls)
-     hinit0       :      0.31s CPU      0.31s WALL (       1 calls)
+     potinit      :      0.03s CPU      0.04s WALL (       1 calls)
+     hinit0       :      0.27s CPU      0.27s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :      0.61s CPU      0.61s WALL (       1 calls)
+     c_bands      :      0.65s CPU      0.67s WALL (       1 calls)
      v_of_rho     :      0.02s CPU      0.02s WALL (       1 calls)
-     newd         :      0.01s CPU      0.02s WALL (       1 calls)
+     newd         :      0.02s CPU      0.02s WALL (       1 calls)
 
      Called by c_bands:
      init_us_2    :      0.00s CPU      0.00s WALL (       3 calls)
-     cegterg      :      0.24s CPU      0.24s WALL (       3 calls)
+     cegterg      :      0.23s CPU      0.24s WALL (       3 calls)
 
      Called by *egterg:
      cdiaghg      :      0.01s CPU      0.02s WALL (      43 calls)
-     h_psi        :      0.22s CPU      0.22s WALL (      46 calls)
+     h_psi        :      0.21s CPU      0.22s WALL (      46 calls)
      s_psi        :      0.00s CPU      0.00s WALL (      46 calls)
      g_psi        :      0.00s CPU      0.00s WALL (      40 calls)
 
      Called by h_psi:
      h_psi:calbec :      0.00s CPU      0.00s WALL (      46 calls)
-     vloc_psi     :      0.21s CPU      0.21s WALL (      46 calls)
+     vloc_psi     :      0.20s CPU      0.21s WALL (      46 calls)
      add_vuspsi   :      0.00s CPU      0.00s WALL (      46 calls)
 
      General routines
      calbec       :      0.00s CPU      0.00s WALL (      46 calls)
      fft          :      0.01s CPU      0.01s WALL (      13 calls)
      ffts         :      0.00s CPU      0.00s WALL (       1 calls)
-     fftw         :      0.18s CPU      0.18s WALL (    1120 calls)
+     fftw         :      0.17s CPU      0.18s WALL (    1120 calls)
      interpolate  :      0.00s CPU      0.00s WALL (       1 calls)
      davcio       :      0.00s CPU      0.00s WALL (       6 calls)
 
      Parallel routines
 
-     PWSCF        :      1.32s CPU      2.36s WALL
+     PWSCF        :      1.26s CPU      1.76s WALL
 
 
-   This run was terminated on:   1:28:35  28Jun2022            
+   This run was terminated on:  11:47:32  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
 =------------------------------------------------------------------------------=
-[macloud1:896651] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud1:896651] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud1:896651] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[macloud2:996634] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud2:996634] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud2:996634] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init

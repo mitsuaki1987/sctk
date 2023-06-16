@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--695453520 or higher.
+652544176 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program FERMI_VELOCITY v.6.7GPU starts on 28Jun2022 at  1:56:57 
+     Program FERMI_VELOCITY v.6.7GPU starts on 29Jun2022 at 11:19:51 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -62,10 +62,10 @@ WARNING: There was an error initializing an OpenFabrics device.
      Highest band which contains FS :       5
      Max :         1.49947139     Min :         0.00000000
 
-     FERMI_VELOCI :      0.94s CPU      1.03s WALL
+     FERMI_VELOCI :      0.93s CPU      0.97s WALL
 
 
-   This run was terminated on:   1:56:59  28Jun2022            
+   This run was terminated on:  11:19:52  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

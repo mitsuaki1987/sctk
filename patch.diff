@@ -1,5 +1,5 @@
 diff --git a/LR_Modules/dfpt_tetra_mod.f90 b/LR_Modules/dfpt_tetra_mod.f90
-index d341ff695..650c01760 100644
+index d341ff695..ec1dfd4b5 100644
 --- a/LR_Modules/dfpt_tetra_mod.f90
 +++ b/LR_Modules/dfpt_tetra_mod.f90
 @@ -18,7 +18,10 @@ MODULE dfpt_tetra_mod
@@ -19,7 +19,7 @@ index d341ff695..650c01760 100644
    !
    thr = MAXVAL(e(1:4)) * 1e-3_dp
 -  thr2 = 1e-8_dp
-+  thr2 = 1e-9_dp
++  thr2 = 1e-10_dp
    !
    DO ii = 1, 4
       IF(e(ii) < thr2) THEN
@@ -2532,7 +2532,7 @@ index b723e01cf..52b60c2d9 100644
  open_grid.o : ../../Modules/control_flags.o
 diff --git a/PP/src/nesting.f90 b/PP/src/nesting.f90
 new file mode 100644
-index 000000000..b2a213638
+index 000000000..027b2e99c
 --- /dev/null
 +++ b/PP/src/nesting.f90
 @@ -0,0 +1,1089 @@
@@ -3211,7 +3211,7 @@ index 000000000..b2a213638
 +  call hpsort (4, e, itetra)
 +  !
 +  thr = MAXVAL(e(1:4)) * 1e-3_dp
-+  thr2 = 1e-9_dp
++  thr2 = 1e-13_dp
 +  !
 +  DO ii = 1, 4
 +     IF(e(ii) < thr2) THEN

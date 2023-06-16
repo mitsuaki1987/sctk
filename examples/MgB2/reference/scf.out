@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
-122546352 or higher.
+-843384656 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program PWSCF v.6.7GPU starts on 28Jun2022 at  1:18:29 
+     Program PWSCF v.6.7GPU starts on 29Jun2022 at 10:43:10 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -196,11 +196,11 @@ At line 106 of file init_us_2_base.f90
 Fortran runtime warning: An array temporary was created
 At line 106 of file init_us_2_base.f90
 Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
      Starting wfcs are   12 randomized atomic wfcs
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
 At line 106 of file init_us_2_base.f90
 Fortran runtime warning: An array temporary was created
 At line 106 of file init_us_2_base.f90
@@ -235,7 +235,7 @@ At line 106 of file init_us_2_base.f90
 Fortran runtime warning: An array temporary was created
      Checking if some PAW data can be deallocated... 
 
-     total cpu time spent up to now is        1.2 secs
+     total cpu time spent up to now is        1.1 secs
 
      Self-consistent Calculation
 
@@ -291,7 +291,7 @@ At line 1740 of file mp.f90
 Fortran runtime warning: An array temporary was created
      ethr =  1.00E-02,  avg # of iterations =  2.8
 
-     total cpu time spent up to now is        1.5 secs
+     total cpu time spent up to now is        1.4 secs
 
      total energy              =     -56.56520192 Ry
      estimated scf accuracy    <       0.31134052 Ry
@@ -300,7 +300,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  3.89E-03,  avg # of iterations =  1.1
 
-     total cpu time spent up to now is        1.8 secs
+     total cpu time spent up to now is        1.7 secs
 
      total energy              =     -56.54391856 Ry
      estimated scf accuracy    <       0.06814031 Ry
@@ -309,7 +309,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  8.52E-04,  avg # of iterations =  2.4
 
-     total cpu time spent up to now is        2.1 secs
+     total cpu time spent up to now is        2.0 secs
 
      total energy              =     -56.56201371 Ry
      estimated scf accuracy    <       0.00415438 Ry
@@ -318,7 +318,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  5.19E-05,  avg # of iterations =  4.1
 
-     total cpu time spent up to now is        2.4 secs
+     total cpu time spent up to now is        2.3 secs
 
      total energy              =     -56.56315866 Ry
      estimated scf accuracy    <       0.00502411 Ry
@@ -327,7 +327,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  5.19E-05,  avg # of iterations =  1.1
 
-     total cpu time spent up to now is        2.7 secs
+     total cpu time spent up to now is        2.6 secs
 
      total energy              =     -56.56315595 Ry
      estimated scf accuracy    <       0.00064551 Ry
@@ -336,7 +336,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  8.07E-06,  avg # of iterations =  5.1
 
-     total cpu time spent up to now is        3.0 secs
+     total cpu time spent up to now is        2.9 secs
 
      total energy              =     -56.56348624 Ry
      estimated scf accuracy    <       0.00001538 Ry
@@ -345,7 +345,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  1.92E-07,  avg # of iterations =  5.4
 
-     total cpu time spent up to now is        3.3 secs
+     total cpu time spent up to now is        3.2 secs
 
      total energy              =     -56.56353971 Ry
      estimated scf accuracy    <       0.00000098 Ry
@@ -354,7 +354,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  1.23E-08,  avg # of iterations =  3.1
 
-     total cpu time spent up to now is        3.6 secs
+     total cpu time spent up to now is        3.5 secs
 
      total energy              =     -56.56353816 Ry
      estimated scf accuracy    <       0.00000595 Ry
@@ -363,7 +363,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  1.23E-08,  avg # of iterations =  2.0
 
-     total cpu time spent up to now is        3.9 secs
+     total cpu time spent up to now is        3.8 secs
 
      total energy              =     -56.56353931 Ry
      estimated scf accuracy    <       0.00000002 Ry
@@ -372,7 +372,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  2.96E-10,  avg # of iterations =  4.4
 
-     total cpu time spent up to now is        4.2 secs
+     total cpu time spent up to now is        4.1 secs
 
      total energy              =     -56.56353933 Ry
      estimated scf accuracy    <       0.00000002 Ry
@@ -381,7 +381,7 @@ Fortran runtime warning: An array temporary was created
      Davidson diagonalization with overlap
      ethr =  2.30E-10,  avg # of iterations =  2.4
 
-     total cpu time spent up to now is        4.6 secs
+     total cpu time spent up to now is        4.4 secs
 
      End of self-consistent calculation
 
@@ -562,25 +562,22 @@ Fortran runtime warning: An array temporary was created
      convergence has been achieved in  11 iterations
 
      Writing output data file ./pwscf.save/
-[macloud2:951026] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:951026] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:951026] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
-     init_run     :      0.68s CPU      0.72s WALL (       1 calls)
-     electrons    :      3.21s CPU      3.32s WALL (       1 calls)
+     init_run     :      0.81s CPU      0.84s WALL (       1 calls)
+     electrons    :      3.22s CPU      3.30s WALL (       1 calls)
 
      Called by init_run:
      wfcinit      :      0.01s CPU      0.02s WALL (       1 calls)
-     potinit      :      0.08s CPU      0.10s WALL (       1 calls)
-     hinit0       :      0.57s CPU      0.57s WALL (       1 calls)
+     potinit      :      0.21s CPU      0.24s WALL (       1 calls)
+     hinit0       :      0.56s CPU      0.56s WALL (       1 calls)
 
      Called by electrons:
      c_bands      :      0.38s CPU      0.39s WALL (      11 calls)
      sum_band     :      2.21s CPU      2.22s WALL (      11 calls)
-     v_of_rho     :      0.36s CPU      0.38s WALL (      12 calls)
+     v_of_rho     :      0.35s CPU      0.38s WALL (      12 calls)
      newd         :      0.03s CPU      0.03s WALL (      12 calls)
-     PAW_pot      :      0.20s CPU      0.25s WALL (      12 calls)
-     mix_rho      :      0.03s CPU      0.05s WALL (      11 calls)
+     PAW_pot      :      0.22s CPU      0.27s WALL (      12 calls)
+     mix_rho      :      0.03s CPU      0.03s WALL (      11 calls)
 
      Called by c_bands:
      init_us_2    :      0.01s CPU      0.01s WALL (      46 calls)
@@ -588,7 +585,7 @@ Fortran runtime warning: An array temporary was created
 
      Called by *egterg:
      cdiaghg      :      0.01s CPU      0.01s WALL (      78 calls)
-     h_psi        :      0.21s CPU      0.22s WALL (      80 calls)
+     h_psi        :      0.22s CPU      0.22s WALL (      80 calls)
      s_psi        :      0.01s CPU      0.01s WALL (      80 calls)
      g_psi        :      0.00s CPU      0.00s WALL (      56 calls)
 
@@ -599,18 +596,21 @@ Fortran runtime warning: An array temporary was created
 
      General routines
      calbec       :      0.01s CPU      0.01s WALL (     102 calls)
-     fft          :      0.12s CPU      0.13s WALL (     154 calls)
+     fft          :      0.12s CPU      0.12s WALL (     154 calls)
      ffts         :      0.01s CPU      0.01s WALL (      23 calls)
      fftw         :      0.20s CPU      0.20s WALL (    1108 calls)
      interpolate  :      0.02s CPU      0.02s WALL (      12 calls)
 
      Parallel routines
 
-     PWSCF        :      4.09s CPU      5.90s WALL
+     PWSCF        :      4.28s CPU      4.52s WALL
 
 
-   This run was terminated on:   1:18:35  28Jun2022            
+   This run was terminated on:  10:43:14  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
 =------------------------------------------------------------------------------=
+[macloud1:939777] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud1:939777] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud1:939777] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init

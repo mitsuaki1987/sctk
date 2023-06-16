@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--462264144 or higher.
+480057520 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program MATDYN v.6.7GPU starts on 28Jun2022 at  1:56:19 
+     Program MATDYN v.6.7GPU starts on 29Jun2022 at 11:19:15 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -67,10 +67,10 @@ Norm of the difference between old and new force-constants:   0.0253475274027360
 Norm of the difference between old and new effective charges:    0.00000000000000000000
 Norm of the difference between old and new force-constants:   0.02534752740273600938
 
-     MATDYN       :      8.35s CPU      8.45s WALL
+     MATDYN       :      8.33s CPU      8.43s WALL
 
 
-   This run was terminated on:   1:56:28  28Jun2022            
+   This run was terminated on:  11:19:24  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

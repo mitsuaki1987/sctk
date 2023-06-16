@@ -61,6 +61,24 @@ END SUBROUTINE circular_shift_wrapper_c
 !>
 !>
 !>
+SUBROUTINE circular_shift_wrapper_c_nb(n1, n2, comm, wfc_s, wfc_r, req)
+   !
+   USE kinds, ONLY : DP
+   USE mp, ONLY : mp_circular_shift_left_start
+   !
+   IMPLICIT NONE
+   !
+   INTEGER,INTENT(IN) :: n1, n2, comm
+   COMPLEX(DP),INTENT(IN) :: wfc_s(n1,n2)
+   COMPLEX(DP),INTENT(OUT) :: wfc_r(n1,n2)
+   INTEGER,INTENT(INOUT) :: req(2)
+   !
+   CALL mp_circular_shift_left_start(wfc_s, wfc_r, 1, comm, req)
+   !
+ END SUBROUTINE circular_shift_wrapper_c_nb
+!>
+!>
+!>
 SUBROUTINE circular_shift_wrapper_r(n1, n2, comm, wfc)
   !
   USE kinds, ONLY : DP
@@ -329,7 +347,7 @@ SUBROUTINE make_scrn()
   USE noncollin_module, ONLY : npol
   USE exx, ONLY : dfftt
   USE us_exx, ONLY : addusxx_r
-  USE mp, ONLY : mp_circular_shift_left, mp_sum, mp_barrier
+  USE mp, ONLY : mp_circular_shift_left, mp_sum, mp_barrier, mp_waitall
   USE mp_world, ONLY : world_comm
   USE io_global, ONLY : stdout
   USE uspp, ONLY : nkb, okvan
@@ -340,10 +358,11 @@ SUBROUTINE make_scrn()
   !
   IMPLICIT NONE
   !
-  INTEGER :: ik, ibnd, jbnd, imf, iproc1, iproc2, ipol, npol2, nwscr, jbnd_ik
+  INTEGER :: ik, ibnd, jbnd, imf, iproc1, iproc2, ipol, npol2, nwscr, jbnd_ik, req(6)
   REAL(DP) :: RAM_wght
   !
-  COMPLEX(dp),ALLOCATABLE :: rho1(:,:,:), rho2(:,:,:), wght(:,:,:,:)
+  COMPLEX(dp),ALLOCATABLE :: rho1(:,:,:), rho2(:,:,:), wght(:,:,:,:), &
+  &                          wfcq_r(:,:,:,:), becwfcq_r(:,:,:,:), wght_r(:,:,:,:)
   !
   CALL start_clock("make_scrn")
   !
@@ -377,7 +396,13 @@ SUBROUTINE make_scrn()
   !
   ! Calc. Chi
   !
-  ALLOCATE(rho1(ngv,nqbz*nb_max,npol2), rho2(ngv0:ngv1,nqbz*nb_max,npol2))
+  ALLOCATE(rho1(ngv,nqbz*nb_max,npol2), rho2(ngv0:ngv1,nqbz*nb_max,npol2), &
+  &        wfcq_r(dfftt%nnr, nb_max, npol, nqbz), wght_r(0:nmf,nqbz,nb_max,nb_max))
+  IF(okvan) THEN
+     ALLOCATE(becwfcq_r(nkb,nb_max, npol, nqbz))
+  ELSE
+     ALLOCATE(becwfcq_r(1,1, 1, 1))
+  END IF
   !
   DO iproc1 = 1, nproc_band1
      !
@@ -391,13 +416,17 @@ SUBROUTINE make_scrn()
      !
      DO iproc2 = 1, nproc_band2
         !
-        CALL mp_circular_shift_left(nb(2), 1, band2_comm )
-        CALL circular_shift_wrapper_c(dfftt%nnr, nb_max*npol*nqbz, band2_comm, &
-        &                             wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2))
-        IF(okvan) CALL circular_shift_wrapper_c(nkb, nb_max*npol*nqbz, band2_comm, &
-        &                                       becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2))
-        CALL circular_shift_wrapper_c(nmf+1, nqbz*nb_max*nb_max, band2_comm, &
-        &                             wght(0:nmf, 1:nqbz, 1:nb_max, 1:nb_max))
+        ! Non-blocking circular shift : They are used in the next loop.
+        !
+        CALL circular_shift_wrapper_c_nb(dfftt%nnr, nb_max*npol*nqbz, band2_comm, &
+        &                             wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2), &
+        &                           wfcq_r(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz), req(1:2))
+        IF(okvan) CALL circular_shift_wrapper_c_nb(nkb, nb_max*npol*nqbz, band2_comm, &
+        &                                          becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2), &
+        &                                        becwfcq_r(1:nkb, 1:nb_max, 1:npol, 1:nqbz), req(5:6))
+        CALL circular_shift_wrapper_c_nb(nmf+1, nqbz*nb_max*nb_max, band2_comm, &
+        &                                wght(0:nmf, 1:nqbz, 1:nb_max, 1:nb_max), &
+        &                              wght_r(0:nmf, 1:nqbz, 1:nb_max, 1:nb_max), req(3:4))
         !
         DO ibnd = 1, nb(1)
            !
@@ -436,13 +465,27 @@ SUBROUTINE make_scrn()
            END DO ! imf = 0, nmf
            !
         END DO ! ibnd = 1, nb(1)
+        !
+        ! Recieving WFCs from non-blocking circular shift
+        !
+        CALL mp_circular_shift_left(nb(2), 1, band2_comm )
+        IF(okvan) THEN
+           CALL mp_waitall(req(1:6))
+        ELSE
+           CALL mp_waitall(req(1:4))
+        END IF
+        wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2) = wfcq_r(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz)
+        IF(okvan) becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2) &
+        &     = becwfcq_r(1:nkb, 1:nb_max, 1:npol, 1:nqbz)
+        wght(0:nmf, 1:nqbz, 1:nb_max, 1:nb_max) = wght_r(0:nmf, 1:nqbz, 1:nb_max, 1:nb_max)
+        !
      END DO ! iproc2 = 1, nproc_band2
   END DO ! iproc1 = 1, nproc_band1
   !
   IF(nwscr == 2) &
   &  wscr(1:ngv, ngv0:ngv1, 0:nmf, 2) = wscr(1:ngv, ngv0:ngv1, 0:nmf, 1)
   !
-  DEALLOCATE(rho1, rho2, wght)
+  DEALLOCATE(rho1, rho2, wght, wfcq_r, wght_r, becwfcq_r)
   !
   CALL stop_clock("make_scrn")
   !
@@ -455,7 +498,7 @@ SUBROUTINE make_Kel()
   USE kinds, ONLY : DP
   USE cell_base, ONLY : omega
   USE mp_world, ONLY : world_comm
-  USE mp, ONLY : mp_sum, mp_circular_shift_left, mp_barrier
+  USE mp, ONLY : mp_sum, mp_circular_shift_left, mp_barrier, mp_waitall
   USE fft_scalar, ONLY : cfft3d
   USE noncollin_module, ONLY : npol
   USE us_exx, ONLY : addusxx_r
@@ -470,11 +513,11 @@ SUBROUTINE make_Kel()
   IMPLICIT NONE
   !
   INTEGER :: ik, ibnd, jbnd, imf, iproc1, iproc2, ipol, jpol, npol2, &
-  &          nwscr, nKel, jbnd_ik
+  &          nwscr, nKel, jbnd_ik, req(4)
   REAL(dp) :: RAM_Kel
   !
-  COMPLEX(dp),ALLOCATABLE :: rho1(:,:,:), rho2(:,:), Kel0(:,:), Kel_temp(:,:,:,:)
-  COMPLEX(DP),EXTERNAL :: zdotc
+  COMPLEX(dp),ALLOCATABLE :: rho1(:,:,:), rho2(:,:), Kel0(:,:), Kel_temp(:,:,:,:), &
+  &                          wfcq_r(:,:,:,:), becwfcq_r(:,:,:,:)
   !
   CALL start_clock("make_kel")
   !
@@ -501,7 +544,12 @@ SUBROUTINE make_Kel()
   Kel(0:nmf + 1, 1:nqbz, 1:nb_max, 1:nb_max, 1:nKel) = 0.0_dp
   !
   ALLOCATE(rho1(ngv,nqbz*nb_max,npol2), rho2(ngv0:ngv1, nqbz*nb_max), &
-  &        Kel0(nqbz*nb_max,nwscr))
+  &        Kel0(nqbz*nb_max,nwscr), wfcq_r(dfftt%nnr, nb_max, npol, nqbz))
+  IF(okvan) THEN
+     ALLOCATE(becwfcq_r(nkb, nb_max, npol, nqbz))
+  ELSE
+     ALLOCATE(becwfcq_r(1, 1, 1, 1))
+  END IF
   !
   DO iproc1 = 1, nproc_band1
      !
@@ -515,13 +563,14 @@ SUBROUTINE make_Kel()
      !
      DO iproc2 = 1, nproc_band2
         !
-        CALL mp_circular_shift_left(nb(2), 1, band2_comm )
-        CALL circular_shift_wrapper_c(dfftt%nnr, nb_max*npol*nqbz, band2_comm, &
-        &                             wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2))
-        IF(okvan) CALL circular_shift_wrapper_c(nkb, nb_max*npol*nqbz, band2_comm, &
-        &                                       becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2))
-        CALL circular_shift_wrapper_r(nmf+2, nqbz*nb_max*nb_max*nKel, band2_comm, &
-        &                             Kel(0:nmf+1, 1:nqbz, 1:nb_max, 1:nb_max, 1:nKel))
+        ! Non-blocking circular shift : They are used in the next loop.
+        !
+        CALL circular_shift_wrapper_c_nb(dfftt%nnr, nb_max*npol*nqbz, band2_comm, &
+        &                                wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2), &
+        &                              wfcq_r(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz), req(1:2))
+        IF(okvan) CALL circular_shift_wrapper_c_nb(nkb, nb_max*npol*nqbz, band2_comm, &
+        &                                          becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2), &
+        &                                        becwfcq_r(1:nkb, 1:nb_max, 1:npol, 1:nqbz), req(3:4))
         !
         DO ibnd = 1, nb(1)
            !
@@ -602,10 +651,25 @@ SUBROUTINE make_Kel()
               !
            END DO ! imf = 0, nmf
         END DO
+        !
+        ! Recieving WFCs from non-blocking circular shift
+        !
+        CALL mp_circular_shift_left(nb(2), 1, band2_comm )
+        IF(okvan) THEN
+           CALL mp_waitall(req(1:4))
+        ELSE
+           CALL mp_waitall(req(1:2))
+        END IF
+        wfcq(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz, 2) = wfcq_r(1:dfftt%nnr, 1:nb_max, 1:npol, 1:nqbz)
+        IF(okvan) becwfcq(1:nkb, 1:nb_max, 1:npol, 1:nqbz, 2) &
+        &     = becwfcq_r(1:nkb, 1:nb_max, 1:npol, 1:nqbz)
+        CALL circular_shift_wrapper_r(nmf+2, nqbz*nb_max*nb_max*nKel, band2_comm, &
+        &                             Kel(0:nmf+1, 1:nqbz, 1:nb_max, 1:nb_max, 1:nKel))
+        !
      END DO
   END DO
   !
-  DEALLOCATE(rho1, rho2, Kel0)
+  DEALLOCATE(rho1, rho2, Kel0, wfcq_r, becwfcq_r)
   !
   ! Average the weights for degenerated states
   !
@@ -1058,7 +1122,7 @@ SUBROUTINE write_Kel()
   IMPLICIT NONE
   !
   INTEGER :: fo = 20, nkel, iproc, ik
-  CHARACTER(LEN=6), EXTERNAL :: int_to_char
+  CHARACTER(6), EXTERNAL :: int_to_char
   REAL(DP),ALLOCATABLE :: Kel_all(:,:,:,:,:)
   !
   IF(lsf>0) THEN

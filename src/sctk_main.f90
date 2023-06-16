@@ -73,7 +73,8 @@ PROGRAM sctk_main
   !USE sctk_val, ONLY : Kel, nk_p, k0_p, nbnd_p, bnd0_p, nmf, nqbz ! debug
   !USE mp, ONLY : mp_sum ! debug
   !USE mp_world, ONLY : world_comm ! debug
-  USE sctk_val, ONLY : dltF, ZF, laddxc, Wscr, lsf, beta, zero_kelvin
+  USE sctk_val, ONLY : dltF, ZF, laddxc, Wscr, lsf, beta, zero_kelvin, &
+  &                    bisec_min, bisec_max, bisec_step
   USE sctk_usonic, ONLY : calc_fvel, calc_usonic
   USE sctk_qpdos, ONLY : egrid, calc_sdos
   USE sctk_spinfluc, ONLY : lambda_sf
@@ -92,6 +93,7 @@ PROGRAM sctk_main
   CALL mp_startup ( )
 #endif
   CALL environment_start ( 'SCTK' )
+  CALL sctk_write_hash()
   !
   IF (nproc /= npool*negrp) &
   & CALL errore ('sctk_main', 'npool(-nk) times band-group(-nb) must equal to the number of processes.', npool)
@@ -198,39 +200,11 @@ PROGRAM sctk_main
            !
         ELSE
            !
-           ! Zero kelvin
-           !
-           zero_kelvin = .TRUE.
-           !
-           WRITE(stdout,'(/,5x,"#####  Compute renormalization factor : Z  #####",/)')
-           CALL make_Z()
-           !
-           WRITE(stdout,'(/,5x,"#####  Compute effective interaction  #####",/)')
-           CALL make_effint()
-           !
-           WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
-           CALL broyden_gapeq(.TRUE., delta0)
-           !
-           WRITE(stdout,'(/,5x,"T[K]-D[meV] ",2e15.5/)') 0.0_dp, delta0
-           IF(delta0 < 1.0e-3_dp) THEN
-              CALL errore ('sctk_main', 'No SC even at the zero Kelvin.', 1)
-           ELSE
-              tcmin = 0.0_dp
-              restart_mode = "restart"
-           END IF
-           !
-           ! Find upper limit of Tc
-           !
-           DO ibisec = 1, 10
+           IF(bisec_min < 0.0_dp .OR. bisec_max > 0.0_dp) THEN
               !
-              ! BCS Tc estimation
-              ! 2 Delta / (k_B Tc) = 3.54
+              ! Zero kelvin
               !
-              tcmax = 2.0_dp / 3.54_dp * delta0 * 1.0e-3_dp * eV_to_kelvin * REAL(ibisec, dp)
-              beta = 1.0_dp / (tcmax*K_BOLTZMANN_RY)
-              zero_kelvin = .FALSE.
-              !
-              CALL ini_delta(.FALSE.)
+              zero_kelvin = .TRUE.
               !
               WRITE(stdout,'(/,5x,"#####  Compute renormalization factor : Z  #####",/)')
               CALL make_Z()
@@ -239,17 +213,49 @@ PROGRAM sctk_main
               CALL make_effint()
               !
               WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
-              CALL broyden_gapeq(.FALSE., dabs)
+              CALL broyden_gapeq(.TRUE., delta0)
               !
-              WRITE(stdout,'(/,5x,"T[K]-D[meV]: ",2e15.5,/)') tcmax, dabs
+              WRITE(stdout,'(/,5x,"T[K]-D[meV] ",2e15.5/)') 0.0_dp, delta0
+              IF(delta0 < 1.0e-3_dp) THEN
+                 CALL errore ('sctk_main', 'No SC even at the zero Kelvin.', 1)
+              ELSE
+                 tcmin = 0.0_dp
+                 restart_mode = "restart"
+              END IF
               !
-              IF(dabs < delta0*0.001_dp) EXIT
+              ! Find upper limit of Tc
               !
-           END DO ! ibisec = 1, 10
+              DO ibisec = 1, 10
+                 !
+                 ! BCS Tc estimation
+                 ! 2 Delta / (k_B Tc) = 3.54
+                 !
+                 tcmax = 2.0_dp / 3.54_dp * delta0 * 1.0e-3_dp * eV_to_kelvin * REAL(ibisec, dp)
+                 beta = 1.0_dp / (tcmax*K_BOLTZMANN_RY)
+                 zero_kelvin = .FALSE.
+                 !
+                 CALL ini_delta(.FALSE.)
+                 !
+                 WRITE(stdout,'(/,5x,"#####  Compute renormalization factor : Z  #####",/)')
+                 CALL make_Z()
+                 !
+                 WRITE(stdout,'(/,5x,"#####  Compute effective interaction  #####",/)')
+                 CALL make_effint()
+                 !
+                 WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
+                 CALL broyden_gapeq(.FALSE., dabs)
+                 !
+                 WRITE(stdout,'(/,5x,"T[K]-D[meV]: ",2e15.5,/)') tcmax, dabs
+                 !
+                 IF(dabs < delta0*0.001_dp) EXIT
+                 !
+              END DO ! ibisec = 1, 10
+              !
+           END IF
            !
            ! Find Tc by the bisection method
            !
-           DO ibisec = 1, 10
+           DO ibisec = 1, bisec_step
               !
               tcmid = 0.5_dp * (tcmin + tcmax)
               beta = 1.0_dp / (tcmid*K_BOLTZMANN_RY)

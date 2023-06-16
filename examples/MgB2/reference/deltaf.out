@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--926410576 or higher.
+-2043606864 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program SCTK v.6.7GPU starts on 28Jun2022 at  2:35: 0 
+     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:54:33 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -131,21 +131,21 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Write delta.frmsf  #####
 
-     Max :         2.49025967     Min :         0.25223440
+     Max :         2.49025967     Min :         0.25223441
      Max :         1.35132718     Min :         0.26487528
 
      #####  Clock summary  #####
 
-     read_elph    :      0.06s CPU      0.08s WALL (       1 calls)
-     read_Coulomb :      0.01s CPU      0.03s WALL (       1 calls)
-     expand_g_v_f :      9.43s CPU      1.03s WALL (       1 calls)
-     make_Z_f     :    108.40s CPU      9.08s WALL (       1 calls)
-     gapeq_rhs_f  :    105.34s CPU      8.84s WALL (       1 calls)
+     read_elph    :      0.06s CPU      0.09s WALL (       1 calls)
+     read_Coulomb :      0.01s CPU      0.02s WALL (       1 calls)
+     expand_g_v_f :      9.20s CPU      0.99s WALL (       1 calls)
+     make_Z_f     :    108.94s CPU      9.13s WALL (       1 calls)
+     gapeq_rhs_f  :    104.77s CPU      8.78s WALL (       1 calls)
 
-     SCTK         :   3m47.95s CPU     22.76s WALL
+     SCTK         :   3m47.82s CPU     22.66s WALL
 
 
-   This run was terminated on:   2:35:23  28Jun2022            
+   This run was terminated on:  11:54:56  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

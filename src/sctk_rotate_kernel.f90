@@ -40,7 +40,7 @@ SUBROUTINE expand_g_v()
   fstk = MINVAL(kindx(ik:jk,1))
   lstk = MAXVAL(kindx(ik:jk,1))
   !
-  ALLOCATE(nqsym(nqs, fstk:lstk), iks(2, nsym, nqs, fstk:lstk))
+  ALLOCATE(nqsym(nqs, fstk:lstk), iks(2, nsym*2, nqs, fstk:lstk))
   !
   WRITE(stdout,'(9x,"Total RAM for Vc per process : ",e10.2," GB")') &
   &     REAL(nci*lsf,dp)*REAL(lbee-fbee+1,dp)**2*REAL(nqbz,dp)*REAL(lstk-fstk+1,dp)*8.0e-9_dp
@@ -141,12 +141,12 @@ SUBROUTINE expand_g_v()
   DO ik = fstk, lstk
      DO jk = 1, nqbz
         Vc(1:nci*lsf,fbee:lbee,jk,fbee:lbee,ik) = Vc(1:nci*lsf,fbee:lbee,jk,fbee:lbee,ik) &
-        &                         / REAL(count(iks(1,1:nsym,1:nqs,ik) == jk), dp)
+        &                         / REAL(count(iks(1,1:nsym*2,1:nqs,ik) == jk), dp)
         gg(    1:nmodes,elph_nbnd_min:elph_nbnd_max,jk,elph_nbnd_min:elph_nbnd_max,ik) &
         & = gg(1:nmodes,elph_nbnd_min:elph_nbnd_max,jk,elph_nbnd_min:elph_nbnd_max,ik) &
-        &                                   / REAL(count(iks(1,1:nsym,1:nqs,ik) == jk), dp)
+        &                                   / REAL(count(iks(1,1:nsym*2,1:nqs,ik) == jk), dp)
         omg(1:nmodes,jk,ik) = omg(1:nmodes,jk,ik) &
-        &       / REAL(count(iks(1,1:nsym,1:nqs,ik) == jk), dp)
+        &       / REAL(count(iks(1,1:nsym*2,1:nqs,ik) == jk), dp)
      END DO ! jk
   END DO ! ik
   !$OMP END DO
@@ -163,7 +163,7 @@ END SUBROUTINE expand_g_v
 SUBROUTINE k_kplusq_sym(fstk,lstk,nqsym,iks)
   !
   USE kinds, ONLY : DP
-  USE symm_base, ONLY : nsym, s
+  USE symm_base, ONLY : nsym, s, time_reversal
   USE cell_base, ONLY : at
   USE disp,  ONLY : nq1, nq2, nq3, nqs, x_q
   USE sctk_val, ONLY : nqbz
@@ -172,13 +172,20 @@ SUBROUTINE k_kplusq_sym(fstk,lstk,nqsym,iks)
   !
   INTEGER,INTENT(IN) :: fstk, lstk
   INTEGER,INTENT(OUT) :: nqsym(nqs,fstk:lstk)
-  INTEGER,INTENT(OUT) :: iks(2,nsym,nqs,fstk:lstk)
+  INTEGER,INTENT(OUT) :: iks(2,nsym*2,nqs,fstk:lstk)
   !
-  INTEGER :: iq, ik, isym, ikv1(3), ik2, jk2
+  INTEGER :: iq, ik, isym, ikv1(3), ik2, jk2, tsign(2), ntsign, itsign
   REAL(dp) :: kv0(3), kv1(3), rqv(3)
   !
-  nqsym(         1:nqs,fstk:lstk) = 0
-  iks(1:2,1:nsym,1:nqs,fstk:lstk) = 0
+  tsign(1:2) = (/1, -1/)
+  if(time_reversal) THEN
+     ntsign = 2
+  ELSE
+     ntsign = 1
+  END IF
+  !
+  nqsym(           1:nqs,fstk:lstk) = 0
+  iks(1:2,1:nsym*2,1:nqs,fstk:lstk) = 0
   !
   DO iq = 1, nqs
      !
@@ -193,29 +200,34 @@ SUBROUTINE k_kplusq_sym(fstk,lstk,nqsym,iks)
         !
         DO isym = 1, nsym
            !
-           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv0(1:3)) * REAL((/nq1,nq2,nq3/), dp)
-           ikv1(1:3) = NINT(kv1(1:3))
+           DO itsign = 1, ntsign
+              !
+              kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), kv0(1:3)) &
+              &        * REAL((/nq1,nq2,nq3/), dp)
+              ikv1(1:3) = NINT(kv1(1:3))
+              !
+              IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
+              !
+              ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
+              ik2 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
+              !
+              IF(ik2 < fstk .OR. lstk < ik2) CYCLE
+              !
+              kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), kv0(1:3) + rqv(1:3))
+              kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
+              ikv1(1:3) = NINT(kv1(1:3))
+              !
+              IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
+              !
+              ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
+              jk2 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
+              !
+              nqsym(iq,ik2) = nqsym(iq,ik2) + 1
+              iks(1:2,nqsym(iq,ik2),iq,ik2) = (/jk2, ik/)
+              !
+           END DO ! itsign
            !
-           IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
-           !
-           ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
-           ik2 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
-           !
-           IF(ik2 < fstk .OR. lstk < ik2) CYCLE
-           !
-           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv0(1:3) + rqv(1:3))
-           kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
-           ikv1(1:3) = NINT(kv1(1:3))
-           !
-           IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
-           !
-           ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
-           jk2 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
-           !
-           nqsym(iq,ik2) = nqsym(iq,ik2) + 1
-           iks(1:2,nqsym(iq,ik2),iq,ik2) = (/jk2, ik/)
-           !
-        END DO ! jk
+        END DO ! isym = 1, nsym
         !
      END DO ! ik
      !
@@ -396,7 +408,7 @@ SUBROUTINE k_kplusq_sym_f(nindmax,nind,ind)
   !
   USE kinds, ONLY : DP
   USE io_global, ONLY : stdout
-  USE symm_base, ONLY : nsym, s
+  USE symm_base, ONLY : nsym, s, time_reversal
   USE cell_base, ONLY : at
   USE disp,  ONLY : nq1, nq2, nq3, nqs, x_q
   USE sctk_val, ONLY : nqbz
@@ -406,8 +418,15 @@ SUBROUTINE k_kplusq_sym_f(nindmax,nind,ind)
   INTEGER,INTENT(OUT) :: nind(nqbz,nqbz), nindmax
   INTEGER,INTENT(OUT),ALLOCATABLE :: ind(:,:,:,:)
   !
-  INTEGER :: ik, iq, isym, jk1, ik1, ikv1(3)
+  INTEGER :: ik, iq, isym, jk1, ik1, ikv1(3), ntsign, itsign, tsign(2)
   REAL(dp) :: kv0(3), kv1(3), rqv(3)
+  !
+  tsign(1:2) = (/1, -1/)
+  if(time_reversal) THEN
+     ntsign = 2
+  ELSE
+     ntsign = 1
+  END IF
   !
   ! Query of memory size
   !
@@ -426,30 +445,34 @@ SUBROUTINE k_kplusq_sym_f(nindmax,nind,ind)
         !
         DO isym = 1, nsym
            !
-           ! rotate k
-           !
-           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), &
-           &                 kv0(1:3)             ) * REAL((/nq1,nq2,nq3/), dp)
-           ikv1(1:3) = NINT(kv1(1:3))
-           !
-           IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
-           !
-           ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
-           ik1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
-           !
-           ! Rotate k + q
-           !
-           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp),  &
-           &                 kv0(1:3) + rqv(1:3)) * REAL((/nq1,nq2,nq3/), dp)
-           kv1(1:3) = kv1(1:3) - 0.5_dp
-           ikv1(1:3) = NINT(kv1(1:3))
-           !
-           IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
-           !
-           ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
-           jk1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
-           !
-           nind(jk1,ik1) = nind(jk1,ik1) + 1
+           DO itsign = 1, ntsign
+              !
+              ! rotate k
+              !
+              kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), &
+              &                 kv0(1:3)             ) * REAL((/nq1,nq2,nq3/), dp)
+              ikv1(1:3) = NINT(kv1(1:3))
+              !
+              IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
+              !
+              ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
+              ik1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
+              !
+              ! Rotate k + q
+              !
+              kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp),  &
+              &                 kv0(1:3) + rqv(1:3)) * REAL((/nq1,nq2,nq3/), dp)
+              kv1(1:3) = kv1(1:3) - 0.5_dp
+              ikv1(1:3) = NINT(kv1(1:3))
+              !
+              IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
+              !
+              ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
+              jk1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
+              !
+              nind(jk1,ik1) = nind(jk1,ik1) + 1
+              !
+           END DO ! itsign
            !
         END DO ! isym
         !
@@ -478,31 +501,35 @@ SUBROUTINE k_kplusq_sym_f(nindmax,nind,ind)
         !
         DO isym = 1, nsym
            !
-           ! rotate k
-           !
-           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), &
-           &                 kv0(1:3)             ) * REAL((/nq1,nq2,nq3/), dp)
-           ikv1(1:3) = NINT(kv1(1:3))
-           !
-           IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
-           !
-           ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
-           ik1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
-           !
-           ! Rotate k + q
-           !
-           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp),  &
-           &                 kv0(1:3) + rqv(1:3)) * REAL((/nq1,nq2,nq3/), dp)
-           kv1(1:3) = kv1(1:3) - 0.5_dp
-           ikv1(1:3) = NINT(kv1(1:3))
-           !
-           IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
-           !
-           ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
-           jk1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
-           !
-           nind(jk1,ik1) = nind(jk1,ik1) + 1
-           ind(1:2,nind(jk1,ik1),jk1,ik1) = (/ik, iq/)
+           DO itsign = 1, ntsign
+              !
+              ! rotate k
+              !
+              kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), &
+              &                 kv0(1:3)             ) * REAL((/nq1,nq2,nq3/), dp)
+              ikv1(1:3) = NINT(kv1(1:3))
+              !
+              IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
+              !
+              ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
+              ik1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
+              !
+              ! Rotate k + q
+              !
+              kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp),  &
+              &                 kv0(1:3) + rqv(1:3)) * REAL((/nq1,nq2,nq3/), dp)
+              kv1(1:3) = kv1(1:3) - 0.5_dp
+              ikv1(1:3) = NINT(kv1(1:3))
+              !
+              IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
+              !
+              ikv1(1:3) = MODULO(ikv1(1:3), (/nq1,nq2,nq3/))
+              jk1 = 1 + ikv1(3) + ikv1(2)*nq3 + ikv1(1)*nq2*nq3
+              !
+              nind(jk1,ik1) = nind(jk1,ik1) + 1
+              ind(1:2,nind(jk1,ik1),jk1,ik1) = (/ik, iq/)
+              !
+           END DO ! itsign
            !
         END DO ! isym
         !
@@ -517,7 +544,7 @@ END SUBROUTINE k_kplusq_sym_f
 SUBROUTINE interpol_g_v(kv0,nind,nindmax,ind,nqsym,iks,wght)
   !
   USE kinds, ONLY : DP
-  USE symm_base, ONLY : nsym, s
+  USE symm_base, ONLY : nsym, s, time_reversal
   USE disp,  ONLY : nq1, nq2, nq3, nqs
   USE sctk_val, ONLY : nqbz
   !
@@ -531,8 +558,16 @@ SUBROUTINE interpol_g_v(kv0,nind,nindmax,ind,nqsym,iks,wght)
   INTEGER,INTENT(OUT),ALLOCATABLE :: iks(:,:,:)
   REAL(dp),INTENT(OUT),ALLOCATABLE :: wght(:,:)
   !
-  INTEGER :: ii, jj, jk, isym, ik2, jk1, iq, jkv1(3), ikintp(8), nqsmax
+  INTEGER :: ii, jj, jk, isym, ik2, jk1, iq, jkv1(3), ikintp(8), nqsmax, &
+  &          tsign(2), itsign, ntsign
   REAL(dp) :: wintp(8), kv1(3)
+  !
+  tsign(1:2) = (/1, -1/)
+  if(time_reversal) THEN
+     ntsign = 2
+  ELSE
+     ntsign = 1
+  END IF
   !
   nqsym(1:nqs) = 0
   !
@@ -540,36 +575,41 @@ SUBROUTINE interpol_g_v(kv0,nind,nindmax,ind,nqsym,iks,wght)
   !
   DO isym = 1, nsym
      !
-     kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv0(1:3))
-     CALL interpol_indx((/nq1,nq2,nq3/),kv1,ikintp,wintp)
-     !
-     DO jk = 1, nqbz
+     DO itsign = 1, ntsign
         !
-        jkv1(1) = (jk - 1) / (nq2*nq3)
-        jkv1(2) = (jk - 1 - jkv1(1)*nq2*nq3) / nq3
-        jkv1(3) =  jk - 1 - jkv1(1)*nq2*nq3 - jkv1(2)*nq3
-        kv1(1:3) = REAL(jkv1(1:3), dp) / REAL((/nq1,nq2,nq3/), dp)
+        kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), kv0(1:3))
+        CALL interpol_indx((/nq1,nq2,nq3/),kv1,ikintp,wintp)
         !
-        kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv1(1:3) + 0.5_dp / REAL((/nq1,nq2,nq3/), dp))
-        kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
-        jkv1(1:3) = NINT(kv1(1:3))
+        DO jk = 1, nqbz
+           !
+           jkv1(1) = (jk - 1) / (nq2*nq3)
+           jkv1(2) = (jk - 1 - jkv1(1)*nq2*nq3) / nq3
+           jkv1(3) =  jk - 1 - jkv1(1)*nq2*nq3 - jkv1(2)*nq3
+           kv1(1:3) = REAL(jkv1(1:3), dp) / REAL((/nq1,nq2,nq3/), dp)
+           !
+           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), &
+           &                 kv1(1:3) + 0.5_dp / REAL((/nq1,nq2,nq3/), dp))
+           kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
+           jkv1(1:3) = NINT(kv1(1:3))
+           !
+           IF(ANY(ABS(kv1(1:3) - REAL(jkv1(1:3), dp)) > 1e-5_dp)) CYCLE
+           !
+           jkv1(1:3) = MODULO(jkv1(1:3), (/nq1,nq2,nq3/))
+           jk1 = 1 + jkv1(3) + jkv1(2)*nq3 + jkv1(1)*nq2*nq3
+           !
+           DO ii = 1, 8
+              DO jj = 1, nind(jk1,ikintp(ii))
+                 !
+                 iq = ind(2,jj,jk1,ikintp(ii))
+                 !
+                 nqsym(iq) = nqsym(iq) + 1
+                 !
+              END DO ! jj
+           END DO ! ii
+           !
+        END DO ! jk
         !
-        IF(ANY(ABS(kv1(1:3) - REAL(jkv1(1:3), dp)) > 1e-5_dp)) CYCLE
-        !
-        jkv1(1:3) = MODULO(jkv1(1:3), (/nq1,nq2,nq3/))
-        jk1 = 1 + jkv1(3) + jkv1(2)*nq3 + jkv1(1)*nq2*nq3
-        !
-        DO ii = 1, 8
-           DO jj = 1, nind(jk1,ikintp(ii))
-              !
-              iq = ind(2,jj,jk1,ikintp(ii))
-              !
-              nqsym(iq) = nqsym(iq) + 1
-              !
-           END DO ! jj
-        END DO ! ii
-        !
-     END DO ! jk
+     END DO ! itsign
      !
   END DO ! isym
   !
@@ -583,39 +623,44 @@ SUBROUTINE interpol_g_v(kv0,nind,nindmax,ind,nqsym,iks,wght)
   !
   DO isym = 1, nsym
      !
-     kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv0(1:3))
-     CALL interpol_indx((/nq1,nq2,nq3/),kv1,ikintp,wintp)
-     !
-     DO jk = 1, nqbz
+     DO itsign = 1, ntsign
         !
-        jkv1(1) = (jk - 1) / (nq2*nq3)
-        jkv1(2) = (jk - 1 - jkv1(1)*nq2*nq3) / nq3
-        jkv1(3) =  jk - 1 - jkv1(1)*nq2*nq3 - jkv1(2)*nq3
-        kv1(1:3) = REAL(jkv1(1:3), dp) / REAL((/nq1,nq2,nq3/), dp)
+        kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), kv0(1:3))
+        CALL interpol_indx((/nq1,nq2,nq3/),kv1,ikintp,wintp)
         !
-        kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv1(1:3) + 0.5_dp / REAL((/nq1,nq2,nq3/), dp))
-        kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
-        jkv1(1:3) = NINT(kv1(1:3))
+        DO jk = 1, nqbz
+           !
+           jkv1(1) = (jk - 1) / (nq2*nq3)
+           jkv1(2) = (jk - 1 - jkv1(1)*nq2*nq3) / nq3
+           jkv1(3) =  jk - 1 - jkv1(1)*nq2*nq3 - jkv1(2)*nq3
+           kv1(1:3) = REAL(jkv1(1:3), dp) / REAL((/nq1,nq2,nq3/), dp)
+           !
+           kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), &
+           &                 kv1(1:3) + 0.5_dp / REAL((/nq1,nq2,nq3/), dp))
+           kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
+           jkv1(1:3) = NINT(kv1(1:3))
+           !
+           IF(ANY(ABS(kv1(1:3) - REAL(jkv1(1:3), dp)) > 1e-5_dp)) CYCLE
+           !
+           jkv1(1:3) = MODULO(jkv1(1:3), (/nq1,nq2,nq3/))
+           jk1 = 1 + jkv1(3) + jkv1(2)*nq3 + jkv1(1)*nq2*nq3
+           !
+           DO ii = 1, 8
+              DO jj = 1, nind(jk1,ikintp(ii))
+                 !
+                 ik2 = ind(1,jj,jk1,ikintp(ii))
+                 iq  = ind(2,jj,jk1,ikintp(ii))
+                 !
+                 nqsym(iq) = nqsym(iq) + 1
+                 iks( 1:2, nqsym(iq), iq) = (/jk, ik2/)
+                 wght(     nqsym(iq), iq) = wintp(ii)
+                 !
+              END DO ! jj
+           END DO ! ii
+           !
+        END DO ! jk
         !
-        IF(ANY(ABS(kv1(1:3) - REAL(jkv1(1:3), dp)) > 1e-5_dp)) CYCLE
-        !
-        jkv1(1:3) = MODULO(jkv1(1:3), (/nq1,nq2,nq3/))
-        jk1 = 1 + jkv1(3) + jkv1(2)*nq3 + jkv1(1)*nq2*nq3
-        !
-        DO ii = 1, 8
-           DO jj = 1, nind(jk1,ikintp(ii))
-              !
-              ik2 = ind(1,jj,jk1,ikintp(ii))
-              iq  = ind(2,jj,jk1,ikintp(ii))
-              !
-              nqsym(iq) = nqsym(iq) + 1
-              iks( 1:2, nqsym(iq), iq) = (/jk, ik2/)
-              wght(     nqsym(iq), iq) = wintp(ii)
-              !
-           END DO ! jj
-        END DO ! ii
-        !
-     END DO ! jk
+     END DO ! itsign = 1, ntsign
      !
   END DO ! isym
   !

@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--2013833040 or higher.
+-838453072 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program SCTK v.6.7GPU starts on 28Jun2022 at  2:25:24 
+     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:44:57 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -137,300 +137,295 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 0
 
-         Residual[Ry] :  0.63068E-04
-          Delta [meV] :  0.53266E+02   0.48719E+02
+         Residual[Ry] :  0.62543E-04
+          Delta [meV] :  0.51037E+02   0.48018E+02
 
        Iteration 1
 
-         Residual[Ry] :  0.45099E-04
-          Delta [meV] :  0.33173E+02   0.29703E+02
+         Residual[Ry] :  0.45422E-04
+          Delta [meV] :  0.31397E+02   0.29414E+02
 
        Iteration 2
 
-         Residual[Ry] :  0.11449E-04
-          Delta [meV] :  0.13647E+02   0.11856E+02
+         Residual[Ry] :  0.11257E-04
+          Delta [meV] :  0.12241E+02   0.11960E+02
 
        Iteration 3
 
-         Residual[Ry] :  0.91053E-05
-          Delta [meV] :  0.12046E+02   0.10857E+02
+         Residual[Ry] :  0.89778E-05
+          Delta [meV] :  0.10654E+02   0.11134E+02
 
        Iteration 4
 
-         Residual[Ry] :  0.20939E-05
-          Delta [meV] :  0.53440E+01   0.60592E+01
+         Residual[Ry] :  0.26819E-05
+          Delta [meV] :  0.43188E+01   0.73862E+01
 
        Iteration 5
 
-         Residual[Ry] :  0.69681E-06
-          Delta [meV] :  0.33073E+01   0.46540E+01
+         Residual[Ry] :  0.20285E-05
+          Delta [meV] :  0.19240E+01   0.65118E+01
 
        Iteration 6
 
-         Residual[Ry] :  0.82824E-06
-          Delta [meV] :  0.30328E+01   0.45294E+01
+         Residual[Ry] :  0.25573E-05
+          Delta [meV] :  0.13532E+01   0.67335E+01
 
        Iteration 7
 
-         Residual[Ry] :  0.79638E-06
-          Delta [meV] :  0.32209E+01   0.45847E+01
+         Residual[Ry] :  0.12681E-05
+          Delta [meV] :  0.33685E+01   0.58247E+01
 
        Iteration 8
 
-         Residual[Ry] :  0.71940E-06
-          Delta [meV] :  0.36551E+01   0.46155E+01
+         Residual[Ry] :  0.80753E-06
+          Delta [meV] :  0.44906E+01   0.50807E+01
 
        Iteration 9
 
-         Residual[Ry] :  0.63685E-06
-          Delta [meV] :  0.36059E+01   0.43277E+01
+         Residual[Ry] :  0.71830E-06
+          Delta [meV] :  0.41629E+01   0.46926E+01
 
        Iteration 10
 
-         Residual[Ry] :  0.39346E-06
-          Delta [meV] :  0.27596E+01   0.30376E+01
+         Residual[Ry] :  0.48293E-06
+          Delta [meV] :  0.32339E+01   0.27309E+01
 
        Iteration 11
 
-         Residual[Ry] :  0.27601E-06
-          Delta [meV] :  0.20812E+01   0.20649E+01
+         Residual[Ry] :  0.35678E-06
+          Delta [meV] :  0.22578E+01   0.18932E+01
 
        Iteration 12
 
-         Residual[Ry] :  0.21603E-06
-          Delta [meV] :  0.18370E+01   0.18859E+01
+         Residual[Ry] :  0.24180E-06
+          Delta [meV] :  0.17626E+01   0.18170E+01
 
        Iteration 13
 
-         Residual[Ry] :  0.15687E-06
-          Delta [meV] :  0.14020E+01   0.12084E+01
+         Residual[Ry] :  0.19407E-06
+          Delta [meV] :  0.17848E+01   0.17291E+01
 
        Iteration 14
 
-         Residual[Ry] :  0.90477E-07
-          Delta [meV] :  0.12645E+01   0.12061E+01
+         Residual[Ry] :  0.13350E-06
+          Delta [meV] :  0.15298E+01   0.14624E+01
 
        Iteration 15
 
-         Residual[Ry] :  0.75280E-07
-          Delta [meV] :  0.12215E+01   0.12072E+01
+         Residual[Ry] :  0.10373E-06
+          Delta [meV] :  0.12522E+01   0.12181E+01
 
        Iteration 16
 
-         Residual[Ry] :  0.70208E-07
-          Delta [meV] :  0.11613E+01   0.11431E+01
+         Residual[Ry] :  0.10118E-06
+          Delta [meV] :  0.11299E+01   0.10862E+01
 
        Iteration 17
 
-         Residual[Ry] :  0.76709E-07
-          Delta [meV] :  0.89082E+00   0.83460E+00
+         Residual[Ry] :  0.10330E-06
+          Delta [meV] :  0.10769E+01   0.10209E+01
 
        Iteration 18
 
-         Residual[Ry] :  0.67057E-07
-          Delta [meV] :  0.10183E+01   0.96939E+00
+         Residual[Ry] :  0.11525E-06
+          Delta [meV] :  0.15217E+01   0.15447E+01
 
        Iteration 19
 
-         Residual[Ry] :  0.61007E-07
-          Delta [meV] :  0.10110E+01   0.95716E+00
+         Residual[Ry] :  0.11474E-06
+          Delta [meV] :  0.15209E+01   0.15468E+01
 
        Iteration 20
 
-         Residual[Ry] :  0.54156E-07
-          Delta [meV] :  0.10598E+01   0.10428E+01
+         Residual[Ry] :  0.88981E-07
+          Delta [meV] :  0.12698E+01   0.12804E+01
 
        Iteration 21
 
-         Residual[Ry] :  0.56322E-07
-          Delta [meV] :  0.12115E+01   0.12271E+01
+         Residual[Ry] :  0.94219E-07
+          Delta [meV] :  0.13925E+01   0.13943E+01
 
        Iteration 22
 
-         Residual[Ry] :  0.55827E-07
-          Delta [meV] :  0.12065E+01   0.12235E+01
+         Residual[Ry] :  0.93950E-07
+          Delta [meV] :  0.13910E+01   0.13925E+01
 
        Iteration 23
 
-         Residual[Ry] :  0.50212E-07
-          Delta [meV] :  0.11669E+01   0.11900E+01
+         Residual[Ry] :  0.47299E-07
+          Delta [meV] :  0.10587E+01   0.99947E+00
 
        Iteration 24
 
-         Residual[Ry] :  0.37638E-07
-          Delta [meV] :  0.10578E+01   0.10591E+01
+         Residual[Ry] :  0.33369E-07
+          Delta [meV] :  0.98003E+00   0.93829E+00
 
        Iteration 25
 
-         Residual[Ry] :  0.28552E-07
-          Delta [meV] :  0.10002E+01   0.98118E+00
+         Residual[Ry] :  0.27209E-07
+          Delta [meV] :  0.10151E+01   0.10080E+01
 
        Iteration 26
 
-         Residual[Ry] :  0.23651E-07
-          Delta [meV] :  0.99407E+00   0.98778E+00
+         Residual[Ry] :  0.15961E-07
+          Delta [meV] :  0.10553E+01   0.11106E+01
 
        Iteration 27
 
-         Residual[Ry] :  0.17492E-07
-          Delta [meV] :  0.10002E+01   0.10140E+01
+         Residual[Ry] :  0.12780E-07
+          Delta [meV] :  0.10112E+01   0.10790E+01
 
        Iteration 28
 
-         Residual[Ry] :  0.84441E-08
-          Delta [meV] :  0.10614E+01   0.11070E+01
+         Residual[Ry] :  0.10582E-07
+          Delta [meV] :  0.99858E+00   0.10472E+01
 
        Iteration 29
 
-         Residual[Ry] :  0.70275E-08
-          Delta [meV] :  0.10669E+01   0.11249E+01
+         Residual[Ry] :  0.80562E-08
+          Delta [meV] :  0.10024E+01   0.10405E+01
 
        Iteration 30
 
-         Residual[Ry] :  0.54230E-08
-          Delta [meV] :  0.10425E+01   0.10928E+01
+         Residual[Ry] :  0.51162E-08
+          Delta [meV] :  0.10110E+01   0.10516E+01
 
        Iteration 31
 
-         Residual[Ry] :  0.35017E-08
-          Delta [meV] :  0.10334E+01   0.10729E+01
+         Residual[Ry] :  0.20444E-08
+          Delta [meV] :  0.10149E+01   0.10493E+01
 
        Iteration 32
 
-         Residual[Ry] :  0.27829E-08
-          Delta [meV] :  0.10250E+01   0.10626E+01
+         Residual[Ry] :  0.16442E-08
+          Delta [meV] :  0.10114E+01   0.10464E+01
 
        Iteration 33
 
-         Residual[Ry] :  0.18989E-08
-          Delta [meV] :  0.10132E+01   0.10496E+01
+         Residual[Ry] :  0.11958E-08
+          Delta [meV] :  0.10094E+01   0.10442E+01
 
        Iteration 34
 
-         Residual[Ry] :  0.12475E-08
-          Delta [meV] :  0.10097E+01   0.10472E+01
+         Residual[Ry] :  0.71617E-09
+          Delta [meV] :  0.10069E+01   0.10420E+01
 
        Iteration 35
 
-         Residual[Ry] :  0.68219E-09
-          Delta [meV] :  0.10061E+01   0.10434E+01
+         Residual[Ry] :  0.53558E-09
+          Delta [meV] :  0.10075E+01   0.10430E+01
 
        Iteration 36
 
-         Residual[Ry] :  0.46740E-09
-          Delta [meV] :  0.10069E+01   0.10435E+01
+         Residual[Ry] :  0.14572E-09
+          Delta [meV] :  0.10095E+01   0.10459E+01
 
        Iteration 37
 
-         Residual[Ry] :  0.20058E-09
-          Delta [meV] :  0.10089E+01   0.10447E+01
+         Residual[Ry] :  0.10610E-09
+          Delta [meV] :  0.10093E+01   0.10456E+01
 
        Iteration 38
 
-         Residual[Ry] :  0.16157E-09
-          Delta [meV] :  0.10087E+01   0.10445E+01
+         Residual[Ry] :  0.78311E-10
+          Delta [meV] :  0.10092E+01   0.10455E+01
 
        Iteration 39
 
-         Residual[Ry] :  0.89271E-10
-          Delta [meV] :  0.10090E+01   0.10451E+01
+         Residual[Ry] :  0.31142E-10
+          Delta [meV] :  0.10093E+01   0.10455E+01
 
        Iteration 40
 
-         Residual[Ry] :  0.38058E-10
-          Delta [meV] :  0.10092E+01   0.10454E+01
+         Residual[Ry] :  0.19939E-10
+          Delta [meV] :  0.10093E+01   0.10454E+01
 
        Iteration 41
 
-         Residual[Ry] :  0.30868E-10
-          Delta [meV] :  0.10092E+01   0.10453E+01
+         Residual[Ry] :  0.15459E-10
+          Delta [meV] :  0.10093E+01   0.10454E+01
 
        Iteration 42
 
-         Residual[Ry] :  0.19198E-10
-          Delta [meV] :  0.10092E+01   0.10453E+01
+         Residual[Ry] :  0.56163E-11
+          Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 43
 
-         Residual[Ry] :  0.73088E-11
-          Delta [meV] :  0.10092E+01   0.10453E+01
+         Residual[Ry] :  0.38515E-11
+          Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 44
 
-         Residual[Ry] :  0.50092E-11
-          Delta [meV] :  0.10092E+01   0.10453E+01
+         Residual[Ry] :  0.25725E-11
+          Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 45
 
-         Residual[Ry] :  0.40466E-11
+         Residual[Ry] :  0.11199E-11
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 46
 
-         Residual[Ry] :  0.12036E-11
+         Residual[Ry] :  0.83767E-12
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 47
 
-         Residual[Ry] :  0.82071E-12
+         Residual[Ry] :  0.49788E-12
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 48
 
-         Residual[Ry] :  0.50906E-12
+         Residual[Ry] :  0.20623E-12
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 49
 
-         Residual[Ry] :  0.29574E-12
+         Residual[Ry] :  0.16562E-12
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 50
 
-         Residual[Ry] :  0.96966E-13
+         Residual[Ry] :  0.43465E-13
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 51
 
-         Residual[Ry] :  0.78329E-13
+         Residual[Ry] :  0.32824E-13
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 52
 
-         Residual[Ry] :  0.16051E-13
+         Residual[Ry] :  0.18241E-13
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 53
 
-         Residual[Ry] :  0.11712E-13
+         Residual[Ry] :  0.66766E-14
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 54
 
-         Residual[Ry] :  0.76707E-14
+         Residual[Ry] :  0.53156E-14
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 55
 
-         Residual[Ry] :  0.31372E-14
+         Residual[Ry] :  0.17965E-14
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 56
 
-         Residual[Ry] :  0.18701E-14
+         Residual[Ry] :  0.13089E-14
           Delta [meV] :  0.10092E+01   0.10454E+01
 
        Iteration 57
 
-         Residual[Ry] :  0.14933E-14
+         Residual[Ry] :  0.72331E-15
           Delta [meV] :  0.10092E+01   0.10454E+01
 
-       Iteration 58
-
-         Residual[Ry] :  0.42455E-15
-          Delta [meV] :  0.10092E+01   0.10454E+01
-
-       Converged ! iter = 58
+       Converged ! iter = 57
 
 
      T[K]-D[meV]     0.00000E+00    0.10273E+01
@@ -753,7 +748,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 12
 
          Residual[Ry] :  0.14127E-07
-          Delta [meV] : -0.68639E-02   0.17895E-01
+          Delta [meV] : -0.68638E-02   0.17895E-01
 
        Iteration 13
 
@@ -813,7 +808,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 24
 
          Residual[Ry] :  0.72614E-10
-          Delta [meV] :  0.25761E-03   0.35035E-03
+          Delta [meV] :  0.25761E-03   0.35036E-03
 
        Iteration 25
 
@@ -1273,7 +1268,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 20
 
          Residual[Ry] :  0.36574E-08
-          Delta [meV] : -0.66579E-02  -0.63633E-02
+          Delta [meV] : -0.66578E-02  -0.63633E-02
 
        Iteration 21
 
@@ -1293,7 +1288,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 24
 
          Residual[Ry] :  0.25552E-09
-          Delta [meV] :  0.86332E-02   0.93229E-02
+          Delta [meV] :  0.86332E-02   0.93230E-02
 
        Iteration 25
 
@@ -1358,7 +1353,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 37
 
          Residual[Ry] :  0.31567E-12
-          Delta [meV] : -0.69552E-06  -0.79869E-06
+          Delta [meV] : -0.69552E-06  -0.79868E-06
 
        Iteration 38
 
@@ -1537,7 +1532,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 23
 
-         Residual[Ry] :  0.33530E-09
+         Residual[Ry] :  0.33529E-09
           Delta [meV] :  0.31735E+00   0.33103E+00
 
        Iteration 24
@@ -1617,12 +1612,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 39
 
-         Residual[Ry] :  0.60431E-13
+         Residual[Ry] :  0.60432E-13
           Delta [meV] :  0.33814E+00   0.35264E+00
 
        Iteration 40
 
-         Residual[Ry] :  0.22160E-13
+         Residual[Ry] :  0.22159E-13
           Delta [meV] :  0.33814E+00   0.35264E+00
 
        Iteration 41
@@ -1637,7 +1632,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 43
 
-         Residual[Ry] :  0.28077E-14
+         Residual[Ry] :  0.28075E-14
           Delta [meV] :  0.33814E+00   0.35264E+00
 
        Iteration 44
@@ -1647,12 +1642,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 45
 
-         Residual[Ry] :  0.12346E-14
+         Residual[Ry] :  0.12345E-14
           Delta [meV] :  0.33814E+00   0.35264E+00
 
        Iteration 46
 
-         Residual[Ry] :  0.35831E-15
+         Residual[Ry] :  0.35830E-15
           Delta [meV] :  0.33814E+00   0.35264E+00
 
        Converged ! iter = 46
@@ -1803,7 +1798,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 25
 
          Residual[Ry] :  0.33819E-09
-          Delta [meV] : -0.46656E-01  -0.48497E-01
+          Delta [meV] : -0.46655E-01  -0.48497E-01
 
        Iteration 26
 
@@ -1842,7 +1837,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 33
 
-         Residual[Ry] :  0.69049E-11
+         Residual[Ry] :  0.69048E-11
           Delta [meV] : -0.82244E-03  -0.86656E-03
 
        Iteration 34
@@ -1868,7 +1863,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 38
 
          Residual[Ry] :  0.44878E-12
-          Delta [meV] : -0.36867E-04  -0.38515E-04
+          Delta [meV] : -0.36868E-04  -0.38515E-04
 
        Iteration 39
 
@@ -1883,12 +1878,12 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 41
 
          Residual[Ry] :  0.59399E-13
-          Delta [meV] : -0.95866E-06  -0.10844E-05
+          Delta [meV] : -0.95868E-06  -0.10844E-05
 
        Iteration 42
 
          Residual[Ry] :  0.45958E-13
-          Delta [meV] : -0.52757E-06  -0.60142E-06
+          Delta [meV] : -0.52758E-06  -0.60143E-06
 
        Iteration 43
 
@@ -1913,12 +1908,12 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 47
 
          Residual[Ry] :  0.24865E-14
-          Delta [meV] :  0.14772E-06   0.15359E-06
+          Delta [meV] :  0.14772E-06   0.15360E-06
 
        Iteration 48
 
          Residual[Ry] :  0.26353E-15
-          Delta [meV] : -0.24418E-07  -0.25314E-07
+          Delta [meV] : -0.24419E-07  -0.25314E-07
 
        Converged ! iter = 48
 
@@ -2127,7 +2122,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 37
 
-         Residual[Ry] :  0.15847E-10
+         Residual[Ry] :  0.15846E-10
           Delta [meV] :  0.26704E-01   0.27884E-01
 
        Iteration 38
@@ -2168,7 +2163,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 45
 
          Residual[Ry] :  0.23608E-12
-          Delta [meV] :  0.92562E-04   0.96456E-04
+          Delta [meV] :  0.92563E-04   0.96456E-04
 
        Iteration 46
 
@@ -2652,22 +2647,22 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 29
 
-         Residual[Ry] :  0.85680E-10
+         Residual[Ry] :  0.85679E-10
           Delta [meV] :  0.16173E+00   0.16875E+00
 
        Iteration 30
 
-         Residual[Ry] :  0.70664E-10
+         Residual[Ry] :  0.70665E-10
           Delta [meV] :  0.17000E+00   0.17749E+00
 
        Iteration 31
 
-         Residual[Ry] :  0.52917E-10
+         Residual[Ry] :  0.52918E-10
           Delta [meV] :  0.18264E+00   0.19071E+00
 
        Iteration 32
 
-         Residual[Ry] :  0.44862E-10
+         Residual[Ry] :  0.44863E-10
           Delta [meV] :  0.18466E+00   0.19280E+00
 
        Iteration 33
@@ -2682,7 +2677,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 35
 
-         Residual[Ry] :  0.83958E-11
+         Residual[Ry] :  0.83956E-11
           Delta [meV] :  0.19219E+00   0.20065E+00
 
        Iteration 36
@@ -2692,12 +2687,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 37
 
-         Residual[Ry] :  0.43977E-11
+         Residual[Ry] :  0.43976E-11
           Delta [meV] :  0.19177E+00   0.20021E+00
 
        Iteration 38
 
-         Residual[Ry] :  0.14214E-11
+         Residual[Ry] :  0.14213E-11
           Delta [meV] :  0.19218E+00   0.20064E+00
 
        Iteration 39
@@ -2707,12 +2702,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 40
 
-         Residual[Ry] :  0.52300E-12
+         Residual[Ry] :  0.52299E-12
           Delta [meV] :  0.19231E+00   0.20078E+00
 
        Iteration 41
 
-         Residual[Ry] :  0.21306E-12
+         Residual[Ry] :  0.21304E-12
           Delta [meV] :  0.19239E+00   0.20086E+00
 
        Iteration 42
@@ -2722,42 +2717,42 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 43
 
-         Residual[Ry] :  0.85140E-13
+         Residual[Ry] :  0.85098E-13
           Delta [meV] :  0.19239E+00   0.20086E+00
 
        Iteration 44
 
-         Residual[Ry] :  0.41900E-13
+         Residual[Ry] :  0.41901E-13
           Delta [meV] :  0.19238E+00   0.20085E+00
 
        Iteration 45
 
-         Residual[Ry] :  0.27310E-13
+         Residual[Ry] :  0.27308E-13
           Delta [meV] :  0.19238E+00   0.20085E+00
 
        Iteration 46
 
-         Residual[Ry] :  0.18031E-13
+         Residual[Ry] :  0.18030E-13
           Delta [meV] :  0.19238E+00   0.20085E+00
 
        Iteration 47
 
-         Residual[Ry] :  0.52867E-14
+         Residual[Ry] :  0.52866E-14
           Delta [meV] :  0.19238E+00   0.20085E+00
 
        Iteration 48
 
-         Residual[Ry] :  0.40902E-14
+         Residual[Ry] :  0.40900E-14
           Delta [meV] :  0.19238E+00   0.20085E+00
 
        Iteration 49
 
-         Residual[Ry] :  0.13009E-14
+         Residual[Ry] :  0.12994E-14
           Delta [meV] :  0.19238E+00   0.20085E+00
 
        Iteration 50
 
-         Residual[Ry] :  0.48640E-15
+         Residual[Ry] :  0.48632E-15
           Delta [meV] :  0.19238E+00   0.20085E+00
 
        Converged ! iter = 50
@@ -2952,7 +2947,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 34
 
-         Residual[Ry] :  0.33006E-10
+         Residual[Ry] :  0.33007E-10
           Delta [meV] :  0.13849E+00   0.14459E+00
 
        Iteration 35
@@ -2962,7 +2957,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 36
 
-         Residual[Ry] :  0.18045E-10
+         Residual[Ry] :  0.18046E-10
           Delta [meV] :  0.15889E+00   0.16591E+00
 
        Iteration 37
@@ -2972,12 +2967,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 38
 
-         Residual[Ry] :  0.14852E-10
+         Residual[Ry] :  0.14853E-10
           Delta [meV] :  0.14879E+00   0.15537E+00
 
        Iteration 39
 
-         Residual[Ry] :  0.49488E-11
+         Residual[Ry] :  0.49490E-11
           Delta [meV] :  0.15582E+00   0.16271E+00
 
        Iteration 40
@@ -2992,7 +2987,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 42
 
-         Residual[Ry] :  0.86919E-12
+         Residual[Ry] :  0.86920E-12
           Delta [meV] :  0.15421E+00   0.16102E+00
 
        Iteration 43
@@ -3002,12 +2997,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 44
 
-         Residual[Ry] :  0.51663E-12
+         Residual[Ry] :  0.51662E-12
           Delta [meV] :  0.15430E+00   0.16112E+00
 
        Iteration 45
 
-         Residual[Ry] :  0.79508E-13
+         Residual[Ry] :  0.79511E-13
           Delta [meV] :  0.15441E+00   0.16123E+00
 
        Iteration 46
@@ -3017,7 +3012,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 47
 
-         Residual[Ry] :  0.17276E-13
+         Residual[Ry] :  0.17273E-13
           Delta [meV] :  0.15439E+00   0.16122E+00
 
        Iteration 48
@@ -3027,27 +3022,27 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 49
 
-         Residual[Ry] :  0.80914E-14
+         Residual[Ry] :  0.80917E-14
           Delta [meV] :  0.15440E+00   0.16122E+00
 
        Iteration 50
 
-         Residual[Ry] :  0.59494E-14
+         Residual[Ry] :  0.59498E-14
           Delta [meV] :  0.15440E+00   0.16122E+00
 
        Iteration 51
 
-         Residual[Ry] :  0.39210E-14
+         Residual[Ry] :  0.39218E-14
           Delta [meV] :  0.15440E+00   0.16122E+00
 
        Iteration 52
 
-         Residual[Ry] :  0.12660E-14
+         Residual[Ry] :  0.12663E-14
           Delta [meV] :  0.15440E+00   0.16122E+00
 
        Iteration 53
 
-         Residual[Ry] :  0.77988E-15
+         Residual[Ry] :  0.77996E-15
           Delta [meV] :  0.15440E+00   0.16122E+00
 
        Converged ! iter = 53
@@ -3258,17 +3253,17 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 37
 
          Residual[Ry] :  0.15242E-10
-          Delta [meV] : -0.97719E-02  -0.10202E-01
+          Delta [meV] : -0.97720E-02  -0.10202E-01
 
        Iteration 38
 
          Residual[Ry] :  0.92496E-11
-          Delta [meV] :  0.84713E-03   0.88098E-03
+          Delta [meV] :  0.84712E-03   0.88097E-03
 
        Iteration 39
 
          Residual[Ry] :  0.73045E-11
-          Delta [meV] :  0.63716E-03   0.66604E-03
+          Delta [meV] :  0.63716E-03   0.66603E-03
 
        Iteration 40
 
@@ -3288,7 +3283,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 43
 
          Residual[Ry] :  0.79774E-12
-          Delta [meV] :  0.54140E-03   0.56471E-03
+          Delta [meV] :  0.54141E-03   0.56471E-03
 
        Iteration 44
 
@@ -3298,17 +3293,17 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 45
 
          Residual[Ry] :  0.21282E-12
-          Delta [meV] : -0.33251E-04  -0.34852E-04
+          Delta [meV] : -0.33251E-04  -0.34851E-04
 
        Iteration 46
 
          Residual[Ry] :  0.13608E-12
-          Delta [meV] : -0.36147E-04  -0.37824E-04
+          Delta [meV] : -0.36147E-04  -0.37825E-04
 
        Iteration 47
 
          Residual[Ry] :  0.54555E-13
-          Delta [meV] : -0.82896E-05  -0.86835E-05
+          Delta [meV] : -0.82897E-05  -0.86836E-05
 
        Iteration 48
 
@@ -3328,7 +3323,7 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 51
 
          Residual[Ry] :  0.25556E-14
-          Delta [meV] : -0.73527E-06  -0.77096E-06
+          Delta [meV] : -0.73529E-06  -0.77097E-06
 
        Iteration 52
 
@@ -3533,12 +3528,12 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 33
 
          Residual[Ry] :  0.57046E-10
-          Delta [meV] :  0.73718E-01   0.76961E-01
+          Delta [meV] :  0.73717E-01   0.76961E-01
 
        Iteration 34
 
          Residual[Ry] :  0.56394E-10
-          Delta [meV] :  0.68723E-01   0.71748E-01
+          Delta [meV] :  0.68722E-01   0.71748E-01
 
        Iteration 35
 
@@ -3553,27 +3548,27 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 37
 
          Residual[Ry] :  0.16031E-10
-          Delta [meV] : -0.77943E-02  -0.81301E-02
+          Delta [meV] : -0.77939E-02  -0.81297E-02
 
        Iteration 38
 
          Residual[Ry] :  0.10134E-10
-          Delta [meV] : -0.28885E-02  -0.30169E-02
+          Delta [meV] : -0.28886E-02  -0.30169E-02
 
        Iteration 39
 
          Residual[Ry] :  0.69166E-11
-          Delta [meV] :  0.91026E-03   0.95351E-03
+          Delta [meV] :  0.91035E-03   0.95359E-03
 
        Iteration 40
 
          Residual[Ry] :  0.55305E-11
-          Delta [meV] : -0.22099E-02  -0.23059E-02
+          Delta [meV] : -0.22099E-02  -0.23058E-02
 
        Iteration 41
 
-         Residual[Ry] :  0.28151E-11
-          Delta [meV] : -0.67225E-03  -0.70049E-03
+         Residual[Ry] :  0.28152E-11
+          Delta [meV] : -0.67227E-03  -0.70051E-03
 
        Iteration 42
 
@@ -3583,22 +3578,22 @@ WARNING: There was an error initializing an OpenFabrics device.
        Iteration 43
 
          Residual[Ry] :  0.13192E-11
-          Delta [meV] :  0.89805E-03   0.93757E-03
+          Delta [meV] :  0.89804E-03   0.93756E-03
 
        Iteration 44
 
          Residual[Ry] :  0.43872E-12
-          Delta [meV] :  0.61827E-04   0.63894E-04
+          Delta [meV] :  0.61826E-04   0.63893E-04
 
        Iteration 45
 
          Residual[Ry] :  0.31606E-12
-          Delta [meV] :  0.26986E-04   0.27872E-04
+          Delta [meV] :  0.26985E-04   0.27870E-04
 
        Iteration 46
 
          Residual[Ry] :  0.11994E-12
-          Delta [meV] : -0.25255E-04  -0.26336E-04
+          Delta [meV] : -0.25254E-04  -0.26335E-04
 
        Iteration 47
 
@@ -3607,38 +3602,38 @@ WARNING: There was an error initializing an OpenFabrics device.
 
        Iteration 48
 
-         Residual[Ry] :  0.29141E-13
+         Residual[Ry] :  0.29142E-13
           Delta [meV] :  0.64292E-05   0.67111E-05
 
        Iteration 49
 
-         Residual[Ry] :  0.18671E-13
+         Residual[Ry] :  0.18670E-13
           Delta [meV] :  0.77590E-05   0.81047E-05
 
        Iteration 50
 
-         Residual[Ry] :  0.12914E-13
+         Residual[Ry] :  0.12915E-13
           Delta [meV] :  0.39500E-05   0.41252E-05
 
        Iteration 51
 
-         Residual[Ry] :  0.32348E-14
-          Delta [meV] : -0.35498E-06  -0.37290E-06
+         Residual[Ry] :  0.32349E-14
+          Delta [meV] : -0.35491E-06  -0.37282E-06
 
        Iteration 52
 
          Residual[Ry] :  0.25176E-14
-          Delta [meV] :  0.28296E-06   0.29383E-06
+          Delta [meV] :  0.28297E-06   0.29384E-06
 
        Iteration 53
 
-         Residual[Ry] :  0.13346E-14
-          Delta [meV] :  0.36980E-06   0.38571E-06
+         Residual[Ry] :  0.13347E-14
+          Delta [meV] :  0.36978E-06   0.38570E-06
 
        Iteration 54
 
-         Residual[Ry] :  0.47411E-15
-          Delta [meV] :  0.24790E-06   0.25891E-06
+         Residual[Ry] :  0.47414E-15
+          Delta [meV] :  0.24789E-06   0.25890E-06
 
        Converged ! iter = 54
 
@@ -3651,13 +3646,13 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Clock summary  #####
 
-     read_elph    :      0.06s CPU      0.07s WALL (       1 calls)
+     read_elph    :      0.06s CPU      0.08s WALL (       1 calls)
      read_Coulomb :      0.01s CPU      0.02s WALL (       1 calls)
 
-     SCTK         :      1h52m CPU   9m34.68s WALL
+     SCTK         :      1h51m CPU   9m34.22s WALL
 
 
-   This run was terminated on:   2:34:59  28Jun2022            
+   This run was terminated on:  11:54:31  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

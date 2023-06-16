@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--825915216 or higher.
+-1007294288 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud1
+  Local host:   macloud2
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program SCTK v.6.7GPU starts on 28Jun2022 at  1:40:32 
+     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:57:32 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -127,21 +127,21 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Write delta.frmsf  #####
 
-     Max :         0.18962377     Min :         0.10312293
+     Max :         0.18962377     Min :         0.10312294
      Max :         0.57868768     Min :         0.34582998
 
      #####  Clock summary  #####
 
      read_elph    :      0.01s CPU      0.04s WALL (       1 calls)
-     read_Coulomb :      0.00s CPU      0.02s WALL (       1 calls)
-     expand_g_v_f :     11.96s CPU      1.17s WALL (       1 calls)
-     make_Z_f     :    105.07s CPU      8.81s WALL (       1 calls)
-     gapeq_rhs_f  :    104.52s CPU      8.75s WALL (       1 calls)
+     read_Coulomb :      0.00s CPU      0.01s WALL (       1 calls)
+     expand_g_v_f :     12.01s CPU      1.20s WALL (       1 calls)
+     make_Z_f     :    105.67s CPU      8.87s WALL (       1 calls)
+     gapeq_rhs_f  :    104.22s CPU      8.72s WALL (       1 calls)
 
-     SCTK         :   3m45.30s CPU     22.52s WALL
+     SCTK         :   3m45.63s CPU     22.34s WALL
 
 
-   This run was terminated on:   1:40:54  28Jun2022            
+   This run was terminated on:  11:57:55  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

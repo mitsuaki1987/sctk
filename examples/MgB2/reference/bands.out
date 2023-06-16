@@ -93,20 +93,20 @@
    -4.403    2.586    8.225    8.225   12.373   14.200   14.200   15.869   17.754   20.841
    21.670   21.670   24.062   24.062   26.009
             0.000000  0.000000  0.249348
-   -4.136    1.     Bands written to file bands.out
+   -4.136    1     Bands written to file bands.out
 
-     BANDS        :      1.30s CPU      1.53s WALL
+     BANDS        :      1.05s CPU      1.25s WALL
 
 
-   This run was terminated on:   1:56:37  28Jun2022            
+   This run was terminated on:  11:19:32  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
 =------------------------------------------------------------------------------=
-[macloud2:952373] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:952373] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:952373] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
- 22.419   23.481
+[macloud1:941116] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud1:941116] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud1:941116] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+  22.419   23.481
             0.050000  0.028868  0.436359
    -3.460    0.266    8.250    8.346   14.418   14.614   15.378   17.692   17.840   19.583
    19.907   21.820   22.339   22.730   23.541

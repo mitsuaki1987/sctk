@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
-447232176 or higher.
+-111576912 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program PWSCF v.6.7GPU starts on 28Jun2022 at  1:56:39 
+     Program PWSCF v.6.7GPU starts on 29Jun2022 at 11:19:34 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -248,13 +248,13 @@ At line 1740 of file mp.f90
 Fortran runtime warning: An array temporary was created
 At line 1740 of file mp.f90
 Fortran runtime warning: An array temporary was created
-[macloud2:952474] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:952474] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:952474] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
      ethr =  1.25E-08,  avg # of iterations = 38.2
+[macloud1:941218] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud1:941218] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud1:941218] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
-     total cpu time spent up to now is        8.1 secs
+     total cpu time spent up to now is        7.1 secs
 
      End of band structure calculation
 
@@ -265,49 +265,49 @@ Fortran runtime warning: An array temporary was created
 
      Writing output data file ./pwscf.save/
 
-     init_run     :      1.07s CPU      1.10s WALL (       1 calls)
-     electrons    :      5.80s CPU      5.84s WALL (       1 calls)
+     init_run     :      0.63s CPU      0.65s WALL (       1 calls)
+     electrons    :      5.69s CPU      5.72s WALL (       1 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.00s WALL (       1 calls)
-     potinit      :      0.49s CPU      0.51s WALL (       1 calls)
-     hinit0       :      0.56s CPU      0.57s WALL (       1 calls)
+     potinit      :      0.05s CPU      0.06s WALL (       1 calls)
+     hinit0       :      0.56s CPU      0.56s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :      2.99s CPU      3.02s WALL (       1 calls)
+     c_bands      :      2.87s CPU      2.90s WALL (       1 calls)
      v_of_rho     :      0.03s CPU      0.03s WALL (       1 calls)
-     newd         :      0.01s CPU      0.01s WALL (       1 calls)
-     PAW_pot      :      0.03s CPU      0.04s WALL (       1 calls)
+     newd         :      0.00s CPU      0.00s WALL (       1 calls)
+     PAW_pot      :      0.01s CPU      0.02s WALL (       1 calls)
 
      Called by c_bands:
      init_us_2    :      0.00s CPU      0.00s WALL (       9 calls)
-     cegterg      :      1.90s CPU      1.93s WALL (      22 calls)
+     cegterg      :      1.77s CPU      1.79s WALL (      22 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.11s CPU      0.11s WALL (     315 calls)
-     h_psi        :      1.56s CPU      1.58s WALL (     337 calls)
+     cdiaghg      :      0.10s CPU      0.10s WALL (     315 calls)
+     h_psi        :      1.44s CPU      1.46s WALL (     337 calls)
      s_psi        :      0.03s CPU      0.03s WALL (     337 calls)
-     g_psi        :      0.04s CPU      0.05s WALL (     306 calls)
+     g_psi        :      0.04s CPU      0.04s WALL (     306 calls)
 
      Called by h_psi:
      h_psi:calbec :      0.04s CPU      0.04s WALL (     337 calls)
-     vloc_psi     :      1.48s CPU      1.50s WALL (     337 calls)
+     vloc_psi     :      1.37s CPU      1.39s WALL (     337 calls)
      add_vuspsi   :      0.03s CPU      0.03s WALL (     337 calls)
 
      General routines
-     calbec       :      0.04s CPU      0.04s WALL (     337 calls)
+     calbec       :      0.03s CPU      0.04s WALL (     337 calls)
      fft          :      0.01s CPU      0.01s WALL (      13 calls)
      ffts         :      0.00s CPU      0.00s WALL (       1 calls)
-     fftw         :      1.25s CPU      1.27s WALL (    6374 calls)
+     fftw         :      1.15s CPU      1.17s WALL (    6374 calls)
      interpolate  :      0.00s CPU      0.00s WALL (       1 calls)
      davcio       :      0.00s CPU      0.00s WALL (      18 calls)
 
      Parallel routines
 
-     PWSCF        :      8.04s CPU      9.09s WALL
+     PWSCF        :      7.06s CPU      8.07s WALL
 
 
-   This run was terminated on:   1:56:48  28Jun2022            
+   This run was terminated on:  11:19:42  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
-124205232 or higher.
+1813567664 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program PROJWFC v.6.7GPU starts on 28Jun2022 at  1:56:50 
+     Program PROJWFC v.6.7GPU starts on 29Jun2022 at 11:19:45 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -14599,14 +14599,14 @@ Lowdin Charges:
      Atom #   3: total charge =   3.3948, s =  0.7397, 
      Atom #   3: total charge =   3.3948, p =  2.6551, pz=  0.8053, px=  0.9249, py=  0.9249, 
      Spilling Parameter:   0.0027
-[macloud2:952584] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:952584] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:952584] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[macloud1:941321] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud1:941321] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud1:941321] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
-     PROJWFC      :      5.14s CPU      5.40s WALL
+     PROJWFC      :      4.78s CPU      4.99s WALL
 
 
-   This run was terminated on:   1:56:56  28Jun2022            
+   This run was terminated on:  11:19:50  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
-401889456 or higher.
+864172208 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud1
+  Local host:   macloud2
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program PWSCF v.6.7GPU starts on 28Jun2022 at  1:29: 2 
+     Program PWSCF v.6.7GPU starts on 29Jun2022 at 11:47:57 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,11 +25,12 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on       1 processor cores
-     Number of MPI processes:                 1
+     Parallel version (MPI & OpenMP), running on      24 processor cores
+     Number of MPI processes:                24
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
+     K-points division:     npool     =      24
      Reading input from twin.in
 
      Current dimensions of program PWSCF are:
@@ -115,7 +116,9 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       9.38 MB
+     Estimated max dynamical RAM per process >       3.85 MB
+
+     Estimated total dynamical RAM >      92.30 MB
 
      Check: negative core charge=   -0.000003
 
@@ -128,12 +131,104 @@ WARNING: There was an error initializing an OpenFabrics device.
      Davidson diagonalization with overlap
 At line 106 of file init_us_2_base.f90
 Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 106 of file init_us_2_base.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
+At line 1740 of file mp.f90
+Fortran runtime warning: An array temporary was created
 At line 1740 of file mp.f90
 Fortran runtime warning: An array temporary was created
 
      ethr =  3.33E-08,  avg # of iterations = 27.9
 
-     total cpu time spent up to now is       13.1 secs
+     total cpu time spent up to now is        2.0 secs
 
      End of band structure calculation
 
@@ -141,49 +236,52 @@ Fortran runtime warning: An array temporary was created
 
      Writing output data file ./pwscf.save/
 
-     init_run     :      0.26s CPU      0.27s WALL (       1 calls)
-     electrons    :     12.04s CPU     12.59s WALL (       1 calls)
+     init_run     :      0.48s CPU      0.49s WALL (       1 calls)
+     electrons    :      0.84s CPU      0.85s WALL (       1 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.00s WALL (       1 calls)
-     potinit      :      0.02s CPU      0.02s WALL (       1 calls)
-     hinit0       :      0.23s CPU      0.23s WALL (       1 calls)
+     potinit      :      0.02s CPU      0.03s WALL (       1 calls)
+     hinit0       :      0.43s CPU      0.43s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :     12.04s CPU     12.59s WALL (       1 calls)
+     c_bands      :      0.84s CPU      0.85s WALL (       1 calls)
      v_of_rho     :      0.02s CPU      0.02s WALL (       1 calls)
-     newd         :      0.01s CPU      0.01s WALL (       1 calls)
+     newd         :      0.02s CPU      0.02s WALL (       1 calls)
 
      Called by c_bands:
-     init_us_2    :      0.01s CPU      0.01s WALL (     128 calls)
-     cegterg      :     11.55s CPU     11.73s WALL (     250 calls)
+     init_us_2    :      0.00s CPU      0.00s WALL (       6 calls)
+     cegterg      :      0.51s CPU      0.52s WALL (      10 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.52s CPU      0.54s WALL (    3699 calls)
-     h_psi        :     10.22s CPU     10.38s WALL (    3949 calls)
-     s_psi        :      0.08s CPU      0.08s WALL (    3949 calls)
-     g_psi        :      0.21s CPU      0.22s WALL (    3571 calls)
+     cdiaghg      :      0.02s CPU      0.02s WALL (     147 calls)
+     h_psi        :      0.47s CPU      0.47s WALL (     157 calls)
+     s_psi        :      0.00s CPU      0.00s WALL (     157 calls)
+     g_psi        :      0.01s CPU      0.01s WALL (     141 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.12s CPU      0.12s WALL (    3949 calls)
-     vloc_psi     :      9.98s CPU     10.14s WALL (    3949 calls)
-     add_vuspsi   :      0.07s CPU      0.08s WALL (    3949 calls)
+     h_psi:calbec :      0.01s CPU      0.01s WALL (     157 calls)
+     vloc_psi     :      0.46s CPU      0.46s WALL (     157 calls)
+     add_vuspsi   :      0.00s CPU      0.00s WALL (     157 calls)
 
      General routines
-     calbec       :      0.11s CPU      0.12s WALL (    3949 calls)
+     calbec       :      0.01s CPU      0.01s WALL (     157 calls)
      fft          :      0.01s CPU      0.01s WALL (      13 calls)
      ffts         :      0.00s CPU      0.00s WALL (       1 calls)
-     fftw         :      8.30s CPU      8.44s WALL (   61168 calls)
+     fftw         :      0.38s CPU      0.38s WALL (    2300 calls)
      interpolate  :      0.00s CPU      0.00s WALL (       1 calls)
-     davcio       :      0.01s CPU      0.36s WALL (     256 calls)
+     davcio       :      0.00s CPU      0.00s WALL (      12 calls)
 
      Parallel routines
 
-     PWSCF        :     12.59s CPU     18.31s WALL
+     PWSCF        :      1.95s CPU      2.74s WALL
 
 
-   This run was terminated on:   1:29:20  28Jun2022            
+   This run was terminated on:  11:48: 0  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
 =------------------------------------------------------------------------------=
+[macloud2:998027] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud2:998027] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud2:998027] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init

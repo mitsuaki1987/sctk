@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
-17754288 or higher.
+-1436903248 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program Q2R v.6.7GPU starts on 28Jun2022 at  1:56:15 
+     Program Q2R v.6.7GPU starts on 29Jun2022 at 11:19:11 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -258,10 +258,10 @@ WARNING: There was an error initializing an OpenFabrics device.
 
       fft-check success (sum of imaginary terms < 10^-12)
 
-     Q2R          :      0.21s CPU      0.37s WALL
+     Q2R          :      0.21s CPU      0.35s WALL
 
 
-   This run was terminated on:   1:56:15  28Jun2022            
+   This run was terminated on:  11:19:11  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

@@ -12,6 +12,7 @@ MODULE sctk_val
   IMPLICIT NONE
   !
   INTEGER,SAVE :: &
+  & bisec_step,    & !< Number of steps for bisection method
   & nb_max,        & !<
   & nb(2),         & !<
   & bdsp(2),       & !<
@@ -33,8 +34,10 @@ MODULE sctk_val
   & nx               !< = 2 * ne - 1
   !
   REAL(8),SAVE :: &
-  & freq_min,       & ! below this, ignore that mode
-  & freq_min_ratio, & ! below this ratio ignore the phonon
+  & bisec_min,  & !< Lower bound for bisection method
+  & bisec_max,  & !< Upper bound for bisection method
+  & freq_min,       & !< below this, ignore that mode
+  & freq_min_ratio, & !< below this ratio ignore the phonon
   & beta,       & !< inversed temperature [Ry]
   & emax,       & !< Max energy for qpdos
   & emin,       & !< Minimum energy scale [Ry]

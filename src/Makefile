@@ -33,6 +33,7 @@ sctk_tetra.o \
 sctk_usonic.o \
 sctk_val.o \
 sctk_wfc.o \
+sctk_write_hash.o \
 sctk_z.o
 
 LRMODS = ../../LR_Modules/liblrmod.a
@@ -47,6 +48,9 @@ TLDEPS= pw ph pp
 all : tldeps libs-sctk sctk.x twingrid.x nesting_proj.x
 
 libs-sctk : libsctk.a
+
+hash:
+	sed -e "s/HASH/`git show |awk 'NR==1{print $$2}'`/g" sctk_write_hash > sctk_write_hash.f90
 
 sctk.x : sctk_main.o libsctk.a $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
 	$(LD) $(LDFLAGS) -o $@ sctk_main.o libsctk.a \
@@ -67,8 +71,8 @@ tldeps :
 	if test -n "$(TLDEPS)" ; then \
 	( cd ../.. ; $(MAKE) $(TLDEPS) || exit 1 ) ; fi
 
-libsctk.a : $(SCTKOBJS)
-	$(AR) $(ARFLAGS) $@ $?
+libsctk.a : hash $(SCTKOBJS)
+	$(AR) $(ARFLAGS) $@ $(SCTKOBJS)
 	$(RANLIB) $@
 
 clean :

@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--1471731536 or higher.
+-282281808 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud1
+  Local host:   macloud2
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program SCTK v.6.7GPU starts on 28Jun2022 at  1:29:23 
+     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:48: 2 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -26,11 +26,11 @@ WARNING: There was an error initializing an OpenFabrics device.
      http://www.quantum-espresso.org/quote
 
      Parallel version (MPI & OpenMP), running on      24 processor cores
-     Number of MPI processes:                24
-     Threads/MPI process:                     1
+     Number of MPI processes:                 4
+     Threads/MPI process:                     6
 
      MPI processes distributed on     1 nodes
-     K-points division:     npool     =      24
+     K-points division:     npool     =       4
 
      Reading xml data from directory:
 
@@ -62,9 +62,6 @@ WARNING: There was an error initializing an OpenFabrics device.
      Lowest band which contains FS :       2
      Highest band which contains FS :       3
      [opt_tetra]  Optimized tetrahedron method is used.
-[macloud1:898066] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud1:898066] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud1:898066] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
      #####  Read from STDIN  #####
 
@@ -101,52 +98,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Read gvectors.dat & evc.dat  #####
 
-       Total RAM for input WFC :   0.58E-01 GB
+       Total RAM for input WFC :   0.16E-01 GB
 
      #####  FFT wfc(G) -> wfc(r)  #####
 
-       Total RAM for WFC(r) :   0.10E+01 GB
-       Total RAM for <beta|WFC> :   0.24E-02 GB
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
+       Total RAM for WFC(r) :   0.28E+00 GB
+       Total RAM for <beta|WFC> :   0.66E-03 GB
 At line 106 of file init_us_2_base.f90
 Fortran runtime warning: An array temporary was created
 At line 106 of file init_us_2_base.f90
@@ -179,14 +136,17 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1085
          Total RAM for Vscr :   0.30E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
+[macloud2:998129] 3 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud2:998129] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud2:998129] 3 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
          Stoner factor:
 
             0.21135E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -241,14 +201,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1094
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.22011E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -303,14 +263,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1101
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.21253E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -365,14 +325,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1097
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.21495E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -427,14 +387,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1087
          Total RAM for Vscr :   0.30E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.21191E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -489,14 +449,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1097
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.20616E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -551,14 +511,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1090
          Total RAM for Vscr :   0.30E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.21245E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -607,20 +567,20 @@ Fortran runtime warning: An array temporary was created
                  0.10000E+01          0.000          0.000
                  0.19626E+01          2.648          1.089
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        175.263         89.628
+                 0.12391E+02        175.265         89.628
 
        q-point : 8
 
          Number of PWs for W : 1098
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.20677E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -675,14 +635,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1101
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.23306E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -737,14 +697,14 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1102
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.33E+00 GB
-         Total RAM for weight on coarse grid :   0.18E-02 GB
+         Total RAM for rho  :   0.97E-01 GB
+         Total RAM for weight on coarse grid :   0.82E-03 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner factor:
 
             0.19948E+00
-         Total RAM for Kel :   0.20E-02 GB
+         Total RAM for Kel :   0.92E-03 GB
 
          Averaged potential (mu)
 
@@ -797,33 +757,33 @@ Fortran runtime warning: An array temporary was created
 
      #####  Clock summary  #####
 
-     make_scrn    :     69.65s CPU     71.15s WALL (      10 calls)
-     invert       :     98.64s CPU     99.23s WALL (      20 calls)
-     make_kel     :     69.88s CPU     71.25s WALL (      10 calls)
-     lambda_sf    :     60.62s CPU     61.02s WALL (      10 calls)
+     make_scrn    :     95.19s CPU     25.55s WALL (      10 calls)
+     invert       :    309.16s CPU     52.15s WALL (      20 calls)
+     make_kel     :    127.15s CPU     26.01s WALL (      10 calls)
+     lambda_sf    :    210.05s CPU     80.27s WALL (      10 calls)
 
      #####  In make_scrn #####
 
-     fermi_factor :      4.60s CPU      4.63s WALL (      10 calls)
-     zgemm(make_s :      8.29s CPU      8.33s WALL (    4800 calls)
+     fermi_factor :     15.81s CPU      7.72s WALL (      10 calls)
+     zgemm(make_s :     39.67s CPU      6.68s WALL (    1600 calls)
 
      #####  In make_kel #####
 
-     zgemm(make_k :     13.68s CPU     13.75s WALL (    9600 calls)
+     zgemm(make_k :     87.00s CPU     15.05s WALL (    3200 calls)
 
      #####  In make_scrn and make_kel #####
 
-     wfc*wfc=rho  :     59.92s CPU     60.24s WALL (    1200 calls)
-     fft[rho]     :      7.28s CPU      7.31s WALL (    1200 calls)
+     wfc*wfc=rho  :     63.66s CPU     11.09s WALL (     400 calls)
+     fft[rho]     :     11.15s CPU      6.90s WALL (     400 calls)
 
      #####  In wfc*wfc=rho #####
 
-     addusxx      :     55.45s CPU     55.77s WALL (  128000 calls)
+     addusxx      :     56.67s CPU      9.76s WALL (   21600 calls)
 
-     SCTK         :   4m14.56s CPU   4m19.93s WALL
+     SCTK         :   9m51.17s CPU   2m42.51s WALL
 
 
-   This run was terminated on:   1:33:43  28Jun2022            
+   This run was terminated on:  11:50:44  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

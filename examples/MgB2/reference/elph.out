@@ -5,16 +5,16 @@ This may negatively impact performance. A more modern PMIx server is necessary t
 resolve this issue.
 
 Note: This message is displayed only when the OFI component's verbosity level is
--1564157776 or higher.
+351070384 or higher.
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 WARNING: There was an error initializing an OpenFabrics device.
 
-  Local host:   macloud2
+  Local host:   macloud1
   Local device: mlx4_0
 --------------------------------------------------------------------------
 
-     Program PHONON v.6.7GPU starts on 28Jun2022 at  1:48:37 
+     Program PHONON v.6.7GPU starts on 29Jun2022 at 11:11:36 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -284,13 +284,13 @@ At line 1740 of file mp.f90
 Fortran runtime warning: An array temporary was created
 At line 1740 of file mp.f90
 Fortran runtime warning: An array temporary was created
-[macloud2:951884] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:951884] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:951884] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[macloud1:940628] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
+[macloud1:940628] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[macloud1:940628] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is       19.0 secs
+     total cpu time spent up to now is       18.8 secs
 
      End of band structure calculation
 
@@ -402,7 +402,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     24.27s CPU     26.38s WALL
+     PHONON       :     23.91s CPU     25.64s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn1
@@ -564,7 +564,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is       32.8 secs
+     total cpu time spent up to now is       32.1 secs
 
      End of band structure calculation
 
@@ -676,7 +676,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     44.38s CPU     49.43s WALL
+     PHONON       :     43.89s CPU     48.50s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn2
@@ -832,7 +832,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 23.0
 
-     total cpu time spent up to now is       69.9 secs
+     total cpu time spent up to now is       68.2 secs
 
      End of band structure calculation
 
@@ -943,7 +943,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   1m27.10s CPU   1m35.87s WALL
+     PHONON       :   1m25.85s CPU   1m34.71s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn3
@@ -1117,7 +1117,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.5
 
-     total cpu time spent up to now is       90.8 secs
+     total cpu time spent up to now is       90.0 secs
 
      End of band structure calculation
 
@@ -1229,7 +1229,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   1m59.61s CPU   2m12.58s WALL
+     PHONON       :   1m58.29s CPU   2m 9.69s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn4
@@ -1391,7 +1391,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 23.0
 
-     total cpu time spent up to now is      129.4 secs
+     total cpu time spent up to now is      127.0 secs
 
      End of band structure calculation
 
@@ -1502,7 +1502,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   2m43.50s CPU   3m 1.44s WALL
+     PHONON       :   2m43.20s CPU   2m58.20s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn5
@@ -1676,7 +1676,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.5
 
-     total cpu time spent up to now is      150.9 secs
+     total cpu time spent up to now is      147.7 secs
 
      End of band structure calculation
 
@@ -1788,7 +1788,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   3m16.11s CPU   3m37.56s WALL
+     PHONON       :   3m15.61s CPU   3m34.81s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn6
@@ -1950,7 +1950,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is      171.4 secs
+     total cpu time spent up to now is      168.9 secs
 
      End of band structure calculation
 
@@ -2062,7 +2062,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   3m43.87s CPU   4m 9.21s WALL
+     PHONON       :   3m43.23s CPU   4m 6.31s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn7
@@ -2224,7 +2224,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is      185.9 secs
+     total cpu time spent up to now is      183.4 secs
 
      End of band structure calculation
 
@@ -2336,7 +2336,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   4m 3.83s CPU   4m32.00s WALL
+     PHONON       :   4m 3.10s CPU   4m29.01s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn8
@@ -2492,7 +2492,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is      206.4 secs
+     total cpu time spent up to now is      203.8 secs
 
      End of band structure calculation
 
@@ -2604,7 +2604,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   4m30.08s CPU   5m 2.12s WALL
+     PHONON       :   4m29.37s CPU   4m59.18s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn9
@@ -2766,7 +2766,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is      221.4 secs
+     total cpu time spent up to now is      218.6 secs
 
      End of band structure calculation
 
@@ -2878,7 +2878,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   4m50.73s CPU   5m25.60s WALL
+     PHONON       :   4m49.95s CPU   5m22.57s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn10
@@ -3034,7 +3034,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is      241.6 secs
+     total cpu time spent up to now is      238.8 secs
 
      End of band structure calculation
 
@@ -3146,7 +3146,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   5m16.78s CPU   5m55.57s WALL
+     PHONON       :   5m15.93s CPU   5m52.45s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn11
@@ -3308,7 +3308,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is      256.0 secs
+     total cpu time spent up to now is      253.2 secs
 
      End of band structure calculation
 
@@ -3420,7 +3420,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   5m36.65s CPU   6m18.28s WALL
+     PHONON       :   5m35.80s CPU   6m15.13s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn12
@@ -3467,95 +3467,95 @@ Fortran runtime warning: An array temporary was created
           5  -0.375000000  -0.216506351  -0.436358562
           6  -0.375000000   0.216506351   0.436358562
 
-     init_run     :      9.03s CPU      9.12s WALL (      12 calls)
-     electrons    :    216.83s CPU    224.01s WALL (      12 calls)
+     init_run     :      8.15s CPU      8.23s WALL (      12 calls)
+     electrons    :    217.05s CPU    223.11s WALL (      12 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.02s WALL (      12 calls)
-     potinit      :      1.28s CPU      1.32s WALL (      12 calls)
-     hinit0       :      6.92s CPU      6.94s WALL (      12 calls)
+     potinit      :      0.72s CPU      0.77s WALL (      12 calls)
+     hinit0       :      6.92s CPU      6.93s WALL (      12 calls)
 
      Called by electrons:
-     c_bands      :    197.91s CPU    205.04s WALL (      12 calls)
-     v_of_rho     :      0.40s CPU      0.41s WALL (      13 calls)
-     newd         :      0.04s CPU      0.05s WALL (      13 calls)
-     PAW_pot      :      0.55s CPU      0.56s WALL (      13 calls)
+     c_bands      :    198.15s CPU    204.16s WALL (      12 calls)
+     v_of_rho     :      0.41s CPU      0.41s WALL (      13 calls)
+     newd         :      0.04s CPU      0.04s WALL (      13 calls)
+     PAW_pot      :      0.28s CPU      0.31s WALL (      13 calls)
 
      Called by c_bands:
-     init_us_2    :      3.17s CPU      3.25s WALL (   11732 calls)
-     cegterg      :    135.32s CPU    137.61s WALL (    2631 calls)
+     init_us_2    :      3.16s CPU      3.23s WALL (   11732 calls)
+     cegterg      :    134.95s CPU    137.25s WALL (    2631 calls)
 
      Called by *egterg:
-     cdiaghg      :      6.88s CPU      7.04s WALL (   38283 calls)
-     h_psi        :    118.86s CPU    120.80s WALL (   40914 calls)
-     s_psi        :      2.80s CPU      2.87s WALL (   40914 calls)
-     g_psi        :      3.38s CPU      3.45s WALL (   36607 calls)
+     cdiaghg      :      6.93s CPU      7.08s WALL (   38283 calls)
+     h_psi        :    118.37s CPU    120.28s WALL (   40914 calls)
+     s_psi        :      2.82s CPU      2.88s WALL (   40914 calls)
+     g_psi        :      3.37s CPU      3.44s WALL (   36607 calls)
 
      Called by h_psi:
-     h_psi:calbec :      3.59s CPU      3.65s WALL (   40914 calls)
-     vloc_psi     :    111.76s CPU    113.57s WALL (   40914 calls)
-     add_vuspsi   :      2.92s CPU      2.98s WALL (   40914 calls)
+     h_psi:calbec :      3.57s CPU      3.63s WALL (   40914 calls)
+     vloc_psi     :    111.27s CPU    113.06s WALL (   40914 calls)
+     add_vuspsi   :      2.92s CPU      2.99s WALL (   40914 calls)
 
      General routines
-     calbec       :      4.72s CPU      4.83s WALL (   55160 calls)
-     fft          :      0.58s CPU      0.59s WALL (     672 calls)
-     ffts         :      2.25s CPU      2.39s WALL (    7890 calls)
-     fftw         :    136.58s CPU    138.92s WALL (  749956 calls)
-     interpolate  :      0.30s CPU      0.32s WALL (     240 calls)
-     davcio       :      0.53s CPU      4.79s WALL (   21276 calls)
+     calbec       :      4.67s CPU      4.79s WALL (   55160 calls)
+     fft          :      0.57s CPU      0.58s WALL (     672 calls)
+     ffts         :      2.28s CPU      2.40s WALL (    7890 calls)
+     fftw         :    136.08s CPU    138.30s WALL (  749956 calls)
+     interpolate  :      0.29s CPU      0.32s WALL (     240 calls)
+     davcio       :      0.53s CPU      3.75s WALL (   21276 calls)
 
      Parallel routines
 
-     PHONON       :   5m39.72s CPU   6m22.57s WALL
+     PHONON       :   5m38.89s CPU   6m19.43s WALL
 
      INITIALIZATION: 
-     phq_setup    :      2.07s CPU      2.39s WALL (      12 calls)
-     phq_init     :     47.65s CPU     48.13s WALL (      12 calls)
+     phq_setup    :      2.02s CPU      2.37s WALL (      12 calls)
+     phq_init     :     47.57s CPU     48.06s WALL (      12 calls)
 
-     phq_init     :     47.65s CPU     48.13s WALL (      12 calls)
-     set_drhoc    :      8.35s CPU      8.37s WALL (      12 calls)
+     phq_init     :     47.57s CPU     48.06s WALL (      12 calls)
+     set_drhoc    :      8.43s CPU      8.45s WALL (      12 calls)
      init_vloc    :      0.31s CPU      0.31s WALL (      13 calls)
-     init_us_1    :      5.80s CPU      5.82s WALL (      13 calls)
-     newd         :      0.04s CPU      0.05s WALL (      13 calls)
-     dvanqq       :      9.90s CPU      9.95s WALL (      24 calls)
-     drho         :     28.22s CPU     28.62s WALL (      12 calls)
+     init_us_1    :      5.78s CPU      5.79s WALL (      13 calls)
+     newd         :      0.04s CPU      0.04s WALL (      13 calls)
+     dvanqq       :      9.78s CPU      9.83s WALL (      24 calls)
+     drho         :     28.17s CPU     28.57s WALL (      12 calls)
 
 
 
 
-     dvqpsi_us    :     32.86s CPU     33.58s WALL (    7542 calls)
+     dvqpsi_us    :     32.91s CPU     33.52s WALL (    7542 calls)
      addusddens   :      5.51s CPU      5.53s WALL (     108 calls)
-     newdq        :      5.09s CPU      5.11s WALL (     108 calls)
-     adddvscf     :      0.94s CPU      0.95s WALL (    7542 calls)
+     newdq        :      5.08s CPU      5.10s WALL (     108 calls)
+     adddvscf     :      0.93s CPU      0.95s WALL (    7542 calls)
 
-     dvqpsi_us    :     32.86s CPU     33.58s WALL (    7542 calls)
-     dvqpsi_us_on :      4.47s CPU      4.53s WALL (    7542 calls)
+     dvqpsi_us    :     32.91s CPU     33.52s WALL (    7542 calls)
+     dvqpsi_us_on :      4.47s CPU      4.52s WALL (    7542 calls)
 
 
-     h_psi        :    118.86s CPU    120.80s WALL (   40914 calls)
+     h_psi        :    118.37s CPU    120.28s WALL (   40914 calls)
 
-     h_psi        :    118.86s CPU    120.80s WALL (   40914 calls)
-     add_vuspsi   :      2.92s CPU      2.98s WALL (   40914 calls)
+     h_psi        :    118.37s CPU    120.28s WALL (   40914 calls)
+     add_vuspsi   :      2.92s CPU      2.99s WALL (   40914 calls)
 
-     addusdbec    :      0.83s CPU      0.84s WALL (    7542 calls)
+     addusdbec    :      0.81s CPU      0.82s WALL (    7542 calls)
 
 
       Electron-phonon coupling
-     elphon       :     52.18s CPU     53.14s WALL (      12 calls)
-     elphel       :     45.99s CPU     46.92s WALL (     108 calls)
+     elphon       :     52.27s CPU     53.12s WALL (      12 calls)
+     elphel       :     46.02s CPU     46.83s WALL (     108 calls)
 
       General routines
-     calbec       :      4.72s CPU      4.83s WALL (   55160 calls)
-     fft          :      0.58s CPU      0.59s WALL (     672 calls)
-     ffts         :      2.25s CPU      2.39s WALL (    7890 calls)
-     fftw         :    136.58s CPU    138.92s WALL (  749956 calls)
-     davcio       :      0.53s CPU      4.79s WALL (   21276 calls)
+     calbec       :      4.67s CPU      4.79s WALL (   55160 calls)
+     fft          :      0.57s CPU      0.58s WALL (     672 calls)
+     ffts         :      2.28s CPU      2.40s WALL (    7890 calls)
+     fftw         :    136.08s CPU    138.30s WALL (  749956 calls)
+     davcio       :      0.53s CPU      3.75s WALL (   21276 calls)
 
 
-     PHONON       :   5m39.72s CPU   6m22.57s WALL
+     PHONON       :   5m38.89s CPU   6m19.43s WALL
 
 
-   This run was terminated on:   1:54:59  28Jun2022            
+   This run was terminated on:  11:17:56  29Jun2022            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

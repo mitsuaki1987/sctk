@@ -32,14 +32,14 @@ SUBROUTINE get_wfcg()
   IMPLICIT NONE
   !
   INTEGER :: fi, ii, ngw0
-  CHARACTER(LEN=320) :: filename
+  CHARACTER(320) :: filename
   !
   INTEGER :: ik0, ispin, npol0, ierr, ikv(3), ibnd, ik
   REAL(dp) :: scalef, xk0(3), bvec0(3,3), xk1(3), RAM_wfc
   LOGICAL :: gamma_only
   COMPLEX(DP),ALLOCATABLE :: wfc0k(:,:,:)
   !
-  CHARACTER(LEN=6), EXTERNAL :: int_to_char
+  CHARACTER(6), EXTERNAL :: int_to_char
   INTEGER, EXTERNAL :: find_free_unit
   !
   fi = find_free_unit()
