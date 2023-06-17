@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>チュートリアル &#8212; sctk 1.2.1 ドキュメント</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/translations.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="波数グリッドおよびバンド範囲の指定について" href="kband.html" />
+    <link rel="prev" title="プログラムの説明" href="program.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="kband.html" title="波数グリッドおよびバンド範囲の指定について"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="program.html" title="プログラムの説明"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">チュートリアル</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>チュートリアル<a class="headerlink" href="#id1" title="この見出しへのパーマリンク">¶</a></h1>
+<p>以下のチュートリアルは <code class="docutils literal notranslate"><span class="pre">SCTK/examples/Al/</span></code> 内で行う.</p>
+<section id="scf">
+<span id="id2"></span><h2>電荷密度のSCF計算<a class="headerlink" href="#scf" title="この見出しへのパーマリンク">¶</a></h2>
+<p><strong>入力ファイル</strong>: scf.in</p>
+<p><strong>プログラム</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span>
+$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">29</span><span class="w"> </span>PATH/pw.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">29</span><span class="w"> </span>-in<span class="w"> </span>scf.in<span class="w"> </span>&gt;<span class="w"> </span>scf.out
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>calculation = &quot;scf&quot;</dt><dd><p><a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> でself-consistent計算を実行する.</p>
+</dd>
+</dl>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">注釈</p>
+<p>次の <a class="reference internal" href="#phonon"><span class="std std-ref">フォノンおよび電子-フォノン相互作用の計算</span></a>, <a class="reference internal" href="#coulomb"><span class="std std-ref">遮蔽Coulomb/スピン揺らぎ相互作用の計算</span></a> はどちらを先にやっても変わらない.</p>
+</div>
+</section>
+<section id="phonon">
+<span id="id3"></span><h2>フォノンおよび電子-フォノン相互作用の計算<a class="headerlink" href="#phonon" title="この見出しへのパーマリンク">¶</a></h2>
+<section id="ph">
+<span id="id4"></span><h3>フォノン振動数, 変移ポテンシャルの計算<a class="headerlink" href="#ph" title="この見出しへのパーマリンク">¶</a></h3>
+<p><strong>入力ファイル</strong>: ph.in</p>
+<p><strong>プログラム</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">29</span><span class="w"> </span>PATH/ph.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">29</span><span class="w"> </span>-in<span class="w"> </span>ph.in<span class="w"> </span>&gt;<span class="w"> </span>ph.out
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>fildvscf = 'dv'</dt><dd><p>変移ポテンシャルのファイル名. 次のステップの計算で使われる.</p>
+</dd>
+<dt>ldisp = .true.</dt><dd><p>一様 <span class="math notranslate nohighlight">\({\bf q}\)</span> グリッド上でフォノンを計算する.</p>
+</dd>
+<dt>lshift_q = .true.</dt><dd><p><span class="math notranslate nohighlight">\(\Gamma\)</span> 点の特異性を避けるために, <span class="math notranslate nohighlight">\({\bf q}\)</span> グリッドをずらす.</p>
+</dd>
+<dt>nq1, nq2, nq3</dt><dd><p><span class="math notranslate nohighlight">\({\bf q}\)</span> グリッドの分割数.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="elph">
+<span id="id5"></span><h3>電子-フォノン相互作用の計算<a class="headerlink" href="#elph" title="この見出しへのパーマリンク">¶</a></h3>
+<p><strong>入力ファイル</strong>: epmat.in</p>
+<p><strong>プログラム</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">8</span><span class="w"> </span>PATH/ph.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">8</span><span class="w"> </span>-in<span class="w"> </span>epmat.in<span class="w"> </span>&gt;<span class="w"> </span>epmat.out
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>electron_phonon = &quot;scdft_input&quot;</dt><dd><p>すでに計算されている変移ポテンシャル,
+ダイナミカルマトリックスを読み込み, 電子-フォノンバーテックスを計算する.</p>
+</dd>
+<dt>elph_nbnd_min, elph_nbnd_max</dt><dd><p>ギャップ方程式にはFermi準位近傍の電子-フォノン相互作用しか寄与しないので,
+計算コストを下げるために電子-フォノン相互作用を求めるバンドの本数を絞る.
+Fermi準位を含むバンドは, <a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a> にある,
+<a class="reference external" href="https://www.quantum-espresso.org/Doc/pp_user_guide/">fermi_velocity.x</a>
+によって調べることが出来る.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</section>
+<section id="coulomb">
+<span id="id6"></span><h2>遮蔽Coulomb/スピン揺らぎ相互作用の計算<a class="headerlink" href="#coulomb" title="この見出しへのパーマリンク">¶</a></h2>
+<section id="knon-scf">
+<span id="dense"></span><h3>細かいkグリッドでのnon SCF計算<a class="headerlink" href="#knon-scf" title="この見出しへのパーマリンク">¶</a></h3>
+<p><strong>入力ファイル</strong>: nscf.in</p>
+<p><strong>プログラム</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">32</span><span class="w"> </span>PATH/pw.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">32</span><span class="w"> </span>-in<span class="w"> </span>nscf.in<span class="w"> </span>&gt;<span class="w"> </span>nscf.out
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>calculation = &quot;nscf&quot;</dt><dd><p>Non Self-consistent 計算を行う.</p>
+</dd>
+<dt>la2f = .true.</dt><dd><p>Kohn-Shamエネルギーの情報を含むファイル pwscf.a2Fsave を出力する.</p>
+</dd>
+<dt>nbnd</dt><dd><p>分極関数を計算するため, 非占有バンドも計算しておく必要がある.
+ただし, 半導体の計算の時ほどたくさんとる必要はない.
+目安は占有バンドと同程度である.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="twin">
+<span id="id7"></span><h3>遮蔽Coulomb相互作用計算のための波動関数の計算<a class="headerlink" href="#twin" title="この見出しへのパーマリンク">¶</a></h3>
+<p><strong>入力ファイル</strong>: twin.in</p>
+<p><strong>プログラム</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>bash<span class="w"> </span>PATH/twingrid.x<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">4</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>twin.in
+$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">32</span><span class="w"> </span>PATH/pw.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">32</span><span class="w"> </span>-in<span class="w"> </span>twin.in<span class="w"> </span>&gt;<span class="w"> </span>twin.out
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>calculation = &quot;bands&quot;</dt><dd><p>この時 <span class="math notranslate nohighlight">\({\bf k}\)</span> 点メッシュに関しては上記のように
+<a class="reference internal" href="program.html#twingrid"><span class="std std-ref">twingrid.x</span></a> の出力をファイル末尾にリダイレクトする.
+この時の, <span class="math notranslate nohighlight">\({\bf k}\)</span> 点メッシュは <a class="reference internal" href="#elph"><span class="std std-ref">電子-フォノン相互作用の計算</span></a> の <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> のインプットの nq1,
+nq2, nq3 と同じにする. このインプットで <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> を実行する.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="id8">
+<h3>遮蔽Coulomb相互作用の計算<a class="headerlink" href="#id8" title="この見出しへのパーマリンク">¶</a></h3>
+<p><strong>入力ファイル</strong>: sctk.in</p>
+<p><strong>プログラム</strong>: <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">32</span><span class="w"> </span>PATH/sctk.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">32</span><span class="w"> </span>-in<span class="w"> </span>sctk.in<span class="w"> </span>&gt;<span class="w"> </span>kel.out
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt><a class="reference internal" href="program.html#id6"><span class="std std-ref">calculation = &quot;kel&quot;</span></a></dt><dd><p>遮蔽Coulom/スピン揺らぎ媒介相互作用の計算を行う.</p>
+</dd>
+<dt>nq1, nq2,  nq3</dt><dd><p>これらはこの前のステップの <span class="math notranslate nohighlight">\({\bf k}\)</span> グリッドと同じにする.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</section>
+<section id="scdftscf">
+<span id="id9"></span><h2>転移温度計算<a class="headerlink" href="#scdftscf" title="この見出しへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="#phonon"><span class="std std-ref">フォノンおよび電子-フォノン相互作用の計算</span></a>, <a class="reference internal" href="#coulomb"><span class="std std-ref">遮蔽Coulomb/スピン揺らぎ相互作用の計算</span></a> の計算が全て終了した段階でSCDFT計算を行う.</p>
+<p><strong>入力ファイル</strong>: sctk.in (一部書き換える)</p>
+<p><strong>プログラム</strong>: <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">32</span>
+$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">1</span><span class="w"> </span>PATH/sctk.x<span class="w"> </span>&lt;<span class="w"> </span>sctk.in<span class="w"> </span>&gt;<span class="w"> </span>tc.out
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt><a class="reference internal" href="program.html#scdfttc"><span class="std std-ref">calculation = &quot;scdft_tc&quot;</span></a></dt><dd><p>この部分を書き換えて計算の種類を変える.
+ここでは2分法で <span class="math notranslate nohighlight">\(T_c\)</span> を求める.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="id10">
+<h2>その他の解析<a class="headerlink" href="#id10" title="この見出しへのパーマリンク">¶</a></h2>
+<p>パラメーター calculation を変えるといくつかの解析が行える.</p>
+<p><strong>入力ファイル</strong>: sctk.in (一部書き換える)</p>
+<p><strong>プログラム</strong>: <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">1</span><span class="w"> </span>PATH/sctk.x<span class="w"> </span>&lt;<span class="w"> </span>sctk.in
+</pre></div>
+</div>
+<p><strong>重要なパラメーター</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt><a class="reference internal" href="program.html#lambdamuk"><span class="std std-ref">calculation = &quot;lambda_mu_k&quot;</span></a></dt><dd><p><a class="reference external" href="http://fermisurfer.osdn.jp/">FermiSurfer</a>
+でプロット可能な <span class="math notranslate nohighlight">\(\lambda_{n {\bf {\bf k}}}\)</span> データを出力する.</p>
+</dd>
+<dt><a class="reference internal" href="program.html#id7"><span class="std std-ref">calculation = &quot;scdft&quot;</span></a></dt><dd><p>ある温度でのSCDFT計算を行い, 以下のポスト処理で必要なファイル delta.dat を出力する.</p>
+</dd>
+<dt>temp</dt><dd><p>温度(単位ケルビン). これを 0 もしくは負の値にすると,
+ゼロケルビン用の特別なアルゴリズムによる計算を行う.</p>
+</dd>
+<dt><a class="reference internal" href="program.html#deltaf"><span class="std std-ref">calculation = &quot;deltaf&quot;</span></a></dt><dd><p><a class="reference external" href="http://fermisurfer.osdn.jp/">FermiSurfer</a>
+でプロット可能な <span class="math notranslate nohighlight">\(\Delta_{n {\bf k}}\)</span> データを出力する.</p>
+</dd>
+<dt><a class="reference internal" href="program.html#qpdos"><span class="std std-ref">calculation = &quot;qpdos&quot;</span></a></dt><dd><p>超伝導準粒子DOS. 計算時間は比較的長い.</p>
+</dd>
+</dl>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">注釈</p>
+<p>SCTK/examples/MgB2 には別のチュートリアルがある.
+ただし, これらのチュートリアルは <span class="math notranslate nohighlight">\({\bf k}\)</span> 点数やバンド数, 擬ポテンシャルなどの精度が
+十分ではないことに注意.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/sctk.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">チュートリアル</a><ul>
+<li><a class="reference internal" href="#scf">電荷密度のSCF計算</a></li>
+<li><a class="reference internal" href="#phonon">フォノンおよび電子-フォノン相互作用の計算</a><ul>
+<li><a class="reference internal" href="#ph">フォノン振動数, 変移ポテンシャルの計算</a></li>
+<li><a class="reference internal" href="#elph">電子-フォノン相互作用の計算</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coulomb">遮蔽Coulomb/スピン揺らぎ相互作用の計算</a><ul>
+<li><a class="reference internal" href="#knon-scf">細かいkグリッドでのnon SCF計算</a></li>
+<li><a class="reference internal" href="#twin">遮蔽Coulomb相互作用計算のための波動関数の計算</a></li>
+<li><a class="reference internal" href="#id8">遮蔽Coulomb相互作用の計算</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scdftscf">転移温度計算</a></li>
+<li><a class="reference internal" href="#id10">その他の解析</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>前のトピックへ</h4>
+    <p class="topless"><a href="program.html"
+                          title="前の章へ">プログラムの説明</a></p>
+  </div>
+  <div>
+    <h4>次のトピックへ</h4>
+    <p class="topless"><a href="kband.html"
+                          title="次の章へ">波数グリッドおよびバンド範囲の指定について</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="kband.html" title="波数グリッドおよびバンド範囲の指定について"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="program.html" title="プログラムの説明"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">チュートリアル</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Mitsuaki Kawamura.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

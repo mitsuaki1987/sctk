@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>プログラムの説明 &#8212; sctk 1.2.1 ドキュメント</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/translations.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="チュートリアル" href="tutorial.html" />
+    <link rel="prev" title="インストール方法" href="install.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="チュートリアル"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="インストール方法"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">プログラムの説明</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sctk">
+<span id="id1"></span><h1>プログラムの説明<a class="headerlink" href="#sctk" title="この見出しへのパーマリンク">¶</a></h1>
+<p>Superconducting Toolkitのメインプログラム sctk.x の機能は次のとおりである。</p>
+<ul class="simple">
+<li><p>前処理として,
+QEで計算したKohn-Sham軌道から 電子間Coulom相互作用行列
+<span class="math notranslate nohighlight">\(K^{el}_{n {\bf k} n' {\bf k}'}\)</span> を計算する.</p></li>
+<li><p>ギャップ方程式を解いて超伝導ギャップ <span class="math notranslate nohighlight">\(\Delta_{n {\bf k}}\)</span> を計算する.</p></li>
+<li><p>ギャップ方程式を解いて超伝導ギャップ <span class="math notranslate nohighlight">\(\Delta_{n {\bf k}}\)</span> を計算し、２分法で転移温度を計算する.</p></li>
+<li><p>後処理として、ギャップ方程式を非自己無撞着に計算し, <a class="reference external" href="http://fermisurfer.osdn.jp/">FermiSurfer</a>
+でプロット可能なファイルを出力する.</p></li>
+<li><p>後処理として、ギャップ方程式を非自己無撞着に計算してから, 準粒子DOSを計算する.</p></li>
+<li><p>後処理として、ギャップ方程式を非自己無撞着に計算してから, 超音波吸収係数を計算する.</p></li>
+</ul>
+<p>この他に、 <a class="reference internal" href="#id6"><span class="std std-ref">Coulomb相互作用の計算</span></a> で用いるKohn-Sham軌道を計算する
+2重 <span class="math notranslate nohighlight">\({\bf k}\)</span> 点グリッドを生成するためのスクリプト <a class="reference internal" href="#twingrid"><span class="std std-ref">twingrid.x</span></a> がある。</p>
+<section id="id2">
+<h2>使い方<a class="headerlink" href="#id2" title="この見出しへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpiexec<span class="w"> </span>options<span class="w"> </span>PATH/sctk.x<span class="w"> </span>-in<span class="w"> </span>input_file
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>入力ファイル書式<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">¶</a></h2>
+<p>入力ファイルの書式は次のとおりである.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span><span class="n">CONTROL</span>
+  <span class="n">prefix</span> <span class="o">=</span>
+  <span class="n">outdir</span> <span class="o">=</span>
+  <span class="n">calculation</span> <span class="o">=</span>
+<span class="o">/</span>
+<span class="o">&amp;</span><span class="n">KEL</span>
+  <span class="n">start_q</span> <span class="o">=</span>
+  <span class="n">last_q</span> <span class="o">=</span>
+  <span class="n">nci</span> <span class="o">=</span>
+  <span class="n">laddxc</span> <span class="o">=</span>
+  <span class="n">ecutfock</span> <span class="o">=</span>
+  <span class="n">nq1</span> <span class="o">=</span>
+  <span class="n">nq2</span> <span class="o">=</span>
+  <span class="n">nq3</span> <span class="o">=</span>
+  <span class="n">lsf</span>
+<span class="o">/</span>
+<span class="o">&amp;</span><span class="n">SCDFT</span>
+  <span class="n">temp</span> <span class="o">=</span>
+  <span class="n">fbee</span> <span class="o">=</span>
+  <span class="n">lbee</span> <span class="o">=</span>
+  <span class="n">xic</span> <span class="o">=</span>
+  <span class="n">nmf</span> <span class="o">=</span>
+  <span class="n">nx</span> <span class="o">=</span>
+  <span class="n">ne</span> <span class="o">=</span>
+  <span class="n">emin</span> <span class="o">=</span>
+  <span class="n">emax</span> <span class="o">=</span>
+  <span class="n">electron_maxstep</span> <span class="o">=</span>
+  <span class="n">conv_thr</span> <span class="o">=</span>
+  <span class="n">fildyn</span> <span class="o">=</span>
+  <span class="n">spin_fluc</span> <span class="o">=</span>
+<span class="o">/</span>
+</pre></div>
+</div>
+<p>これらのパラメーターはネームリスト内では順不同に指定できる.
+また省略した場合はデフォルト値が使われる.</p>
+<section id="control">
+<h3>ネームリスト CONTROL<a class="headerlink" href="#control" title="この見出しへのパーマリンク">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメーター</p></th>
+<th class="head"><p>型</p></th>
+<th class="head"><p>デフォルト値</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>prefix</p></td>
+<td><p>文字列</p></td>
+<td><p>&quot;pwscf&quot;</p></td>
+<td><p><a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> の入力の <code class="docutils literal notranslate"><span class="pre">prefix</span></code> と同じにする.</p></td>
+</tr>
+<tr class="row-odd"><td><p>outdir</p></td>
+<td><p>文字列</p></td>
+<td><p>&quot;./&quot;</p></td>
+<td><p><a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> の入力の <code class="docutils literal notranslate"><span class="pre">outdir</span></code> と同じにする.</p></td>
+</tr>
+<tr class="row-even"><td><p>calculation</p></td>
+<td><p>文字列</p></td>
+<td><p>&quot;kel&quot;</p></td>
+<td><p>計算の種類</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="kel">
+<h3>ネームリスト KEL<a class="headerlink" href="#kel" title="この見出しへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">calculation</span> <span class="pre">=</span> <span class="pre">&quot;kel&quot;</span></code> としたときに使われるパラメーター。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメーター</p></th>
+<th class="head"><p>型</p></th>
+<th class="head"><p>デフォルト値</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>start_q</p></td>
+<td><p>正の整数</p></td>
+<td><p>1</p></td>
+<td><p>遮蔽Coulomb/スピンゆらぎ相互作用を計算する <span class="math notranslate nohighlight">\({\bf q}\)</span> 点の始点</p></td>
+</tr>
+<tr class="row-odd"><td><p>last_q</p></td>
+<td><p>正の整数</p></td>
+<td><p>既約
+<span class="math notranslate nohighlight">\({\bf q}\)</span>
+点数</p></td>
+<td><p>遮蔽Coulomb/スピンゆらぎ相互作用を計算する <span class="math notranslate nohighlight">\({\bf q}\)</span> 点の終点</p></td>
+</tr>
+<tr class="row-even"><td><p>laddxc</p></td>
+<td><p>0 or 1</p></td>
+<td><p>0</p></td>
+<td><p>遮蔽を計算するときの近似のレベルを指定する. 0 : RPA, 1: 断熱的LDA.</p></td>
+</tr>
+<tr class="row-odd"><td><p>lsf</p></td>
+<td><p>0 or 1</p></td>
+<td><p>0</p></td>
+<td><p>スピンゆらぎ相互作用 <a class="reference internal" href="ref.html#ref"><span class="std std-ref">[3]</span></a> を計算する(1)かしない(0)か</p></td>
+</tr>
+<tr class="row-even"><td><p>ecutfock</p></td>
+<td><p>実数</p></td>
+<td><p><a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> での値</p></td>
+<td><p>分極関数を計算するときの平面波カットオフ [Ry].</p></td>
+</tr>
+<tr class="row-odd"><td><p>nq1, nq2, nq3</p></td>
+<td><p>正の整数</p></td>
+<td><p>a2Fsaveの
+<span class="math notranslate nohighlight">\({\bf k}\)</span>
+点メッシュ数と
+同じ</p></td>
+<td><p>波動関数データの <span class="math notranslate nohighlight">\({\bf k}\)</span> 点メッシュ.
+<a class="reference internal" href="#twingrid"><span class="std std-ref">twingrid.x</span></a> の入力と同じにしなければならない.</p></td>
+</tr>
+<tr class="row-even"><td><p>nci</p></td>
+<td><p>正の整数</p></td>
+<td><p>5</p></td>
+<td><p>遮蔽Coulomb相互作用を計算する松原振動数の数.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scdft">
+<h3>ネームリスト SCDFT<a class="headerlink" href="#scdft" title="この見出しへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">calculation</span> <span class="pre">=</span> <span class="pre">&quot;scdft&quot;</span></code> としたときなどに使われるパラメーター。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>パラメーター</p></th>
+<th class="head"><p>型</p></th>
+<th class="head"><p>デフォルト値</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>temp</p></td>
+<td><p>正の実数</p></td>
+<td><p>0.1</p></td>
+<td><p>温度. 単位ケルビン.</p></td>
+</tr>
+<tr class="row-odd"><td><p>fbee</p></td>
+<td><p>正の整数</p></td>
+<td><p>1</p></td>
+<td><p>全バンドのうち, ギャップ方程式の計算に含める
+一番初めのバンド.</p></td>
+</tr>
+<tr class="row-even"><td><p>lbee</p></td>
+<td><p>正の整数</p></td>
+<td><p><a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> のnbnd</p></td>
+<td><p>ギャップ方程式の計算に含める最後のバンド.</p></td>
+</tr>
+<tr class="row-odd"><td><p>xic</p></td>
+<td><p>実数</p></td>
+<td><p>-1.0</p></td>
+<td><p>ギャップ関数外挿法に用いるパラメーター. 単位 Ry.
+これを <code class="docutils literal notranslate"><span class="pre">0.0</span></code> 未満にするとギャップ関数外挿法を使わない.
+デフォルトでは外挿法を使わない設定になっている.</p></td>
+</tr>
+<tr class="row-even"><td><p>nmf</p></td>
+<td><p>整数</p></td>
+<td><p>10</p></td>
+<td><p>Comlombカーネルの計算で用いる松原振動数積分に用いる点の数.
+<code class="docutils literal notranslate"><span class="pre">0</span></code> にすると静的なCoulomb相互作用のみをつかう. また,
+負の値にするとCoulomb相互作用項を0として
+(フォノン項のみを考慮して)計算する.</p></td>
+</tr>
+<tr class="row-odd"><td><p>nx</p></td>
+<td><p>正の整数</p></td>
+<td><p>100</p></td>
+<td><p>フェルミ面近傍のバンドの付加的エネルギーグリッドのグリッド数.</p></td>
+</tr>
+<tr class="row-even"><td><p>ne</p></td>
+<td><p>正の整数</p></td>
+<td><p>50</p></td>
+<td><p><a class="reference internal" href="#qpdos"><span class="std std-ref">準粒子DOS計算</span></a> のみで使用.
+準粒子DOSを計算するエネルギー点数.</p></td>
+</tr>
+<tr class="row-odd"><td><p>emin</p></td>
+<td><p>正の実数</p></td>
+<td><p>1.0e-7</p></td>
+<td><p>フェルミ面近傍のバンドの付加的エネルギーグリッドのためのパラメータ.
+単位 Ry.</p></td>
+</tr>
+<tr class="row-even"><td><p>emax</p></td>
+<td><p>正の実数</p></td>
+<td><p>5.0</p></td>
+<td><p><a class="reference internal" href="#qpdos"><span class="std std-ref">準粒子DOS計算</span></a> のみで使用.
+準粒子DOSを計算するエネルギーグリッドの上限. 単位 meV.</p></td>
+</tr>
+<tr class="row-odd"><td><p>electron_maxstep</p></td>
+<td><p>正の整数</p></td>
+<td><p>100</p></td>
+<td><p>ギャップ方程式を反復法で解くときの反復回数の上限数.</p></td>
+</tr>
+<tr class="row-even"><td><p>conv_thr</p></td>
+<td><p>正の実数</p></td>
+<td><p>1.0e-15</p></td>
+<td><p>ギャップ方程式を反復法で解くときの,
+新旧のギャップ関数の差の2乗平均に対する収束判定のしきい値. 単位 Ry.</p></td>
+</tr>
+<tr class="row-odd"><td><p>filedyn</p></td>
+<td><p>文字列</p></td>
+<td><p>&quot;matdyn&quot;</p></td>
+<td><p><a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> の filedyn と同じにしなければならない。</p></td>
+</tr>
+<tr class="row-even"><td><p>spin_fluc</p></td>
+<td><p>論理型</p></td>
+<td><p>.False.</p></td>
+<td><p>.True. にするとスピン揺らぎ <a class="reference internal" href="ref.html#ref"><span class="std std-ref">[3]</span></a> を含める。</p></td>
+</tr>
+<tr class="row-odd"><td><p>scdft_kernel</p></td>
+<td><p>正の整数</p></td>
+<td><p>1</p></td>
+<td><p>1: Lüders2005 <a class="reference internal" href="ref.html#ref"><span class="std std-ref">[4]</span></a>, 2: Sanna2020 <a class="reference internal" href="ref.html#ref"><span class="std std-ref">[5]</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>lz_coulomb</p></td>
+<td><p>論理型</p></td>
+<td><p>.False.</p></td>
+<td><p>Coulomb renormalization <a class="reference internal" href="ref.html#ref"><span class="std std-ref">[6]</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="id4">
+<h2>入出力ファイル<a class="headerlink" href="#id4" title="この見出しへのパーマリンク">¶</a></h2>
+<p>sctk.xに関連するファイルは次の通りである。</p>
+<section id="prefix-xml">
+<span id="xml"></span><h3>{prefix}.xml<a class="headerlink" href="#prefix-xml" title="この見出しへのパーマリンク">¶</a></h3>
+<p>格子定数等の情報を含む. <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> により生成される.</p>
+</section>
+<section id="prefix-a2fsave">
+<span id="a2fsave"></span><h3>{prefix}.a2Fsave<a class="headerlink" href="#prefix-a2fsave" title="この見出しへのパーマリンク">¶</a></h3>
+<p>通常のDFT計算で求めたKohn-Shamエネルギーやその <span class="math notranslate nohighlight">\({\bf k}\)</span> メッシュ情報,
+対称操作を含む. <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> で la2f=.true. とすると生成される.</p>
+</section>
+<section id="prefix-save-wfc-dat">
+<span id="wfc"></span><h3>{prefix}.save/wfc*.dat<a class="headerlink" href="#prefix-save-wfc-dat" title="この見出しへのパーマリンク">¶</a></h3>
+<p>各 <span class="math notranslate nohighlight">\({\bf k}\)</span> 点のKohn-Sham軌道.
+* には <span class="math notranslate nohighlight">\({\bf k}\)</span> 点の番号が入る.
+<a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> により生成される.</p>
+</section>
+<section id="vel-dat">
+<span id="veldat"></span><h3>vel*.dat<a class="headerlink" href="#vel-dat" title="この見出しへのパーマリンク">¶</a></h3>
+<p>各 <span class="math notranslate nohighlight">\({\bf q}\)</span> 点での遮蔽Coulomb相互作用のChebyshev補間の係数.
+* には <span class="math notranslate nohighlight">\({\bf q}\)</span> 点の番号が入る.
+sctk.x で <a class="reference internal" href="#id6"><span class="std std-ref">calculation=&quot;kel&quot;</span></a> とすると出力される.</p>
+</section>
+<section id="elph-dat">
+<span id="elphdat"></span><h3>elph*.dat<a class="headerlink" href="#elph-dat" title="この見出しへのパーマリンク">¶</a></h3>
+<p>各 <span class="math notranslate nohighlight">\({\bf q}\)</span> 点での電子-フォノン相互作用, フォノン振動数.
+* には <span class="math notranslate nohighlight">\({\bf q}\)</span> 点の番号が入る.
+<a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> で electron_phonon=&quot;scdft_input&quot; とすると作られる.</p>
+</section>
+<section id="lambda-frmsf-mu-frmsf">
+<span id="lambdafrmsf"></span><h3>lambda.frmsf, mu.frmsf<a class="headerlink" href="#lambda-frmsf-mu-frmsf" title="この見出しへのパーマリンク">¶</a></h3>
+<p>くりこみ因子 <span class="math notranslate nohighlight">\(\lambda_{n {\bf k}}\)</span> のFermi面上での値をプロットするための,
+<a class="reference external" href="http://fermisurfer.osdn.jp/">FermiSurfer</a> 用データファイル.
+sctk.x で <a class="reference internal" href="#lambdamuk"><span class="std std-ref">calculation=&quot;lambda_mu_k&quot;</span></a> とすると出力される.</p>
+</section>
+<section id="delta-dat">
+<span id="deltadat"></span><h3>delta.dat<a class="headerlink" href="#delta-dat" title="この見出しへのパーマリンク">¶</a></h3>
+<p>超伝導ギャップ関数 <span class="math notranslate nohighlight">\(\Delta_{n {\bf k}}\)</span>.
+対応するKohn-Shamエネルギー <span class="math notranslate nohighlight">\(\xi_{n {\bf k}}\)</span>, 積分重み, バンド番号,
+<span class="math notranslate nohighlight">\({\bf k}\)</span> 点番号, 繰りこみ因子 <span class="math notranslate nohighlight">\(Z_{n {\bf k}}\)</span>
+sctk.x で <a class="reference internal" href="#id7"><span class="std std-ref">calculation=&quot;scdft&quot;</span></a> とすると出力される.</p>
+</section>
+<section id="qpdos-dat">
+<span id="qpdosdat"></span><h3>qpdos.dat<a class="headerlink" href="#qpdos-dat" title="この見出しへのパーマリンク">¶</a></h3>
+<p>第1列:準粒子エネルギー(単位 meV),
+第2列:準粒子状態密度(単位 Ry<span class="math notranslate nohighlight">\(^{-1}\)</span>).
+sctk.x で <a class="reference internal" href="#qpdos"><span class="std std-ref">calculation=&quot;qpdos&quot;</span></a> とすると出力される.</p>
+</section>
+<section id="delta-frmsf-z-frmsf">
+<span id="deltafrmsf"></span><h3>delta.frmsf, Z.frmsf<a class="headerlink" href="#delta-frmsf-z-frmsf" title="この見出しへのパーマリンク">¶</a></h3>
+<p>超伝導ギャップ関数 <span class="math notranslate nohighlight">\(\Delta_{n {\bf k}}\)</span> およびくりこみ因子 <span class="math notranslate nohighlight">\(Z_{n {\bf k}}\)</span>
+のFermi面上での値をプロットするための,
+<a class="reference external" href="http://fermisurfer.osdn.jp/">FermiSurfer</a> 用データファイル.
+sctk.x で <a class="reference internal" href="#deltaf"><span class="std std-ref">calculation=&quot;deltaf&quot;</span></a> とすると出力される.</p>
+</section>
+</section>
+<section id="id5">
+<h2>計算の種類<a class="headerlink" href="#id5" title="この見出しへのパーマリンク">¶</a></h2>
+<p>パラメーター calculation に次の文字列を入れて、計算の種類を指定する。</p>
+<section id="kel-coulomb">
+<span id="id6"></span><h3>kel : 遮蔽Coulomb/スピン揺らぎ媒介相互作用<a class="headerlink" href="#kel-coulomb" title="この見出しへのパーマリンク">¶</a></h3>
+<p>プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#xml"><span class="std std-ref">{prefix}.xml</span></a></p></li>
+<li><p><a class="reference internal" href="#a2fsave"><span class="std std-ref">{prefix}.a2Fsave</span></a></p></li>
+<li><p><a class="reference internal" href="#wfc"><span class="std std-ref">{prefix}.save/wfc*.dat</span></a></p></li>
+</ul>
+<p>プログラムを実行したディレクトリに, 次のものが作られる.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#veldat"><span class="std std-ref">vel*.dat</span></a></p></li>
+</ul>
+</section>
+<section id="lambda-mu-k">
+<span id="lambdamuk"></span><h3>lambda_mu_k : 軌道ごとの電子フォノンパラメーター<a class="headerlink" href="#lambda-mu-k" title="この見出しへのパーマリンク">¶</a></h3>
+<p>プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#xml"><span class="std std-ref">{prefix}.xml</span></a></p></li>
+<li><p><a class="reference internal" href="#a2fsave"><span class="std std-ref">{prefix}.a2Fsave</span></a></p></li>
+<li><p><a class="reference internal" href="#elphdat"><span class="std std-ref">elph*.dat</span></a></p></li>
+<li><p><a class="reference internal" href="#veldat"><span class="std std-ref">vel*.dat</span></a></p></li>
+</ul>
+<p>プログラムを実行したディレクトリに, 次のものが作られる.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#lambdafrmsf"><span class="std std-ref">lambda.frmsf, mu.frmsf</span></a></p></li>
+</ul>
+</section>
+<section id="scdft-scdft">
+<span id="id7"></span><h3>scdft : ある温度でのSCDFT計算<a class="headerlink" href="#scdft-scdft" title="この見出しへのパーマリンク">¶</a></h3>
+<p>プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#xml"><span class="std std-ref">{prefix}.xml</span></a></p></li>
+<li><p><a class="reference internal" href="#a2fsave"><span class="std std-ref">{prefix}.a2Fsave</span></a></p></li>
+<li><p><a class="reference internal" href="#elphdat"><span class="std std-ref">elph*.dat</span></a></p></li>
+<li><p><a class="reference internal" href="#veldat"><span class="std std-ref">vel*.dat</span></a></p></li>
+</ul>
+<p>プログラムを実行したディレクトリに, 次のものが作られる.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#deltadat"><span class="std std-ref">delta.dat</span></a></p></li>
+</ul>
+</section>
+<section id="scdft-tc-2">
+<span id="scdfttc"></span><h3>scdft_tc : ２分法による転移温度の自動計算<a class="headerlink" href="#scdft-tc-2" title="この見出しへのパーマリンク">¶</a></h3>
+<p>プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#xml"><span class="std std-ref">{prefix}.xml</span></a></p></li>
+<li><p><a class="reference internal" href="#a2fsave"><span class="std std-ref">{prefix}.a2Fsave</span></a></p></li>
+<li><p><a class="reference internal" href="#elphdat"><span class="std std-ref">elph*.dat</span></a></p></li>
+<li><p><a class="reference internal" href="#veldat"><span class="std std-ref">vel*.dat</span></a></p></li>
+</ul>
+<p>プログラムを実行したディレクトリに, 次のものが作られる.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#deltadat"><span class="std std-ref">delta.dat</span></a></p></li>
+</ul>
+</section>
+<section id="qpdos">
+<span id="id8"></span><h3>qpdos : 準粒子状態密度<a class="headerlink" href="#qpdos" title="この見出しへのパーマリンク">¶</a></h3>
+<p>プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#xml"><span class="std std-ref">{prefix}.xml</span></a></p></li>
+<li><p><a class="reference internal" href="#a2fsave"><span class="std std-ref">{prefix}.a2Fsave</span></a></p></li>
+<li><p><a class="reference internal" href="#elphdat"><span class="std std-ref">elph*.dat</span></a></p></li>
+<li><p><a class="reference internal" href="#veldat"><span class="std std-ref">vel*.dat</span></a></p></li>
+<li><p><a class="reference internal" href="#deltadat"><span class="std std-ref">delta.dat</span></a></p></li>
+</ul>
+<p>プログラムを実行したディレクトリに, 次のものが作られる.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#qpdosdat"><span class="std std-ref">qpdos.dat</span></a></p></li>
+</ul>
+</section>
+<section id="deltaf-fermifermisurfer">
+<span id="deltaf"></span><h3>deltaf : Fermi面上でのギャップ関数を計算しFermiSurfer用ファイルを出力する<a class="headerlink" href="#deltaf-fermifermisurfer" title="この見出しへのパーマリンク">¶</a></h3>
+<p>プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#xml"><span class="std std-ref">{prefix}.xml</span></a></p></li>
+<li><p><a class="reference internal" href="#a2fsave"><span class="std std-ref">{prefix}.a2Fsave</span></a></p></li>
+<li><p><a class="reference internal" href="#elphdat"><span class="std std-ref">elph*.dat</span></a></p></li>
+<li><p><a class="reference internal" href="#veldat"><span class="std std-ref">vel*.dat</span></a></p></li>
+<li><p><a class="reference internal" href="#deltadat"><span class="std std-ref">delta.dat</span></a></p></li>
+</ul>
+<p>プログラムを実行したディレクトリに, 次のものが作られる.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#deltafrmsf"><span class="std std-ref">delta.frmsf, Z.frmsf</span></a></p></li>
+</ul>
+</section>
+<section id="ultrasonic">
+<h3>ultrasonic : 超音波吸収係数<a class="headerlink" href="#ultrasonic" title="この見出しへのパーマリンク">¶</a></h3>
+</section>
+</section>
+<section id="twingrid-x">
+<span id="twingrid"></span><h2>twingrid.x<a class="headerlink" href="#twingrid-x" title="この見出しへのパーマリンク">¶</a></h2>
+<p>sctk.x において <a class="reference internal" href="#id6"><span class="std std-ref">calculation=&quot;kel&quot;</span></a> でCoulomb相互作用を計算するときのKohn-Sham軌道の計算(<a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a>)
+において用いる2重 <span class="math notranslate nohighlight">\({\bf k}\)</span> グリッドを生成するスクリプト.</p>
+<section id="id9">
+<h3>使い方<a class="headerlink" href="#id9" title="この見出しへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>bash<span class="w"> </span>PATH/twingrid.x<span class="w"> </span>nk1<span class="w"> </span>nk2<span class="w"> </span>nk3<span class="w"> </span>&gt;&gt;<span class="w"> </span>input_file_for_pw
+</pre></div>
+</div>
+<p><em>nk1</em>, <em>nk2</em>, <em>nk3</em> はそれぞれの逆格子ベクトルの方向の <span class="math notranslate nohighlight">\({\bf k}\)</span> 点分割数.</p>
+</section>
+<section id="id10">
+<h3>標準出力<a class="headerlink" href="#id10" title="この見出しへのパーマリンク">¶</a></h3>
+<p>次のように標準出力される.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">K_POINTS</span> <span class="n">crystal</span>
+<span class="n">Total_number_of_k</span>
+<span class="n">k_vector1</span> <span class="mf">1.0</span>
+<span class="n">k_vector2</span> <span class="mf">1.0</span>
+<span class="n">k_vector3</span> <span class="mf">1.0</span>
+ <span class="p">:</span>
+</pre></div>
+</div>
+<p>これにより,  <span class="math notranslate nohighlight">\(\Gamma\)</span> 点を含むグリッドと,
+そこから半グリッドぶんずらしたグリッド上の <span class="math notranslate nohighlight">\({\bf k}\)</span> 点がセットで生成される.
+上の使い方では,
+この標準出力を <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> の入力ファイルの末尾にリダイレクトしている.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/sctk.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">プログラムの説明</a><ul>
+<li><a class="reference internal" href="#id2">使い方</a></li>
+<li><a class="reference internal" href="#id3">入力ファイル書式</a><ul>
+<li><a class="reference internal" href="#control">ネームリスト CONTROL</a></li>
+<li><a class="reference internal" href="#kel">ネームリスト KEL</a></li>
+<li><a class="reference internal" href="#scdft">ネームリスト SCDFT</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">入出力ファイル</a><ul>
+<li><a class="reference internal" href="#prefix-xml">{prefix}.xml</a></li>
+<li><a class="reference internal" href="#prefix-a2fsave">{prefix}.a2Fsave</a></li>
+<li><a class="reference internal" href="#prefix-save-wfc-dat">{prefix}.save/wfc*.dat</a></li>
+<li><a class="reference internal" href="#vel-dat">vel*.dat</a></li>
+<li><a class="reference internal" href="#elph-dat">elph*.dat</a></li>
+<li><a class="reference internal" href="#lambda-frmsf-mu-frmsf">lambda.frmsf, mu.frmsf</a></li>
+<li><a class="reference internal" href="#delta-dat">delta.dat</a></li>
+<li><a class="reference internal" href="#qpdos-dat">qpdos.dat</a></li>
+<li><a class="reference internal" href="#delta-frmsf-z-frmsf">delta.frmsf, Z.frmsf</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">計算の種類</a><ul>
+<li><a class="reference internal" href="#kel-coulomb">kel : 遮蔽Coulomb/スピン揺らぎ媒介相互作用</a></li>
+<li><a class="reference internal" href="#lambda-mu-k">lambda_mu_k : 軌道ごとの電子フォノンパラメーター</a></li>
+<li><a class="reference internal" href="#scdft-scdft">scdft : ある温度でのSCDFT計算</a></li>
+<li><a class="reference internal" href="#scdft-tc-2">scdft_tc : ２分法による転移温度の自動計算</a></li>
+<li><a class="reference internal" href="#qpdos">qpdos : 準粒子状態密度</a></li>
+<li><a class="reference internal" href="#deltaf-fermifermisurfer">deltaf : Fermi面上でのギャップ関数を計算しFermiSurfer用ファイルを出力する</a></li>
+<li><a class="reference internal" href="#ultrasonic">ultrasonic : 超音波吸収係数</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#twingrid-x">twingrid.x</a><ul>
+<li><a class="reference internal" href="#id9">使い方</a></li>
+<li><a class="reference internal" href="#id10">標準出力</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>前のトピックへ</h4>
+    <p class="topless"><a href="install.html"
+                          title="前の章へ">インストール方法</a></p>
+  </div>
+  <div>
+    <h4>次のトピックへ</h4>
+    <p class="topless"><a href="tutorial.html"
+                          title="次の章へ">チュートリアル</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/program.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="チュートリアル"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="インストール方法"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">プログラムの説明</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Mitsuaki Kawamura.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

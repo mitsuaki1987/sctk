@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Welcome to SuperconductingToolkit&#39;s documentation! &#8212; sctk 1.2.1 ドキュメント</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/translations.js"></script>
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="はじめに" href="overview.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="overview.html" title="はじめに"
+             accesskey="N">次へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">sctk 1.2.1 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to SuperconductingToolkit's documentation!</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="welcome-to-superconductingtoolkit-s-documentation">
+<h1>Welcome to SuperconductingToolkit's documentation!<a class="headerlink" href="#welcome-to-superconductingtoolkit-s-documentation" title="この見出しへのパーマリンク">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">はじめに</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copy.html">GNU General Public License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">インストール方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#id2">要件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#id3">インストール手順</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="program.html">プログラムの説明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="program.html#id2">使い方</a></li>
+<li class="toctree-l2"><a class="reference internal" href="program.html#id3">入力ファイル書式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="program.html#control">ネームリスト CONTROL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#kel">ネームリスト KEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#scdft">ネームリスト SCDFT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="program.html#id4">入出力ファイル</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="program.html#prefix-xml">{prefix}.xml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#prefix-a2fsave">{prefix}.a2Fsave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#prefix-save-wfc-dat">{prefix}.save/wfc*.dat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#vel-dat">vel*.dat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#elph-dat">elph*.dat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#lambda-frmsf-mu-frmsf">lambda.frmsf, mu.frmsf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#delta-dat">delta.dat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#qpdos-dat">qpdos.dat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#delta-frmsf-z-frmsf">delta.frmsf, Z.frmsf</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="program.html#id5">計算の種類</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="program.html#kel-coulomb">kel : 遮蔽Coulomb/スピン揺らぎ媒介相互作用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#lambda-mu-k">lambda_mu_k : 軌道ごとの電子フォノンパラメーター</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#scdft-scdft">scdft : ある温度でのSCDFT計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#scdft-tc-2">scdft_tc : ２分法による転移温度の自動計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#qpdos">qpdos : 準粒子状態密度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#deltaf-fermifermisurfer">deltaf : Fermi面上でのギャップ関数を計算しFermiSurfer用ファイルを出力する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#ultrasonic">ultrasonic : 超音波吸収係数</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="program.html#twingrid-x">twingrid.x</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="program.html#id9">使い方</a></li>
+<li class="toctree-l3"><a class="reference internal" href="program.html#id10">標準出力</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">チュートリアル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#scf">電荷密度のSCF計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#phonon">フォノンおよび電子-フォノン相互作用の計算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#ph">フォノン振動数, 変移ポテンシャルの計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#elph">電子-フォノン相互作用の計算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#coulomb">遮蔽Coulomb/スピン揺らぎ相互作用の計算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#knon-scf">細かいkグリッドでのnon SCF計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#twin">遮蔽Coulomb相互作用計算のための波動関数の計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#id8">遮蔽Coulomb相互作用の計算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#scdftscf">転移温度計算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#id10">その他の解析</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kband.html">波数グリッドおよびバンド範囲の指定について</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kband.html#id2">バンドの範囲</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kband.html#id3">波数グリッド</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">問い合わせ先</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref.html">参考文献</a></li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/sctk.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h4>次のトピックへ</h4>
+    <p class="topless"><a href="overview.html"
+                          title="次の章へ">はじめに</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">クイック検索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="検索" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="overview.html" title="はじめに"
+             >次へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">sctk 1.2.1 ドキュメント</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to SuperconductingToolkit's documentation!</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Mitsuaki Kawamura.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>
