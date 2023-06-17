@@ -3,7 +3,7 @@
 
 プログラムのバグや質問は以下のフォーラムへご投稿ください.
 
-http://osdn.jp/projects/sctk/forums/        
+https://github.com/mitsuaki1987/sctk/issues        
 
 開発に参加したい方は以下の連絡先にて受け付けております.
 
