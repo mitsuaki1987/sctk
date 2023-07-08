@@ -2,4 +2,5 @@
 *.mod
 *.x
 *~
+*.a
 src/sctk_write_hash.f90
