@@ -3,7 +3,7 @@ Contact
 
 Please post bag reports and questions to the forum
 
-http://osdn.jp/projects/sctk/forums/
+https://github.com/mitsuaki1987/sctk/issues
 
 When you want to join us, please contact me as follows.
 

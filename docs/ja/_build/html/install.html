@@ -52,9 +52,18 @@
 <h2>インストール手順<a class="headerlink" href="#id3" title="この見出しへのパーマリンク">¶</a></h2>
 <ol class="arabic">
 <li><p>以下のようにして、<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a> を展開した中でSCTKのリポジトリをクローンする。</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/QEF/q-e.git<span class="w"> </span>-b<span class="w"> </span>qe-6.7MaX-Release
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/QEF/q-e.git
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>q-e
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>96cdd5ac6af9c060be392a95f14dbcbca5c1a890
 $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mitsuaki1987/sctk.git<span class="w"> </span>-b<span class="w"> </span>sctk1.2.1-qe6.7
+$<span class="w"> </span>patch<span class="w"> </span>-p1<span class="w"> </span>&lt;<span class="w"> </span>sctk/patch.diff
+</pre></div>
+</div>
+<p>開発版を試す場合には次のようにする。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/QEF/q-e.git
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>q-e
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>0e7fd34c024bde2ef2545e3aeda2bbfec770d500
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mitsuaki1987/sctk.git<span class="w"> </span>-b<span class="w"> </span>develop
 $<span class="w"> </span>patch<span class="w"> </span>-p1<span class="w"> </span>&lt;<span class="w"> </span>sctk/patch.diff
 </pre></div>
 </div>

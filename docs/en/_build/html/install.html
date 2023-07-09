@@ -51,9 +51,18 @@
 <h2>Installation procedure<a class="headerlink" href="#installation-procedure" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic">
 <li><p>Clone thee source code of <a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>  and SCTK as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/QEF/q-e.git<span class="w"> </span>-b<span class="w"> </span>qe-6.7MaX-Release
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/QEF/q-e.git
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>q-e
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>96cdd5ac6af9c060be392a95f14dbcbca5c1a890
 $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mitsuaki1987/sctk.git<span class="w"> </span>-b<span class="w"> </span>sctk1.2.1-qe6.7
+$<span class="w"> </span>patch<span class="w"> </span>-p1<span class="w"> </span>&lt;<span class="w"> </span>sctk/patch.diff
+</pre></div>
+</div>
+<p>To try the developping version,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/QEF/q-e.git
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>q-e
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>0e7fd34c024bde2ef2545e3aeda2bbfec770d500
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mitsuaki1987/sctk.git<span class="w"> </span>-b<span class="w"> </span>develop
 $<span class="w"> </span>patch<span class="w"> </span>-p1<span class="w"> </span>&lt;<span class="w"> </span>sctk/patch.diff
 </pre></div>
 </div>

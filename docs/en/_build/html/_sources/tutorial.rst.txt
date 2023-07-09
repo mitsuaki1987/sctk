@@ -1,4 +1,4 @@
-.. _FermiSurfer: http://fermisurfer.osdn.jp/
+.. _FermiSurfer: https://mitsuaki1987.github.io/fermisurfer/index.html
 .. _pw.x: file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html
 .. _ph.x: file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html
 .. _QuantumESPRESSO: https://www.quantum-espresso.org/resources/users-manual
