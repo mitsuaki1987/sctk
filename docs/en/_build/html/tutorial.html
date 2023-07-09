@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Tutorial &#8212; sctk 1.2.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Setting of wave-number grid and band range" href="kband.html" />
+    <link rel="prev" title="Reference manual" href="program.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="kband.html" title="Setting of wave-number grid and band range"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="program.html" title="Reference manual"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Tutorial</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">¶</a></h1>
+<p>The following tutorial should be done in <code class="docutils literal notranslate"><span class="pre">SCTK/examples/Al/</span></code>.</p>
+<section id="scf-calculation-of-the-charge-density">
+<span id="scf"></span><h2>SCF calculation of the charge density<a class="headerlink" href="#scf-calculation-of-the-charge-density" title="Permalink to this heading">¶</a></h2>
+<p><strong>Input file</strong>: scf.in</p>
+<p><strong>Program</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span>
+$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">29</span><span class="w"> </span>PATH/pw.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">29</span><span class="w"> </span>-in<span class="w"> </span>scf.in<span class="w"> </span>&gt;<span class="w"> </span>scf.out
+</pre></div>
+</div>
+<p><strong>Important parameters</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>calculation = “scf”</dt><dd><p>Self-consistent calculation is performed with <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a>.</p>
+</dd>
+</dl>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We can perform first whether <a class="reference internal" href="#phonon"><span class="std std-ref">Calculations of phonon and electron-phonon interaction</span></a> or <cite>coulomb</cite> .</p>
+</div>
+</section>
+<section id="calculations-of-phonon-and-electron-phonon-interaction">
+<span id="phonon"></span><h2>Calculations of phonon and electron-phonon interaction<a class="headerlink" href="#calculations-of-phonon-and-electron-phonon-interaction" title="Permalink to this heading">¶</a></h2>
+<section id="calculation-of-phonon-frequency-and-deformation-potential">
+<span id="ph"></span><h3>Calculation of phonon frequency and deformation potential<a class="headerlink" href="#calculation-of-phonon-frequency-and-deformation-potential" title="Permalink to this heading">¶</a></h3>
+<p><strong>Input file</strong>: ph.in</p>
+<p><strong>Program</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">29</span><span class="w"> </span>PATH/ph.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">29</span><span class="w"> </span>-in<span class="w"> </span>ph.in<span class="w"> </span>&gt;<span class="w"> </span>ph.out
+</pre></div>
+</div>
+<p><strong>Important parameters</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>fildvscf = ‘dv’</dt><dd><p>The file name for the deformation potential.
+It will be used in the next step.</p>
+</dd>
+<dt>ldisp = .true.</dt><dd><p>We compute phonons on the uniform <span class="math notranslate nohighlight">\({\bf q}\)</span> grid.</p>
+</dd>
+<dt>lshift_q = .true.</dt><dd><p>We shift the <span class="math notranslate nohighlight">\({\bf q}\)</span> grid for avoiding
+the singularity at <span class="math notranslate nohighlight">\(\Gamma\)</span> point.</p>
+</dd>
+<dt>nq1, nq2, nq3</dt><dd><p>The <span class="math notranslate nohighlight">\(q\)</span> grid.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="calculation-of-electron-phonon-interaction">
+<span id="elph"></span><h3>Calculation of electron-phonon interaction<a class="headerlink" href="#calculation-of-electron-phonon-interaction" title="Permalink to this heading">¶</a></h3>
+<p><strong>Input file</strong>: elph.in</p>
+<p><strong>Program</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">8</span><span class="w"> </span>PATH/ph.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">8</span><span class="w"> </span>-in<span class="w"> </span>epmat.in<span class="w"> </span>&gt;<span class="w"> </span>epmat.out
+</pre></div>
+</div>
+<p><strong>Important parameter</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>electron_phonon = “scdft_input”</dt><dd><p>compute the electron-phonon vertex from the deformation potential and
+the dynamical matrix that are already computed.</p>
+</dd>
+<dt>elph_nbnd_min, elph_nbnd_max</dt><dd><p>Since the electron-phonon interaction between the electronic states
+only in the vicinity of the Fermi surface affect the gap equation,
+we can reduce bands to decrease the numerical cost.
+The upper- and the lower limit of the bands that contain the Fermi level
+can be obtained by a program
+<a class="reference external" href="https://www.quantum-espresso.org/Doc/pp_user_guide/">fermi_velocity.x</a>
+in <a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</section>
+<section id="calculation-of-screened-coulomb-interaction-spin-fluctuation">
+<span id="coulomb"></span><h2>Calculation of screened Coulomb interaction/Spin-fluctuation<a class="headerlink" href="#calculation-of-screened-coulomb-interaction-spin-fluctuation" title="Permalink to this heading">¶</a></h2>
+<section id="non-scf-calculation-with-a-dense-k-grid">
+<span id="dense"></span><h3>Non-SCF calculation with a dense k grid<a class="headerlink" href="#non-scf-calculation-with-a-dense-k-grid" title="Permalink to this heading">¶</a></h3>
+<p><strong>Input file</strong>: nscf.in</p>
+<p><strong>Program</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">32</span><span class="w"> </span>PATH/pw.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">32</span><span class="w"> </span>-in<span class="w"> </span>nscf.in<span class="w"> </span>&gt;<span class="w"> </span>nscf.out
+</pre></div>
+</div>
+<p><strong>Important parameter</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>calculation = “nscf”</dt><dd><p>Perform non self-consistent calculation.</p>
+</dd>
+<dt>la2f = .true.</dt><dd><p>Generate a file pwscf.a2Fsave which contains Kohn-Sham energy.</p>
+</dd>
+<dt>nbnd</dt><dd><p>For the calculating of the polarization function,
+we have to compute some empty states.
+We do not have to include so many empty state
+as the calculation of the insulator.
+Typically, the number of empty states becomes
+the same as the number of occupied states.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="calculation-of-wave-functions-for-the-screened-coulomb-interaction">
+<span id="twin"></span><h3>Calculation of wave functions for the screened Coulomb interaction<a class="headerlink" href="#calculation-of-wave-functions-for-the-screened-coulomb-interaction" title="Permalink to this heading">¶</a></h3>
+<p><strong>Input file</strong>: twin.in</p>
+<p><strong>Program</strong>: <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> (<a class="reference external" href="https://www.quantum-espresso.org/resources/users-manual">QuantumESPRESSO</a>)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>bash<span class="w"> </span>PATH/twingrid.x<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">4</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>twin.in
+$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">32</span><span class="w"> </span>PATH/pw.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">32</span><span class="w"> </span>-in<span class="w"> </span>twin.in<span class="w"> </span>&gt;<span class="w"> </span>twin.out
+</pre></div>
+</div>
+<p><strong>Important parameter</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt>calculation = “bands”</dt><dd><p>Generated <span class="math notranslate nohighlight">\(k\)</span> points by using
+<a class="reference internal" href="program.html#twingrid"><span class="std std-ref">twingrid.x</span></a> and redirect it to the input file as above.
+This <span class="math notranslate nohighlight">\(k\)</span> mesh must be the same as nq1, nq2, and nq3
+in the input of <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PH.html">ph.x</a> for <a class="reference internal" href="#elph"><span class="std std-ref">Calculation of electron-phonon interaction</span></a>.
+Then run <a class="reference external" href="file:///C:/Users/kawamuura/program/qe/qe-dev/PW/Doc/INPUT_PW.html">pw.x</a> with this input file.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="calculation-of-screened-coulomb-interaction">
+<h3>Calculation of screened Coulomb interaction<a class="headerlink" href="#calculation-of-screened-coulomb-interaction" title="Permalink to this heading">¶</a></h3>
+<p><strong>Input file</strong>: sctk.in</p>
+<p><strong>Program</strong>: <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">32</span><span class="w"> </span>PATH/sctk.x<span class="w"> </span>-nk<span class="w"> </span><span class="m">32</span><span class="w"> </span>-in<span class="w"> </span>sctk.in<span class="w"> </span>&gt;<span class="w"> </span>kel.out
+</pre></div>
+</div>
+<p><strong>Important parameters</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt><a class="reference internal" href="program.html#kel"><span class="std std-ref">calculation = “kel”</span></a></dt><dd><p>Calculation of screened Couplmb / spin-fluctuation interaction.</p>
+</dd>
+<dt>nq1, nq2,  nq3</dt><dd><p>They must be the same as the <span class="math notranslate nohighlight">\({\bf k}\)</span> in the previous step.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</section>
+<section id="scdft-scf-calculation">
+<span id="scdftscf"></span><h2>SCDFT SCF calculation<a class="headerlink" href="#scdft-scf-calculation" title="Permalink to this heading">¶</a></h2>
+<p>After all calculation in <a class="reference internal" href="#phonon"><span class="std std-ref">Calculations of phonon and electron-phonon interaction</span></a> and <a class="reference internal" href="#coulomb"><span class="std std-ref">Calculation of screened Coulomb interaction/Spin-fluctuation</span></a> finished,
+we can start SCDFT calculation.</p>
+<p><strong>Input file</strong>: sctk.in (Should be modified)</p>
+<p><strong>Program</strong>: <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">32</span>
+$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">1</span><span class="w"> </span>PATH/sctk.x<span class="w"> </span>&lt;<span class="w"> </span>sctk.in<span class="w"> </span>&gt;<span class="w"> </span>tc.out
+</pre></div>
+</div>
+<p><strong>Important parameters</strong></p>
+<blockquote>
+<div><dl class="simple">
+<dt><a class="reference internal" href="program.html#scdfttc"><span class="std std-ref">calculation = “scdft_tc”</span></a></dt><dd><p>By changing this part, we change the type of calculation.
+Here, we obtain <span class="math notranslate nohighlight">\(T_c\)</span> by the bisection method.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="further-analysis">
+<h2>Further analysis<a class="headerlink" href="#further-analysis" title="Permalink to this heading">¶</a></h2>
+<p>By changing this part, we can perform the following analysis.</p>
+<p><strong>Input file</strong>: sctk.in (Should be modified)</p>
+<p><strong>Program</strong>: <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpiexec<span class="w"> </span>-np<span class="w"> </span><span class="m">1</span><span class="w"> </span>PATH/sctk.x<span class="w"> </span>&lt;<span class="w"> </span>sctk.in
+</pre></div>
+</div>
+<p><strong>Important parameters</strong></p>
+<blockquote>
+<div><p><a class="reference internal" href="program.html#lambdamuk"><span class="std std-ref">calculation = “lambda_mu_k”</span></a></p>
+<blockquote>
+<div><p>Output data for <a class="reference external" href="https://mitsuaki1987.github.io/fermisurfer/index.html">FermiSurfer</a> to plot <span class="math notranslate nohighlight">\(\lambda_{n {\bf {\bf k}}}\)</span>.</p>
+</div></blockquote>
+<dl class="simple">
+<dt><a class="reference internal" href="program.html#scdft"><span class="std std-ref">calculation = “scdft”</span></a></dt><dd><p>Perform SCDFT calculation at a temperature,
+then output a file delta.dat which is used by the following
+post-processes.</p>
+</dd>
+<dt>temp</dt><dd><p>Temperature (Kelvin).
+If this is set to 0 or negative values,
+sctk.x employs the special algorithm for the exact zero Kelvein.</p>
+</dd>
+<dt><a class="reference internal" href="program.html#deltaf"><span class="std std-ref">calculation = “deltaf”</span></a></dt><dd><p>Output data for <a class="reference external" href="https://mitsuaki1987.github.io/fermisurfer/index.html">FermiSurfer</a> to plot <span class="math notranslate nohighlight">\(\Delta_{n {\bf k}}\)</span>.</p>
+</dd>
+<dt><a class="reference internal" href="program.html#qpdos"><span class="std std-ref">calculation = “qpdos”</span></a></dt><dd><p>Quasi particle DOS. It requires long computational time.</p>
+</dd>
+</dl>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is another tutorial in SCTK/examples/MgB2/.
+Please note that in these tutorials, the number of
+<span class="math notranslate nohighlight">\({\bf k}\)</span> points and bands and the pseudopotentials are
+not sufficient for the production level.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/sctk.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#scf-calculation-of-the-charge-density">SCF calculation of the charge density</a></li>
+<li><a class="reference internal" href="#calculations-of-phonon-and-electron-phonon-interaction">Calculations of phonon and electron-phonon interaction</a><ul>
+<li><a class="reference internal" href="#calculation-of-phonon-frequency-and-deformation-potential">Calculation of phonon frequency and deformation potential</a></li>
+<li><a class="reference internal" href="#calculation-of-electron-phonon-interaction">Calculation of electron-phonon interaction</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#calculation-of-screened-coulomb-interaction-spin-fluctuation">Calculation of screened Coulomb interaction/Spin-fluctuation</a><ul>
+<li><a class="reference internal" href="#non-scf-calculation-with-a-dense-k-grid">Non-SCF calculation with a dense k grid</a></li>
+<li><a class="reference internal" href="#calculation-of-wave-functions-for-the-screened-coulomb-interaction">Calculation of wave functions for the screened Coulomb interaction</a></li>
+<li><a class="reference internal" href="#calculation-of-screened-coulomb-interaction">Calculation of screened Coulomb interaction</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scdft-scf-calculation">SCDFT SCF calculation</a></li>
+<li><a class="reference internal" href="#further-analysis">Further analysis</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="program.html"
+                          title="previous chapter">Reference manual</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="kband.html"
+                          title="next chapter">Setting of wave-number grid and band range</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="kband.html" title="Setting of wave-number grid and band range"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="program.html" title="Reference manual"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Tutorial</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Mitsuaki Kawamura.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

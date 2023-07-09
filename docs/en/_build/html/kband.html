@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Setting of wave-number grid and band range &#8212; sctk 1.2.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contact" href="contact.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="contact.html" title="Contact"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Setting of wave-number grid and band range</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="setting-of-wave-number-grid-and-band-range">
+<h1>Setting of wave-number grid and band range<a class="headerlink" href="#setting-of-wave-number-grid-and-band-range" title="Permalink to this heading">¶</a></h1>
+<p>In the calculation with this package,
+there are many kind of the wave-number grid and the band range;
+It may confuse us.
+In this chapter, the relation and the difference between them
+are described.</p>
+<section id="range-of-bands">
+<h2>Range of bands<a class="headerlink" href="#range-of-bands" title="Permalink to this heading">¶</a></h2>
+<ul>
+<li><p>The upper limit in <a class="reference internal" href="tutorial.html#scf"><span class="std std-ref">SCF calculation of the charge density</span></a>, <a class="reference internal" href="tutorial.html#ph"><span class="std std-ref">Calculation of phonon frequency and deformation potential</span></a> : <code class="docutils literal notranslate"><span class="pre">nbnd</span></code>(scf)</p>
+<blockquote>
+<div><p>We should use the number specified automatically by <code class="docutils literal notranslate"><span class="pre">pw.x</span></code>.
+Therefore, we do not have to write explicitly in the input file.</p>
+</div></blockquote>
+</li>
+<li><p>The upper limit in <a class="reference internal" href="tutorial.html#coulomb"><span class="std std-ref">Calculation of screened Coulomb interaction/Spin-fluctuation</span></a>: <code class="docutils literal notranslate"><span class="pre">nbnd</span></code>(<span class="math notranslate nohighlight">\(K^{el}\)</span>)</p>
+<blockquote>
+<div><p>Typically, <code class="docutils literal notranslate"><span class="pre">nbnd</span></code>(<span class="math notranslate nohighlight">\(K^{el}\)</span>) should be roughly the double of <code class="docutils literal notranslate"><span class="pre">nbnd</span></code>(scf).</p>
+<p>The numerical cost of <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a>  is proportional to the square of <code class="docutils literal notranslate"><span class="pre">nbnd</span></code>(<span class="math notranslate nohighlight">\(K^{el}\)</span>).</p>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elph_nbnd_min,</span> <span class="pre">elph_nbnd_max</span></code> in <a class="reference internal" href="tutorial.html#elph"><span class="std std-ref">Calculation of electron-phonon interaction</span></a></p>
+<blockquote>
+<div><p>In almost cases, they are equal to the lower- and the upper limit of bands
+that contain the Fermi level
+(These limit can be obtained by
+<a class="reference external" href="https://www.quantum-espresso.org/Doc/pp_user_guide/">fermi_velocity.x</a> ).
+For materials that have extremely large phonon frequencies,
+this band range must be wider than ordinary cases.</p>
+</div></blockquote>
+</li>
+<li><p>The lower- and the upper- limit for the electron-electron Coulomb term in <a class="reference internal" href="program.html#scdfttc"><span class="std std-ref">scdft_tc : Calculation of transition temperature with bisection method</span></a> : <code class="docutils literal notranslate"><span class="pre">fbee,</span> <span class="pre">lbee</span></code></p>
+<blockquote>
+<div><p>The default value [<code class="docutils literal notranslate"><span class="pre">fbee=1,</span> <span class="pre">lbee=nbnd</span></code>(<span class="math notranslate nohighlight">\(K^{el}\)</span>)] is recommended.
+When we check the convergence about the number of <span class="math notranslate nohighlight">\({\bf k}\)</span> point,
+we reduce them from the default value.</p>
+</div></blockquote>
+</li>
+<li><p>The lower- and the upper limit of bands printed by <a class="reference internal" href="program.html#deltaf"><span class="std std-ref">deltaf : Output FermiSurfer file of gap function</span></a> : <code class="docutils literal notranslate"><span class="pre">fbfs,</span> <span class="pre">lbfs</span></code></p>
+<blockquote>
+<div><p>They are the lower- and the upper limit of bands
+that contain the Fermi level (with non-crossing approximation).
+They are computed automatically.</p>
+</div></blockquote>
+</li>
+</ul>
+<p>The relation of magnitude of these bands becomes as follows:</p>
+<p>1 <span class="math notranslate nohighlight">\(\leq\)</span> <code class="docutils literal notranslate"><span class="pre">fbee</span></code> <span class="math notranslate nohighlight">\(\leq\)</span> <code class="docutils literal notranslate"><span class="pre">elph_nbnd_min</span></code> <span class="math notranslate nohighlight">\(\leq\)</span>
+<code class="docutils literal notranslate"><span class="pre">fbfs</span></code> <span class="math notranslate nohighlight">\(\leq\)</span> <code class="docutils literal notranslate"><span class="pre">lbfs</span></code> <span class="math notranslate nohighlight">\(\leq\)</span> <code class="docutils literal notranslate"><span class="pre">elph_nbnd_max</span></code>
+<span class="math notranslate nohighlight">\(\approx\)</span> <code class="docutils literal notranslate"><span class="pre">nbnd</span></code>(scf) <span class="math notranslate nohighlight">\(\leq\)</span> <code class="docutils literal notranslate"><span class="pre">lbee</span></code> <span class="math notranslate nohighlight">\(\leq\)</span> <code class="docutils literal notranslate"><span class="pre">nbnd</span></code>(<span class="math notranslate nohighlight">\(K^{el}\)</span>)</p>
+</section>
+<section id="wave-number-grid">
+<h2>Wave-number grid<a class="headerlink" href="#wave-number-grid" title="Permalink to this heading">¶</a></h2>
+<ul>
+<li><p>The <span class="math notranslate nohighlight">\({\bf k}\)</span> grid for the electronic state in <a class="reference internal" href="tutorial.html#scf"><span class="std std-ref">SCF calculation of the charge density</span></a>, <a class="reference internal" href="tutorial.html#ph"><span class="std std-ref">Calculation of phonon frequency and deformation potential</span></a></p>
+<blockquote>
+<div><p>It is specified in the input file of <code class="docutils literal notranslate"><span class="pre">pw.x</span></code> as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">K_POINTS</span> <span class="n">automatic</span>
+<span class="p">{</span><span class="n">nk1</span><span class="p">}</span> <span class="p">{</span><span class="n">nk2</span><span class="p">}</span> <span class="p">{</span><span class="n">nk3</span><span class="p">}</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>The numerical cost for <a class="reference internal" href="tutorial.html#scf"><span class="std std-ref">SCF calculation of the charge density</span></a> and <a class="reference internal" href="tutorial.html#ph"><span class="std std-ref">Calculation of phonon frequency and deformation potential</span></a> is proportional to <span class="math notranslate nohighlight">\(N_{\bf k}^{\rm smooth}\)</span>
+(the number of <span class="math notranslate nohighlight">\({\bf k}\)</span> points in this grid).</p>
+</div></blockquote>
+</li>
+<li><p>The <span class="math notranslate nohighlight">\({\bf q}\)</span> grid for <a class="reference internal" href="tutorial.html#phonon"><span class="std std-ref">Calculations of phonon and electron-phonon interaction</span></a>, the <span class="math notranslate nohighlight">\({\bf k}\)</span> grid for <a class="reference internal" href="tutorial.html#twin"><span class="std std-ref">Calculation of wave functions for the screened Coulomb interaction</span></a></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">nq1,</span> <span class="pre">nq2,</span> <span class="pre">nq3</span></code> in the input of <code class="docutils literal notranslate"><span class="pre">ph.x</span></code>,
+arguments of <a class="reference internal" href="program.html#twingrid"><span class="std std-ref">twingrid.x</span></a>, and
+<code class="docutils literal notranslate"><span class="pre">nk1,</span> <span class="pre">nk2,</span> <span class="pre">nk3</span></code> in the input of <a class="reference internal" href="tutorial.html#elph"><span class="std std-ref">Calculation of electron-phonon interaction</span></a> must be the same.</p>
+<p>The <span class="math notranslate nohighlight">\(N_{\bf q}\)</span> (the number of <span class="math notranslate nohighlight">\({\bf q}\)</span> in this grid) dependence of
+each program becomes as follows:</p>
+<ul class="simple">
+<li><p>The numerical cost of <code class="docutils literal notranslate"><span class="pre">pw.x</span></code> in <a class="reference internal" href="tutorial.html#twin"><span class="std std-ref">Calculation of wave functions for the screened Coulomb interaction</span></a> is proportional to <span class="math notranslate nohighlight">\(N_{\bf q}\)</span>.</p></li>
+<li><p>The numerical cost for all <span class="math notranslate nohighlight">\({\bf q}\)</span> in <a class="reference internal" href="tutorial.html#ph"><span class="std std-ref">Calculation of phonon frequency and deformation potential</span></a> is proportional to <span class="math notranslate nohighlight">\(N_{\bf q}\)</span>.</p></li>
+<li><p>The numerical cost for all <span class="math notranslate nohighlight">\({\bf q}\)</span> in <a class="reference internal" href="tutorial.html#elph"><span class="std std-ref">Calculation of electron-phonon interaction</span></a> is proportional to <span class="math notranslate nohighlight">\(N_{\bf q}^2\)</span>.</p></li>
+<li><p>The numerical cost for all <span class="math notranslate nohighlight">\({\bf q}\)</span> in <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a> is proportional to <span class="math notranslate nohighlight">\(N_{\bf q}^2\)</span>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>The <span class="math notranslate nohighlight">\({\bf k}\)</span> grid in <a class="reference internal" href="tutorial.html#dense"><span class="std std-ref">Non-SCF calculation with a dense k grid</span></a> <a class="reference internal" href="ref.html#ref"><span class="std std-ref">[1]</span></a></p>
+<blockquote>
+<div><p>In this calculation, the <span class="math notranslate nohighlight">\({\bf k}\)</span> grid should be as dense as that for the calculation
+of the density of states.
+The <span class="math notranslate nohighlight">\(N_{\bf k}^{\rm dense}\)</span> (the number of <span class="math notranslate nohighlight">\({\bf k}\)</span> in this grid) dependence of
+each program becomes as follows:</p>
+<ul class="simple">
+<li><p>Numerical costs for <a class="reference internal" href="program.html#scdft"><span class="std std-ref">scdft : SCDFT calculation at specific temperature</span></a> and <a class="reference internal" href="program.html#sctk"><span class="std std-ref">sctk.x</span></a> are not so affected by <span class="math notranslate nohighlight">\(N_{\bf k}^{\rm dense}\)</span>.</p></li>
+<li><p>The numerical cost of <a class="reference internal" href="program.html#deltaf"><span class="std std-ref">deltaf : Output FermiSurfer file of gap function</span></a> is proportional to <span class="math notranslate nohighlight">\(N_{\bf k}^{\rm dense}\)</span>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>The relation of these <span class="math notranslate nohighlight">\({\bf k}\)</span> grid becomes as follows:</p>
+<p><span class="math notranslate nohighlight">\(N_{\bf q} \leq N_{\bf k}^{\rm smooth} \leq N_{\bf k}^{\rm dense}\)</span></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/sctk.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Setting of wave-number grid and band range</a><ul>
+<li><a class="reference internal" href="#range-of-bands">Range of bands</a></li>
+<li><a class="reference internal" href="#wave-number-grid">Wave-number grid</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="tutorial.html"
+                          title="previous chapter">Tutorial</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="contact.html"
+                          title="next chapter">Contact</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kband.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="contact.html" title="Contact"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">sctk 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Setting of wave-number grid and band range</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Mitsuaki Kawamura.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>
