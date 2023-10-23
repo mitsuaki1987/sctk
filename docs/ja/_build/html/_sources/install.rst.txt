@@ -21,13 +21,14 @@
       $ git clone https://github.com/mitsuaki1987/sctk.git -b sctk1.2.1-qe6.7
       $ patch -p1 < sctk/patch.diff
 
-   開発版を試す場合には次のようにする。
+   開発版(developブランチ)を試す場合は次のようにする。
+   対応するqe本体のコミットについては https://github.com/mitsuaki1987/sctk/blob/develop/readme.md を参照
 
    .. code-block:: bash
 
       $ git clone https://gitlab.com/QEF/q-e.git
       $ cd q-e
-      $ git checkout 0e7fd34c024bde2ef2545e3aeda2bbfec770d500
+      $ git checkout コミット番号は https://github.com/mitsuaki1987/sctk/blob/develop/readme.md を参照
       $ git clone https://github.com/mitsuaki1987/sctk.git -b develop
       $ patch -p1 < sctk/patch.diff
       
