@@ -21,13 +21,14 @@ Installation procedure
       $ git clone https://github.com/mitsuaki1987/sctk.git -b sctk1.2.1-qe6.7
       $ patch -p1 < sctk/patch.diff
 
-   To try the developping version, 
+   To try the developping version, the corresponding original QE hash can be seen
+   at https://github.com/mitsuaki1987/sctk/blob/develop/readme.md  
 
    .. code-block:: bash
 
       $ git clone https://gitlab.com/QEF/q-e.git
       $ cd q-e
-      $ git checkout 0e7fd34c024bde2ef2545e3aeda2bbfec770d500
+      $ git checkout THE_HASH_CAN_BE_SEEN_AT https://github.com/mitsuaki1987/sctk/blob/develop/readme.md
       $ git clone https://github.com/mitsuaki1987/sctk.git -b develop
       $ patch -p1 < sctk/patch.diff
 
