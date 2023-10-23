@@ -346,7 +346,6 @@ SUBROUTINE make_scrn()
   USE fft_scalar, ONLY : cfft3d
   USE noncollin_module, ONLY : npol
   USE exx, ONLY : dfftt
-  USE us_exx, ONLY : addusxx_r
   USE mp, ONLY : mp_circular_shift_left, mp_sum, mp_barrier, mp_waitall
   USE mp_world, ONLY : world_comm
   USE io_global, ONLY : stdout
@@ -501,7 +500,6 @@ SUBROUTINE make_Kel()
   USE mp, ONLY : mp_sum, mp_circular_shift_left, mp_barrier, mp_waitall
   USE fft_scalar, ONLY : cfft3d
   USE noncollin_module, ONLY : npol
-  USE us_exx, ONLY : addusxx_r
   USE exx, ONLY : dfftt
   USE io_global, ONLY : stdout
   USE uspp, ONLY : nkb, okvan
@@ -758,7 +756,6 @@ SUBROUTINE calc_rhog(npol2, ibnd, rho1)
   USE fft_scalar, ONLY : cfft3d
   USE noncollin_module, ONLY : npol
   USE exx, ONLY : dfftt
-  USE us_exx, ONLY : addusxx_r
   USE uspp, ONLY : nkb, okvan
   !
   USE sctk_val, ONLY : gindx, ngv, wfcq, becwfcq, nqbz, nb_max, nb
@@ -813,7 +810,7 @@ SUBROUTINE calc_rhog(npol2, ibnd, rho1)
         !
         rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd, ipol, ik, 1)) &
         &                       * wfcq(1:dfftt%nnr, jbnd, ipol, ik, 2) / omega
-        IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd, ipol, ik, 1), &
+        IF(okvan) CALL addus_kel(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd, ipol, ik, 1), &
         &                                           becwfcq(1:nkb, jbnd, ipol, ik, 2))
         rho0(1:dfftt%nnr, jbnd_ik,1) = rho0(1:dfftt%nnr, jbnd_ik,1) + rho4(1:dfftt%nnr) * omega
         !
@@ -821,20 +818,20 @@ SUBROUTINE calc_rhog(npol2, ibnd, rho1)
            !
            rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd,   ipol, ik, 1)) &
            &                       * wfcq(1:dfftt%nnr, jbnd, 3-ipol, ik, 2) / omega
-           IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd,   ipol, ik, 1), &
+           IF(okvan) CALL addus_kel(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd,   ipol, ik, 1), &
            &                                           becwfcq(1:nkb, jbnd, 3-ipol, ik, 2))
            rho0(1:dfftt%nnr, jbnd_ik,2) = rho0(1:dfftt%nnr, jbnd_ik,2) + rho4(1:dfftt%nnr) * omega
            !
            rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd,   ipol, ik, 1)) &
            &                       * wfcq(1:dfftt%nnr, jbnd, 3-ipol, ik, 2) / omega
-           IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd,   ipol, ik, 1), &
+           IF(okvan) CALL addus_kel(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd,   ipol, ik, 1), &
            &                                           becwfcq(1:nkb, jbnd, 3-ipol, ik, 2))
            rho0(1:dfftt%nnr, jbnd_ik,3) = rho0(1:dfftt%nnr, jbnd_ik,3) &
            &                   + rho4(1:dfftt%nnr) * REAL(3-2*ipol, dp) * omega
            !
            rho4(1:dfftt%nnr) = CONJG(wfcq(1:dfftt%nnr, ibnd, ipol, ik, 1)) &
            &                       * wfcq(1:dfftt%nnr, jbnd, ipol, ik, 2) / omega
-           IF(okvan) CALL addusxx_r(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd, ipol, ik, 1), &
+           IF(okvan) CALL addus_kel(rho4(1:dfftt%nnr), becwfcq(1:nkb, ibnd, ipol, ik, 1), &
            &                                           becwfcq(1:nkb, jbnd, ipol, ik, 2))
            rho0(1:dfftt%nnr, jbnd_ik,4) = rho0(1:dfftt%nnr, jbnd_ik,4) &
            &                   + rho4(1:dfftt%nnr) * REAL(3-2*ipol, dp) * omega
@@ -870,6 +867,68 @@ SUBROUTINE calc_rhog(npol2, ibnd, rho1)
   DEALLOCATE(rho0)
   !
 END SUBROUTINE calc_rhog
+  !
+  !
+  !------------------------------------------------------------------------
+SUBROUTINE addus_kel( rho, becphi, becpsi )
+   !------------------------------------------------------------------------
+   !! This routine adds to the two wavefunctions density (in real space) 
+   !! the part that is due to the US augmentation.  
+   !! NOTE: the density in this case is NOT real and NOT normalized to 1, 
+   !!       except when (bec-)\(\text{phi}\) and (bec-)\(\text{psi}\) are equal,
+   !!       or with gamma tricks.
+   !
+   !! With gamma tricks: input rho must contain contributions from band 1
+   !! in real part, from band 2 in imaginary part. Call routine twice:
+   !
+   !! * with \(\text{becphi}=\langle\beta|\phi(1)\rangle\) (real);
+   !! * then with \(\text{becphi}=-i\langle\beta|\phi(2)\rangle\) (imaginary).
+   !
+   USE kinds,            ONLY : DP
+   USE ions_base,        ONLY : nat, ityp
+   USE uspp,             ONLY : nkb, ijtoh, ofsbeta
+   USE uspp_param,       ONLY : upf, nh
+   USE realus,           ONLY : tabxx
+   !
+   IMPLICIT NONE
+   !
+   COMPLEX(DP), INTENT(INOUT) :: rho(:)
+   !! charge density
+   COMPLEX(DP), INTENT(IN) :: becphi(nkb)
+   !! see main comment
+   COMPLEX(DP), INTENT(IN) :: becpsi(nkb)
+   !! see main comment
+   !
+   ! ... local variables
+   !
+   INTEGER :: ia, nt, ir, irb, ih, jh, mbia
+   INTEGER :: ikb, jkb
+   !
+   DO ia = 1, nat
+     !
+     mbia = tabxx(ia)%maxbox
+     IF ( mbia == 0 ) CYCLE
+     !
+     nt = ityp(ia)
+     IF ( .NOT. upf(nt)%tvanp ) CYCLE
+     !
+     DO ih = 1, nh(nt)
+       DO jh = 1, nh(nt)
+         ikb = ofsbeta(ia) + ih
+         jkb = ofsbeta(ia) + jh
+         DO ir = 1, mbia
+           irb = tabxx(ia)%box(ir)
+           rho(irb) = rho(irb) + tabxx(ia)%qr(ir,ijtoh(ih,jh,nt)) &
+                                 *CONJG(becphi(ikb))*becpsi(jkb)
+         ENDDO
+       ENDDO
+     ENDDO
+     !
+   ENDDO
+   !
+   RETURN
+   !
+ END SUBROUTINE addus_kel
 !>
 !>
 !>

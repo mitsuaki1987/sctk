@@ -1,6 +1,6 @@
 &CONTROL
  calculation = 'scf'
-pseudo_dir = "../../../pseudo/"
+pseudo_dir = "./"
 /
 &SYSTEM
        ibrav = 0
