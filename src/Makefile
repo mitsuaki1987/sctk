@@ -41,7 +41,7 @@ PPOBJS = ../../PP/src/libpp.a
 QEMODS = $(BASEMODS)
 TLDEPS= pw ph pp
 
-all : tldeps libs-sctk sctk.x twingrid.x nesting_proj.x
+all : tldeps libs-sctk sctk.x twingrid.x nesting_proj.x nesting.x
 
 libs-sctk : libsctk.a
 
@@ -59,7 +59,7 @@ nesting_proj.x : nesting_proj.o $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJ
 	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
 
 nesting.x : nesting.o $(MODULES) $(PPOBJS)
-	$(LD) $(LDFLAGS) -o $@ nesting.o $(PPOBJS) $(MODULES) $(QELIBS)
+	$(LD) $(LDFLAGS) -o $@ nesting.o $(PPOBJS) $(PWOBJS) $(QEMODS) $(LIBOBJS) $(QELIBS)
 	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
 
 twingrid.x : twingrid.sh
