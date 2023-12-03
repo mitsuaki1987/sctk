@@ -76,7 +76,7 @@ SUBROUTINE broyden_gapeq(lout_delta,dabs)
      !
      rhs0(1:ngap,1:2) = rhs(1:ngap,1:2)
      CALL gapeq_rhs(rhs)
-     res = ddot(ngap, rhs, 1, rhs, 1)
+     res = ddot(ngap * 2, rhs, 1, rhs, 1)
      res = SQRT(res) / REAL(ngap, dp)
      !
      ! $$$$$  Information of conversience  $$$$$
@@ -115,17 +115,17 @@ SUBROUTINE broyden_gapeq(lout_delta,dabs)
      jacob1(1:ngap,1:2,itr) = - alpha * drhs(1:ngap,1:2)
      DO jtr = 1, itr - 1
         jacob1(1:ngap,1:2,itr) = jacob1(1:ngap,1:2,itr) - jacob1(1:ngap,1:2,jtr) &
-        &          * ddot(ngap, jacob2(1:ngap,1:2,jtr), 1, drhs(1:ngap,1:2), 1)
+        &          * ddot(ngap * 2, jacob2(1:ngap,1:2,jtr), 1, drhs(1:ngap,1:2), 1)
      END DO
      jacob1(1:ngap,1:2,itr) = dd(1:ngap,1:2) + jacob1(1:ngap,1:2,itr)
-     jacob2(1:ngap,1:2,itr) = drhs(1:ngap,1:2) / ddot(ngap, drhs(1:ngap,1:2), 1, drhs(1:ngap,1:2), 1)
+     jacob2(1:ngap,1:2,itr) = drhs(1:ngap,1:2) / ddot(ngap*2, drhs(1:ngap,1:2), 1, drhs(1:ngap,1:2), 1)
      !
      ! Compute dd with new Jacobian & rhs
      !
      dd(1:ngap,1:2) = - alpha * rhs(1:ngap,1:2)
      DO jtr = 1, itr
         dd(1:ngap,1:2) = dd(1:ngap,1:2) - jacob1(1:ngap,1:2,jtr) &
-        &        * ddot(ngap, jacob2(1:ngap,1:2,jtr), 1, rhs(1:ngap,1:2), 1)
+        &        * ddot(ngap*2, jacob2(1:ngap,1:2,jtr), 1, rhs(1:ngap,1:2), 1)
      END DO
      !
   END DO ! itr

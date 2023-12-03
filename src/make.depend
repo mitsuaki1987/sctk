@@ -62,6 +62,7 @@ sctk_coulomb.o : ../../Modules/cell_base.o
 sctk_coulomb.o : ../../Modules/constants.o
 sctk_coulomb.o : ../../Modules/io_files.o
 sctk_coulomb.o : ../../Modules/io_global.o
+sctk_coulomb.o : ../../Modules/ions_base.o
 sctk_coulomb.o : ../../Modules/kind.o
 sctk_coulomb.o : ../../Modules/mp_world.o
 sctk_coulomb.o : ../../Modules/noncol.o
@@ -71,11 +72,12 @@ sctk_coulomb.o : ../../PHonon/PH/phcom.o
 sctk_coulomb.o : ../../PP/src/fermisurfer_common.o
 sctk_coulomb.o : ../../PW/src/exx.o
 sctk_coulomb.o : ../../PW/src/pwcom.o
+sctk_coulomb.o : ../../PW/src/realus.o
 sctk_coulomb.o : ../../PW/src/start_k.o
 sctk_coulomb.o : ../../PW/src/tetra.o
-sctk_coulomb.o : ../../PW/src/us_exx.o
 sctk_coulomb.o : ../../UtilXlib/mp.o
 sctk_coulomb.o : ../../upflib/uspp.o
+sctk_coulomb.o : ../../upflib/uspp_param.o
 sctk_coulomb.o : sctk_cnt_dsp.o
 sctk_coulomb.o : sctk_tetra.o
 sctk_coulomb.o : sctk_val.o
