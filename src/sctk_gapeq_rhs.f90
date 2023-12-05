@@ -90,7 +90,7 @@ END SUBROUTINE make_effint
 !
 ! Make RHS vector for linear probrem.
 !
-SUBROUTINE gapeq_rhs(veco)
+SUBROUTINE gapeq_rhs(delta,res)
   !
   USE kinds, ONLY : DP
   USE io_global, ONLY : stdout
@@ -98,12 +98,13 @@ SUBROUTINE gapeq_rhs(veco)
   USE mp, ONLY : mp_sum
   USE constants, ONLY : RYTOEV
   !
-  USE sctk_val, ONLY : beta, zero_kelvin, delta, dk, effint, &
+  USE sctk_val, ONLY : beta, zero_kelvin, dk, effint, &
   &                    ngap, ngap1, ngap2, xi, xic, Z
   !
   IMPLICIT NONE
   !
-  REAL(dp),INTENT(OUT) :: veco(ngap,2)
+  REAL(dp),INTENT(in)  :: delta(ngap,2)
+  REAL(dp),INTENT(OUT) :: res(ngap,2)
   !
   INTEGER :: igap, ngap10, ngap11, nh
   REAL(dp) :: chi(ngap,2), dosh, Kh, dlth, xmax
@@ -112,7 +113,7 @@ SUBROUTINE gapeq_rhs(veco)
   !
   CALL divide(world_comm, ngap1, ngap10, ngap11)
   !
-  veco(1:ngap,1:2) = 0.0_dp
+  res(1:ngap,1:2) = 0.0_dp
   chi(1:ngap,1:2) = 0.0_dp
   !
   IF(zero_kelvin) THEN
@@ -130,10 +131,10 @@ SUBROUTINE gapeq_rhs(veco)
   &              / SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2)
   !
   CALL dgemv("T", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,1), ngap2, &
-  &    chi(1:ngap2,2), 1, 1.0_dp, veco(ngap10:ngap11,1), 1)
+  &    chi(1:ngap2,2), 1, 1.0_dp, res(ngap10:ngap11,1), 1)
   !
   CALL dgemv("N", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,2), ngap2, &
-  &    chi(ngap10:ngap11,1), 1, 1.0_dp, veco(1:ngap2,2), 1)
+  &    chi(ngap10:ngap11,1), 1, 1.0_dp, res(1:ngap2,2), 1)
   !
   ! High energy region
   !
@@ -151,12 +152,12 @@ SUBROUTINE gapeq_rhs(veco)
      WRITE(stdout,'(9x,"Extrapol 1 : ",e12.5)') dlth / xic * RYTOEV * 1.0e3_dp
      !
      !$OMP PARALLEL DEFAULT(NONE) &
-     !$OMP & SHARED(veco,ngap2,effint,ngap10,ngap11,xi,xic,xmax,nh,dosh,dlth) &
+     !$OMP & SHARED(res,ngap2,effint,ngap10,ngap11,xi,xic,xmax,nh,dosh,dlth) &
      !$OMP & PRIVATE(igap,Kh)
      !$OMP DO
      DO igap = 1, ngap2
         Kh = SUM(effint(igap,ngap10:ngap11,2), xi(ngap10:ngap11,1) > xic) / REAL(nh, dp)
-        veco(igap,2) = veco(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
+        res(igap,2) = res(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
      END DO
      !$OMP END DO
      !$OMP END PARALLEL
@@ -173,21 +174,21 @@ SUBROUTINE gapeq_rhs(veco)
      WRITE(stdout,'(9x,"Extrapol 2 : ",e12.5)') dlth / xic * RYTOEV * 1.0e3_dp
      !
      !$OMP PARALLEL DEFAULT(NONE) &
-     !$OMP & SHARED(veco,ngap2,effint,ngap10,ngap11,xi,xic,xmax,nh,dosh,dlth) &
+     !$OMP & SHARED(res,ngap2,effint,ngap10,ngap11,xi,xic,xmax,nh,dosh,dlth) &
      !$OMP & PRIVATE(igap,Kh)
      !$OMP DO
      DO igap = ngap10, ngap11
         Kh = SUM(effint(1:ngap2,igap,1), xi(1:ngap2,2) > xic) / REAL(nh, dp)
-        veco(igap,2) = veco(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
+        res(igap,2) = res(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
      END DO
      !$OMP END DO
      !$OMP END PARALLEL
      !
   END IF ! (xic > 0)
   !
-  CALL mp_sum( veco, world_comm )
+  CALL mp_sum( res, world_comm )
   !
-  veco(1:ngap,1:2) = delta(1:ngap,1:2) + veco(1:ngap,1:2) / (1.0_dp + Z(1:ngap,1:2)) 
+  res(1:ngap,1:2) = - res(1:ngap,1:2) / (1.0_dp + Z(1:ngap,1:2)) - delta(1:ngap,1:2)
   !
   CALL stop_clock("gapeq_rhs")
   !
