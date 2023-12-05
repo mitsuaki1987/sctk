@@ -95,6 +95,8 @@ sctk_dmuxc.o : ../../XClib/qe_drivers_lda_lsda.o
 sctk_dmuxc.o : ../../XClib/xc_lib.o
 sctk_dmuxc.o : sctk_invert.o
 sctk_dmuxc.o : sctk_val.o
+sctk_eliashberg.o : ../../Modules/constants.o
+sctk_eliashberg.o : ../../Modules/kind.o
 sctk_gapeq_rhs.o : ../../Modules/constants.o
 sctk_gapeq_rhs.o : ../../Modules/io_global.o
 sctk_gapeq_rhs.o : ../../Modules/kind.o

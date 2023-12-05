@@ -11,22 +11,26 @@ MODFLAGS= $(BASEMOD_FLAGS) \
           $(MOD_FLAG)../../PHonon/PH $(MOD_FLAG).
 
 SCTKOBJS = \
+nesting.o \
+nesting_proj.o \
 sctk_broyden.o \
-sctk_cnt_dsp.o \
 sctk_clock.o \
+sctk_cnt_dsp.o \
 sctk_coulomb.o \
 sctk_dmuxc.o \
+sctk_eliashberg.o \
 sctk_gapeq_rhs.o \
 sctk_gauss_legendre.o \
 sctk_ini_delta.o \
 sctk_invert.o \
 sctk_io_delta.o \
 sctk_kernel_weight.o \
+sctk_main.o \
 sctk_qpdos.o \
 sctk_read_file.o \
 sctk_rotate_kernel.o \
-sctk_stdin.o \
 sctk_spinfluc.o \
+sctk_stdin.o \
 sctk_tetra.o \
 sctk_usonic.o \
 sctk_val.o \
@@ -41,7 +45,7 @@ PPOBJS = ../../PP/src/libpp.a
 QEMODS = $(BASEMODS)
 TLDEPS= pw ph pp
 
-all : tldeps libs-sctk sctk.x twingrid.x nesting_proj.x nesting.x
+all : tldeps libs-sctk sctk.x twingrid.x nesting_proj.x nesting.x sctk_eliashberg.x 
 
 libs-sctk : libsctk.a
 
@@ -50,6 +54,11 @@ hash:
 
 sctk.x : sctk_main.o libsctk.a $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
 	$(LD) $(LDFLAGS) -o $@ sctk_main.o libsctk.a \
+		 $(PPOBJS) $(PHOBJS) $(LRMODS) $(PWOBJS) $(QEMODS) $(QELIBS)
+	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
+
+sctk_eliashberg.x : sctk_eliashberg.o libsctk.a $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
+	$(LD) $(LDFLAGS) -o $@ sctk_eliashberg.o libsctk.a \
 		 $(PPOBJS) $(PHOBJS) $(LRMODS) $(PWOBJS) $(QEMODS) $(QELIBS)
 	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
 
