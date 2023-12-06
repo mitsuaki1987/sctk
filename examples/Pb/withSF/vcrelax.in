@@ -1,0 +1,27 @@
+&CONTROL
+ calculation = 'vc-relax'
+pseudo_dir = "./"
+/
+&SYSTEM
+       ibrav = 2
+       celldm(1) = 9.5193932646
+         nat = 1
+        ntyp = 1
+     ecutwfc = 35.0
+!     ecutrho = 280.0
+ occupations = 'tetrahedra_opt'
+/
+&ELECTRONS
+ mixing_beta = 0.3
+ conv_thr = 1.000000e-10
+/
+&IONS
+/
+&CELL
+/
+ATOMIC_SPECIES
+ Pb 207.2 Pb_ONCV_PBE-1.2.upf
+ATOMIC_POSITIONS crystal
+ Pb 0.000000 0.000000 0.000000
+K_POINTS automatic
+ 16 16 16 0 0 0
