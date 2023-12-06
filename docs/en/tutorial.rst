@@ -70,7 +70,7 @@ Calculation of phonon frequency and deformation potential
 Calculation of electron-phonon interaction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Input file**: elph.in
+**Input file**: epmat.in
 
 **Program**: ph.x_ (QuantumESPRESSO_)
 
