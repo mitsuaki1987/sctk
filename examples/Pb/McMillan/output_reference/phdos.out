@@ -1,0 +1,51 @@
+
+     Program MATDYN v.6.7GPU starts on 29Nov2023 at 21:33:24 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on       1 processor cores
+     Number of MPI processes:                 1
+     Threads/MPI process:                     1
+
+     MPI processes distributed on     1 nodes
+ mass for atomic type   1 not given; uses mass from file ifc.dat                                                                                                                                                                                                                                                         
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00068137021040701347
+     Message from routine matdyn:
+     Z* not found in file ifc.dat, TO-LO splitting at q=0 will be absent!
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+Norm of the difference between old and new effective charges:    0.00000000000000000000
+Norm of the difference between old and new force-constants:   0.00445717074314676016
+ 
+     MATDYN       :     53.69s CPU     59.22s WALL
+
+ 
+   This run was terminated on:  21:34:24  29Nov2023            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

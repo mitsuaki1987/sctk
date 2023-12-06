@@ -70,7 +70,7 @@ Calculation of phonon frequency and deformation potential
 Calculation of electron-phonon interaction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Input file**: elph.in
+**Input file**: epmat.in
 
 **Program**: ph.x_ (QuantumESPRESSO_)
 
@@ -232,4 +232,6 @@ By changing this part, we can perform the following analysis.
    There is another tutorial in SCTK/examples/MgB2/.
    Please note that in these tutorials, the number of
    :math:`{\bf k}` points and bands and the pseudopotentials are
-   not sufficient for the production level.
+   not sufficient for the production level. 
+
+New: user-contributed examples of Pb with production-level parameters are provided in SCTK/examples/Pb. Large computing resources are needed for running these contributions.
