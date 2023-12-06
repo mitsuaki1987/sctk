@@ -1,0 +1,16 @@
+Electron-phonon matrix
+&INPUTPH
+        lshift_q = .true.
+           ldisp = .true.
+      search_sym = .false.
+             nq1 = 6
+             nq2 = 6
+             nq3 = 6
+        fildvscf = 'dv'
+ electron_phonon = 'scdft_input'
+             nk1 = 6
+             nk2 = 6
+             nk3 = 6
+   elph_nbnd_min = 7
+   elph_nbnd_max = 8
+/
