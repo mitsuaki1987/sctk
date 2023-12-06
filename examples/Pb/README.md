@@ -20,24 +20,22 @@ The order for running the files:
 
 SCDFT:
 
-1. vcrelax.in   (pw.x)
-2. scf.in       (pw.x)
-3. ph.in        (ph.x)
-4. epmat.in     (ph.x)
-5. nscf.in      (pw.x)
-6. twin.in      (pw.x)
-7. kel.in       (sctk.x)
-8. tc.in        (sctk.x)
+1. scf.in       (pw.x)
+2. ph.in        (ph.x)
+3. epmat.in     (ph.x)
+4. nscf.in      (pw.x)
+5. twin.in      (pw.x)
+6. kel.in       (sctk.x)
+7. tc.in        (sctk.x)
 
 McMillan:
 
-1. vcrelax.in
-2. scf.in
-3. ph.in                     ---> steps 1-3 is identical with SCDFT.
-4. elph.in
-5. epmat.in
-6. q2r.in        (q2r.x)
-7. disp.in       (matdyn.x)
-8. phdos.in      (matdyn.x)  ---> this produces the file 'lambda' containing the McMillan parameters.
+1. scf.in
+2. ph.in                     ---> steps 1-3 is identical with SCDFT.
+3. elph.in
+4. epmat.in
+5. q2r.in        (q2r.x)
+6. disp.in       (matdyn.x)
+7. phdos.in      (matdyn.x)  ---> this produces the file 'lambda' containing the McMillan parameters.
 
 In addition, the vfermi.in can be run optionally after step 2, using scf.in as input to fermi_velocity.x to find the bands that contain the Fermi surface for the input of epmat.in
