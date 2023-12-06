@@ -31,11 +31,11 @@ SCDFT:
 McMillan:
 
 1. scf.in
-2. ph.in                     ---> steps 1-3 is identical with SCDFT.
-3. elph.in
+2. ph.in                     ---> steps 1-2 is identical with SCDFT.
+3. elph.in       (ph.x)
 4. epmat.in
 5. q2r.in        (q2r.x)
 6. disp.in       (matdyn.x)
 7. phdos.in      (matdyn.x)  ---> this produces the file 'lambda' containing the McMillan parameters.
 
-In addition, the vfermi.in can be run optionally after step 2, using scf.in as input to fermi_velocity.x to find the bands that contain the Fermi surface for the input of epmat.in
+In addition, the vfermi.in can be run optionally after step 1, using scf.in as input to fermi_velocity.x to find the bands that contain the Fermi surface for the input of epmat.in
