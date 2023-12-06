@@ -13,14 +13,34 @@ CONTAINS
 !>
 !>
 !>
-SUBROUTINE compute_dabs(lout,dabs)
+SUBROUTINE output_Zcp(iter,Zcp)
+  !
+  USE kinds, ONLY : dp
+  USE sctk_val, ONLY: nmf, mf
+  !
+  INTEGER,INTENT(IN) :: iter
+  REAL(DP),INTENT(IN) :: Zcp(nmf,3)
+  !
+  INTEGER :: imf
+  !
+  DO imf = 1, nmf
+    WRITE(200,*) iter, mf(imf), Zcp(imf,1), Zcp(imf,2), Zcp(imf,3)
+  END DO
+  WRITE(200,*) ""
+  !
+END SUBROUTINE output_Zcp
+!>
+!>
+!>
+SUBROUTINE compute_dabs(lout,delta,dabs)
   !
   USE kinds, ONLY : DP
   USE io_global, ONLY : stdout
   USE constants, ONLY : RYTOEV
-  USE sctk_val, ONLY : delta, dk, emin, ngap, ngap1, ngap2, xi
+  USE sctk_val, ONLY : dk, emin, ngap, ngap1, ngap2, xi
   !
   LOGICAL,INTENT(IN) :: lout
+  REAL(DP),INTENT(INOUT) :: delta(ngap,2)
   REAL(dp),INTENT(OUT) :: dabs
   !
   LOGICAL :: lfermi(ngap)
@@ -59,6 +79,7 @@ SUBROUTINE broyden_gapeq(ndim,vec)
   USE input_parameters, ONLY : calculation
   !
   USE sctk_gapeq_rhs, ONLY : gapeq_rhs
+  USE sctk_eliashberg_sub, ONLY : eliashberg_rhs
   !
   REAL(dp),INTENT(OUT) :: vec(ndim)
   INTEGER,INTENT(IN) :: ndim
@@ -77,13 +98,19 @@ SUBROUTINE broyden_gapeq(ndim,vec)
     !
     IF(calculation == "scdft" .OR. calculation == "scdft_tc") THEN
       CALL gapeq_rhs(vec,out_in)
+    ELSE
+      CALL eliashberg_rhs(vec,out_in)
     END IF
     !
     out_in_norm = ddot(ndim, out_in, 1, out_in, 1)
     out_in_norm = SQRT(out_in_norm) / REAL(ndim, dp)
     !
     WRITE(stdout,'(9x,"Residual[Ry] : ",e12.5)') out_in_norm
-    CALL compute_dabs(.TRUE., dabs)
+    IF(calculation == "scdft" .OR. calculation == "scdft_tc") THEN
+      CALL compute_dabs(.TRUE., vec, dabs)
+    ELSE
+      CALL output_Zcp(itr, vec)
+    END IF
     !
     IF(out_in_norm < tr2) EXIT
     !

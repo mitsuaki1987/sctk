@@ -18,14 +18,13 @@ sctk_clock.o \
 sctk_cnt_dsp.o \
 sctk_coulomb.o \
 sctk_dmuxc.o \
-sctk_eliashberg.o \
+sctk_eliashberg_sub.o \
 sctk_gapeq_rhs.o \
 sctk_gauss_legendre.o \
 sctk_ini_delta.o \
 sctk_invert.o \
 sctk_io_delta.o \
 sctk_kernel_weight.o \
-sctk_main.o \
 sctk_qpdos.o \
 sctk_read_file.o \
 sctk_rotate_kernel.o \

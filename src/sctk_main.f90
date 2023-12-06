@@ -216,7 +216,7 @@ PROGRAM sctk_main
               !
               WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
               CALL broyden_gapeq(ngap*2,delta)
-              CALL compute_dabs(.FALSE., delta0)
+              CALL compute_dabs(.FALSE., delta, delta0)
               CALL out_delta(TRIM(tmp_dir) // TRIM(prefix) // ".scgap")
               !
               WRITE(stdout,'(/,5x,"T[K]-D[meV] ",2e15.5/)') 0.0_dp, delta0
@@ -248,7 +248,7 @@ PROGRAM sctk_main
                  !
                  WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
                  CALL broyden_gapeq(ngap*2,delta)
-                 CALL compute_dabs(.FALSE., dabs)
+                 CALL compute_dabs(.FALSE., delta, dabs)
                  !
                  !
                  WRITE(stdout,'(/,5x,"T[K]-D[meV]: ",2e15.5,/)') tcmax, dabs
@@ -276,7 +276,7 @@ PROGRAM sctk_main
               !
               WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
               CALL broyden_gapeq(ngap*2,delta)
-              CALL compute_dabs(.FALSE., dabs)
+              CALL compute_dabs(.FALSE., delta, dabs)
               !
               WRITE(stdout,'(/,5x,"T[K]-D[meV]: ",2e15.5,/)') tcmid, dabs
               !
