@@ -1,0 +1,54 @@
+
+     Program FERMI_VELOCITY v.6.7GPU starts on 24Nov2023 at 13:51:13 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on       1 processor cores
+     Number of MPI processes:                 1
+     Threads/MPI process:                     1
+
+     MPI processes distributed on     1 nodes
+     Waiting for input...
+     Reading input from standard input
+
+     Reading xml data from directory:
+
+     ./pwscf.save/
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         433     433    151                 5985     5985    1139
+ 
+     Using Slab Decomposition
+ 
+ 
+     Number of bands :      11
+     Number of k times spin :      72
+     Number of symmetries :      48
+     Lowest band which contains FS :       7
+     Highest band which contains FS :       8
+     Max :         1.89163880     Min :         0.00000000
+ 
+     FERMI_VELOCI :      0.09s CPU      0.57s WALL
+
+ 
+   This run was terminated on:  13:51:13  24Nov2023            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

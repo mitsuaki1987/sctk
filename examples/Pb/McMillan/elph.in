@@ -1,0 +1,19 @@
+Electron-phonon matrix
+&INPUTPH
+        lshift_q = .true.
+           ldisp = .true.
+      search_sym = .false.
+             nq1 = 6
+             nq2 = 6
+             nq3 = 6
+        fildvscf = 'dv'
+ electron_phonon = 'lambda_tetra'
+             nk1 = 24
+             nk2 = 24
+             nk3 = 24
+!   elph_nbnd_min = 7
+!   elph_nbnd_max = 8
+/
+&INPUTA2F
+ nfreq = 500
+/
