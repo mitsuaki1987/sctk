@@ -97,6 +97,7 @@ sctk_dmuxc.o : sctk_val.o
 sctk_eliashberg.o : ../../Modules/constants.o
 sctk_eliashberg.o : ../../Modules/control_flags.o
 sctk_eliashberg.o : ../../Modules/kind.o
+sctk_eliashberg.o : ../../PW/src/pwcom.o
 sctk_eliashberg.o : sctk_broyden.o
 sctk_eliashberg.o : sctk_eliashberg_sub.o
 sctk_eliashberg.o : sctk_val.o
@@ -295,3 +296,6 @@ sctk_z.o : ../../PW/src/pwcom.o
 sctk_z.o : ../../UtilXlib/mp.o
 sctk_z.o : sctk_kernel_weight.o
 sctk_z.o : sctk_val.o
+sparse_ir_preset.o : sparse_ir.o
+test.o : sparse_ir.o
+test.o : sparse_ir_preset.o
