@@ -68,6 +68,7 @@ SUBROUTINE get_wfcg()
   &        npw(nqbz,2), wfc0k(npwx,nbnd,npol))
   igv(1:3,1:npwx,                    1:nqbz,1:2) = 0
   wfc0(   1:npwx,1:nb_max,1:npol,1:nqbz,1:2) = CMPLX(0.0_dp, 0.0_dp, KIND=dp)
+  wfc0k(1:npwx,1:nbnd,1:npol) = CMPLX(0.0_dp, 0.0_dp, KIND=dp)
   !
   ! Read Wfc(k)
   !
@@ -218,6 +219,10 @@ SUBROUTINE fft_wfc()
            xk(1:3) = (REAL(ikv(1:3), dp) + 0.5_dp*REAL(ii-1, dp)) / REAL((/nq1, nq2, nq3/), dp)
            xk(1:3) = MATMUL(bg(1:3, 1:3), xk(1:3))
            !
+           !$OMP PARALLEL DEFAULT(NONE) &
+           !$OMP & SHARED(npw,ngm,igv,mill,igk,ik,ii) &
+           !$OMP & PRIVATE(ig,igm)
+           !$OMP DO
            DO ig = 1, npw(ik,ii)
               DO igm = 1, ngm
                  IF(ALL(igv(1:3,ig,ik,ii) == mill(1:3,igm))) THEN
@@ -226,6 +231,9 @@ SUBROUTINE fft_wfc()
                  END IF
               END DO
            END DO
+           !$OMP END DO
+           !$OMP END PARALLEL
+           !
            CALL init_us_2(npw(ik,ii), igk, xk, vkb)
            DO ipol = 1, npol
               CALL calbec(npw(ik,ii), vkb, wfc0(1:npwx, 1:nb(ii), ipol,ik,ii), &
