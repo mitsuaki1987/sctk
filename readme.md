@@ -15,7 +15,7 @@ To try the develop branch
 ``` bash
 $ git clone https://gitlab.com/QEF/q-e.git
 $ cd q-e
-$ git checkout 408b83ffe041751e9db61dc64feb9f34d48a9556
+$ git checkout qe-7.4
 $ git clone https://github.com/mitsuaki1987/sctk.git -b develop
 $ patch -p1 < sctk/patch.diff
 ```
