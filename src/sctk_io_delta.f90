@@ -73,6 +73,7 @@ END SUBROUTINE read_delta
 !
 SUBROUTINE out_delta(fname)
   !
+  USE mp_world, ONLY : mpime
   USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap1, ngap2, xi, Z
   IMPLICIT NONE
   !
@@ -80,25 +81,29 @@ SUBROUTINE out_delta(fname)
   !
   INTEGER :: it, fo = 20
   !
-  OPEN(fo, file = fname)
-  !
-  WRITE(fo,*) "#", ngap1, ngap2
-  !
-  WRITE(fo,*) ""
-  !
-  DO it = 1, ngap1
-     WRITE(fo,'(4e25.15,2i8)') xi(it,1), delta(it,1), Z(it,1), dk(it,1), &
-     &                       kindx(it,1), bindx(it,1)
-  END DO
-  !
-  WRITE(fo,*) ""
-  !
-  DO it = 1, ngap2
-     WRITE(fo,'(4e25.15,2i8)') xi(it,2), delta(it,2), Z(it,2), dk(it,2), &
-     &                         kindx(it,2), bindx(it,2)
-  END DO
-  !
-  CLOSE(fo)
+  IF(mpime == 0) THEN
+    !
+    OPEN(fo, file = fname)
+    !
+    WRITE(fo,*) "#", ngap1, ngap2
+    !
+    WRITE(fo,*) ""
+    !
+    DO it = 1, ngap1
+      WRITE(fo,'(4e25.15,2i8)') xi(it,1), delta(it,1), Z(it,1), dk(it,1), &
+      &                       kindx(it,1), bindx(it,1)
+    END DO
+    !
+    WRITE(fo,*) ""
+    !
+    DO it = 1, ngap2
+      WRITE(fo,'(4e25.15,2i8)') xi(it,2), delta(it,2), Z(it,2), dk(it,2), &
+      &                         kindx(it,2), bindx(it,2)
+    END DO
+    !
+    CLOSE(fo)
+    !
+  END IF
   !
 END SUBROUTINE out_delta
 !

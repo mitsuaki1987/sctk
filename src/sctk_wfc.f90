@@ -34,7 +34,7 @@ SUBROUTINE get_wfcg()
   INTEGER :: fi, ii, ngw0
   CHARACTER(320) :: filename
   !
-  INTEGER :: ik0, ispin, npol0, ierr, ikv(3), ibnd, ik
+  INTEGER :: ik0, ispin, npol0, ierr, ikv(3), ibnd, ik, npwx0
   REAL(dp) :: scalef, xk0(3), bvec0(3,3), xk1(3), RAM_wfc
   LOGICAL :: gamma_only
   COMPLEX(DP),ALLOCATABLE :: wfc0k(:,:,:)
@@ -57,8 +57,21 @@ SUBROUTINE get_wfcg()
   nb_max = MAXVAL(nb(1:2))
   CALL mp_max(nb_max, world_comm)
   !
-  CALL mp_sum(npwx, intra_pool_comm)
-  CALL mp_max(npwx, inter_pool_comm)
+  ! Compute maximum number of PWs across all k-points
+  !
+  npwx = 0
+  IF(mpime == 0) THEN
+    DO ik = 1, nqbz*2
+      filename = TRIM(tmp_dir) // TRIM(prefix) // '.save/' // 'wfc' // TRIM(int_to_char(ik))
+      OPEN(unit=fi, file=trim(filename)//'.dat', form='unformatted', status='old', iostat=ierr)
+      READ(fi) ik0, xk0(1:3), ispin, gamma_only, scalef
+      READ(fi) ngw0, npwx0, npol0, ibnd
+      CLOSE(unit=fi, status='keep')
+      !
+      npwx = MAX(npwx, npwx0)
+    END DO
+  END IF
+  CALL mp_bcast(npwx, 0, world_comm)
   !
   RAM_wfc = REAL(npwx,dp)*REAL(nb_max,dp)*REAL(npol,dp)*REAL(nqbz,dp)*2.0_dp
   CALL mp_sum(RAM_wfc, world_comm)

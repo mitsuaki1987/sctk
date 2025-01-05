@@ -23,7 +23,7 @@ for i1 in `seq 0 ${n1}`; do
                 kv3=`echo "scale = 15; ${kv3} - 1.0" | bc`
             fi
 
-            printf "%20.15f %20.15f %20.15f   1.0\n" ${kv1} ${kv2} ${kv3}
+            LC_NUMERIC="en_US.UTF-8" printf "%20.15f %20.15f %20.15f   1.0\n" ${kv1} ${kv2} ${kv3}
         done
     done
 done
@@ -44,7 +44,7 @@ for i1 in `seq 0 ${n1}`; do
                 kv3=`echo "scale = 15; ${kv3} - 1.0" | bc`
             fi
             
-            printf "%20.15f %20.15f %20.15f   1.0\n" ${kv1} ${kv2} ${kv3}
+            LC_NUMERIC="en_US.UTF-8" printf "%20.15f %20.15f %20.15f   1.0\n" ${kv1} ${kv2} ${kv3}
         done
     done
 done
