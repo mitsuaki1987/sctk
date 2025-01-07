@@ -17,7 +17,7 @@ SUBROUTINE lambda_sf()
   USE mp_world, ONLY : mpime
   !
   USE sctk_dmuxc, ONLY : apply_xc_spin
-  USE sctk_invert, ONLY : invert, hermite
+  USE sctk_invert, ONLY : invert, hermite, eigmax_power
   USE noncollin_module, ONLY : npol
   USE mp, ONLY : mp_bcast
   !
@@ -36,9 +36,13 @@ SUBROUTINE lambda_sf()
   !
   IF(mpime == 0) THEN
      stoner(2:2*npol) = REAL(wscr(1,1,0,2:2*npol), dp) 
-     WRITE(*,'(/,9x,"Stoner factor:")')
-     WRITE(*,'(/,11x,3(e12.5,2x))') stoner(2:2*npol)
+     WRITE(*,'(/,9x,"Stoner criteria:")')
+     WRITE(*,'(/,11x,"(I_{xc} Pi_0)_{00} : ",3(e12.5,2x))') stoner(2:2*npol)
   END IF
+  DO ipol = 2, 2*npol
+     CALL eigmax_power(wscr(1:ngv,ngv0:ngv1,0,ipol), stoner(ipol))
+  END DO
+  IF(mpime == 0) WRITE(*,'(/,11x,"EigMax(I_{xc} Pi_0 + c.c)/2 : ",3(e12.5,2x))') stoner(2:2*npol)
   !
   DO ig = ngv0, ngv1
      wscr(ig,ig,0:nmf,2:2*npol) = wscr(ig,ig,0:nmf,2:2*npol) - 1.0_dp

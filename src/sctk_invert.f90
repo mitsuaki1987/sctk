@@ -216,4 +216,52 @@ SUBROUTINE hermite()
   !
 END SUBROUTINE hermite
 !
+! Compute maximum-absolute eigenvalue with power method
+! Force the matrix to be hermite (M + M^+)/2
+!
+SUBROUTINE eigmax_power(matrix, eigval)
+  !
+  USE kinds, ONLY : DP
+  USE mp_world, ONLY : mpime, world_comm
+  USE mp, ONLY : mp_bcast, mp_sum
+  USE sctk_val, ONLY : ngv0, ngv1, ngv
+  !
+  COMPLEX(dp),INTENT(IN) :: matrix(ngv,ngv0:ngv1)
+  REAL(dp),INTENT(OUT) :: eigval
+  !
+  INTEGER :: iter
+  REAL(dp) :: val_i, val_o, norm
+  COMPLEX(dp),ALLOCATABLE :: vec_i(:), vec_o(:)
+  !
+  ALLOCATE(vec_i(ngv), vec_o(ngv))
+  !
+  ! Initial guess is G=0 term
+  !
+  vec_i(1) = 1.0_dp
+  vec_i(2:ngv) = 0.0_dp
+  IF (mpime == 0) val_i = REAL(matrix(1,1), dp)
+  CALL mp_bcast(val_i, 0, world_comm)
+  vec_o(1:ngv) = 0.0_dp
+  val_o = 0.0_dp
+  !
+  DO iter = 1, 100
+    !
+    call ZGEMV("N", ngv, ngv1-ngv0+1, 0.5_dp, matrix, ngv, vec_i(ngv0:ngv1), 1, 0.0_dp, vec_o(   1:ngv ), 1)
+    call ZGEMV("C", ngv, ngv1-ngv0+1, 0.5_dp, matrix, ngv, vec_i(   1:ngv ), 1, 1.0_dp, vec_o(ngv0:ngv1), 1)
+    !
+    CALL mp_sum(vec_o, world_comm)
+    !
+    val_o = REAL(DOT_PRODUCT(vec_i(ngv0:ngv1), vec_o(ngv0:ngv1)), dp)
+    norm  = REAL(DOT_PRODUCT(vec_o(ngv0:ngv1), vec_o(ngv0:ngv1)), dp)
+    val_i = 0.5_dp * (val_i + val_o)
+    vec_i(1:ngv) = vec_o(1:ngv) / SQRT(norm)
+    !
+  END DO
+  !
+  eigval = val_i
+  !
+  DEALLOCATE(vec_i, vec_o)
+  !
+END SUBROUTINE
+!
 END MODULE sctk_invert
