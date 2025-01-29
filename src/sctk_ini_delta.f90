@@ -173,7 +173,7 @@ END SUBROUTINE energy_grid
 !
 ! Cp,@ite DOS_k
 !
-SUBROUTINE compute_dosk(dos)
+SUBROUTINE compute_dosk(dos, dxq_dos)
   !
   USE kinds, ONLY : DP
   USE mp_world, ONLY : world_comm
@@ -182,29 +182,42 @@ SUBROUTINE compute_dosk(dos)
   USE disp,  ONLY : nq1, nq2, nq3
   USE klist, ONLY : nks
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
-  USE sctk_val, ONLY : nqbz, nx
+  USE sctk_val, ONLY : nqbz, nx, d_et
   !
   USE sctk_tetra, ONLY : calc_dosk, interpol_indx
   IMPLICIT NONE
   !
-  REAL(dp),INTENT(OUT) :: dos(nx*(elph_nbnd_max-elph_nbnd_min+1),nqbz,2)
+  REAL(dp),INTENT(OUT) :: dos(nx*(elph_nbnd_max-elph_nbnd_min+1),nqbz,2), &
+  &                   dxq_dos(nx*(elph_nbnd_max-elph_nbnd_min+1),nqbz,2)
   !
-  INTEGER :: ik, ikv(3), kintp(8)
+  INTEGER :: ik, ikv(3), kintp(8), ibnd
   REAL(dp) :: kv(3), wintp(1,8), &
-  &            dosd(nx*(elph_nbnd_max-elph_nbnd_min+1),1,nks)
+  &           dosd(nx*(elph_nbnd_max-elph_nbnd_min+1),1,nks)
+  REAL(dp),ALLOCATABLE :: dxq_dosd(:,:)
+  !
+  ! Average and Differential energy for finite-q SCDFT
+  !
+  CALL calc_d_xi_q()
+  !
+  ! k-dependent weight for delta(xi-xi_{n k})
   !
   CALL calc_dosk(dosd)
   !
   ! Interpolation of weight
   !
-  dos(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:nqbz,1:2) = 0.0_dp
+  dos(    1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:nqbz,1:2) = 0.0_dp
+  dxq_dos(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:nqbz,1:2) = 0.0_dp
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(nks,nqbz,nx,dosd,dos,elph_nbnd_min,elph_nbnd_max,nk1,nk2,nk3,nq1,nq2,nq3) &
-  !$OMP & PRIVATE(ik,ikv,kv,wintp,kintp)
+  !$OMP & SHARED(nks,nqbz,nx,dosd,dos,dxq_dos,elph_nbnd_min,elph_nbnd_max,nk1,nk2,nk3,nq1,nq2,nq3,d_et) &
+  !$OMP & PRIVATE(ik,ikv,kv,wintp,kintp,dxq_dosd)
   !
-  !$OMP DO REDUCTION(+: dos)
+  ALLOCATE(dxq_dosd(nx*(elph_nbnd_max-elph_nbnd_min+1),1))
+  !
+  !$OMP DO REDUCTION(+: dos, dxq_dos)
   DO ik = 1, nks
+     !
+     ! 1. Non-shifted grid
      !
      ikv(1) = (ik - 1) / (nk2*nk3)
      ikv(2) = (ik - 1 - ikv(1)*nk2*nk3) / nk3
@@ -215,6 +228,15 @@ SUBROUTINE compute_dosk(dos)
      & = dos(        1:nx*(elph_nbnd_max-elph_nbnd_min+1),kintp(1:8),1) &
      & + MATMUL(dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:1,ik), wintp(1:1,1:8))
      !
+     DO ibnd = 1, elph_nbnd_max-elph_nbnd_min+1
+        dxq_dosd((ibnd-1)*nx+1:ibnd*nx,1) = dosd((ibnd-1)*nx+1:ibnd*nx,1,ik) * d_et(elph_nbnd_min-1+ibnd,ik)
+     END DO
+     dxq_dos(             1:nx*(elph_nbnd_max-elph_nbnd_min+1),kintp(1:8),1) &
+     & = dxq_dos(         1:nx*(elph_nbnd_max-elph_nbnd_min+1),kintp(1:8),1) &
+     &  + MATMUL(dxq_dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:1), wintp(1:1,1:8))
+     !
+     ! 2. Shifted grid (k + 1/2)
+     !
      ikv(1) = (ik - 1) / (nk2*nk3)
      ikv(2) = (ik - 1 - ikv(1)*nk2*nk3) / nk3
      ikv(3) =  ik - 1 - ikv(1)*nk2*nk3 - ikv(2)*nk3
@@ -224,15 +246,130 @@ SUBROUTINE compute_dosk(dos)
      & = dos(        1:nx*(elph_nbnd_max-elph_nbnd_min+1),kintp(1:8),2) &
      & + MATMUL(dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:1,ik), wintp(1:1,1:8))
      !
+     DO ibnd = 1, elph_nbnd_max-elph_nbnd_min+1
+        dxq_dosd((ibnd-1)*nx+1:ibnd*nx,1) = dosd((ibnd-1)*nx+1:ibnd*nx,1,ik) * d_et(elph_nbnd_min-1+ibnd,ik)
+     END DO
+     dxq_dos(             1:nx*(elph_nbnd_max-elph_nbnd_min+1),kintp(1:8),2) &
+     & = dxq_dos(         1:nx*(elph_nbnd_max-elph_nbnd_min+1),kintp(1:8),2) &
+     &  + MATMUL(dxq_dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:1), wintp(1:1,1:8))
+     !
+  END DO
+  !$OMP END DO
+  !
+  DEALLOCATE(dxq_dosd)
+  !
+  !$OMP END PARALLEL
+  !
+  CALL mp_sum(dos,     world_comm)
+  CALL mp_sum(dxq_dos, world_comm)
+  dxq_dos(:,:,:) = dxq_dos(:,:,:) / dxq_dos(:,:,:)
+  !
+  CALL symm_dosk(dos, dxq_dos)
+  !
+END SUBROUTINE compute_dosk
+!
+! Average and Differential energy for finite-q SCDFT
+!
+SUBROUTINE calc_d_xi_q()
+  !
+  USE kinds, ONLY : dp
+  USE wvfct, ONLY : nbnd, et
+  USE klist, ONLY : nks
+  USE start_k, ONLY : nk1, nk2, nk3
+  USE sctk_val, ONLY : d_et, q_fflo
+  !
+  INTEGER :: i1, i2, i3, ii, ikv(3), ikvp(3,3), ikvm(3,3), ikvpp(3,3), ikvmm(3,3), &
+  &          ik, ikp(3), ikm(3), ikpp(3), ikmm(3), iip, iim, ibnd
+  REAL(dp) :: rnk(3), cmat(3,3), cq(3)
+  REAL(dp),ALLOCATABLE :: et0(:,:)
+  !
+  rnk(1:3) = REAL((/nk1, nk2, nk3/), dp)
+  !
+  ALLOCATE(d_et(nbnd,nks), et0(nbnd,nks))
+  et0(1:nbnd, 1:nks) = et(1:nbnd, 1:nks)
+  !
+  !$OMP PARALLEL DEFAULT(none) &
+  !$OMP & SHARED(nk1,nk2,nk3,nbnd,et,d_et,et0,rnk,q_fflo) &
+  !$OMP & PRIVATE(i1,i2,i3,ikv,ikvp,ikvm,ikvpp,ikvmm,ik,ikp,ikm,ikpp,ikmm,ii,iip,iim,ibnd,cmat,cq)
+  !
+  !$OMP DO
+  DO i1 = 1, nk1
+     DO i2 = 1, nk2
+        DO i3 = 1, nk3
+           !
+           ikv(1:3) = (/i1, i2, i3/) - 1
+           !
+           ! k +- b_1/n_1, k +- b_2/n_2, k +- b_3/n_3
+           ! k +- (b_2/n_2 + b_3/n_3), etc.
+           !
+           DO ii = 1, 3
+              ikvp(1:3, ii) = ikv(1:3)
+              ikvm(1:3, ii) = ikv(1:3)
+              ikvpp(1:3, ii) = ikv(1:3) + 1
+              ikvmm(1:3, ii) = ikv(1:3) - 1
+           END DO
+           !
+           DO ii = 1, 3
+              ikvp(ii, ii) = ikvp(ii, ii) + 1
+              ikvm(ii, ii) = ikvm(ii, ii) - 1
+              ikvpp(ii, ii) = ikvpp(ii, ii) - 1
+              ikvmm(ii, ii) = ikvmm(ii, ii) + 1
+           END DO
+           !
+           ! Integer k-vector -> one-dimensional k index
+           !
+           ikv  = MODULO(ikv,  (/nk1, nk2, nk3/))
+           ik  = 1 + ikv(3) + nk3 * ikv(2) + nk3 * nk2 * ikv(1)
+           DO ii = 1, 3
+              ikvp(1:3,ii) = MODULO(ikvp(1:3,ii), (/nk1, nk2, nk3/))
+              ikvm(1:3,ii) = MODULO(ikvm(1:3,ii), (/nk1, nk2, nk3/))
+              ikvpp(1:3,ii) = MODULO(ikvpp(1:3,ii), (/nk1, nk2, nk3/))
+              ikvmm(1:3,ii) = MODULO(ikvmm(1:3,ii), (/nk1, nk2, nk3/))
+              !
+              ikp(ii) = 1 + ikvp(3,ii) + nk3 * ikvp(2,ii) + nk3 * nk2 * ikvp(1,ii)
+              ikm(ii) = 1 + ikvm(3,ii) + nk3 * ikvm(2,ii) + nk3 * nk2 * ikvm(1,ii)
+              ikpp(ii) = 1 + ikvpp(3,ii) + nk3 * ikvpp(2,ii) + nk3 * nk2 * ikvpp(1,ii)
+              ikmm(ii) = 1 + ikvmm(3,ii) + nk3 * ikvmm(2,ii) + nk3 * nk2 * ikvmm(1,ii)
+           END DO
+           !
+           DO ibnd = 1, nbnd
+              !
+              ! (xi_{k+q/2} - xi_{k-q/2}) / 2
+              !
+              d_et(ibnd, ik) = 0.0_dp
+              DO ii = 1, 3
+                 d_et(ibnd, ik) = d_et(ibnd, ik) &
+                 &              + rnk(ii) * 0.5_dp * (et0(ibnd, ikp(ii)) - et0(ibnd, ikm(ii))) * 0.5_dp * q_fflo(ii)
+              END DO
+              !
+              ! (xi_{k+q/2} + xi_{k-q/2}) / 2
+              ! Overwrite module variable "et"
+              !
+              DO ii = 1, 3
+                 cmat(ii,ii) = 2.0_dp * rnk(ii)**2 * (0.5_dp * (et0(ibnd, ikp(ii)) + et0(ibnd, ikm(ii))) - et0(ibnd, ik))
+                 iip = MODULO(ii + 1 - 1, 3) + 1
+                 iim = MODULO(ii - 1 - 1, 3) + 1
+                 cmat(iip,iim) = rnk(iim) * rnk(iip) * (0.5_dp * (et0(ibnd, ikpp(ii)) + et0(ibnd, ikmm(ii))) &
+                 &                                     -0.5_dp * (et0(ibnd, ikp(iip)) + et0(ibnd, ikm(iip))) &
+                 &                                     -0.5_dp * (et0(ibnd, ikp(iim)) + et0(ibnd, ikm(iim))) &
+                 &                                     + et0(ibnd, ik))
+                 cmat(iim,iip) = cmat(iip,iim)
+              END DO
+              !
+              cq(1:3) = MATMUL(cmat(1:3, 1:3), q_fflo(1:3))
+              et(ibnd, ik) = et0(ibnd, ik) + 0.5_dp * DOT_PRODUCT(q_fflo, cq)
+              !
+           END DO
+           !
+        END DO
+     END DO
   END DO
   !$OMP END DO
   !$OMP END PARALLEL
   !
-  CALL mp_sum( dos, world_comm )
+  DEALLOCATE(et0)
   !
-  CALL symm_dosk(dos)
-  !
-END SUBROUTINE compute_dosk
+END SUBROUTINE calc_d_xi_q
 !
 ! Compute integration weights
 !
@@ -241,15 +378,16 @@ SUBROUTINE compute_d3k()
   USE kinds, ONLY : DP
   USE io_global, ONLY : stdout
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
-  USE sctk_val, ONLY : bindx, dk, fbee, kindx, lbee, &
+  USE sctk_val, ONLY : bindx, dk, fbee, kindx, lbee, dxq, &
   &                     nqbz, ngap, ngap1, ngap2, nx, xi, xi0
   !
   IMPLICIT NONE
   !
   INTEGER :: ik, ib, ix
-  REAL(dp) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), thr = 1e-12_dp, shift
+  REAL(dp) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), thr = 1e-12_dp, shift, &
+  &       dxq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2)
   !
-  CALL compute_dosk(dos)
+  CALL compute_dosk(dos, dxq_dos)
   !
   ix = minloc(ABS(xi0(1:nx)),1)
   WRITE(stdout,'(7x,"DOS(E_F)[/Ry/cell/spin] : ",e12.5)') SUM(dos(ix,elph_nbnd_min:elph_nbnd_max,1:nqbz,1)) 
@@ -287,27 +425,32 @@ SUBROUTINE compute_d3k()
   !
   WRITE(stdout,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap1, ngap2
   ngap = MAX(ngap1, ngap2)
-  ALLOCATE(xi(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2))
+  ALLOCATE(xi(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2), dxq(ngap,2))
   !
   xi(   1:ngap,1:2) = 0.0_dp
   dk(   1:ngap,1:2) = 0.0_dp
   kindx(1:ngap,1:2) = 0
   bindx(1:ngap,1:2) = 0
+  dxq(  1:ngap,1:2) = 0.0_dp
   !
-  ! Map xi, d3k, dosk, indx, bindx
+  ! Map xi, d3k, dosk, indx, bindx, dxq
   !
   shift = 0.0_dp
-  CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,1),shift,ngap1,xi(1:ngap1,1), &
-  &              dk(1:ngap1,1),kindx(1:ngap1,1),bindx(1:ngap1,1))
+  CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,1), &
+  &          dxq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,1), &
+  &              shift,ngap1,xi(1:ngap1,1), &
+  &              dk(1:ngap1,1),kindx(1:ngap1,1),bindx(1:ngap1,1),dxq(1:ngap1,1))
   shift = 0.5_dp
-  CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,2),shift,ngap2,xi(1:ngap2,2), &
-  &              dk(1:ngap2,2),kindx(1:ngap2,2),bindx(1:ngap2,2))
+  CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,2), &
+  &          dxq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,2), &
+  &              shift,ngap2,xi(1:ngap2,2), &
+  &              dk(1:ngap2,2),kindx(1:ngap2,2),bindx(1:ngap2,2),dxq(1:ngap2,2))
   !
 END SUBROUTINE compute_d3k
 !
 ! Map d3k, dosk, xi, kindx, bindx
 !
-SUBROUTINE store_d3k(dos,shift,ngap,xi,dk,kindx,bindx)
+SUBROUTINE store_d3k(dos,dxq_dos,shift,ngap,xi,dk,kindx,bindx,dxq)
   !
   USE kinds, ONLY : DP
   USE start_k, ONLY : nk1, nk2, nk3
@@ -316,14 +459,15 @@ SUBROUTINE store_d3k(dos,shift,ngap,xi,dk,kindx,bindx)
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE ener, ONLY : ef
   !
-  USE sctk_val, ONLY : dx0, fbee, lbee, nqbz, nx, xi0
+  USE sctk_val, ONLY : dx0, fbee, lbee, nqbz, nx, xi0, d_et
   USE sctk_tetra, ONLY : interpol_indx
   !
   IMPLICIT NONE
   !
   INTEGER,INTENT(IN) :: ngap
-  REAL(dp),INTENT(IN) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz), shift
-  REAL(dp),INTENT(OUT) :: xi(ngap), dk(ngap)
+  REAL(dp),INTENT(IN) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz), &
+  &                  dxq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz), shift
+  REAL(dp),INTENT(OUT) :: xi(ngap), dk(ngap), dxq(ngap)
   INTEGER,INTENT(OUT) :: kindx(ngap), bindx(ngap)
   !
   INTEGER :: ngap0, ik, ib, ix, kintp(8), ikv(3)
@@ -350,6 +494,7 @@ SUBROUTINE store_d3k(dos,shift,ngap,xi,dk,kindx,bindx)
                     !
                     xi(ngap0) = xi0(ix)
                     dk(ngap0) = dos(ix,ib,ik) * dx0(ix)
+                    dxq(ngap0) = dxq_dos(ix,ib,ik)
                     kindx(ngap0) = ik
                     bindx(ngap0) = ib
                     !
@@ -370,6 +515,7 @@ SUBROUTINE store_d3k(dos,shift,ngap,xi,dk,kindx,bindx)
         kv(1:3) = (REAL(ikv(1:3), dp) + shift) / REAL((/nq1,nq2,nq3/), dp)
         CALL interpol_indx((/nk1,nk2,nk3/),kv,kintp,wintp)
         xi(ngap0) = DOT_PRODUCT(wintp(1:8), et(ib,kintp(1:8))) - ef
+        dxq(ngap0) = DOT_PRODUCT(wintp(1:8), d_et(ib,kintp(1:8)))
         !
         dk(ngap0) = 1.0_dp / REAL(nqbz, dp)
         kindx(ngap0) = ik
@@ -387,25 +533,41 @@ END SUBROUTINE store_d3k
 !
 ! Symmetrize Dos
 !
-SUBROUTINE symm_dosk(dos)
+SUBROUTINE symm_dosk(dos, dxq_dos)
   !
   USE kinds, ONLY : DP
   USE symm_base, ONLY : nsym, s
   USE disp,  ONLY : nq1, nq2, nq3
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
-  USE sctk_val, ONLY : nqbz, nx
+  USE io_global, ONLY : stdout
+  USE sctk_val, ONLY : nqbz, nx, q_fflo
   !
   IMPLICIT NONE
   !
-  REAL(dp),INTENT(inout) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2)
+  REAL(dp),INTENT(inout) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), &
+  &                     dxq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2)
   !
   INTEGER :: ik, ik2, isym, ikv2(3), nksym(nqbz)
-  REAL(dp) :: dostmp(nx,elph_nbnd_min:elph_nbnd_max,nqbz), kv1(3), kv2(3)
+  REAL(dp) :: dostmp(nx,elph_nbnd_min:elph_nbnd_max,nqbz), kv1(3), kv2(3), q_fflo2(3), qnorm, &
+  &       dxq_dostmp(nx,elph_nbnd_min:elph_nbnd_max,nqbz)
+  LOGICAL :: lq_sym(nsym)
   !
-  ! 1
+  ! Only symmetries conserving q_fflo is used.
+  !
+  lq_sym(1:nsym) = .FALSE.
+  DO isym = 1, nsym
+     q_fflo2(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), q_fflo(1:3))
+     q_fflo2(1:3) = q_fflo2(1:3) - q_fflo(1:3)
+     qnorm = DOT_PRODUCT(q_fflo2, q_fflo2)
+     IF(qnorm < 1.0e-8_dp) lq_sym(isym) = .TRUE.
+  END DO
+  WRITE(stdout,'(7x,"Number of symmetries conserving q_FFLO : ",i5)') COUNT(lq_sym(1:nsym)) 
+  !
+  ! 1. Non-shifted grid
   !
   nksym(1:nqbz) = 0
-  dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
+  dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
+  dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
   !
   DO ik = 1, nqbz
      !
@@ -416,6 +578,8 @@ SUBROUTINE symm_dosk(dos)
      !
      DO isym = 1, nsym
         !
+        IF(.NOT. lq_sym(isym)) CYCLE
+        !
         kv2(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv1(1:3)) * REAL((/nq1,nq2,nq3/), dp)
         ikv2(1:3) = NINT(kv2(1:3))
         !
@@ -425,9 +589,14 @@ SUBROUTINE symm_dosk(dos)
         ik2 = 1 + ikv2(3) + ikv2(2)*nq3 + ikv2(1)*nq2*nq3
         !
         nksym(ik2) = nksym(ik2) + 1
+        !
         dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
         & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
         & + dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,1)
+        !
+        dxq_dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
+        & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
+        & + dxq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,1)
         !
      END DO
      !
@@ -438,10 +607,16 @@ SUBROUTINE symm_dosk(dos)
      & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
   END DO
   !
-  ! 2
+  DO ik = 1, nqbz
+     dxq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,1) &
+     & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
+  END DO
+  !
+  ! 2. Shifted grid (k + 1/2)
   !
   nksym(1:nqbz) = 0
-  dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
+  dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
+  dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
   !
   DO ik = 1, nqbz
      !
@@ -451,6 +626,8 @@ SUBROUTINE symm_dosk(dos)
      kv1(1:3) = (REAL(ikv2(1:3), dp) + 0.5_dp) / REAL((/nq1,nq2,nq3/), dp)
      !
      DO isym = 1, nsym
+        !
+        IF(.NOT. lq_sym(isym)) CYCLE
         !
         kv2(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv1(1:3)) * REAL((/nq1,nq2,nq3/), dp)
         kv2(1:3) = kv2(1:3) - 0.5_dp
@@ -462,9 +639,14 @@ SUBROUTINE symm_dosk(dos)
         ik2 = 1 + ikv2(3) + ikv2(2)*nq3 + ikv2(1)*nq2*nq3
         !
         nksym(ik2) = nksym(ik2) + 1
+        !
         dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
         & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
         & + dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,2)
+        !
+        dxq_dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
+        & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
+        & + dxq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,2)
         !
      END DO
      !
@@ -473,6 +655,11 @@ SUBROUTINE symm_dosk(dos)
   DO ik = 1, nqbz
      dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,2) &
      & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
+  END DO
+  !
+  DO ik = 1, nqbz
+     dxq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,2) &
+     & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
   END DO
   !
 END SUBROUTINE symm_dosk
@@ -534,7 +721,7 @@ SUBROUTINE ini_lambda_mu()
   !
   CALL mp_sum( dos, world_comm )
   !
-  CALL symm_dosk(dos)
+  CALL symm_dosk(dos, dos)
   !
   WRITE(stdout,'(7x,"DOS(E_F)[/Ry/cell/spin] : ",e12.5)') SUM(dos(elph_nbnd_min:elph_nbnd_max,1:nqbz,2)) 
   !

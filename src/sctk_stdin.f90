@@ -160,7 +160,7 @@ SUBROUTINE stdin_scdft()
   !
   USE sctk_val, ONLY : beta, emax, emin, fbee, lbee, ne, nmf, nx, xic, mf, wmf, bisec_step, &
   &                    zero_kelvin, lsf, scdft_kernel, lz_coulomb, freq_min, freq_min_ratio, &
-  &                    bisec_min, bisec_max
+  &                    bisec_min, bisec_max, q_fflo
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   !
   IMPLICIT NONE
@@ -190,10 +190,11 @@ SUBROUTINE stdin_scdft()
      scdft_kernel = 1
      lz_coulomb = .FALSE.
      freq_min = 0.0_dp
-     freq_min_ratio = -1.0
+     freq_min_ratio = -1.0_dp
      bisec_step = 10
-     bisec_min = -1.0
-     bisec_max = -1.0
+     bisec_min = -1.0_dp
+     bisec_max = -1.0_dp
+     q_fflo(1:3) = 0.0_dp
      !
      READ(5,scdft,err=100)
      !
@@ -224,6 +225,7 @@ SUBROUTINE stdin_scdft()
      WRITE(*,'(7x,"            Bisection steps : ",i0)') bisec_step
      WRITE(*,'(7x,"         Bisection min. [K] : ",e12.5)') bisec_min
      WRITE(*,'(7x,"         Bisection max. [K] : ",e12.5)') bisec_max
+     WRITE(*,'(7x,"      Q_{FFLO} [fractional] : ",3e12.5)') q_fflo
      IF(spin_fluc) THEN
         lsf = 2
      ELSE
@@ -254,6 +256,7 @@ SUBROUTINE stdin_scdft()
   CALL mp_bcast(bisec_step,       ionode_id, world_comm )
   CALL mp_bcast(bisec_min,        ionode_id, world_comm )
   CALL mp_bcast(bisec_max,        ionode_id, world_comm )
+  CALL mp_bcast(q_fflo,           ionode_id, world_comm )
   !
   niter = electron_maxstep
   tr2 = conv_thr

@@ -99,7 +99,7 @@ SUBROUTINE gapeq_rhs(delta,res)
   USE constants, ONLY : RYTOEV
   !
   USE sctk_val, ONLY : beta, zero_kelvin, dk, effint, &
-  &                    ngap, ngap1, ngap2, xi, xic, Z
+  &                    ngap, ngap1, ngap2, xi, xic, Z, dxq
   !
   IMPLICIT NONE
   !
@@ -117,17 +117,46 @@ SUBROUTINE gapeq_rhs(delta,res)
   chi(1:ngap,1:2) = 0.0_dp
   !
   IF(zero_kelvin) THEN
-     chi(1:ngap1,1) = 1.0_dp
-     chi(1:ngap2,2) = 1.0_dp
+     !$OMP PARALLEL DEFAULT(NONE) &
+     !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi) &
+     !$OMP & PRIVATE(igap)
+     !
+     !$OMP DO
+     DO igap = 1, ngap1
+        IF(xi(igap,1)**2 + delta(igap,1)**2 > dxq(igap,1)**2) THEN
+           chi(igap,1) = 2.0_dp
+        ELSE
+         chi(igap,1) = 0.0_dp
+        END IF
+     END DO
+     !$OMP END DO NOWAIT
+     !
+     !$OMP DO
+     DO igap = 1, ngap2
+        IF(xi(igap,2)**2 + delta(igap,2)**2 > dxq(igap,2)**2) THEN
+           chi(igap,2) = 2.0_dp
+        ELSE
+           chi(igap,2) = 0.0_dp
+        END IF
+     END DO
+     !$OMP END DO NOWAIT
+     !
+     !$OMP END PARALLEL
   ELSE
-     chi(1:ngap1,1) = TANH(0.5_dp * beta * SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2))
-     chi(1:ngap2,2) = TANH(0.5_dp * beta * SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2))
+     chi(1:ngap1,1) = TANH(0.5_dp * beta * (SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2) &
+     &                                     + dxq(1:ngap1,1))) &
+     &              + TANH(0.5_dp * beta * (SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2) &
+     &                                     - dxq(1:ngap1,1)))
+     chi(1:ngap2,2) = TANH(0.5_dp * beta * (SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2) &
+     &                                     + dxq(1:ngap2,2))) &
+     &              + TANH(0.5_dp * beta * (SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2) &
+     &                                     - dxq(1:ngap2,2)))
   END IF
   !
-  chi(1:ngap1,1) = 0.5_dp * dk(1:ngap1,1) * delta(1:ngap1,1) * chi(1:ngap1,1) &
+  chi(1:ngap1,1) = 0.25_dp * dk(1:ngap1,1) * delta(1:ngap1,1) * chi(1:ngap1,1) &
   &              / SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2)
   !
-  chi(1:ngap2,2) = 0.5_dp * dk(1:ngap2,2) * delta(1:ngap2,2) * chi(1:ngap2,2) &
+  chi(1:ngap2,2) = 0.25_dp * dk(1:ngap2,2) * delta(1:ngap2,2) * chi(1:ngap2,2) &
   &              / SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2)
   !
   CALL dgemv("T", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,1), ngap2, &

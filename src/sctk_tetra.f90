@@ -53,7 +53,7 @@ SUBROUTINE interpol_indx(ng,kvec,kintp,wintp)
   !
 END SUBROUTINE interpol_indx
 !
-! Compute DOS at each k flagment
+! Compute DOS at each k fragment
 !
 SUBROUTINE calc_dosk(dosd)
   !

@@ -34,6 +34,7 @@ MODULE sctk_val
   & nx               !< = 2 * ne - 1
   !
   REAL(dp),SAVE :: &
+  & q_fflo(3),  & !< q-vector (fractional coordinate) to compute finite-momentum SC
   & bisec_min,  & !< Lower bound for bisection method
   & bisec_max,  & !< Upper bound for bisection method
   & freq_min,       & !< below this, ignore that mode
@@ -59,10 +60,11 @@ MODULE sctk_val
   & npw(:,:)        !< (nk,2). # of PWs
   !
   REAL(dp),ALLOCATABLE,SAVE :: &
+  & d_et(:,:),      & !< (nbnd,nks) (e_{k+q/2} - e_{k-q/2})2 for FFLO
   & delta(:,:),     & !< (ngap,2) Kohn-Sham gap functions [Ry]
   & dk(:,:),        & !< (ngap,2) Weight of k
+  & dxq(:,:),       & !< (ngap,2) (xi_{k+q/2} - xi_{k-q/2})/2
   & dltF(:,:,:),    & !< (nx,nbf,nk) Kohn-Sham gap functions [Ry] at Fermi surface
-  & dosk(:,:,:),    & !< (nx,nbnd,nk)
   & dx0(:),         & !< (nx) weight for energy
   & e0(:),          & !< (ne) Energy grid for qpdos
   & effint(:,:,:),  & !< (ngap1,ngap2,2) Effective interaction    
