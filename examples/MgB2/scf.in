@@ -1,6 +1,7 @@
 &CONTROL
  calculation = 'scf'
   pseudo_dir = './'
+disk_io = "low"
 /
 &SYSTEM
        ibrav = 0

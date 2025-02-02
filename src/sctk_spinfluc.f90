@@ -25,7 +25,7 @@ SUBROUTINE lambda_sf()
   !
   IMPLICIT NONE
   !
-  INTEGER :: ig, ipol
+  INTEGER :: ig, ipol, iter(2:2*npol)
   REAL(dp) :: stoner(2:2*npol)
   !
   CALL start_clock("lambda_sf")
@@ -37,12 +37,15 @@ SUBROUTINE lambda_sf()
   IF(mpime == 0) THEN
      stoner(2:2*npol) = REAL(wscr(1,1,0,2:2*npol), dp) 
      WRITE(*,'(/,9x,"Stoner criteria:")')
-     WRITE(*,'(/,11x,"(I_{xc} Pi_0)_{00} : ",3(e12.5,2x))') stoner(2:2*npol)
+     WRITE(*,'(11x,"(I_{xc} Pi_0)_{00} : ",3(e12.5,2x))') stoner(2:2*npol)
   END IF
   DO ipol = 2, 2*npol
-     CALL eigmax_power(wscr(1:ngv,ngv0:ngv1,0,ipol), stoner(ipol))
+     CALL eigmax_power(wscr(1:ngv,ngv0:ngv1,0,ipol), stoner(ipol), iter(ipol))
   END DO
-  IF(mpime == 0) WRITE(*,'(/,11x,"EigMax(I_{xc} Pi_0 + c.c)/2 : ",3(e12.5,2x))') stoner(2:2*npol)
+  IF(mpime == 0) THEN
+     WRITE(*,'(11x,"EigMax(I_{xc} Pi_0) : ",3(e12.5,2x),/)') stoner(2:2*npol)
+     WRITE(*,'(13x,"Iteration for power method : ",3(i6),/)') iter(2:2*npol)
+  END IF
   !
   DO ig = ngv0, ngv1
      wscr(ig,ig,0:nmf,2:2*npol) = wscr(ig,ig,0:nmf,2:2*npol) - 1.0_dp
