@@ -156,7 +156,8 @@ SUBROUTINE stdin_scdft()
   USE input_parameters, ONLY : electron_maxstep, conv_thr
   USE wvfct, ONLY : nbnd
   USE output,        ONLY : fildyn
-  USE constants, ONLY: K_BOLTZMANN_RY, RY_TO_THZ
+  USE constants, ONLY: K_BOLTZMANN_RY, RY_TO_THZ, pi, BOHR_RADIUS_ANGS
+  USE cell_base, ONLY : bg, tpiba
   !
   USE sctk_val, ONLY : beta, emax, emin, fbee, lbee, ne, nmf, nx, xic, mf, wmf, bisec_step, &
   &                    zero_kelvin, lsf, scdft_kernel, lz_coulomb, freq_min, freq_min_ratio, &
@@ -165,12 +166,12 @@ SUBROUTINE stdin_scdft()
   !
   IMPLICIT NONE
   !
-  REAL(dp) :: temp
+  REAL(dp) :: temp, qvec(3), qnorm
   LOGICAL :: spin_fluc
   !
   NAMELIST /scdft/ temp, fbee, lbee, xic, nmf, nx, ne, emin, emax, lz_coulomb, electron_maxstep, &
   &                conv_thr, fildyn, spin_fluc, scdft_kernel, freq_min, freq_min_ratio, &
-  &                bisec_step, bisec_min, bisec_max
+  &                bisec_step, bisec_min, bisec_max, q_fflo
   !
   IF(ionode) THEN
      !
@@ -207,6 +208,10 @@ SUBROUTINE stdin_scdft()
         beta = 1.0_dp / (temp*K_BOLTZMANN_RY)
         WRITE(*,'(7x,"   Inverse temparature[/Ry] : ",e12.5)') beta
      END IF
+     !
+     qvec(:) = MATMUL(bg(:,:), q_fflo(:)) * tpiba / BOHR_RADIUS_ANGS
+     qnorm = SQRT(DOT_PRODUCT(qvec, qvec))
+     !
      WRITE(*,'(7x,"                  Xi cutoff : ",e12.5)') xic
      WRITE(*,'(7x,"                 First band : ",i0)') fbee
      WRITE(*,'(7x,"                  Last band : ",i0)') lbee
@@ -226,6 +231,8 @@ SUBROUTINE stdin_scdft()
      WRITE(*,'(7x,"         Bisection min. [K] : ",e12.5)') bisec_min
      WRITE(*,'(7x,"         Bisection max. [K] : ",e12.5)') bisec_max
      WRITE(*,'(7x,"      Q_{FFLO} [fractional] : ",3e12.5)') q_fflo
+     WRITE(*,'(7x,"          Q_{FFLO} [Ang^-1] : ",e12.5)') qnorm
+     !
      IF(spin_fluc) THEN
         lsf = 2
      ELSE

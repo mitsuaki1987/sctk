@@ -20,7 +20,7 @@ SUBROUTINE read_delta()
   USE mp, ONLY : mp_bcast
   USE io_global, ONLY : ionode_id
   USE io_files, ONLY : prefix, tmp_dir
-  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap, ngap1, ngap2, xi
+  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap, ngap1, ngap2, xi, dxq
   !
   IMPLICIT NONE
   !
@@ -43,13 +43,13 @@ SUBROUTINE read_delta()
      !
      DO it = 1, ngap1
         !
-        READ(fi,*) xi(it,1), delta(it,1), Z0, dk(it,1), kindx(it,1), bindx(it,1)
+        READ(fi,*) xi(it,1), delta(it,1), Z0, dk(it,1), dxq(it,1), kindx(it,1), bindx(it,1)
         !
      END DO
      !
      DO it = 1, ngap2
         !
-        READ(fi,*) xi(it,2), delta(it,2), Z0, dk(it,2), kindx(it,2), bindx(it,2)
+        READ(fi,*) xi(it,2), delta(it,2), Z0, dk(it,2), dxq(it,2), kindx(it,2), bindx(it,2)
         !
      END DO
      !
@@ -74,7 +74,7 @@ END SUBROUTINE read_delta
 SUBROUTINE out_delta(fname)
   !
   USE mp_world, ONLY : mpime
-  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap1, ngap2, xi, Z
+  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap1, ngap2, xi, Z, dxq
   IMPLICIT NONE
   !
   CHARACTER(*),INTENT(IN) :: fname
@@ -90,14 +90,14 @@ SUBROUTINE out_delta(fname)
     WRITE(fo,*) ""
     !
     DO it = 1, ngap1
-      WRITE(fo,'(4e25.15,2i8)') xi(it,1), delta(it,1), Z(it,1), dk(it,1), &
+      WRITE(fo,'(5e25.15,2i8)') xi(it,1), delta(it,1), Z(it,1), dk(it,1), dxq(it,1), &
       &                       kindx(it,1), bindx(it,1)
     END DO
     !
     WRITE(fo,*) ""
     !
     DO it = 1, ngap2
-      WRITE(fo,'(4e25.15,2i8)') xi(it,2), delta(it,2), Z(it,2), dk(it,2), &
+      WRITE(fo,'(5e25.15,2i8)') xi(it,2), delta(it,2), Z(it,2), dk(it,2), dxq(it,2), &
       &                         kindx(it,2), bindx(it,2)
     END DO
     !
