@@ -262,9 +262,10 @@ SUBROUTINE compute_dosk(dos, dxq_dos)
   !
   CALL mp_sum(dos,     world_comm)
   CALL mp_sum(dxq_dos, world_comm)
-  dxq_dos(:,:,:) = dxq_dos(:,:,:) / dos(:,:,:)
   !
   CALL symm_dosk(dos, dxq_dos)
+  !
+  dxq_dos(:,:,:) = dxq_dos(:,:,:) / dos(:,:,:)
   !
 END SUBROUTINE compute_dosk
 !
