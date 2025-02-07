@@ -107,7 +107,7 @@ SUBROUTINE gapeq_rhs(delta,res)
   REAL(dp),INTENT(OUT) :: res(ngap,2)
   !
   INTEGER :: igap, ngap10, ngap11, nh
-  REAL(dp) :: chi(ngap,2), dosh, Kh, dlth, xmax
+  REAL(dp) :: chi(ngap,2), dosh, Kh, dlth, xmax, tanhd, tanhe
   !
   CALL start_clock("gapeq_rhs")
   !
@@ -124,9 +124,9 @@ SUBROUTINE gapeq_rhs(delta,res)
      !$OMP DO
      DO igap = 1, ngap1
         IF(xi(igap,1)**2 + delta(igap,1)**2 > dxq(igap,1)**2) THEN
-           chi(igap,1) = 2.0_dp
+           chi(igap,1) = 1.0_dp
         ELSE
-         chi(igap,1) = 0.0_dp
+           chi(igap,1) = 0.0_dp
         END IF
      END DO
      !$OMP END DO NOWAIT
@@ -134,7 +134,7 @@ SUBROUTINE gapeq_rhs(delta,res)
      !$OMP DO
      DO igap = 1, ngap2
         IF(xi(igap,2)**2 + delta(igap,2)**2 > dxq(igap,2)**2) THEN
-           chi(igap,2) = 2.0_dp
+           chi(igap,2) = 1.0_dp
         ELSE
            chi(igap,2) = 0.0_dp
         END IF
@@ -143,20 +143,55 @@ SUBROUTINE gapeq_rhs(delta,res)
      !
      !$OMP END PARALLEL
   ELSE
-     chi(1:ngap1,1) = TANH(0.5_dp * beta * (SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2) &
-     &                                     + dxq(1:ngap1,1))) &
-     &              + TANH(0.5_dp * beta * (SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2) &
-     &                                     - dxq(1:ngap1,1)))
-     chi(1:ngap2,2) = TANH(0.5_dp * beta * (SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2) &
-     &                                     + dxq(1:ngap2,2))) &
-     &              + TANH(0.5_dp * beta * (SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2) &
-     &                                     - dxq(1:ngap2,2)))
+     !$OMP PARALLEL DEFAULT(NONE) &
+     !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi,beta) &
+     !$OMP & PRIVATE(igap,tanhd,tanhe)
+     !
+     !$OMP DO
+     DO igap = 1, ngap1
+        !
+        tanhe = TANH(0.5_dp * beta * SQRT(xi(igap,1)**2 + delta(igap,1)**2))
+        tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,1)))
+        !
+        IF(1.0_dp - (tanhd * tanhe)**2 < 1.0e-10_dp) THEN
+           IF(tanhe > tanhd) THEN
+              chi(igap,1) = tanhe
+           ELSE
+              chi(igap,1) = 0.0_dp
+           END IF
+        ELSE
+           chi(igap,1) = tanhe * (1.0_dp - tanhd**2) / (1.0_dp - (tanhd * tanhe)**2)
+        END IF
+        !
+     END DO
+     !$OMP END DO NOWAIT
+     !
+     !$OMP DO
+     DO igap = 1, ngap2
+        !
+        tanhe = TANH(0.5_dp * beta * SQRT(xi(igap,2)**2 + delta(igap,2)**2))
+        tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,2)))
+        !
+        IF(1.0_dp - (tanhd * tanhe)**2 < 1.0e-10_dp) THEN
+           IF(tanhe > tanhd) THEN
+              chi(igap,2) = tanhe
+           ELSE
+              chi(igap,2) = 0.0_dp
+           END IF
+        ELSE
+           chi(igap,2) = tanhe * (1.0_dp - tanhd**2) / (1.0_dp - (tanhd * tanhe)**2)
+        END IF
+        !
+     END DO
+     !$OMP END DO NOWAIT
+     !
+     !$OMP END PARALLEL
   END IF
   !
-  chi(1:ngap1,1) = 0.25_dp * dk(1:ngap1,1) * delta(1:ngap1,1) * chi(1:ngap1,1) &
+  chi(1:ngap1,1) = 0.5_dp * dk(1:ngap1,1) * delta(1:ngap1,1) * chi(1:ngap1,1) &
   &              / SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2)
   !
-  chi(1:ngap2,2) = 0.25_dp * dk(1:ngap2,2) * delta(1:ngap2,2) * chi(1:ngap2,2) &
+  chi(1:ngap2,2) = 0.5_dp * dk(1:ngap2,2) * delta(1:ngap2,2) * chi(1:ngap2,2) &
   &              / SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2)
   !
   CALL dgemv("T", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,1), ngap2, &
