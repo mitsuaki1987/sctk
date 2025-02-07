@@ -23,7 +23,7 @@ SUBROUTINE ini_delta(lallocate)
   USE disp,  ONLY : nqs
   USE io_files, ONLY : prefix, tmp_dir
   USE input_parameters, ONLY : restart_mode
-  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, &
+  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, dxq, &
   &                     ngap, ngap1, ngap2, nx, omg0, xi, xi0
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
@@ -53,7 +53,7 @@ SUBROUTINE ini_delta(lallocate)
         ngap = MAX(ngap1, ngap2)
         WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap1, ngap2
         IF(lallocate) &
-        &  ALLOCATE(xi(ngap,2), delta(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2))
+        &  ALLOCATE(xi(ngap,2), delta(ngap,2), dk(ngap,2), dxq(ngap,2), kindx(ngap,2), bindx(ngap,2))
         xi(   1:ngap,1:2) = 0.0_dp
         delta(1:ngap,1:2) = 0.0_dp
         dk(   1:ngap,1:2) = 0.0_dp
@@ -61,11 +61,11 @@ SUBROUTINE ini_delta(lallocate)
         bindx(1:ngap,1:2) = 0
         !
         DO it = 1, ngap1
-           READ(fi,*) xi(it,1), delta(it,1), Z0, dk(it,1), kindx(it,1), bindx(it,1)
+           READ(fi,*) xi(it,1), delta(it,1), Z0, dk(it,1), dxq(it,1), kindx(it,1), bindx(it,1)
         END DO
         !
         DO it = 1, ngap2
-           READ(fi,*) xi(it,2), delta(it,2), Z0, dk(it,2), kindx(it,2), bindx(it,2)
+           READ(fi,*) xi(it,2), delta(it,2), Z0, dk(it,2), dxq(it,2), kindx(it,2), bindx(it,2)
         END DO
         !
         close(fi)
@@ -560,7 +560,7 @@ SUBROUTINE symm_dosk(dos, dxq_dos)
      q_fflo2(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), q_fflo(1:3))
      q_fflo2(1:3) = q_fflo2(1:3) - q_fflo(1:3)
      qnorm = DOT_PRODUCT(q_fflo2, q_fflo2)
-     IF(qnorm < 1.0e-8_dp) lq_sym(isym) = .TRUE.
+     IF(qnorm < 1.0e-15_dp) lq_sym(isym) = .TRUE.
   END DO
   WRITE(stdout,'(7x,"Number of symmetries conserving q_FFLO : ",i5)') COUNT(lq_sym(1:nsym)) 
   !
