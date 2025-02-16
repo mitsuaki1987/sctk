@@ -154,7 +154,7 @@ SUBROUTINE gapeq_rhs(delta,res)
         tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,1)))
         !
         IF(1.0_dp - (tanhd * tanhe)**2 < 1.0e-10_dp) THEN
-           IF(tanhe > tanhd) THEN
+           IF(xi(igap,1)**2 + delta(igap,1)**2 > dxq(igap,1)**2) THEN
               chi(igap,1) = tanhe
            ELSE
               chi(igap,1) = 0.0_dp
@@ -173,7 +173,7 @@ SUBROUTINE gapeq_rhs(delta,res)
         tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,2)))
         !
         IF(1.0_dp - (tanhd * tanhe)**2 < 1.0e-10_dp) THEN
-           IF(tanhe > tanhd) THEN
+           IF(xi(igap,2)**2 + delta(igap,2)**2 > dxq(igap,2)**2) THEN
               chi(igap,2) = tanhe
            ELSE
               chi(igap,2) = 0.0_dp
