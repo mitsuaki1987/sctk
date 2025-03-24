@@ -147,4 +147,67 @@ SUBROUTINE broyden_gapeq(ndim,vec)
   !
 END SUBROUTINE broyden_gapeq
 !
+SUBROUTINE supercurrent()
+  !
+  USE kinds, ONLY : dp
+  USE io_global, ONLY : stdout
+  USE cell_base, ONLY : omega, bg, tpiba
+  USE sctk_val, ONLY : xi, delta, dxq, ngap1, ngap2, dk, q_fflo, beta
+  !
+  INTEGER :: ii, igap, ngap12
+  REAL(dp) :: j_q(2), j0_q(2), tanhe, tanhd, tanhx, qvec(3), qnorm
+  !
+  !$OMP PARALLEL DEFAULT(NONE) &
+  !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,dk,beta,j_q,j0_q) &
+  !$OMP & PRIVATE(ii,igap,tanhe,tanhd,tanhx,ngap12)
+  !
+  DO ii = 1, 2
+    !
+    IF(ii == 1) THEN
+      ngap12 = ngap1
+    ELSE
+      ngap12 = ngap2
+    END IF
+    !
+    !$OMP DO REDUCTION(+: j_q, j0_q)
+    DO igap = 1, ngap12
+      !
+      tanhe = TANH(0.5_dp * beta * SQRT(xi(igap, ii)**2 + delta(igap, ii)**2))
+      tanhd = TANH(0.5_dp * beta * ABS(dxq(igap, ii)))
+      tanhx = TANH(0.5_dp * beta * ABS(xi(igap, ii)))
+      !
+      IF(1.0_dp - (tanhd * tanhe)**2 < 1.0e-10_dp) THEN
+         IF(xi(igap, ii)**2 + delta(igap, ii)**2 < dxq(igap, ii)**2) THEN
+           j_q(ii) = j_q(ii) + dk(igap, ii) * ABS(dxq(igap, ii)) * tanhd 
+         END IF
+      ELSE
+        j_q(ii) = j_q(ii) + dk(igap, ii) * ABS(dxq(igap, ii)) * tanhd * (1.0_dp - tanhe**2) / (1.0_dp - (tanhd * tanhe)**2)
+      END IF
+      !
+      IF(1.0_dp - (tanhd * tanhx)**2 < 1.0e-10_dp) THEN
+        IF(ABS(xi(igap, ii)) < ABS(dxq(igap, ii))) THEN
+          j0_q(ii) = j0_q(ii) + dk(igap, ii) * ABS(dxq(igap, ii)) * tanhd 
+        END IF
+     ELSE
+       j0_q(ii) = j0_q(ii) + dk(igap, ii) * ABS(dxq(igap, ii)) * tanhd * (1.0_dp - tanhx**2) / (1.0_dp - (tanhd * tanhx)**2)
+     END IF
+     !
+    END DO
+    !$OMP END DO NOWAIT
+    !
+  END DO
+  !
+  !$OMP END PARALLEL
+  !
+  qvec(:) = MATMUL(bg(:,:), q_fflo(:)) * tpiba
+  qnorm = SQRT(DOT_PRODUCT(qvec, qvec))
+  !
+  j_q( 1:2) = j_q( 1:2) * 2.0_dp / (omega * qnorm)
+  j0_q(1:2) = j0_q(1:2) * 2.0_dp / (omega * qnorm)
+  !
+  WRITE(stdout,'(7x,"Super current [a.u.] : ",2e15.5)') j_q( 1:2)
+  WRITE(stdout,'(7x,"Normal current [a.u.] : ",2e15.5)') j0_q( 1:2)
+  !
+END SUBROUTINE supercurrent
+!
 END MODULE sctk_broyden

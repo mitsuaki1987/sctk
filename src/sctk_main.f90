@@ -68,7 +68,7 @@ PROGRAM sctk_main
   USE sctk_z, ONLY : make_Z, make_Z_f, make_Z_qpdos
   USE sctk_gapeq_rhs, ONLY : make_effint, gapeq_rhs_f, &
   &                          gapeq_rhs_qpdos, make_lambda_mu_f
-  USE sctk_broyden, ONLY : broyden_gapeq, compute_dabs
+  USE sctk_broyden, ONLY : broyden_gapeq, compute_dabs, supercurrent
   !USE wvfct, ONLY : nbnd ! debug
   !USE sctk_val, ONLY : Kel, nk_p, k0_p, nbnd_p, bnd0_p, nmf, nqbz ! debug
   !USE mp, ONLY : mp_sum ! debug
@@ -199,6 +199,7 @@ PROGRAM sctk_main
            WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
            CALL broyden_gapeq(ngap*2,delta)
            CALL out_delta(TRIM(tmp_dir) // TRIM(prefix) // ".scgap")
+           CALL supercurrent()
            !
         ELSE
            !
@@ -249,7 +250,7 @@ PROGRAM sctk_main
                  WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
                  CALL broyden_gapeq(ngap*2,delta)
                  CALL compute_dabs(.FALSE., delta, dabs)
-                 !
+                 CALL supercurrent()
                  !
                  WRITE(stdout,'(/,5x,"T[K]-D[meV]: ",2e15.5,/)') tcmax, dabs
                  !
@@ -277,6 +278,7 @@ PROGRAM sctk_main
               WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
               CALL broyden_gapeq(ngap*2,delta)
               CALL compute_dabs(.FALSE., delta, dabs)
+              CALL supercurrent()
               !
               WRITE(stdout,'(/,5x,"T[K]-D[meV]: ",2e15.5,/)') tcmid, dabs
               !
