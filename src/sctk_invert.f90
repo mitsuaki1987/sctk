@@ -217,9 +217,8 @@ SUBROUTINE hermite()
 END SUBROUTINE hermite
 !
 ! Compute maximum-absolute eigenvalue with power method
-! Force the matrix to be hermite (M + M^+)/2
 !
-SUBROUTINE eigmax_power(matrix, eigval)
+SUBROUTINE eigmax_power(matrix, eigval, iter)
   !
   USE kinds, ONLY : DP
   USE mp_world, ONLY : mpime, world_comm
@@ -230,37 +229,38 @@ SUBROUTINE eigmax_power(matrix, eigval)
   REAL(dp),INTENT(OUT) :: eigval
   !
   INTEGER :: iter
-  REAL(dp) :: val_i, val_o, norm
+  REAL(dp) :: norm, res
+  !
+  REAL(dp),ALLOCATABLE :: rvec(:)
   COMPLEX(dp),ALLOCATABLE :: vec_i(:), vec_o(:)
   !
-  ALLOCATE(vec_i(ngv), vec_o(ngv))
+  ALLOCATE(vec_i(ngv), vec_o(ngv), rvec(ngv))
   !
-  ! Initial guess is G=0 term
+  ! Initial guess is random vector
   !
-  vec_i(1) = 1.0_dp
-  vec_i(2:ngv) = 0.0_dp
-  IF (mpime == 0) val_i = REAL(matrix(1,1), dp)
-  CALL mp_bcast(val_i, 0, world_comm)
-  vec_o(1:ngv) = 0.0_dp
-  val_o = 0.0_dp
+  CALL random_seed()
+  CALL random_number(rvec)
+  CALL mp_bcast(rvec, 0, world_comm)
+  norm  = REAL(DOT_PRODUCT(rvec(1:ngv), rvec(1:ngv)), dp)
+  vec_i(1:ngv) = rvec(1:ngv) / SQRT(norm)
   !
-  DO iter = 1, 100
+  DO iter = 1, 500
     !
-    call ZGEMV("N", ngv, ngv1-ngv0+1, 0.5_dp, matrix, ngv, vec_i(ngv0:ngv1), 1, 0.0_dp, vec_o(   1:ngv ), 1)
-    call ZGEMV("C", ngv, ngv1-ngv0+1, 0.5_dp, matrix, ngv, vec_i(   1:ngv ), 1, 1.0_dp, vec_o(ngv0:ngv1), 1)
+    call ZGEMV("N", ngv, ngv1-ngv0+1, 1.0_dp, matrix, ngv, vec_i(ngv0:ngv1), 1, 0.0_dp, vec_o(   1:ngv ), 1)
     !
     CALL mp_sum(vec_o, world_comm)
     !
-    val_o = REAL(DOT_PRODUCT(vec_i(ngv0:ngv1), vec_o(ngv0:ngv1)), dp)
-    norm  = REAL(DOT_PRODUCT(vec_o(ngv0:ngv1), vec_o(ngv0:ngv1)), dp)
-    val_i = 0.5_dp * (val_i + val_o)
+    res   = REAL(DOT_PRODUCT(vec_i(1:ngv), vec_o(1:ngv)), dp) - eigval
+    norm  = REAL(DOT_PRODUCT(vec_o(1:ngv), vec_o(1:ngv)), dp)
+    eigval = eigval + res
+    !
     vec_i(1:ngv) = vec_o(1:ngv) / SQRT(norm)
+    !
+    IF(ABS(res) < 1.0e-5_dp .AND. iter > 1) EXIT
     !
   END DO
   !
-  eigval = val_i
-  !
-  DEALLOCATE(vec_i, vec_o)
+  DEALLOCATE(vec_i, vec_o, rvec)
   !
 END SUBROUTINE
 !

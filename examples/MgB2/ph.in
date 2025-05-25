@@ -1,5 +1,6 @@
 Phonon
 &INPUTPH
+reduce_io = .true.
    lshift_q = .true.
       ldisp = .true.
  search_sym = .false.
