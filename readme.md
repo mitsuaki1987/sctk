@@ -5,7 +5,7 @@ To use main branch
 ``` bash
 $ git clone https://gitlab.com/QEF/q-e.git
 $ cd q-e
-$ git checkout 96cdd5ac6af9c060be392a95f14dbcbca5c1a890
+$ git checkout qe-7.4.1
 $ git clone https://github.com/mitsuaki1987/sctk.git -b main
 $ patch -p1 < sctk/patch.diff
 ```
@@ -15,7 +15,7 @@ To try the develop branch
 ``` bash
 $ git clone https://gitlab.com/QEF/q-e.git
 $ cd q-e
-$ git checkout qe-7.4
+$ git checkout qe-7.4.1
 $ git clone https://github.com/mitsuaki1987/sctk.git -b develop
 $ patch -p1 < sctk/patch.diff
 ```
