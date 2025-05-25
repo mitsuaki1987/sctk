@@ -1,0 +1,7 @@
+&INPUT
+ fildyn = 'matdyn'
+   la2f = .true.
+ lshift_q = .true.
+   zasr = 'crystal'
+  flfrc = 'ifc.dat'
+/
