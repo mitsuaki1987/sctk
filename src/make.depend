@@ -234,6 +234,7 @@ sctk_spinfluc.o : ../../UtilXlib/mp.o
 sctk_spinfluc.o : sctk_dmuxc.o
 sctk_spinfluc.o : sctk_invert.o
 sctk_spinfluc.o : sctk_val.o
+sctk_stdin.o : ../../Modules/cell_base.o
 sctk_stdin.o : ../../Modules/constants.o
 sctk_stdin.o : ../../Modules/control_flags.o
 sctk_stdin.o : ../../Modules/input_parameters.o
@@ -273,7 +274,6 @@ sctk_wfc.o : ../../Modules/cell_base.o
 sctk_wfc.o : ../../Modules/io_files.o
 sctk_wfc.o : ../../Modules/io_global.o
 sctk_wfc.o : ../../Modules/kind.o
-sctk_wfc.o : ../../Modules/mp_pools.o
 sctk_wfc.o : ../../Modules/mp_world.o
 sctk_wfc.o : ../../Modules/noncol.o
 sctk_wfc.o : ../../Modules/recvec.o
@@ -296,6 +296,3 @@ sctk_z.o : ../../PW/src/pwcom.o
 sctk_z.o : ../../UtilXlib/mp.o
 sctk_z.o : sctk_kernel_weight.o
 sctk_z.o : sctk_val.o
-sparse_ir_preset.o : sparse_ir.o
-test.o : sparse_ir.o
-test.o : sparse_ir_preset.o

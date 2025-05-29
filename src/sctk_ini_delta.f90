@@ -273,6 +273,7 @@ SUBROUTINE compute_dosk(dos, dxq_dos, qvq_dos)
   !
   CALL mp_sum(dos,     world_comm)
   CALL mp_sum(dxq_dos, world_comm)
+  CALL mp_sum(qvq_dos, world_comm)
   !
   CALL symm_dosk(dos, dxq_dos, qvq_dos)
   !
@@ -391,6 +392,7 @@ END SUBROUTINE calc_d_xi_q
 SUBROUTINE compute_d3k()
   !
   USE kinds, ONLY : DP
+  USE mp_world, ONLY : mpime
   USE io_global, ONLY : stdout
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE sctk_val, ONLY : bindx, dk, fbee, kindx, lbee, dxq, qvq, &
@@ -441,13 +443,14 @@ SUBROUTINE compute_d3k()
   !
   WRITE(stdout,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap1, ngap2
   ngap = MAX(ngap1, ngap2)
-  ALLOCATE(xi(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2), dxq(ngap,2))
+  ALLOCATE(xi(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2), dxq(ngap,2), qvq(ngap,2))
   !
   xi(   1:ngap,1:2) = 0.0_dp
   dk(   1:ngap,1:2) = 0.0_dp
   kindx(1:ngap,1:2) = 0
   bindx(1:ngap,1:2) = 0
   dxq(  1:ngap,1:2) = 0.0_dp
+  qvq(  1:ngap,1:2) = 0.0_dp
   !
   ! Map xi, d3k, dosk, indx, bindx, dxq
   !
