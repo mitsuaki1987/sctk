@@ -155,15 +155,13 @@ SUBROUTINE supercurrent()
   USE sctk_val, ONLY : xi, delta, dxq, ngap1, ngap2, dk, q_fflo, beta, qvq
   !
   INTEGER :: ii, igap, ngap12
-  REAL(dp) :: dj_q(2), j_q(2), j0_q(2), tanhdpe, tanhdme, tanhdpx, qvec(3), qnorm, e_k
+  REAL(dp) :: j_q(2), tanhd, tanhdpx, tanhdmx, qvec(3), qnorm, e_k
   !
-  dj_q(1:2) = 0.0_dp
   j_q(1:2) = 0.0_dp
-  j0_q(1:2) = 0.0_dp
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,qvq,dk,beta,j_q,j0_q,dj_q) &
-  !$OMP & PRIVATE(ii,igap,tanhdpe,tanhdme,tanhdpx,ngap12,e_k)
+  !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,qvq,dk,beta,j_q) &
+  !$OMP & PRIVATE(ii,igap,tanhd,tanhdpx,tanhdmx,ngap12,e_k)
   !
   DO ii = 1, 2
     !
@@ -173,20 +171,19 @@ SUBROUTINE supercurrent()
       ngap12 = ngap2
     END IF
     !
-    !$OMP DO REDUCTION(+: j_q, j0_q, dj_q)
+    !$OMP DO REDUCTION(+: j_q)
     DO igap = 1, ngap12
       !
-      e_k = SQRT(xi(igap, ii)**2 + delta(igap, ii)**2)
-      tanhdpe = TANH(0.5_dp * beta * (dxq(igap, ii) + e_k))
-      tanhdme = TANH(0.5_dp * beta * (dxq(igap, ii) - e_k))
+      tanhd   = TANH(0.5_dp * beta *  dxq(igap, ii)                )
+      tanhdmx = TANH(0.5_dp * beta * (dxq(igap, ii) - xi(igap, ii)))
       tanhdpx = TANH(0.5_dp * beta * (dxq(igap, ii) + xi(igap, ii)))
       !
-      j0_q(ii) = j0_q(ii) + dk(igap, ii) * qvq(igap, ii) * (1.0_dp + tanhdpx)
-      j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) * (1.0_dp + 0.5_dp * (tanhdpe + tanhdme) &
-      &                                     + 0.5_dp * xi(igap, ii) / e_k * (tanhdpe - tanhdme))
-      dj_q(ii) = dj_q(ii) + dk(igap, ii) * qvq(igap, ii) * (0.5_dp * (1.0_dp + xi(igap, ii) / e_k) * tanhdpe &
-      &                                                   + 0.5_dp * (1.0_dp - xi(igap, ii) / e_k) * tanhdme &
-      &                                                   - tanhdpx)
+      IF(ABS(xi(igap, ii)) < 1.0e-5_dp) THEN
+        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) * 0.5_dp * beta**2 * tanhd * (1.0_dp - tanhd**2)
+      ELSE
+        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) / (2.0_dp * xi(igap, ii)) &
+        &  * ((tanhdpx - tanhdpx)/xi(igap, ii) - beta * (1.0_dp - tanhdpx**2))
+      END IF
       !
     END DO
     !$OMP END DO NOWAIT
@@ -199,12 +196,8 @@ SUBROUTINE supercurrent()
   qnorm = SQRT(DOT_PRODUCT(qvec, qvec))
   !
   j_q( 1:2) = j_q( 1:2) / (omega * qnorm)
-  j0_q(1:2) = j0_q(1:2) / (omega * qnorm)
-  dj_q(1:2) = dj_q(1:2) / (omega * qnorm)
   !
   WRITE(stdout,'(7x,"Super current [a.u.] : ",2e15.5)') j_q( 1:2)
-  WRITE(stdout,'(7x,"Normal current [a.u.] : ",2e15.5)') j0_q( 1:2)
-  WRITE(stdout,'(7x,"Delta current [a.u.] : ",2e15.5)') dj_q( 1:2)
   !
 END SUBROUTINE supercurrent
 !
