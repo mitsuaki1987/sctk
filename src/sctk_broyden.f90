@@ -179,9 +179,11 @@ SUBROUTINE supercurrent()
       tanhdpx = TANH(0.5_dp * beta * (dxq(igap, ii) + xi(igap, ii)))
       !
       IF(ABS(xi(igap, ii)) < 1.0e-5_dp) THEN
-        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) * 0.5_dp * beta**2 * tanhd * (1.0_dp - tanhd**2)
+        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) * delta(igap, ii)**2 &
+        &                 * 0.5_dp * beta**2 * tanhd * (1.0_dp - tanhd**2)
       ELSE
-        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) / (2.0_dp * xi(igap, ii)) &
+        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) * delta(igap, ii)**2 &
+        &                 / (2.0_dp * xi(igap, ii)) &
         &  * ((tanhdpx - tanhdpx)/xi(igap, ii) - beta * (1.0_dp - tanhdpx**2))
       END IF
       !
