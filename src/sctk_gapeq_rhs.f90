@@ -106,7 +106,7 @@ SUBROUTINE gapeq_rhs(delta,res)
   REAL(dp),INTENT(in)  :: delta(ngap,2)
   REAL(dp),INTENT(OUT) :: res(ngap,2)
   !
-  INTEGER :: igap, ngap10, ngap11, nh
+  INTEGER :: igap, ngap10, ngap11, nh, ngap12, ii
   REAL(dp) :: chi(ngap,2), dosh, Kh, dlth, xmax, tanhd, tanhe
   !
   CALL start_clock("gapeq_rhs")
@@ -117,75 +117,67 @@ SUBROUTINE gapeq_rhs(delta,res)
   chi(1:ngap,1:2) = 0.0_dp
   !
   IF(zero_kelvin) THEN
-     !$OMP PARALLEL DEFAULT(NONE) &
-     !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi) &
-     !$OMP & PRIVATE(igap)
-     !
-     !$OMP DO
-     DO igap = 1, ngap1
-        IF(xi(igap,1)**2 + delta(igap,1)**2 > dxq(igap,1)**2) THEN
-           chi(igap,1) = 1.0_dp
+    !$OMP PARALLEL DEFAULT(NONE) &
+    !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi) &
+    !$OMP & PRIVATE(igap,ngap12,ii)
+    !
+    DO ii = 1, 2
+      !
+      IF(ii == 1) THEN
+        ngap12 = ngap1
+      ELSE
+        ngap12 = ngap2
+      END IF
+      !
+      !$OMP DO
+      DO igap = 1, ngap12
+        IF(xi(igap,ii)**2 + delta(igap,ii)**2 > dxq(igap,ii)**2) THEN
+          chi(igap,ii) = 1.0_dp
         ELSE
-           chi(igap,1) = 0.0_dp
+          chi(igap,ii) = 0.0_dp
         END IF
-     END DO
-     !$OMP END DO NOWAIT
-     !
-     !$OMP DO
-     DO igap = 1, ngap2
-        IF(xi(igap,2)**2 + delta(igap,2)**2 > dxq(igap,2)**2) THEN
-           chi(igap,2) = 1.0_dp
-        ELSE
-           chi(igap,2) = 0.0_dp
-        END IF
-     END DO
-     !$OMP END DO NOWAIT
-     !
-     !$OMP END PARALLEL
+      END DO ! igap
+      !$OMP END DO NOWAIT
+      !
+    END DO ! ii
+    !
+    !$OMP END PARALLEL
   ELSE
-     !$OMP PARALLEL DEFAULT(NONE) &
-     !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi,beta) &
-     !$OMP & PRIVATE(igap,tanhd,tanhe)
-     !
-     !$OMP DO
-     DO igap = 1, ngap1
+    !$OMP PARALLEL DEFAULT(NONE) &
+    !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi,beta) &
+    !$OMP & PRIVATE(igap,tanhd,tanhe,ngap12,ii)
+    !
+    DO ii = 1, 2
+      !
+      IF(ii == 1) THEN
+        ngap12 = ngap1
+      ELSE
+        ngap12 = ngap2
+      END IF
+      !
+      !$OMP DO
+      DO igap = 1, ngap12
         !
-        tanhe = TANH(0.5_dp * beta * SQRT(xi(igap,1)**2 + delta(igap,1)**2))
-        tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,1)))
+        tanhe = TANH(0.5_dp * beta * SQRT(xi(igap,ii)**2 + delta(igap,ii)**2))
+        tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,ii)))
         !
-        IF(1.0_dp - (tanhd * tanhe)**2 < 1.0e-10_dp) THEN
-           IF(xi(igap,1)**2 + delta(igap,1)**2 > dxq(igap,1)**2) THEN
-              chi(igap,1) = tanhe
-           ELSE
-              chi(igap,1) = 0.0_dp
-           END IF
+        IF(1.0_dp - tanhd * tanhe < 1.0e-10_dp) THEN
+          IF(xi(igap,ii)**2 + delta(igap,ii)**2 > dxq(igap,ii)**2) THEN
+            chi(igap,ii) = tanhe * (1.0_dp + tanhd) / (1.0_dp + tanhd * tanhe)
+          ELSE
+            chi(igap,ii) = 0.0_dp
+          END IF
         ELSE
-           chi(igap,1) = tanhe * (1.0_dp - tanhd**2) / (1.0_dp - (tanhd * tanhe)**2)
+          chi(igap,ii) = tanhe * (1.0_dp + tanhd) / (1.0_dp + tanhd * tanhe) &
+          &                    * (1.0_dp - tanhd) / (1.0_dp - tanhd * tanhe)
         END IF
         !
-     END DO
-     !$OMP END DO NOWAIT
-     !
-     !$OMP DO
-     DO igap = 1, ngap2
-        !
-        tanhe = TANH(0.5_dp * beta * SQRT(xi(igap,2)**2 + delta(igap,2)**2))
-        tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,2)))
-        !
-        IF(1.0_dp - (tanhd * tanhe)**2 < 1.0e-10_dp) THEN
-           IF(xi(igap,2)**2 + delta(igap,2)**2 > dxq(igap,2)**2) THEN
-              chi(igap,2) = tanhe
-           ELSE
-              chi(igap,2) = 0.0_dp
-           END IF
-        ELSE
-           chi(igap,2) = tanhe * (1.0_dp - tanhd**2) / (1.0_dp - (tanhd * tanhe)**2)
-        END IF
-        !
-     END DO
-     !$OMP END DO NOWAIT
-     !
-     !$OMP END PARALLEL
+      END DO ! igap
+      !$OMP END DO NOWAIT
+      !
+    END DO ! ii
+    !
+    !$OMP END PARALLEL
   END IF
   !
   chi(1:ngap1,1) = 0.5_dp * dk(1:ngap1,1) * delta(1:ngap1,1) * chi(1:ngap1,1) &

@@ -61,11 +61,11 @@ MODULE sctk_val
   !
   REAL(dp),ALLOCATABLE,SAVE :: &
   & d_et(:,:),      & !< (nbnd,nks) (e_{k+q/2} - e_{k-q/2})2 for FFLO
-  & qvq0(:,:),      & !< (nbnd,nks) Q v_{k+Q/2} for FFLO
+  & d2_et(:,:),     & !< (nbnd,nks) (e_{k+q/2} + e_{k-q/2} - 2e_{k})2 for FFLO
   & delta(:,:),     & !< (ngap,2) Kohn-Sham gap functions [Ry]
   & dk(:,:),        & !< (ngap,2) Weight of k
   & dxq(:,:),       & !< (ngap,2) (xi_{k+q/2} - xi_{k-q/2})/2
-  & qvq(:,:),       & !< (ngap,2) (xi_{k+q/2} - xi_{k-q/2})/2
+  & d2xq(:,:),      & !< (ngap,2) (xi_{k+q/2} + xi_{k-q/2} - 2xi_{k})/2
   & dltF(:,:,:),    & !< (nx,nbf,nk) Kohn-Sham gap functions [Ry] at Fermi surface
   & dx0(:),         & !< (nx) weight for energy
   & e0(:),          & !< (ne) Energy grid for qpdos

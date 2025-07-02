@@ -152,16 +152,16 @@ SUBROUTINE supercurrent()
   USE kinds, ONLY : dp
   USE io_global, ONLY : stdout
   USE cell_base, ONLY : omega, bg, tpiba
-  USE sctk_val, ONLY : xi, delta, dxq, ngap1, ngap2, dk, q_fflo, beta, qvq
+  USE sctk_val, ONLY : xi, delta, dxq, ngap1, ngap2, dk, q_fflo, beta, d2xq
   !
   INTEGER :: ii, igap, ngap12
-  REAL(dp) :: j_q(2), tanhd, tanhdpx, tanhdmx, qvec(3), qnorm, e_k
+  REAL(dp) :: j_q(2), tanhd, tanhx, tanhe, qvec(3), qnorm, d_x, d_e, x_d, e_d, e_qp
   !
   j_q(1:2) = 0.0_dp
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,qvq,dk,beta,j_q) &
-  !$OMP & PRIVATE(ii,igap,tanhd,tanhdpx,tanhdmx,ngap12,e_k)
+  !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,d2xq,dk,beta,j_q) &
+  !$OMP & PRIVATE(ii,igap,tanhd,tanhx,tanhe,ngap12,d_x,d_e,x_d,e_d,e_qp)
   !
   DO ii = 1, 2
     !
@@ -174,18 +174,45 @@ SUBROUTINE supercurrent()
     !$OMP DO REDUCTION(+: j_q)
     DO igap = 1, ngap12
       !
-      tanhd   = TANH(0.5_dp * beta *  dxq(igap, ii)                )
-      tanhdmx = TANH(0.5_dp * beta * (dxq(igap, ii) - xi(igap, ii)))
-      tanhdpx = TANH(0.5_dp * beta * (dxq(igap, ii) + xi(igap, ii)))
+      e_qp = SQRT(xi(igap, ii)**2 + delta(igap, ii)**2)
+      tanhd = TANH(0.5_dp * beta * ABS(dxq(igap, ii)))
+      tanhx = TANH(0.5_dp * beta * ABS(xi(igap, ii)))
+      tanhe = TANH(0.5_dp * beta * e_qp)
       !
-      IF(ABS(xi(igap, ii)) < 1.0e-5_dp) THEN
-        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) * delta(igap, ii)**2 &
-        &                 * 0.5_dp * beta**2 * tanhd * (1.0_dp - tanhd**2)
+      IF(1.0_dp - tanhd * tanhe < 1.0e-10_dp) THEN
+        IF(xi(igap,ii)**2 + delta(igap,ii)**2 > dxq(igap,ii)**2) THEN
+          e_d = tanhe * (1.0_dp + tanhd) / (1.0_dp + tanhd * tanhe)
+          d_e = 0.0_dp
+        ELSE
+          e_d = 0.0_dp
+          d_e = tanhd * (1.0_dp + tanhe) / (1.0_dp + tanhd * tanhe)
+        END IF
       ELSE
-        j_q(ii) = j_q(ii) + dk(igap, ii) * qvq(igap, ii) * delta(igap, ii)**2 &
-        &                 / (2.0_dp * xi(igap, ii)) &
-        &  * ((tanhdpx - tanhdpx)/xi(igap, ii) - beta * (1.0_dp - tanhdpx**2))
+        e_d = tanhe * (1.0_dp + tanhd) / (1.0_dp + tanhd * tanhe) &
+        &           * (1.0_dp - tanhd) / (1.0_dp - tanhd * tanhe)
+        d_e = tanhd * (1.0_dp + tanhe) / (1.0_dp + tanhd * tanhe) &
+        &           * (1.0_dp - tanhe) / (1.0_dp - tanhd * tanhe)
       END IF
+      !
+      IF(1.0_dp - tanhd * tanhx < 1.0e-10_dp) THEN
+        IF(xi(igap,ii)**2 + delta(igap,ii)**2 > dxq(igap,ii)**2) THEN
+          x_d = tanhx * (1.0_dp + tanhd) / (1.0_dp + tanhd * tanhx)
+          d_x = 0.0_dp
+        ELSE
+          x_d = 0.0_dp
+          d_x = tanhd * (1.0_dp + tanhx) / (1.0_dp + tanhd * tanhx)
+        END IF
+      ELSE
+        x_d = tanhe * (1.0_dp + tanhd) / (1.0_dp + tanhd * tanhx) &
+        &           * (1.0_dp - tanhd) / (1.0_dp - tanhd * tanhx)
+        d_x = tanhd * (1.0_dp + tanhx) / (1.0_dp + tanhd * tanhx) &
+        &           * (1.0_dp - tanhx) / (1.0_dp - tanhd * tanhx)
+      END IF
+      !
+      j_q(ii) = j_q(ii) + dk(igap, ii) * ( &
+      &  2.0_dp * ABS(dxq(igap, ii)) * (d_x - d_e) &
+      & + 4.0_dp * d2xq(igap, ii) *(SIGN(1.0_dp, xi(igap, ii)) * x_d - xi(igap, ii)/e_qp*e_d) &
+      & )
       !
     END DO
     !$OMP END DO NOWAIT

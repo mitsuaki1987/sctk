@@ -41,6 +41,7 @@ nesting_proj.o : ../../PW/src/pwcom.o
 nesting_proj.o : ../../PW/src/start_k.o
 nesting_proj.o : ../../PW/src/tetra.o
 nesting_proj.o : ../../UtilXlib/mp.o
+sctk_broyden.o : ../../Modules/cell_base.o
 sctk_broyden.o : ../../Modules/constants.o
 sctk_broyden.o : ../../Modules/control_flags.o
 sctk_broyden.o : ../../Modules/input_parameters.o
