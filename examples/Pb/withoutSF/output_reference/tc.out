@@ -1,0 +1,2628 @@
+
+     Program SCTK v.6.7GPU starts on 28Nov2023 at 10:35: 2 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI & OpenMP), running on    1024 processor cores
+     Number of MPI processes:                 8
+     Threads/MPI process:                   128
+
+     MPI processes distributed on     8 nodes
+     band groups division:  nbgrp     =       8
+
+     git hash : 10e0a5ee9318627f72d1a1858850d2a8ac1a75b0
+
+
+     Reading xml data from directory:
+
+     ./pwscf.save/
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         433     433    151                 5985     5985    1211
+ 
+     Using Slab Decomposition
+ 
+     Dense k-grid : 24  24  24
+     Number of k(dense) : 413
+     [opt_tetra]  Optimized tetrahedron method is used.
+ 
+     Number of bands :      28
+     Number of k times spin :     413
+     Number of symmetries :      48
+     Lowest band which contains FS :       7
+     Highest band which contains FS :       8
+     [opt_tetra]  Optimized tetrahedron method is used.
+
+     #####  Read from STDIN  #####
+
+                    Temparature[K] : -0.10000E+01
+                         Xi cutoff : -0.10000E+01
+                        First band : 1
+                         Last band : 28
+        # of Matsubara frequencies : 10
+                           # of xi : 100
+            # of energy for QP-DOS : 50
+              Minimum energy scale :  0.10000E-06
+       Max energy for QP-DOS [meV] :  0.70000E+00
+             Convergense threshold :  0.10000E-14
+                      Max itration : 100
+                  Spin-fluctuation :  F
+                      SCDFT kernel : 1
+                         Z_Coulomb :  F
+                   Min. freq.[THz] :  0.00000E+00
+                  Min. freq. ratio : -0.10000E+01
+                   Bisection steps : 10
+                Bisection min. [K] : -0.10000E+01
+                Bisection max. [K] : -0.10000E+01
+
+     #####  Read from elph*.dat  #####
+
+       k grid for MEs : 6  6  6
+       Number of modes : 3
+
+
+     Dynamical matrices for ( 6, 6, 6)  uniform grid of q-points
+     With a half shift
+     (  28 q-points):
+       N         xq(1)         xq(2)         xq(3) 
+       1  -0.083333333   0.083333333   0.083333333
+       2  -0.250000000   0.250000000  -0.083333333
+       3  -0.416666667   0.416666667  -0.250000000
+       4   0.416666667  -0.416666667   0.583333333
+       5   0.250000000  -0.250000000   0.416666667
+       6   0.083333333  -0.083333333   0.250000000
+       7  -0.083333333   0.416666667   0.083333333
+       8  -0.250000000   0.583333333  -0.083333333
+       9   0.583333333  -0.250000000   0.750000000
+      10   0.416666667  -0.083333333   0.583333333
+      11   0.250000000   0.083333333   0.416666667
+      12  -0.083333333   0.750000000   0.083333333
+      13   0.750000000  -0.083333333   0.916666667
+      14   0.583333333   0.083333333   0.750000000
+      15   0.416666667   0.250000000   0.583333333
+      16  -0.083333333  -0.916666667   0.083333333
+      17  -0.250000000  -0.750000000  -0.083333333
+      18  -0.083333333  -0.583333333   0.083333333
+      19  -0.250000000   0.250000000   0.250000000
+      20  -0.416666667   0.416666667   0.083333333
+      21   0.416666667  -0.416666667   0.916666667
+      22   0.250000000  -0.250000000   0.750000000
+      23  -0.250000000   0.583333333   0.250000000
+      24   0.583333333  -0.250000000   1.083333333
+      25   0.416666667  -0.083333333   0.916666667
+      26  -0.250000000  -1.083333333   0.250000000
+      27  -0.416666667   0.416666667   0.416666667
+      28   0.416666667  -0.416666667   1.250000000
+     Because shifted q grid is used, q2r will not work !
+
+     #####  Read from vc*.dat  #####
+
+       Dimention of Chebyshev interpolation : 5
+
+     #####  Set or read initial delta  #####
+
+       Initial delta is theta function
+       DOS(E_F)[/Ry/cell/spin] :  0.35801E+01
+       DOS(E_F)[/Ry/cell/spin] :  0.35801E+01
+       Number of total points for gap equation : 36888  33568
+
+     #####  Average matrix in grid  #####
+
+         Total RAM for Vc per process :   0.20E+00 GB
+         Total RAM for gg per process :   0.60E-03 GB
+         Total RAM for Vc (temporary) per process :   0.27E-01 GB
+         Total RAM for gg (temporary) per process :   0.83E-04 GB
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.95492E+00   0.95417E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.31016E-05
+          Delta [meV] :  0.42634E+01   0.43446E+01
+
+       Iteration 1
+
+         Residual[Ry] :  0.20536E-05
+          Delta [meV] :  0.30612E+01   0.31310E+01
+
+       Iteration 2
+
+         Residual[Ry] :  0.54652E-06
+          Delta [meV] :  0.19758E+01   0.20316E+01
+
+       Iteration 3
+
+         Residual[Ry] :  0.43219E-06
+          Delta [meV] :  0.18265E+01   0.18777E+01
+
+       Iteration 4
+
+         Residual[Ry] :  0.49756E-07
+          Delta [meV] :  0.12308E+01   0.12672E+01
+
+       Iteration 5
+
+         Residual[Ry] :  0.42589E-07
+          Delta [meV] :  0.11756E+01   0.12156E+01
+
+       Iteration 6
+
+         Residual[Ry] :  0.39323E-07
+          Delta [meV] :  0.11441E+01   0.11893E+01
+
+       Iteration 7
+
+         Residual[Ry] :  0.32999E-07
+          Delta [meV] :  0.10077E+01   0.10826E+01
+
+       Iteration 8
+
+         Residual[Ry] :  0.36028E-07
+          Delta [meV] :  0.98528E+00   0.10749E+01
+
+       Iteration 9
+
+         Residual[Ry] :  0.28914E-07
+          Delta [meV] :  0.99375E+00   0.10523E+01
+
+       Iteration 10
+
+         Residual[Ry] :  0.24083E-07
+          Delta [meV] :  0.98558E+00   0.10222E+01
+
+       Iteration 11
+
+         Residual[Ry] :  0.17412E-07
+          Delta [meV] :  0.93393E+00   0.96121E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.36467E-08
+          Delta [meV] :  0.79479E+00   0.79570E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.30879E-08
+          Delta [meV] :  0.78424E+00   0.78784E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.22751E-08
+          Delta [meV] :  0.77892E+00   0.77794E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.15678E-08
+          Delta [meV] :  0.77843E+00   0.77618E+00
+
+       Iteration 16
+
+         Residual[Ry] :  0.81466E-09
+          Delta [meV] :  0.77892E+00   0.77805E+00
+
+       Iteration 17
+
+         Residual[Ry] :  0.25376E-09
+          Delta [meV] :  0.77784E+00   0.77855E+00
+
+       Iteration 18
+
+         Residual[Ry] :  0.19497E-09
+          Delta [meV] :  0.77729E+00   0.77807E+00
+
+       Iteration 19
+
+         Residual[Ry] :  0.12501E-09
+          Delta [meV] :  0.77687E+00   0.77754E+00
+
+       Iteration 20
+
+         Residual[Ry] :  0.72366E-10
+          Delta [meV] :  0.77655E+00   0.77714E+00
+
+       Iteration 21
+
+         Residual[Ry] :  0.61587E-10
+          Delta [meV] :  0.77662E+00   0.77724E+00
+
+       Iteration 22
+
+         Residual[Ry] :  0.16834E-10
+          Delta [meV] :  0.77683E+00   0.77748E+00
+
+       Iteration 23
+
+         Residual[Ry] :  0.13146E-10
+          Delta [meV] :  0.77679E+00   0.77742E+00
+
+       Iteration 24
+
+         Residual[Ry] :  0.81912E-11
+          Delta [meV] :  0.77673E+00   0.77734E+00
+
+       Iteration 25
+
+         Residual[Ry] :  0.51061E-11
+          Delta [meV] :  0.77669E+00   0.77730E+00
+
+       Iteration 26
+
+         Residual[Ry] :  0.36841E-11
+          Delta [meV] :  0.77669E+00   0.77729E+00
+
+       Iteration 27
+
+         Residual[Ry] :  0.21631E-11
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 28
+
+         Residual[Ry] :  0.68309E-12
+          Delta [meV] :  0.77671E+00   0.77732E+00
+
+       Iteration 29
+
+         Residual[Ry] :  0.56203E-12
+          Delta [meV] :  0.77671E+00   0.77732E+00
+
+       Iteration 30
+
+         Residual[Ry] :  0.21681E-12
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 31
+
+         Residual[Ry] :  0.17680E-12
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 32
+
+         Residual[Ry] :  0.70360E-13
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 33
+
+         Residual[Ry] :  0.44157E-13
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 34
+
+         Residual[Ry] :  0.33810E-13
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 35
+
+         Residual[Ry] :  0.16284E-13
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 36
+
+         Residual[Ry] :  0.13560E-13
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 37
+
+         Residual[Ry] :  0.25207E-14
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 38
+
+         Residual[Ry] :  0.19910E-14
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 39
+
+         Residual[Ry] :  0.11539E-14
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 40
+
+         Residual[Ry] :  0.42334E-15
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Converged ! iter = 40
+
+
+     T[K]-D[meV]     0.00000E+00    0.77701E+00
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.81309E+00   0.81246E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.19313E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.25146E-07
+          Delta [meV] :  0.74946E+00   0.75003E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.17082E-07
+          Delta [meV] :  0.63753E+00   0.63788E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.11919E-07
+          Delta [meV] :  0.54523E+00   0.54534E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.81220E-08
+          Delta [meV] :  0.39832E+00   0.39796E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.74541E-08
+          Delta [meV] :  0.36389E+00   0.36332E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.50079E-08
+          Delta [meV] :  0.29072E+00   0.28920E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.31461E-08
+          Delta [meV] :  0.10893E+00   0.10463E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.34663E-08
+          Delta [meV] :  0.16816E-01   0.10847E-01
+
+       Iteration 9
+
+         Residual[Ry] :  0.34566E-08
+          Delta [meV] :  0.20669E-01   0.14833E-01
+
+       Iteration 10
+
+         Residual[Ry] :  0.32696E-08
+          Delta [meV] :  0.22554E-01   0.17407E-01
+
+       Iteration 11
+
+         Residual[Ry] :  0.63807E-09
+          Delta [meV] : -0.34860E-02  -0.27451E-02
+
+       Iteration 12
+
+         Residual[Ry] :  0.39519E-09
+          Delta [meV] : -0.10117E-01  -0.97984E-02
+
+       Iteration 13
+
+         Residual[Ry] :  0.29793E-09
+          Delta [meV] : -0.90560E-02  -0.90184E-02
+
+       Iteration 14
+
+         Residual[Ry] :  0.15328E-09
+          Delta [meV] : -0.43195E-02  -0.43436E-02
+
+       Iteration 15
+
+         Residual[Ry] :  0.72830E-10
+          Delta [meV] : -0.30184E-03  -0.28872E-03
+
+       Iteration 16
+
+         Residual[Ry] :  0.60832E-10
+          Delta [meV] :  0.35795E-03   0.37286E-03
+
+       Iteration 17
+
+         Residual[Ry] :  0.42404E-10
+          Delta [meV] :  0.46662E-03   0.47280E-03
+
+       Iteration 18
+
+         Residual[Ry] :  0.16126E-10
+          Delta [meV] :  0.49129E-03   0.48301E-03
+
+       Iteration 19
+
+         Residual[Ry] :  0.12860E-10
+          Delta [meV] :  0.37149E-03   0.36458E-03
+
+       Iteration 20
+
+         Residual[Ry] :  0.13301E-11
+          Delta [meV] : -0.48179E-04  -0.49106E-04
+
+       Iteration 21
+
+         Residual[Ry] :  0.98474E-12
+          Delta [meV] : -0.34695E-04  -0.35291E-04
+
+       Iteration 22
+
+         Residual[Ry] :  0.42323E-12
+          Delta [meV] : -0.24239E-06  -0.38046E-06
+
+       Iteration 23
+
+         Residual[Ry] :  0.33242E-12
+          Delta [meV] :  0.20109E-05   0.19029E-05
+
+       Iteration 24
+
+         Residual[Ry] :  0.19332E-12
+          Delta [meV] : -0.13921E-05  -0.14947E-05
+
+       Iteration 25
+
+         Residual[Ry] :  0.95083E-13
+          Delta [meV] : -0.36565E-05  -0.37392E-05
+
+       Iteration 26
+
+         Residual[Ry] :  0.63043E-13
+          Delta [meV] : -0.26594E-05  -0.27125E-05
+
+       Iteration 27
+
+         Residual[Ry] :  0.24096E-13
+          Delta [meV] : -0.75120E-06  -0.77091E-06
+
+       Iteration 28
+
+         Residual[Ry] :  0.85947E-14
+          Delta [meV] :  0.18178E-06   0.18269E-06
+
+       Iteration 29
+
+         Residual[Ry] :  0.66754E-14
+          Delta [meV] :  0.26051E-07   0.23800E-07
+
+       Iteration 30
+
+         Residual[Ry] :  0.49532E-14
+          Delta [meV] :  0.17650E-07   0.15713E-07
+
+       Iteration 31
+
+         Residual[Ry] :  0.97702E-15
+          Delta [meV] : -0.47584E-08  -0.54340E-08
+
+       Converged ! iter = 31
+
+
+     T[K]-D[meV]:     0.50942E+01    0.86399E-08
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.88325E+00   0.88256E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.49683E-08
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.62998E-08
+          Delta [meV] :  0.76817E+00   0.76875E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.20089E-08
+          Delta [meV] :  0.71863E+00   0.71908E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.15788E-08
+          Delta [meV] :  0.71142E+00   0.71185E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.13325E-08
+          Delta [meV] :  0.70459E+00   0.70501E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.11460E-08
+          Delta [meV] :  0.70182E+00   0.70226E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.11028E-09
+          Delta [meV] :  0.68666E+00   0.68712E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.70577E-10
+          Delta [meV] :  0.68549E+00   0.68594E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.54244E-10
+          Delta [meV] :  0.68571E+00   0.68616E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.14252E-10
+          Delta [meV] :  0.68582E+00   0.68625E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.10516E-10
+          Delta [meV] :  0.68580E+00   0.68623E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.12124E-10
+          Delta [meV] :  0.68582E+00   0.68625E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.10195E-10
+          Delta [meV] :  0.68581E+00   0.68624E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.53844E-11
+          Delta [meV] :  0.68579E+00   0.68625E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.48865E-11
+          Delta [meV] :  0.68580E+00   0.68625E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.41120E-11
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 16
+
+         Residual[Ry] :  0.32169E-11
+          Delta [meV] :  0.68581E+00   0.68626E+00
+
+       Iteration 17
+
+         Residual[Ry] :  0.25536E-11
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 18
+
+         Residual[Ry] :  0.34629E-12
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 19
+
+         Residual[Ry] :  0.19390E-12
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 20
+
+         Residual[Ry] :  0.15938E-12
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 21
+
+         Residual[Ry] :  0.76880E-13
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 22
+
+         Residual[Ry] :  0.43216E-13
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 23
+
+         Residual[Ry] :  0.28480E-13
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 24
+
+         Residual[Ry] :  0.20904E-14
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 25
+
+         Residual[Ry] :  0.16765E-14
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Iteration 26
+
+         Residual[Ry] :  0.63127E-15
+          Delta [meV] :  0.68580E+00   0.68626E+00
+
+       Converged ! iter = 26
+
+
+     T[K]-D[meV]:     0.25471E+01    0.68603E+00
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.84859E+00   0.84793E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.11606E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.15050E-07
+          Delta [meV] :  0.75918E+00   0.75976E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.87234E-08
+          Delta [meV] :  0.67546E+00   0.67588E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.58932E-08
+          Delta [meV] :  0.62743E+00   0.62773E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.42961E-08
+          Delta [meV] :  0.57000E+00   0.57015E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.39143E-08
+          Delta [meV] :  0.55820E+00   0.55828E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.15650E-08
+          Delta [meV] :  0.50163E+00   0.50122E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.97129E-09
+          Delta [meV] :  0.45007E+00   0.44907E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.95311E-09
+          Delta [meV] :  0.43685E+00   0.43553E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.95725E-09
+          Delta [meV] :  0.43671E+00   0.43523E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.95170E-09
+          Delta [meV] :  0.43666E+00   0.43519E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.32219E-09
+          Delta [meV] :  0.43861E+00   0.43950E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.20181E-09
+          Delta [meV] :  0.44141E+00   0.44184E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.15423E-09
+          Delta [meV] :  0.44293E+00   0.44322E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.97857E-10
+          Delta [meV] :  0.44395E+00   0.44428E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.22337E-10
+          Delta [meV] :  0.44567E+00   0.44605E+00
+
+       Iteration 16
+
+         Residual[Ry] :  0.20380E-10
+          Delta [meV] :  0.44562E+00   0.44600E+00
+
+       Iteration 17
+
+         Residual[Ry] :  0.96999E-11
+          Delta [meV] :  0.44559E+00   0.44596E+00
+
+       Iteration 18
+
+         Residual[Ry] :  0.59070E-11
+          Delta [meV] :  0.44556E+00   0.44593E+00
+
+       Iteration 19
+
+         Residual[Ry] :  0.39501E-11
+          Delta [meV] :  0.44554E+00   0.44591E+00
+
+       Iteration 20
+
+         Residual[Ry] :  0.11493E-11
+          Delta [meV] :  0.44553E+00   0.44591E+00
+
+       Iteration 21
+
+         Residual[Ry] :  0.79296E-12
+          Delta [meV] :  0.44552E+00   0.44590E+00
+
+       Iteration 22
+
+         Residual[Ry] :  0.63649E-12
+          Delta [meV] :  0.44552E+00   0.44589E+00
+
+       Iteration 23
+
+         Residual[Ry] :  0.24511E-12
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Iteration 24
+
+         Residual[Ry] :  0.12065E-12
+          Delta [meV] :  0.44551E+00   0.44588E+00
+
+       Iteration 25
+
+         Residual[Ry] :  0.88615E-13
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Iteration 26
+
+         Residual[Ry] :  0.20580E-13
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Iteration 27
+
+         Residual[Ry] :  0.14299E-13
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Iteration 28
+
+         Residual[Ry] :  0.37296E-14
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Iteration 29
+
+         Residual[Ry] :  0.27545E-14
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Iteration 30
+
+         Residual[Ry] :  0.18970E-14
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Iteration 31
+
+         Residual[Ry] :  0.70539E-15
+          Delta [meV] :  0.44551E+00   0.44589E+00
+
+       Converged ! iter = 31
+
+
+     T[K]-D[meV]:     0.38207E+01    0.44570E+00
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83100E+00   0.83035E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.15439E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.20087E-07
+          Delta [meV] :  0.75428E+00   0.75486E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.12920E-07
+          Delta [meV] :  0.65593E+00   0.65632E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.88834E-08
+          Delta [meV] :  0.58445E+00   0.58467E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.62727E-08
+          Delta [meV] :  0.48354E+00   0.48345E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.57603E-08
+          Delta [meV] :  0.46086E+00   0.46064E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.34139E-08
+          Delta [meV] :  0.39225E+00   0.39128E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.25124E-08
+          Delta [meV] :  0.26355E+00   0.26093E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.27794E-08
+          Delta [meV] :  0.20207E+00   0.19851E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.27624E-08
+          Delta [meV] :  0.23103E+00   0.22813E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.27215E-08
+          Delta [meV] :  0.23627E+00   0.23375E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.19187E-08
+          Delta [meV] :  0.20873E+00   0.20767E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.44164E-09
+          Delta [meV] :  0.13343E+00   0.13395E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.37699E-09
+          Delta [meV] :  0.10744E+00   0.10732E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.25092E-09
+          Delta [meV] :  0.86516E-01   0.86473E-01
+
+       Iteration 15
+
+         Residual[Ry] :  0.11754E-09
+          Delta [meV] :  0.54852E-01   0.54902E-01
+
+       Iteration 16
+
+         Residual[Ry] :  0.82789E-10
+          Delta [meV] :  0.42505E-01   0.42557E-01
+
+       Iteration 17
+
+         Residual[Ry] :  0.62795E-10
+          Delta [meV] :  0.35925E-01   0.35962E-01
+
+       Iteration 18
+
+         Residual[Ry] :  0.44466E-10
+          Delta [meV] :  0.30785E-01   0.30811E-01
+
+       Iteration 19
+
+         Residual[Ry] :  0.31527E-10
+          Delta [meV] :  0.26302E-01   0.26321E-01
+
+       Iteration 20
+
+         Residual[Ry] :  0.21771E-10
+          Delta [meV] :  0.21714E-01   0.21727E-01
+
+       Iteration 21
+
+         Residual[Ry] :  0.13268E-10
+          Delta [meV] :  0.16190E-01   0.16199E-01
+
+       Iteration 22
+
+         Residual[Ry] :  0.10695E-10
+          Delta [meV] :  0.12869E-01   0.12875E-01
+
+       Iteration 23
+
+         Residual[Ry] :  0.93833E-11
+          Delta [meV] :  0.11256E-01   0.11262E-01
+
+       Iteration 24
+
+         Residual[Ry] :  0.44762E-11
+          Delta [meV] :  0.50080E-02   0.50105E-02
+
+       Iteration 25
+
+         Residual[Ry] :  0.33601E-11
+          Delta [meV] :  0.34246E-02   0.34267E-02
+
+       Iteration 26
+
+         Residual[Ry] :  0.21485E-11
+          Delta [meV] :  0.27174E-02   0.27199E-02
+
+       Iteration 27
+
+         Residual[Ry] :  0.77751E-12
+          Delta [meV] :  0.91261E-03   0.91462E-03
+
+       Iteration 28
+
+         Residual[Ry] :  0.60467E-12
+          Delta [meV] :  0.82663E-03   0.82804E-03
+
+       Iteration 29
+
+         Residual[Ry] :  0.29697E-12
+          Delta [meV] :  0.30090E-03   0.30151E-03
+
+       Iteration 30
+
+         Residual[Ry] :  0.14510E-12
+          Delta [meV] : -0.97357E-04  -0.97359E-04
+
+       Iteration 31
+
+         Residual[Ry] :  0.99353E-13
+          Delta [meV] : -0.96500E-04  -0.96576E-04
+
+       Iteration 32
+
+         Residual[Ry] :  0.62430E-13
+          Delta [meV] : -0.32565E-04  -0.32560E-04
+
+       Iteration 33
+
+         Residual[Ry] :  0.29531E-13
+          Delta [meV] :  0.14068E-04   0.14117E-04
+
+       Iteration 34
+
+         Residual[Ry] :  0.23625E-13
+          Delta [meV] :  0.38926E-05   0.39187E-05
+
+       Iteration 35
+
+         Residual[Ry] :  0.14802E-13
+          Delta [meV] : -0.60392E-05  -0.60404E-05
+
+       Iteration 36
+
+         Residual[Ry] :  0.85310E-14
+          Delta [meV] : -0.33504E-05  -0.33485E-05
+
+       Iteration 37
+
+         Residual[Ry] :  0.15607E-14
+          Delta [meV] : -0.12601E-06  -0.12413E-06
+
+       Iteration 38
+
+         Residual[Ry] :  0.11760E-14
+          Delta [meV] :  0.67333E-07   0.69548E-07
+
+       Iteration 39
+
+         Residual[Ry] :  0.73367E-15
+          Delta [meV] :  0.92846E-07   0.94534E-07
+
+       Converged ! iter = 39
+
+
+     T[K]-D[meV]:     0.44575E+01    0.93690E-07
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83983E+00   0.83918E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.13506E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.17550E-07
+          Delta [meV] :  0.75673E+00   0.75731E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.10808E-07
+          Delta [meV] :  0.66557E+00   0.66598E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.73607E-08
+          Delta [meV] :  0.60561E+00   0.60587E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.52735E-08
+          Delta [meV] :  0.52728E+00   0.52731E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.48270E-08
+          Delta [meV] :  0.51045E+00   0.51040E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.24589E-08
+          Delta [meV] :  0.44674E+00   0.44605E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.17003E-08
+          Delta [meV] :  0.35828E+00   0.35652E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.17513E-08
+          Delta [meV] :  0.32289E+00   0.32054E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.17479E-08
+          Delta [meV] :  0.31991E+00   0.31746E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.17862E-08
+          Delta [meV] :  0.31976E+00   0.31717E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.35023E-09
+          Delta [meV] :  0.30222E+00   0.30332E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.25236E-09
+          Delta [meV] :  0.30553E+00   0.30612E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.15804E-09
+          Delta [meV] :  0.31198E+00   0.31208E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.12014E-09
+          Delta [meV] :  0.31254E+00   0.31277E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.50840E-10
+          Delta [meV] :  0.31555E+00   0.31584E+00
+
+       Iteration 16
+
+         Residual[Ry] :  0.32264E-10
+          Delta [meV] :  0.31662E+00   0.31692E+00
+
+       Iteration 17
+
+         Residual[Ry] :  0.27733E-10
+          Delta [meV] :  0.31656E+00   0.31686E+00
+
+       Iteration 18
+
+         Residual[Ry] :  0.11058E-10
+          Delta [meV] :  0.31639E+00   0.31668E+00
+
+       Iteration 19
+
+         Residual[Ry] :  0.75939E-11
+          Delta [meV] :  0.31649E+00   0.31678E+00
+
+       Iteration 20
+
+         Residual[Ry] :  0.59326E-11
+          Delta [meV] :  0.31648E+00   0.31677E+00
+
+       Iteration 21
+
+         Residual[Ry] :  0.10730E-11
+          Delta [meV] :  0.31637E+00   0.31667E+00
+
+       Iteration 22
+
+         Residual[Ry] :  0.48087E-12
+          Delta [meV] :  0.31634E+00   0.31663E+00
+
+       Iteration 23
+
+         Residual[Ry] :  0.34400E-12
+          Delta [meV] :  0.31632E+00   0.31662E+00
+
+       Iteration 24
+
+         Residual[Ry] :  0.19924E-12
+          Delta [meV] :  0.31631E+00   0.31660E+00
+
+       Iteration 25
+
+         Residual[Ry] :  0.13636E-12
+          Delta [meV] :  0.31631E+00   0.31660E+00
+
+       Iteration 26
+
+         Residual[Ry] :  0.79485E-13
+          Delta [meV] :  0.31631E+00   0.31660E+00
+
+       Iteration 27
+
+         Residual[Ry] :  0.42001E-13
+          Delta [meV] :  0.31631E+00   0.31661E+00
+
+       Iteration 28
+
+         Residual[Ry] :  0.19559E-13
+          Delta [meV] :  0.31631E+00   0.31661E+00
+
+       Iteration 29
+
+         Residual[Ry] :  0.13964E-13
+          Delta [meV] :  0.31631E+00   0.31661E+00
+
+       Iteration 30
+
+         Residual[Ry] :  0.62304E-14
+          Delta [meV] :  0.31631E+00   0.31661E+00
+
+       Iteration 31
+
+         Residual[Ry] :  0.30183E-14
+          Delta [meV] :  0.31631E+00   0.31661E+00
+
+       Iteration 32
+
+         Residual[Ry] :  0.23680E-14
+          Delta [meV] :  0.31631E+00   0.31661E+00
+
+       Iteration 33
+
+         Residual[Ry] :  0.33127E-15
+          Delta [meV] :  0.31631E+00   0.31661E+00
+
+       Converged ! iter = 33
+
+
+     T[K]-D[meV]:     0.41391E+01    0.31646E+00
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83543E+00   0.83477E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.14470E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.18816E-07
+          Delta [meV] :  0.75551E+00   0.75608E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.11863E-07
+          Delta [meV] :  0.66071E+00   0.66112E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.81182E-08
+          Delta [meV] :  0.59492E+00   0.59516E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.57738E-08
+          Delta [meV] :  0.50544E+00   0.50542E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.52947E-08
+          Delta [meV] :  0.48576E+00   0.48563E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.29381E-08
+          Delta [meV] :  0.41937E+00   0.41853E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.21185E-08
+          Delta [meV] :  0.31063E+00   0.30844E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.22726E-08
+          Delta [meV] :  0.26212E+00   0.25919E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.22727E-08
+          Delta [meV] :  0.27108E+00   0.26838E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.22605E-08
+          Delta [meV] :  0.27171E+00   0.26907E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.10161E-08
+          Delta [meV] :  0.24373E+00   0.24347E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.26691E-09
+          Delta [meV] :  0.21508E+00   0.21555E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.20484E-09
+          Delta [meV] :  0.20978E+00   0.20996E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.13128E-09
+          Delta [meV] :  0.20589E+00   0.20609E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.90361E-10
+          Delta [meV] :  0.20734E+00   0.20759E+00
+
+       Iteration 16
+
+         Residual[Ry] :  0.60759E-10
+          Delta [meV] :  0.21075E+00   0.21100E+00
+
+       Iteration 17
+
+         Residual[Ry] :  0.38216E-10
+          Delta [meV] :  0.21401E+00   0.21423E+00
+
+       Iteration 18
+
+         Residual[Ry] :  0.27927E-10
+          Delta [meV] :  0.21537E+00   0.21558E+00
+
+       Iteration 19
+
+         Residual[Ry] :  0.19233E-10
+          Delta [meV] :  0.21531E+00   0.21553E+00
+
+       Iteration 20
+
+         Residual[Ry] :  0.66458E-11
+          Delta [meV] :  0.21540E+00   0.21561E+00
+
+       Iteration 21
+
+         Residual[Ry] :  0.56653E-11
+          Delta [meV] :  0.21532E+00   0.21553E+00
+
+       Iteration 22
+
+         Residual[Ry] :  0.22628E-11
+          Delta [meV] :  0.21495E+00   0.21516E+00
+
+       Iteration 23
+
+         Residual[Ry] :  0.61975E-12
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Iteration 24
+
+         Residual[Ry] :  0.39693E-12
+          Delta [meV] :  0.21479E+00   0.21500E+00
+
+       Iteration 25
+
+         Residual[Ry] :  0.27684E-12
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Iteration 26
+
+         Residual[Ry] :  0.10176E-12
+          Delta [meV] :  0.21482E+00   0.21503E+00
+
+       Iteration 27
+
+         Residual[Ry] :  0.76100E-13
+          Delta [meV] :  0.21482E+00   0.21503E+00
+
+       Iteration 28
+
+         Residual[Ry] :  0.46228E-13
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Iteration 29
+
+         Residual[Ry] :  0.30226E-13
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Iteration 30
+
+         Residual[Ry] :  0.22388E-13
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Iteration 31
+
+         Residual[Ry] :  0.12432E-14
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Iteration 32
+
+         Residual[Ry] :  0.10299E-14
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Iteration 33
+
+         Residual[Ry] :  0.89225E-15
+          Delta [meV] :  0.21481E+00   0.21502E+00
+
+       Converged ! iter = 33
+
+
+     T[K]-D[meV]:     0.42983E+01    0.21492E+00
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83322E+00   0.83257E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.14954E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.19451E-07
+          Delta [meV] :  0.75489E+00   0.75547E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.12392E-07
+          Delta [meV] :  0.65831E+00   0.65871E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.85002E-08
+          Delta [meV] :  0.58966E+00   0.58989E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.60239E-08
+          Delta [meV] :  0.49449E+00   0.49443E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.55282E-08
+          Delta [meV] :  0.47332E+00   0.47315E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.31775E-08
+          Delta [meV] :  0.40577E+00   0.40486E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.23216E-08
+          Delta [meV] :  0.28692E+00   0.28452E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.25339E-08
+          Delta [meV] :  0.23186E+00   0.22861E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.25274E-08
+          Delta [meV] :  0.25093E+00   0.24814E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.24968E-08
+          Delta [meV] :  0.25361E+00   0.25104E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.15178E-08
+          Delta [meV] :  0.22494E+00   0.22419E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.34820E-09
+          Delta [meV] :  0.17189E+00   0.17237E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.27963E-09
+          Delta [meV] :  0.15622E+00   0.15624E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.16984E-09
+          Delta [meV] :  0.14205E+00   0.14212E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.95481E-10
+          Delta [meV] :  0.13085E+00   0.13100E+00
+
+       Iteration 16
+
+         Residual[Ry] :  0.72833E-10
+          Delta [meV] :  0.12899E+00   0.12915E+00
+
+       Iteration 17
+
+         Residual[Ry] :  0.53620E-10
+          Delta [meV] :  0.13076E+00   0.13091E+00
+
+       Iteration 18
+
+         Residual[Ry] :  0.30373E-10
+          Delta [meV] :  0.13421E+00   0.13435E+00
+
+       Iteration 19
+
+         Residual[Ry] :  0.22791E-10
+          Delta [meV] :  0.13480E+00   0.13494E+00
+
+       Iteration 20
+
+         Residual[Ry] :  0.85294E-11
+          Delta [meV] :  0.13488E+00   0.13501E+00
+
+       Iteration 21
+
+         Residual[Ry] :  0.36206E-11
+          Delta [meV] :  0.13469E+00   0.13482E+00
+
+       Iteration 22
+
+         Residual[Ry] :  0.27484E-11
+          Delta [meV] :  0.13458E+00   0.13471E+00
+
+       Iteration 23
+
+         Residual[Ry] :  0.14694E-11
+          Delta [meV] :  0.13439E+00   0.13452E+00
+
+       Iteration 24
+
+         Residual[Ry] :  0.52385E-12
+          Delta [meV] :  0.13423E+00   0.13437E+00
+
+       Iteration 25
+
+         Residual[Ry] :  0.39848E-12
+          Delta [meV] :  0.13427E+00   0.13440E+00
+
+       Iteration 26
+
+         Residual[Ry] :  0.22073E-12
+          Delta [meV] :  0.13427E+00   0.13440E+00
+
+       Iteration 27
+
+         Residual[Ry] :  0.96300E-13
+          Delta [meV] :  0.13426E+00   0.13439E+00
+
+       Iteration 28
+
+         Residual[Ry] :  0.70464E-13
+          Delta [meV] :  0.13424E+00   0.13438E+00
+
+       Iteration 29
+
+         Residual[Ry] :  0.38292E-13
+          Delta [meV] :  0.13423E+00   0.13436E+00
+
+       Iteration 30
+
+         Residual[Ry] :  0.25523E-13
+          Delta [meV] :  0.13422E+00   0.13435E+00
+
+       Iteration 31
+
+         Residual[Ry] :  0.19115E-13
+          Delta [meV] :  0.13422E+00   0.13435E+00
+
+       Iteration 32
+
+         Residual[Ry] :  0.60243E-14
+          Delta [meV] :  0.13421E+00   0.13435E+00
+
+       Iteration 33
+
+         Residual[Ry] :  0.50234E-14
+          Delta [meV] :  0.13421E+00   0.13435E+00
+
+       Iteration 34
+
+         Residual[Ry] :  0.19553E-14
+          Delta [meV] :  0.13421E+00   0.13435E+00
+
+       Iteration 35
+
+         Residual[Ry] :  0.81015E-15
+          Delta [meV] :  0.13421E+00   0.13435E+00
+
+       Converged ! iter = 35
+
+
+     T[K]-D[meV]:     0.43779E+01    0.13428E+00
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83211E+00   0.83146E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.15196E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.19769E-07
+          Delta [meV] :  0.75459E+00   0.75516E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.12656E-07
+          Delta [meV] :  0.65712E+00   0.65751E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.86917E-08
+          Delta [meV] :  0.58705E+00   0.58727E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.61485E-08
+          Delta [meV] :  0.48901E+00   0.48894E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.56445E-08
+          Delta [meV] :  0.46709E+00   0.46689E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.32962E-08
+          Delta [meV] :  0.39900E+00   0.39806E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.24189E-08
+          Delta [meV] :  0.27519E+00   0.27267E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.26593E-08
+          Delta [meV] :  0.21688E+00   0.21348E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.26479E-08
+          Delta [meV] :  0.24110E+00   0.23826E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.26114E-08
+          Delta [meV] :  0.24504E+00   0.24250E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.17336E-08
+          Delta [meV] :  0.21687E+00   0.21594E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.39649E-09
+          Delta [meV] :  0.15208E+00   0.15258E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.33089E-09
+          Delta [meV] :  0.13097E+00   0.13092E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.21257E-09
+          Delta [meV] :  0.11298E+00   0.11299E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.10368E-09
+          Delta [meV] :  0.90565E-01   0.90658E-01
+
+       Iteration 16
+
+         Residual[Ry] :  0.73728E-10
+          Delta [meV] :  0.82778E-01   0.82877E-01
+
+       Iteration 17
+
+         Residual[Ry] :  0.55574E-10
+          Delta [meV] :  0.79837E-01   0.79925E-01
+
+       Iteration 18
+
+         Residual[Ry] :  0.36796E-10
+          Delta [meV] :  0.77991E-01   0.78070E-01
+
+       Iteration 19
+
+         Residual[Ry] :  0.25291E-10
+          Delta [meV] :  0.76494E-01   0.76567E-01
+
+       Iteration 20
+
+         Residual[Ry] :  0.15951E-10
+          Delta [meV] :  0.74259E-01   0.74329E-01
+
+       Iteration 21
+
+         Residual[Ry] :  0.87588E-11
+          Delta [meV] :  0.71606E-01   0.71674E-01
+
+       Iteration 22
+
+         Residual[Ry] :  0.66976E-11
+          Delta [meV] :  0.69901E-01   0.69968E-01
+
+       Iteration 23
+
+         Residual[Ry] :  0.59888E-11
+          Delta [meV] :  0.69170E-01   0.69236E-01
+
+       Iteration 24
+
+         Residual[Ry] :  0.33851E-11
+          Delta [meV] :  0.65788E-01   0.65853E-01
+
+       Iteration 25
+
+         Residual[Ry] :  0.28922E-11
+          Delta [meV] :  0.65174E-01   0.65239E-01
+
+       Iteration 26
+
+         Residual[Ry] :  0.15463E-11
+          Delta [meV] :  0.63567E-01   0.63632E-01
+
+       Iteration 27
+
+         Residual[Ry] :  0.98092E-12
+          Delta [meV] :  0.62434E-01   0.62498E-01
+
+       Iteration 28
+
+         Residual[Ry] :  0.69684E-12
+          Delta [meV] :  0.61945E-01   0.62008E-01
+
+       Iteration 29
+
+         Residual[Ry] :  0.36542E-12
+          Delta [meV] :  0.60946E-01   0.61008E-01
+
+       Iteration 30
+
+         Residual[Ry] :  0.21352E-12
+          Delta [meV] :  0.60558E-01   0.60620E-01
+
+       Iteration 31
+
+         Residual[Ry] :  0.12690E-12
+          Delta [meV] :  0.60252E-01   0.60314E-01
+
+       Iteration 32
+
+         Residual[Ry] :  0.98844E-13
+          Delta [meV] :  0.60319E-01   0.60380E-01
+
+       Iteration 33
+
+         Residual[Ry] :  0.48824E-13
+          Delta [meV] :  0.60527E-01   0.60589E-01
+
+       Iteration 34
+
+         Residual[Ry] :  0.31881E-13
+          Delta [meV] :  0.60471E-01   0.60533E-01
+
+       Iteration 35
+
+         Residual[Ry] :  0.23641E-13
+          Delta [meV] :  0.60441E-01   0.60502E-01
+
+       Iteration 36
+
+         Residual[Ry] :  0.14134E-13
+          Delta [meV] :  0.60421E-01   0.60482E-01
+
+       Iteration 37
+
+         Residual[Ry] :  0.77077E-14
+          Delta [meV] :  0.60432E-01   0.60493E-01
+
+       Iteration 38
+
+         Residual[Ry] :  0.13644E-14
+          Delta [meV] :  0.60434E-01   0.60495E-01
+
+       Iteration 39
+
+         Residual[Ry] :  0.95532E-15
+          Delta [meV] :  0.60431E-01   0.60493E-01
+
+       Converged ! iter = 39
+
+
+     T[K]-D[meV]:     0.44177E+01    0.60462E-01
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83156E+00   0.83091E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.15318E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.19928E-07
+          Delta [meV] :  0.75443E+00   0.75501E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.12788E-07
+          Delta [meV] :  0.65652E+00   0.65691E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.87875E-08
+          Delta [meV] :  0.58575E+00   0.58597E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.62107E-08
+          Delta [meV] :  0.48627E+00   0.48620E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.57025E-08
+          Delta [meV] :  0.46398E+00   0.46377E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.33552E-08
+          Delta [meV] :  0.39562E+00   0.39467E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.24662E-08
+          Delta [meV] :  0.26935E+00   0.26679E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.27201E-08
+          Delta [meV] :  0.20945E+00   0.20597E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.27059E-08
+          Delta [meV] :  0.23612E+00   0.23325E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.26671E-08
+          Delta [meV] :  0.24070E+00   0.23817E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.18303E-08
+          Delta [meV] :  0.21286E+00   0.21185E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.41976E-09
+          Delta [meV] :  0.14262E+00   0.14313E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.35519E-09
+          Delta [meV] :  0.11897E+00   0.11889E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.23350E-09
+          Delta [meV] :  0.99445E-01   0.99426E-01
+
+       Iteration 15
+
+         Residual[Ry] :  0.11085E-09
+          Delta [meV] :  0.71810E-01   0.71879E-01
+
+       Iteration 16
+
+         Residual[Ry] :  0.78068E-10
+          Delta [meV] :  0.61185E-01   0.61257E-01
+
+       Iteration 17
+
+         Residual[Ry] :  0.59349E-10
+          Delta [meV] :  0.55818E-01   0.55877E-01
+
+       Iteration 18
+
+         Residual[Ry] :  0.41971E-10
+          Delta [meV] :  0.51670E-01   0.51718E-01
+
+       Iteration 19
+
+         Residual[Ry] :  0.29837E-10
+          Delta [meV] :  0.47951E-01   0.47992E-01
+
+       Iteration 20
+
+         Residual[Ry] :  0.21166E-10
+          Delta [meV] :  0.43870E-01   0.43905E-01
+
+       Iteration 21
+
+         Residual[Ry] :  0.14387E-10
+          Delta [meV] :  0.38928E-01   0.38960E-01
+
+       Iteration 22
+
+         Residual[Ry] :  0.12252E-10
+          Delta [meV] :  0.35331E-01   0.35359E-01
+
+       Iteration 23
+
+         Residual[Ry] :  0.11306E-10
+          Delta [meV] :  0.33473E-01   0.33500E-01
+
+       Iteration 24
+
+         Residual[Ry] :  0.69933E-11
+          Delta [meV] :  0.23560E-01   0.23581E-01
+
+       Iteration 25
+
+         Residual[Ry] :  0.59060E-11
+          Delta [meV] :  0.19818E-01   0.19835E-01
+
+       Iteration 26
+
+         Residual[Ry] :  0.42529E-11
+          Delta [meV] :  0.15709E-01   0.15724E-01
+
+       Iteration 27
+
+         Residual[Ry] :  0.24260E-11
+          Delta [meV] :  0.90235E-02   0.90345E-02
+
+       Iteration 28
+
+         Residual[Ry] :  0.16585E-11
+          Delta [meV] :  0.71041E-02   0.71120E-02
+
+       Iteration 29
+
+         Residual[Ry] :  0.90550E-12
+          Delta [meV] :  0.33291E-02   0.33334E-02
+
+       Iteration 30
+
+         Residual[Ry] :  0.70236E-12
+          Delta [meV] :  0.20358E-02   0.20384E-02
+
+       Iteration 31
+
+         Residual[Ry] :  0.33675E-12
+          Delta [meV] : -0.13830E-04  -0.13762E-04
+
+       Iteration 32
+
+         Residual[Ry] :  0.21005E-12
+          Delta [meV] : -0.60366E-03  -0.60421E-03
+
+       Iteration 33
+
+         Residual[Ry] :  0.15734E-12
+          Delta [meV] : -0.19769E-03  -0.19776E-03
+
+       Iteration 34
+
+         Residual[Ry] :  0.85871E-13
+          Delta [meV] :  0.81226E-04   0.81441E-04
+
+       Iteration 35
+
+         Residual[Ry] :  0.53287E-13
+          Delta [meV] :  0.89893E-04   0.90060E-04
+
+       Iteration 36
+
+         Residual[Ry] :  0.40141E-13
+          Delta [meV] :  0.58552E-04   0.58650E-04
+
+       Iteration 37
+
+         Residual[Ry] :  0.23700E-13
+          Delta [meV] :  0.13267E-04   0.13296E-04
+
+       Iteration 38
+
+         Residual[Ry] :  0.58491E-14
+          Delta [meV] : -0.20411E-05  -0.20403E-05
+
+       Iteration 39
+
+         Residual[Ry] :  0.33639E-14
+          Delta [meV] :  0.61779E-05   0.61906E-05
+
+       Iteration 40
+
+         Residual[Ry] :  0.12302E-14
+          Delta [meV] :  0.41919E-05   0.42005E-05
+
+       Iteration 41
+
+         Residual[Ry] :  0.96324E-15
+          Delta [meV] :  0.24702E-05   0.24757E-05
+
+       Converged ! iter = 41
+
+
+     T[K]-D[meV]:     0.44376E+01    0.24730E-05
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83183E+00   0.83118E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.15257E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.19848E-07
+          Delta [meV] :  0.75451E+00   0.75509E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.12722E-07
+          Delta [meV] :  0.65682E+00   0.65721E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.87396E-08
+          Delta [meV] :  0.58640E+00   0.58662E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.61796E-08
+          Delta [meV] :  0.48764E+00   0.48757E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.56735E-08
+          Delta [meV] :  0.46553E+00   0.46533E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.33257E-08
+          Delta [meV] :  0.39731E+00   0.39636E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.24427E-08
+          Delta [meV] :  0.27227E+00   0.26973E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.26899E-08
+          Delta [meV] :  0.21316E+00   0.20972E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.26771E-08
+          Delta [meV] :  0.23862E+00   0.23576E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.26394E-08
+          Delta [meV] :  0.24288E+00   0.24035E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.17829E-08
+          Delta [meV] :  0.21487E+00   0.21390E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.40827E-09
+          Delta [meV] :  0.14732E+00   0.14782E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.34328E-09
+          Delta [meV] :  0.12492E+00   0.12485E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.22335E-09
+          Delta [meV] :  0.10613E+00   0.10613E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.10720E-09
+          Delta [meV] :  0.81000E-01   0.81080E-01
+
+       Iteration 16
+
+         Residual[Ry] :  0.75703E-10
+          Delta [meV] :  0.71700E-01   0.71785E-01
+
+       Iteration 17
+
+         Residual[Ry] :  0.57324E-10
+          Delta [meV] :  0.67453E-01   0.67526E-01
+
+       Iteration 18
+
+         Residual[Ry] :  0.39484E-10
+          Delta [meV] :  0.64322E-01   0.64385E-01
+
+       Iteration 19
+
+         Residual[Ry] :  0.27610E-10
+          Delta [meV] :  0.61633E-01   0.61690E-01
+
+       Iteration 20
+
+         Residual[Ry] :  0.18775E-10
+          Delta [meV] :  0.58395E-01   0.58447E-01
+
+       Iteration 21
+
+         Residual[Ry] :  0.12002E-10
+          Delta [meV] :  0.54522E-01   0.54571E-01
+
+       Iteration 22
+
+         Residual[Ry] :  0.99576E-11
+          Delta [meV] :  0.51769E-01   0.51816E-01
+
+       Iteration 23
+
+         Residual[Ry] :  0.91583E-11
+          Delta [meV] :  0.50429E-01   0.50475E-01
+
+       Iteration 24
+
+         Residual[Ry] :  0.57506E-11
+          Delta [meV] :  0.43407E-01   0.43448E-01
+
+       Iteration 25
+
+         Residual[Ry] :  0.49853E-11
+          Delta [meV] :  0.41152E-01   0.41192E-01
+
+       Iteration 26
+
+         Residual[Ry] :  0.35190E-11
+          Delta [meV] :  0.37587E-01   0.37625E-01
+
+       Iteration 27
+
+         Residual[Ry] :  0.22959E-11
+          Delta [meV] :  0.32906E-01   0.32941E-01
+
+       Iteration 28
+
+         Residual[Ry] :  0.17091E-11
+          Delta [meV] :  0.30309E-01   0.30340E-01
+
+       Iteration 29
+
+         Residual[Ry] :  0.12234E-11
+          Delta [meV] :  0.26313E-01   0.26341E-01
+
+       Iteration 30
+
+         Residual[Ry] :  0.10574E-11
+          Delta [meV] :  0.23709E-01   0.23733E-01
+
+       Iteration 31
+
+         Residual[Ry] :  0.60877E-12
+          Delta [meV] :  0.16643E-01   0.16659E-01
+
+       Iteration 32
+
+         Residual[Ry] :  0.36392E-12
+          Delta [meV] :  0.93868E-02   0.93958E-02
+
+       Iteration 33
+
+         Residual[Ry] :  0.33287E-12
+          Delta [meV] :  0.54130E-02   0.54180E-02
+
+       Iteration 34
+
+         Residual[Ry] :  0.28645E-12
+          Delta [meV] :  0.24131E-02   0.24151E-02
+
+       Iteration 35
+
+         Residual[Ry] :  0.20155E-12
+          Delta [meV] : -0.25771E-03  -0.25820E-03
+
+       Iteration 36
+
+         Residual[Ry] :  0.72139E-13
+          Delta [meV] : -0.86003E-03  -0.86086E-03
+
+       Iteration 37
+
+         Residual[Ry] :  0.47395E-13
+          Delta [meV] : -0.39254E-03  -0.39286E-03
+
+       Iteration 38
+
+         Residual[Ry] :  0.37787E-13
+          Delta [meV] : -0.58242E-04  -0.58232E-04
+
+       Iteration 39
+
+         Residual[Ry] :  0.15000E-13
+          Delta [meV] :  0.97793E-03   0.97895E-03
+
+       Iteration 40
+
+         Residual[Ry] :  0.12233E-13
+          Delta [meV] :  0.11023E-02   0.11034E-02
+
+       Iteration 41
+
+         Residual[Ry] :  0.55406E-14
+          Delta [meV] :  0.14600E-02   0.14614E-02
+
+       Iteration 42
+
+         Residual[Ry] :  0.29676E-14
+          Delta [meV] :  0.15968E-02   0.15984E-02
+
+       Iteration 43
+
+         Residual[Ry] :  0.22213E-14
+          Delta [meV] :  0.17601E-02   0.17619E-02
+
+       Iteration 44
+
+         Residual[Ry] :  0.21565E-14
+          Delta [meV] :  0.18091E-02   0.18109E-02
+
+       Iteration 45
+
+         Residual[Ry] :  0.21199E-14
+          Delta [meV] :  0.19328E-02   0.19347E-02
+
+       Iteration 46
+
+         Residual[Ry] :  0.21504E-14
+          Delta [meV] :  0.20822E-02   0.20843E-02
+
+       Iteration 47
+
+         Residual[Ry] :  0.21281E-14
+          Delta [meV] :  0.20528E-02   0.20549E-02
+
+       Iteration 48
+
+         Residual[Ry] :  0.87688E-15
+          Delta [meV] :  0.33187E-03   0.33221E-03
+
+       Converged ! iter = 48
+
+
+     T[K]-D[meV]:     0.44276E+01    0.33204E-03
+
+       Initial delta is read from file (./pwscf_delta.dat)
+       Number of total points for gap equation : 36888  33568
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35804E+01
+       DOS(E_F)[Ry^-1/cell/spin] :  0.35834E+01
+
+     #####  Compute renormalization factor : Z  #####
+
+       Averaged Z_{FS} :  0.83197E+00   0.83132E+00
+
+     #####  Compute effective interaction  #####
+
+
+     #####  Solve gap equation  #####
+
+
+       Iteration 0
+
+         Residual[Ry] :  0.15227E-07
+          Delta [meV] :  0.77670E+00   0.77731E+00
+
+       Iteration 1
+
+         Residual[Ry] :  0.19808E-07
+          Delta [meV] :  0.75455E+00   0.75512E+00
+
+       Iteration 2
+
+         Residual[Ry] :  0.12689E-07
+          Delta [meV] :  0.65697E+00   0.65736E+00
+
+       Iteration 3
+
+         Residual[Ry] :  0.87157E-08
+          Delta [meV] :  0.58672E+00   0.58695E+00
+
+       Iteration 4
+
+         Residual[Ry] :  0.61641E-08
+          Delta [meV] :  0.48833E+00   0.48825E+00
+
+       Iteration 5
+
+         Residual[Ry] :  0.56590E-08
+          Delta [meV] :  0.46631E+00   0.46611E+00
+
+       Iteration 6
+
+         Residual[Ry] :  0.33110E-08
+          Delta [meV] :  0.39815E+00   0.39721E+00
+
+       Iteration 7
+
+         Residual[Ry] :  0.24309E-08
+          Delta [meV] :  0.27373E+00   0.27120E+00
+
+       Iteration 8
+
+         Residual[Ry] :  0.26747E-08
+          Delta [meV] :  0.21502E+00   0.21160E+00
+
+       Iteration 9
+
+         Residual[Ry] :  0.26625E-08
+          Delta [meV] :  0.23986E+00   0.23702E+00
+
+       Iteration 10
+
+         Residual[Ry] :  0.26254E-08
+          Delta [meV] :  0.24396E+00   0.24143E+00
+
+       Iteration 11
+
+         Residual[Ry] :  0.17585E-08
+          Delta [meV] :  0.21587E+00   0.21492E+00
+
+       Iteration 12
+
+         Residual[Ry] :  0.40241E-09
+          Delta [meV] :  0.14969E+00   0.15019E+00
+
+       Iteration 13
+
+         Residual[Ry] :  0.33714E-09
+          Delta [meV] :  0.12793E+00   0.12787E+00
+
+       Iteration 14
+
+         Residual[Ry] :  0.21801E-09
+          Delta [meV] :  0.10953E+00   0.10954E+00
+
+       Iteration 15
+
+         Residual[Ry] :  0.10541E-09
+          Delta [meV] :  0.85741E-01   0.85827E-01
+
+       Iteration 16
+
+         Residual[Ry] :  0.74647E-10
+          Delta [meV] :  0.77180E-01   0.77273E-01
+
+       Iteration 17
+
+         Residual[Ry] :  0.56390E-10
+          Delta [meV] :  0.73572E-01   0.73652E-01
+
+       Iteration 18
+
+         Residual[Ry] :  0.38127E-10
+          Delta [meV] :  0.71056E-01   0.71127E-01
+
+       Iteration 19
+
+         Residual[Ry] :  0.26406E-10
+          Delta [meV] :  0.68960E-01   0.69025E-01
+
+       Iteration 20
+
+         Residual[Ry] :  0.17344E-10
+          Delta [meV] :  0.66219E-01   0.66280E-01
+
+       Iteration 21
+
+         Residual[Ry] :  0.10388E-10
+          Delta [meV] :  0.62960E-01   0.63019E-01
+
+       Iteration 22
+
+         Residual[Ry] :  0.83378E-11
+          Delta [meV] :  0.60737E-01   0.60794E-01
+
+       Iteration 23
+
+         Residual[Ry] :  0.75839E-11
+          Delta [meV] :  0.59713E-01   0.59769E-01
+
+       Iteration 24
+
+         Residual[Ry] :  0.45656E-11
+          Delta [meV] :  0.54623E-01   0.54676E-01
+
+       Iteration 25
+
+         Residual[Ry] :  0.39274E-11
+          Delta [meV] :  0.53337E-01   0.53389E-01
+
+       Iteration 26
+
+         Residual[Ry] :  0.24656E-11
+          Delta [meV] :  0.50798E-01   0.50850E-01
+
+       Iteration 27
+
+         Residual[Ry] :  0.15421E-11
+          Delta [meV] :  0.48260E-01   0.48310E-01
+
+       Iteration 28
+
+         Residual[Ry] :  0.11108E-11
+          Delta [meV] :  0.47130E-01   0.47179E-01
+
+       Iteration 29
+
+         Residual[Ry] :  0.68247E-12
+          Delta [meV] :  0.45134E-01   0.45181E-01
+
+       Iteration 30
+
+         Residual[Ry] :  0.47374E-12
+          Delta [meV] :  0.44094E-01   0.44139E-01
+
+       Iteration 31
+
+         Residual[Ry] :  0.19430E-12
+          Delta [meV] :  0.42473E-01   0.42516E-01
+
+       Iteration 32
+
+         Residual[Ry] :  0.15466E-12
+          Delta [meV] :  0.42387E-01   0.42430E-01
+
+       Iteration 33
+
+         Residual[Ry] :  0.11580E-12
+          Delta [meV] :  0.42743E-01   0.42786E-01
+
+       Iteration 34
+
+         Residual[Ry] :  0.57247E-13
+          Delta [meV] :  0.43193E-01   0.43237E-01
+
+       Iteration 35
+
+         Residual[Ry] :  0.44319E-13
+          Delta [meV] :  0.43122E-01   0.43166E-01
+
+       Iteration 36
+
+         Residual[Ry] :  0.31643E-13
+          Delta [meV] :  0.42957E-01   0.43001E-01
+
+       Iteration 37
+
+         Residual[Ry] :  0.22247E-13
+          Delta [meV] :  0.42899E-01   0.42942E-01
+
+       Iteration 38
+
+         Residual[Ry] :  0.16364E-13
+          Delta [meV] :  0.42952E-01   0.42995E-01
+
+       Iteration 39
+
+         Residual[Ry] :  0.83937E-14
+          Delta [meV] :  0.42960E-01   0.43003E-01
+
+       Iteration 40
+
+         Residual[Ry] :  0.23630E-14
+          Delta [meV] :  0.42938E-01   0.42981E-01
+
+       Iteration 41
+
+         Residual[Ry] :  0.90300E-15
+          Delta [meV] :  0.42931E-01   0.42975E-01
+
+       Converged ! iter = 41
+
+
+     T[K]-D[meV]:     0.44226E+01    0.42953E-01
+
+
+     Transition temperature [K]     0.44251E+01
+
+
+     #####  Clock summary  #####
+
+     read_elph    :      0.01s CPU      0.11s WALL (       1 calls)
+     read_Coulomb :      0.02s CPU      0.17s WALL (       1 calls)
+ 
+     SCTK         :  34m45.82s CPU   1m48.42s WALL
+
+ 
+   This run was terminated on:  10:36:50  28Nov2023            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=

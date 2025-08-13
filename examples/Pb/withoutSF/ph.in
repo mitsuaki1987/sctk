@@ -1,0 +1,15 @@
+Phonon frequency and deformation potential
+&INPUTPH
+   lshift_q = .true.
+      ldisp = .true.
+ search_sym = .false.
+     tr2_ph = 1.0d-15
+  alpha_mix = 0.3
+   fildvscf = 'dv'
+        nq1 = 6
+        nq2 = 6
+        nq3 = 6
+        nk1 = 12
+        nk2 = 12
+        nk3 = 12
+/

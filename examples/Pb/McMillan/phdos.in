@@ -1,0 +1,16 @@
+&INPUT
+ flfrc = 'ifc.dat'
+ fldos = 'matdyn.dos'
+ flfrq = ' '
+ flvec = ' '
+ fleig = ' '
+ fldyn = ' '
+ fltau = ' '
+   la2f = .true.
+    dos = .true.
+    asr = 'crystal'
+    nk1 = 24
+    nk2 = 24
+    nk3 = 24
+   ndos = 500
+/

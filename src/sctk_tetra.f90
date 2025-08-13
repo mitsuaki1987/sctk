@@ -71,7 +71,7 @@ SUBROUTINE calc_dosk(dosd)
   !
   REAL(dp),INTENT(OUT) :: dosd(nx,elph_nbnd_min:elph_nbnd_max,nks)
   !
-  INTEGER :: ibnd, it, ii, ix, itetra(4), ntetra0, ntetra1
+  INTEGER :: ibnd, it, ii, ix, itetra(4), ntetra0, ntetra1, i20
   REAL(dp) :: ei(4,elph_nbnd_min:elph_nbnd_max), e(4), a(4,4), w1(nx,4), V
   !
   dosd(1:nx, elph_nbnd_min:elph_nbnd_max, 1:nks) = 0.0_dp
@@ -80,7 +80,7 @@ SUBROUTINE calc_dosk(dosd)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
   !$OMP & SHARED(ntetra0,ntetra1,elph_nbnd_min,elph_nbnd_max,nx,wlsm,et,ef,xi0,dosd,tetra) &
-  !$OMP & PRIVATE(it,ii,ibnd,ix,ei,w1,a,e,V,itetra)
+  !$OMP & PRIVATE(it,ii,ibnd,ix,ei,w1,a,e,V,itetra,i20)
   !
   DO it = ntetra0, ntetra1
      !
@@ -136,8 +136,10 @@ SUBROUTINE calc_dosk(dosd)
            !
         END DO ! ix
         !
-        dosd(1:nx, ibnd, tetra(1:20, it)) = dosd(1:nx,ibnd,    tetra(1:20, it)) &
-        &                            + MATMUL(w1(1:nx,1:4), wlsm(1:4,1:20))
+        DO i20 = 1, 20
+           dosd(1:nx, ibnd, tetra(i20, it)) = dosd(1:nx,ibnd,    tetra(i20, it)) &
+           &                           + MATMUL(w1(1:nx,1:4), wlsm(1:4,i20))
+        END DO
         !
      END DO ! ibnd
      !$OMP END DO NOWAIT
@@ -169,7 +171,7 @@ SUBROUTINE tetraweight(wghtd)
   !
   COMPLEX(dp),INTENT(OUT) :: wghtd((nmf+1)*nb(2),nb(1),nks)
   !
-  INTEGER :: it, ibnd, ii, itetra(4)
+  INTEGER :: it, ibnd, ii, itetra(4), i20
   REAL(dp) :: thr = 1e-8_dp, V
   REAL(dp) :: e(4), a(4,4), ei0(4,nb(1)), ej0(4,nb(2)), ei1(4), ej1(4,nb(2)), tsmall(4,4)
   COMPLEX(dp) :: w1(nb(2)*(nmf+1),4), w2(nb(2)*(nmf+1),4)
@@ -178,7 +180,7 @@ SUBROUTINE tetraweight(wghtd)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
   !$OMP & SHARED(wlsm,nmf,et,wghtd,thr,ef,tetra,nks,nb,bdsp,ntetra) &
-  !$OMP & PRIVATE(it,ii,ibnd,itetra,ei0,ej0,ei1,ej1,w1,w2,a,e,V,tsmall)
+  !$OMP & PRIVATE(it,ii,ibnd,itetra,ei0,ej0,ei1,ej1,w1,w2,a,e,V,tsmall,i20)
   !
   DO it = 1, ntetra
      !
@@ -373,8 +375,10 @@ SUBROUTINE tetraweight(wghtd)
            !
         END IF
         !
-        wghtd(1:(nmf+1)*nb(2),ibnd,tetra(1:20,it)) = wghtd(1:(nmf+1)*nb(2),ibnd,  tetra(1:20,it)) &
-        &                                      + MATMUL(w1(1:(nmf+1)*nb(2),1:4), wlsm(1:4,1:20))
+        DO i20 = 1, 20
+           wghtd(1:(nmf+1)*nb(2),ibnd,tetra(i20,it)) = wghtd(1:(nmf+1)*nb(2),ibnd,    tetra(i20,it)) &
+           &                                     + MATMUL(w1(1:(nmf+1)*nb(2),1:4), wlsm(1:4,i20))
+        END DO
         !
      END DO ! ibnd
      !$OMP END DO NOWAIT
