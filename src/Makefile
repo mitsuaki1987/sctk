@@ -35,7 +35,8 @@ sctk_usonic.o \
 sctk_val.o \
 sctk_wfc.o \
 sctk_write_hash.o \
-sctk_z.o
+sctk_z.o \
+ixs.o
 
 LRMODS = ../../LR_Modules/liblrmod.a
 PWOBJS = ../../PW/src/libpw.a ../../KS_Solvers/libks_solvers.a ../../dft-d3/libdftd3qe.a
@@ -68,6 +69,10 @@ nesting_proj.x : nesting_proj.o $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJ
 
 nesting.x : nesting.o $(MODULES) $(PPOBJS)
 	$(LD) $(LDFLAGS) -o $@ nesting.o $(PPOBJS) $(PWOBJS) $(QEMODS) $(LIBOBJS) $(QELIBS)
+	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
+
+ixs.x : ixs.o $(PWOBJS) $(LRMODS) $(QEMODS) $(LIBOBJS) $(PHOBJS) $(PPOBJS)
+	$(LD) $(LDFLAGS) -o $@ ixs.o $(PPOBJS) $(PWOBJS) $(QEMODS) $(LIBOBJS) $(QELIBS)
 	- ( cd ../../bin ; ln -fs ../SCTK/src/$@ . )
 
 twingrid.x : twingrid.sh

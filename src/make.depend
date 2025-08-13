@@ -9,6 +9,8 @@
 # Finally, from the top QE directory, run "make depend" to regenerate
 # the files - DO NOT EDIT MANUALLY (unless you know what you are doing)
 ####################################################################
+ixs.o : ../../Modules/constants.o
+ixs.o : ../../Modules/kind.o
 nesting.o : ../../Modules/cell_base.o
 nesting.o : ../../Modules/command_line_options.o
 nesting.o : ../../Modules/environment.o
