@@ -210,14 +210,14 @@ SUBROUTINE compute_dosk(dos, dxq_dos, d2xq_dos)
   dxq_dos( 1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:nqbz,1:2) = 0.0_dp
   d2xq_dos(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:nqbz,1:2) = 0.0_dp
   !
-  !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(nks,nqbz,nx,dosd,dos,dxq_dos,d2xq_dos,elph_nbnd_min,elph_nbnd_max,nk1,nk2,nk3,nq1,nq2,nq3,d_et,d2_et) &
-  !$OMP & PRIVATE(ik,ikv,kv,wintp,kintp,dxq_dosd,d2xq_dosd)
+  !!$OMP PARALLEL DEFAULT(NONE) &
+  !!$OMP & SHARED(nks,nqbz,nx,dosd,dos,dxq_dos,d2xq_dos,elph_nbnd_min,elph_nbnd_max,nk1,nk2,nk3,nq1,nq2,nq3,d_et,d2_et,world_comm) &
+  !!$OMP & PRIVATE(ik,ikv,kv,wintp,kintp,dxq_dosd,d2xq_dosd)
   !
   ALLOCATE(dxq_dosd(nx*(elph_nbnd_max-elph_nbnd_min+1),1), &
   &       d2xq_dosd(nx*(elph_nbnd_max-elph_nbnd_min+1),1)  )
   !
-  !$OMP DO REDUCTION(+: dos, dxq_dos)
+  !!$OMP DO REDUCTION(+: dos, dxq_dos, d2xq_dos)
   DO ik = 1, nks
      !
      ! 1. Non-shifted grid
@@ -267,11 +267,11 @@ SUBROUTINE compute_dosk(dos, dxq_dos, d2xq_dos)
      &  + MATMUL(d2xq_dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:1), wintp(1:1,1:8))
      !
   END DO
-  !$OMP END DO
+  !!$OMP END DO
   !
   DEALLOCATE(dxq_dosd, d2xq_dosd)
   !
-  !$OMP END PARALLEL
+  !!$OMP END PARALLEL
   !
   CALL mp_sum(dos,     world_comm)
   CALL mp_sum(dxq_dos, world_comm)
