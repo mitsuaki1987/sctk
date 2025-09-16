@@ -48,6 +48,9 @@ MODULE sctk_val
   & lz_coulomb, & !< True: Z_coulomb
   & zero_kelvin
   !
+  CHARACTER(100),SAVE :: &
+  & initial_delta
+  !
   INTEGER,ALLOCATABLE,SAVE :: &
   & kplusq(:),     & !< (nqBZ))
   & ndegen(:,:),  & !< (nqBZ, 2) Number of non-degenerated for each k
