@@ -74,7 +74,7 @@ PROGRAM sctk_main
   !USE mp, ONLY : mp_sum ! debug
   !USE mp_world, ONLY : world_comm ! debug
   USE sctk_val, ONLY : dltF, ZF, laddxc, Wscr, lsf, beta, zero_kelvin, &
-  &                    bisec_min, bisec_max, bisec_step, delta, ngap
+  &                    bisec_min, bisec_max, bisec_step, delta, ngapmax
   USE sctk_usonic, ONLY : calc_fvel, calc_usonic
   USE sctk_qpdos, ONLY : egrid, calc_sdos
   USE sctk_spinfluc, ONLY : lambda_sf
@@ -197,7 +197,7 @@ PROGRAM sctk_main
            CALL make_effint()
            !
            WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
-           CALL broyden_gapeq(ngap*2,delta)
+           CALL broyden_gapeq(ngapmax*2,delta)
            CALL out_delta(TRIM(tmp_dir) // TRIM(prefix) // ".scgap")
            !
         ELSE
@@ -215,7 +215,7 @@ PROGRAM sctk_main
               CALL make_effint()
               !
               WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
-              CALL broyden_gapeq(ngap*2,delta)
+              CALL broyden_gapeq(ngapmax*2,delta)
               CALL compute_dabs(.FALSE., delta, delta0)
               CALL out_delta(TRIM(tmp_dir) // TRIM(prefix) // ".scgap")
               !
@@ -247,7 +247,7 @@ PROGRAM sctk_main
                  CALL make_effint()
                  !
                  WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
-                 CALL broyden_gapeq(ngap*2,delta)
+                 CALL broyden_gapeq(ngapmax*2,delta)
                  CALL compute_dabs(.FALSE., delta, dabs)
                  !
                  !
@@ -275,7 +275,7 @@ PROGRAM sctk_main
               CALL make_effint()
               !
               WRITE(stdout,'(/,5x,"#####  Solve gap equation  #####",/)')
-              CALL broyden_gapeq(ngap*2,delta)
+              CALL broyden_gapeq(ngapmax*2,delta)
               CALL compute_dabs(.FALSE., delta, dabs)
               !
               WRITE(stdout,'(/,5x,"T[K]-D[meV]: ",2e15.5,/)') tcmid, dabs

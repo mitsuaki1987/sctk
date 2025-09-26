@@ -909,14 +909,13 @@ PROGRAM nesting
   !
   ! ... Number of k and spin for each magnetic treatment
   !
+  ef1 = ef
+  ef2 = ef
   IF (nspin == 2) THEN
      ns = 2
      IF(two_fermi_energies) THEN
         ef1 = ef_up
         ef2 = ef_dw
-     ELSE
-        ef1 = ef
-        ef2 = ef
      END IF
   ELSE
      ns = 1

@@ -20,11 +20,11 @@ SUBROUTINE read_delta()
   USE mp, ONLY : mp_bcast
   USE io_global, ONLY : ionode_id
   USE io_files, ONLY : prefix, tmp_dir
-  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap, ngap1, ngap2, xi
+  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngapmax, ngap, xi
   !
   IMPLICIT NONE
   !
-  INTEGER :: it, fi = 10, is
+  INTEGER :: it, fi = 10, is, ii
   REAL(dp) :: Z0
   CHARACTER(1) :: tmp
   !
@@ -34,33 +34,26 @@ SUBROUTINE read_delta()
      IF(is /= 0) CALL errore("read_delta", &
      &                       "Can not open" // TRIM(tmp_dir) // TRIM(prefix) // ".scgap", 1)
      !
-     READ(fi,*) tmp, ngap1, ngap2
+     READ(fi,*) tmp, ngap(1:2)
      !
-     ngap = MAX(ngap1, ngap2)
+     ngapmax = MAXVAL(ngap(1:2))
      !
-     WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap1, ngap2
-     ALLOCATE(xi(ngap,2), delta(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2))
+     WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap(1:2)
+     ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2))
      !
-     DO it = 1, ngap1
-        !
-        READ(fi,*) xi(it,1), delta(it,1), Z0, dk(it,1), kindx(it,1), bindx(it,1)
-        !
-     END DO
-     !
-     DO it = 1, ngap2
-        !
-        READ(fi,*) xi(it,2), delta(it,2), Z0, dk(it,2), kindx(it,2), bindx(it,2)
-        !
+     DO ii = 1, 2
+       DO it = 1, ngap(ii)
+         READ(fi,*) xi(it,ii), delta(it,ii), Z0, dk(it,ii), kindx(it,ii), bindx(it,ii)
+       END DO
      END DO
      !
      CLOSE(fi)
      !
   END IF
   !
-  CALL mp_bcast(ngap,  ionode_id, world_comm )
-  CALL mp_bcast(ngap1, ionode_id, world_comm )
-  CALL mp_bcast(ngap2, ionode_id, world_comm )
-  IF(mpime /= 0) ALLOCATE(xi(ngap,2), delta(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2))
+  CALL mp_bcast(ngapmax,  ionode_id, world_comm )
+  CALL mp_bcast(ngap, ionode_id, world_comm )
+  IF(mpime /= 0) ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2))
   CALL mp_bcast(xi,    ionode_id, world_comm )
   CALL mp_bcast(delta, ionode_id, world_comm )
   CALL mp_bcast(dk,    ionode_id, world_comm )
@@ -74,31 +67,29 @@ END SUBROUTINE read_delta
 SUBROUTINE out_delta(fname)
   !
   USE mp_world, ONLY : mpime
-  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap1, ngap2, xi, Z
+  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap, xi, Z
   IMPLICIT NONE
   !
   CHARACTER(*),INTENT(IN) :: fname
   !
-  INTEGER :: it, fo = 20
+  INTEGER :: it, fo = 20, ii
   !
   IF(mpime == 0) THEN
     !
     OPEN(fo, file = fname)
     !
-    WRITE(fo,*) "#", ngap1, ngap2
+    WRITE(fo,*) "#", ngap(1:2)
     !
     WRITE(fo,*) ""
     !
-    DO it = 1, ngap1
-      WRITE(fo,'(4e25.15,2i8)') xi(it,1), delta(it,1), Z(it,1), dk(it,1), &
-      &                       kindx(it,1), bindx(it,1)
-    END DO
-    !
-    WRITE(fo,*) ""
-    !
-    DO it = 1, ngap2
-      WRITE(fo,'(4e25.15,2i8)') xi(it,2), delta(it,2), Z(it,2), dk(it,2), &
-      &                         kindx(it,2), bindx(it,2)
+    DO ii = 1, 2
+      DO it = 1, ngap(ii)
+        WRITE(fo,'(4e25.15,2i8)') xi(it,ii), delta(it,ii), Z(it,ii), dk(it,ii), &
+        &                       kindx(it,ii), bindx(it,ii)
+      END DO
+      !
+      WRITE(fo,*) ""
+      !
     END DO
     !
     CLOSE(fo)

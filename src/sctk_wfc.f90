@@ -19,7 +19,6 @@ SUBROUTINE get_wfcg()
   USE kinds, ONLY : DP
   USE io_files, ONLY : prefix, tmp_dir
   USE mp_world, ONLY : world_comm, mpime
-  USE mp_pools, ONLY : inter_pool_comm, intra_pool_comm
   USE mp, ONLY : mp_max, mp_sum, mp_bcast, mp_circular_shift_left, mp_barrier
   USE disp, ONLY : nq1, nq2, nq3
   USE io_global, ONLY : stdout
