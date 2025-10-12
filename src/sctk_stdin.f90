@@ -160,7 +160,7 @@ SUBROUTINE stdin_scdft()
   !
   USE sctk_val, ONLY : beta, emax, emin, fbee, lbee, ne, nmf, nx, xic, mf, wmf, bisec_step, &
   &                    zero_kelvin, lsf, scdft_kernel, lz_coulomb, freq_min, freq_min_ratio, &
-  &                    bisec_min, bisec_max
+  &                    bisec_min, bisec_max, initial_delta
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   !
   IMPLICIT NONE
@@ -170,7 +170,7 @@ SUBROUTINE stdin_scdft()
   !
   NAMELIST /scdft/ temp, fbee, lbee, xic, nmf, nx, ne, emin, emax, lz_coulomb, electron_maxstep, &
   &                conv_thr, fildyn, spin_fluc, scdft_kernel, freq_min, freq_min_ratio, &
-  &                bisec_step, bisec_min, bisec_max
+  &                bisec_step, bisec_min, bisec_max, initial_delta
   !
   IF(ionode) THEN
      !
@@ -194,6 +194,7 @@ SUBROUTINE stdin_scdft()
      bisec_step = 10
      bisec_min = -1.0
      bisec_max = -1.0
+     initial_delta = "random-nodeless"
      !
      READ(5,scdft,err=100)
      !
@@ -224,6 +225,7 @@ SUBROUTINE stdin_scdft()
      WRITE(*,'(7x,"            Bisection steps : ",i0)') bisec_step
      WRITE(*,'(7x,"         Bisection min. [K] : ",e12.5)') bisec_min
      WRITE(*,'(7x,"         Bisection max. [K] : ",e12.5)') bisec_max
+     WRITE(*,'(7x,"        Delta initial guess : ",a)') TRIM(initial_delta)
      IF(spin_fluc) THEN
         lsf = 2
      ELSE

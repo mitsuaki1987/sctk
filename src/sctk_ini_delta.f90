@@ -23,7 +23,7 @@ SUBROUTINE ini_delta(lallocate)
   USE disp,  ONLY : nqs
   USE io_files, ONLY : prefix, tmp_dir
   USE input_parameters, ONLY : restart_mode
-  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, &
+  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, initial_delta, &
   &                     ngapmax, ngap, nx, omg0, xi, xi0
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
@@ -105,7 +105,15 @@ SUBROUTINE ini_delta(lallocate)
      IF(ionode) THEN
         CALL random_seed()
         CALL random_number(delta(1:ngapmax,1:2))
-        delta(1:ngapmax,1:2) = delta(1:ngapmax,1:2) * thr
+        IF(initial_delta == "random-nodeless") THEN
+           delta(1:ngapmax,1:2) = 1.0_dp * (delta(1:ngapmax,1:2) - 0.0_dp) * thr
+        ELSE IF(initial_delta == "random-nodal") THEN
+           delta(1:ngapmax,1:2) = 2.0_dp * (delta(1:ngapmax,1:2) - 0.5_dp) * thr
+        ELSE IF(initial_delta == "constant") THEN
+           delta(1:ngapmax,1:2) = thr
+        ELSE
+           CALL errore ('ini_delta', 'Invalid initial_delta in input', 1)
+        END IF
      END IF
      CALL mp_bcast(delta,    ionode_id, world_comm )
      !
