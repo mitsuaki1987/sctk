@@ -24,7 +24,7 @@ SUBROUTINE expand_g_v()
   USE disp,  ONLY : nqs
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE sctk_val, ONLY : fbee, gg, gg0, lbee, nqbz, omg, omg0, Vc, Vc0, &
-  &                    ngap1, kindx, lsf, nci
+  &                    ngap, kindx, lsf, nci
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
   !
@@ -36,7 +36,7 @@ SUBROUTINE expand_g_v()
   !
   CALL start_clock("expand_g_v")
   !
-  CALL divide(world_comm, ngap1,ik,jk)
+  CALL divide(world_comm, ngap(1),ik,jk)
   fstk = MINVAL(kindx(ik:jk,1))
   lstk = MAXVAL(kindx(ik:jk,1))
   !

@@ -221,7 +221,7 @@ END SUBROUTINE hermite
 SUBROUTINE eigmax_power(matrix, eigval, iter)
   !
   USE kinds, ONLY : DP
-  USE mp_world, ONLY : mpime, world_comm
+  USE mp_world, ONLY : world_comm
   USE mp, ONLY : mp_bcast, mp_sum
   USE sctk_val, ONLY : ngv0, ngv1, ngv
   !

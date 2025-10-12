@@ -23,8 +23,8 @@ SUBROUTINE ini_delta(lallocate)
   USE disp,  ONLY : nqs
   USE io_files, ONLY : prefix, tmp_dir
   USE input_parameters, ONLY : restart_mode
-  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, dxq, &
-  &                     ngap, ngap1, ngap2, nx, omg0, xi, xi0
+  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, initial_delta, dxq, &
+  &                     ngapmax, ngap, nx, omg0, xi, xi0
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
   !
@@ -32,7 +32,7 @@ SUBROUTINE ini_delta(lallocate)
   !
   LOGICAL,INTENT(IN) :: lallocate
   !
-  INTEGER :: it, fi = 10, ios, cnt, dsp
+  INTEGER :: it, fi = 10, ios, cnt, dsp, ii
   REAL(dp) :: thr, Z0, dosf
   CHARACTER(1) :: tmp
   !
@@ -48,51 +48,49 @@ SUBROUTINE ini_delta(lallocate)
         IF(ios /= 0) CALL errore("ini_delta", &
         &                        "Can not open" // TRIM(tmp_dir) // TRIM(prefix) // ".scgap", 1)
         !
-        READ(fi,*) tmp, ngap1, ngap2
+        READ(fi,*) tmp, ngap(1:2)
         !
-        ngap = MAX(ngap1, ngap2)
-        WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap1, ngap2
+        ngapmax = MAXVAL(ngap(1:2))
+        WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap(1:2)
         IF(lallocate) &
-        &  ALLOCATE(xi(ngap,2), delta(ngap,2), dk(ngap,2), dxq(ngap,2), kindx(ngap,2), bindx(ngap,2))
-        xi(   1:ngap,1:2) = 0.0_dp
-        delta(1:ngap,1:2) = 0.0_dp
-        dk(   1:ngap,1:2) = 0.0_dp
-        kindx(1:ngap,1:2) = 0
-        bindx(1:ngap,1:2) = 0
+        &  ALLOCATE(xi(ngapmax,2), delta(ngapmax,2),    dk(ngapmax,2), &
+        &          dxq(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2)  )
+        xi(   1:ngapmax,1:2) = 0.0_dp
+        delta(1:ngapmax,1:2) = 0.0_dp
+        dk(   1:ngapmax,1:2) = 0.0_dp
+        dxq(  1:ngapmax,1:2) = 0.0_dp
+        kindx(1:ngapmax,1:2) = 0
+        bindx(1:ngapmax,1:2) = 0
         !
-        DO it = 1, ngap1
-           READ(fi,*) xi(it,1), delta(it,1), Z0, dk(it,1), dxq(it,1), kindx(it,1), bindx(it,1)
+        DO ii = 1, 2
+          DO it = 1, ngap(ii)
+            READ(fi,*) xi(it,ii), delta(it,ii), Z0, dk(it,ii), &
+            &         dxq(it,ii), kindx(it,ii), bindx(it,ii)
+          END DO
         END DO
         !
-        DO it = 1, ngap2
-           READ(fi,*) xi(it,2), delta(it,2), Z0, dk(it,2), dxq(it,2), kindx(it,2), bindx(it,2)
-        END DO
-        !
-        close(fi)
+        CLOSE(fi)
         !
      END IF ! (ionode)
      !
-     CALL mp_bcast(ngap,  ionode_id, world_comm )
-     CALL mp_bcast(ngap1, ionode_id, world_comm )
-     CALL mp_bcast(ngap2, ionode_id, world_comm )
+     CALL mp_bcast(ngapmax,  ionode_id, world_comm )
+     CALL mp_bcast(ngap, ionode_id, world_comm )
      IF((.NOT. ionode) .AND. lallocate) &
-     &  ALLOCATE(xi(ngap,2), delta(ngap,2), dk(ngap,2), &
-     &                    kindx(ngap,2), bindx(ngap,2))
+     &  ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), &
+     &                    kindx(ngapmax,2), bindx(ngapmax,2))
      CALL mp_bcast(xi,    ionode_id, world_comm )
      CALL mp_bcast(delta, ionode_id, world_comm )
      CALL mp_bcast(dk,    ionode_id, world_comm )
      CALL mp_bcast(kindx, ionode_id, world_comm )
      CALL mp_bcast(bindx, ionode_id, world_comm )
      !
-     dosf = SUM(dk(1:ngap1,1), ABS(xi(1:ngap1,1)) < emin)
-     dosf = dosf / dx0(minloc(ABS(xi0(1:nx)), 1))
-     WRITE(stdout,'(7x,"DOS(E_F)[Ry^-1/cell/spin] : ",e12.5)') dosf
+     DO ii = 1, 2
+       dosf = SUM(dk(1:ngap(ii),ii), ABS(xi(1:ngap(ii),ii)) < emin)
+       dosf = dosf / dx0(minloc(ABS(xi0(1:nx)), 1))
+       WRITE(stdout,'(7x,"DOS(E_F)[Ry^-1/cell/spin] : ",e12.5)') dosf
+     END DO
      !
-     dosf = SUM(dk(1:ngap2,2), ABS(xi(1:ngap2,2)) < emin)
-     dosf = dosf / dx0(minloc(ABS(xi0(1:nx)), 1))
-     WRITE(stdout,'(7x,"DOS(E_F)[Ry^-1/cell/spin] : ",e12.5)') dosf
-     !
-     IF(MAXVAL(ABS(delta(1:ngap1,1))) < 1.0e-8_dp) &
+     IF(MAXVAL(ABS(delta(1:ngap(1),1))) < 1.0e-8_dp) &
      &  WRITE(stdout,'(7x,"!!!CAUTION!!! Delta from file is too small.")')
      !
   ELSE
@@ -101,7 +99,7 @@ SUBROUTINE ini_delta(lallocate)
      !
      CALL compute_d3k()
      !
-     ALLOCATE(delta(ngap,2))
+     ALLOCATE(delta(ngapmax,2))
      !
      CALL cnt_and_dsp(nqs,cnt,dsp)
      thr = MAXVAL(omg0(1:nmodes,1:cnt))
@@ -109,12 +107,20 @@ SUBROUTINE ini_delta(lallocate)
      !
      IF(ionode) THEN
         CALL random_seed()
-        CALL random_number(delta(1:ngap,1:2))
-        delta(1:ngap,1:2) = delta(1:ngap,1:2) * thr
+        CALL random_number(delta(1:ngapmax,1:2))
+        IF(initial_delta == "random-nodeless") THEN
+           delta(1:ngapmax,1:2) = 1.0_dp * (delta(1:ngapmax,1:2) - 0.0_dp) * thr
+        ELSE IF(initial_delta == "random-nodal") THEN
+           delta(1:ngapmax,1:2) = 2.0_dp * (delta(1:ngapmax,1:2) - 0.5_dp) * thr
+        ELSE IF(initial_delta == "constant") THEN
+           delta(1:ngapmax,1:2) = thr
+        ELSE
+           CALL errore ('ini_delta', 'Invalid initial_delta in input', 1)
+        END IF
      END IF
      CALL mp_bcast(delta,    ionode_id, world_comm )
      !
-     !delta(1:ngap,1:2) = thr**2 / (thr + xi(1:ngap,1:2))
+     !delta(1:ngapmax,1:2) = thr**2 / (thr + xi(1:ngapmax,1:2))
      !
   END IF
   !
@@ -402,80 +408,73 @@ END SUBROUTINE calc_d_xi_q
 SUBROUTINE compute_d3k()
   !
   USE kinds, ONLY : DP
-  USE mp_world, ONLY : mpime
   USE io_global, ONLY : stdout
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE sctk_val, ONLY : bindx, dk, fbee, kindx, lbee, dxq, d2xq, &
-  &                     nqbz, ngap, ngap1, ngap2, nx, xi, xi0
+  &                     nqbz, ngapmax, ngap, nx, xi, xi0
   !
   IMPLICIT NONE
   !
-  INTEGER :: ik, ib, ix
+  INTEGER :: ik, ib, ix, ii
   REAL(dp) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), thr = 1e-12_dp, shift, &
   &       dxq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), &
   &      d2xq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2)
   !
   CALL compute_dosk(dos, dxq_dos, d2xq_dos)
   !
-  ix = minloc(ABS(xi0(1:nx)),1)
-  WRITE(stdout,'(7x,"DOS(E_F)[/Ry/cell/spin] : ",e12.5)') SUM(dos(ix,elph_nbnd_min:elph_nbnd_max,1:nqbz,1)) 
-  WRITE(stdout,'(7x,"DOS(E_F)[/Ry/cell/spin] : ",e12.5)') SUM(dos(ix,elph_nbnd_min:elph_nbnd_max,1:nqbz,2)) 
+  ix = MINLOC(ABS(xi0(1:nx)),1)
+  DO ii = 1, 2
+    WRITE(stdout,'(7x,"DOS(E_F)[/Ry/cell/spin] : ",e12.5)') SUM(dos(ix,elph_nbnd_min:elph_nbnd_max,1:nqbz,ii))
+  END DO
   !
-  ! Query of ngap1
+  ! Query of ngap(1:2)
   !
-  ngap1 = 0
-  DO ik = 1, nqbz
-     DO ib = fbee, lbee
+  DO ii = 1, 2
+    !
+    ngap(ii) = 0
+    DO ik = 1, nqbz
+      DO ib = fbee, lbee
         !
         IF(elph_nbnd_min <= ib .AND. ib <= elph_nbnd_max) THEN
-           ngap1 = ngap1 + MAX(1, count(dos(1:nx,ib,ik,1) > thr))
+           ngap(ii) = ngap(ii) + MAX(1, count(dos(1:nx,ib,ik,ii) > thr))
         ELSE
-           ngap1 = ngap1 + 1
+           ngap(ii) = ngap(ii) + 1
         END IF
         !
-     END DO
-  END DO
+      END DO
+    END DO
+    !
+  END DO ! ii = 1, 2
   !
-  ! Query of ngap2
+  WRITE(stdout,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap(1:2)
+  ngapmax = MAXVAL(ngap(1:2))
+  ALLOCATE(xi(ngapmax,2),  dk(ngapmax,2), kindx(ngapmax,2), &
+  &     bindx(ngapmax,2), dxq(ngapmax,2),  d2xq(ngapmax,2)  )
   !
-  ngap2 = 0
-  DO ik = 1, nqbz
-     DO ib = fbee, lbee
-        !
-        IF(elph_nbnd_min <= ib .AND. ib <= elph_nbnd_max) THEN
-           ngap2 = ngap2 + MAX(1, count(dos(1:nx,ib,ik,2) > thr))
-        ELSE  
-           ngap2 = ngap2 + 1
-        END IF
-        !
-     END DO
-  END DO
-  !
-  WRITE(stdout,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap1, ngap2
-  ngap = MAX(ngap1, ngap2)
-  ALLOCATE(xi(ngap,2), dk(ngap,2), kindx(ngap,2), bindx(ngap,2), dxq(ngap,2), d2xq(ngap,2))
-  !
-  xi(   1:ngap,1:2) = 0.0_dp
-  dk(   1:ngap,1:2) = 0.0_dp
-  kindx(1:ngap,1:2) = 0
-  bindx(1:ngap,1:2) = 0
-  dxq(  1:ngap,1:2) = 0.0_dp
-  d2xq( 1:ngap,1:2) = 0.0_dp
+  xi(   1:ngapmax,1:2) = 0.0_dp
+  dk(   1:ngapmax,1:2) = 0.0_dp
+  kindx(1:ngapmax,1:2) = 0
+  bindx(1:ngapmax,1:2) = 0
+  dxq(  1:ngapmax,1:2) = 0.0_dp
+  d2xq( 1:ngapmax,1:2) = 0.0_dp
   !
   ! Map xi, d3k, dosk, indx, bindx, dxq
   !
-  shift = 0.0_dp
-  CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,1), &
-  &          dxq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,1), &
-  &         d2xq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,1), &
-  &              shift,ngap1,xi(1:ngap1,1), &
-  &              dk(1:ngap1,1),kindx(1:ngap1,1),bindx(1:ngap1,1),dxq(1:ngap1,1),d2xq(1:ngap1,1))
-  shift = 0.5_dp
-  CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,2), &
-  &          dxq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,2), &
-  &         d2xq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,2), &
-  &              shift,ngap2,xi(1:ngap2,2), &
-  &              dk(1:ngap2,2),kindx(1:ngap2,2),bindx(1:ngap2,2),dxq(1:ngap2,2),d2xq(1:ngap2,2))
+  DO ii = 1, 2
+    !
+    IF(ii == 1) THEN
+      shift = 0.0_dp
+    ELSE
+      shift = 0.5_dp
+    END IF
+    !
+    CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,ii), &
+    &          dxq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,ii), &
+    &         d2xq_dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,ii), shift, ngap(ii), &
+    &               xi(1:ngap(ii),ii),  dk(1:ngap(ii),ii), kindx(1:ngap(ii),ii), &
+    &            bindx(1:ngap(ii),ii), dxq(1:ngap(ii),ii),  d2xq(1:ngap(ii),ii))
+    !
+  END DO
   !
 END SUBROUTINE compute_d3k
 !
@@ -560,7 +559,7 @@ SUBROUTINE store_d3k(dos,dxq_dos,d2xq_dos,shift,ngap,xi,dk,kindx,bindx,dxq,d2xq)
   END DO ! ik
   !
   IF(ngap0 /= ngap) THEN
-     CALL errore ('store_d3k', 'ngap0 /= ngap', ngap)
+     CALL errore ('store_d3k', 'ngap0 /= ngapmax', ngap)
   END IF
   !
 END SUBROUTINE store_d3k
@@ -724,7 +723,7 @@ SUBROUTINE ini_lambda_mu()
   USE disp,  ONLY : nq1, nq2, nq3
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE fermisurfer_common, ONLY : b_low, b_high
-  USE sctk_val, ONLY : bindx, dk, kindx, nqbz, ngap, nx, xi0, dx0
+  USE sctk_val, ONLY : bindx, dk, kindx, nqbz, ngapmax, nx, xi0, dx0
   !
   USE sctk_tetra, ONLY : calc_dosk, interpol_indx
   !
@@ -774,17 +773,17 @@ SUBROUTINE ini_lambda_mu()
   !
   WRITE(stdout,'(7x,"DOS(E_F)[/Ry/cell/spin] : ",e12.5)') SUM(dos(elph_nbnd_min:elph_nbnd_max,1:nqbz,2)) 
   !
-  ngap = nqbz * (b_high-b_low+1)
-  WRITE(stdout,'(7x,"Number of total points for gap equation : ",i0)') ngap
-  ALLOCATE(dk(ngap,1), kindx(ngap,1), bindx(ngap,1))
+  ngapmax = nqbz * (b_high-b_low+1)
+  WRITE(stdout,'(7x,"Number of total points for gap equation : ",i0)') ngapmax
+  ALLOCATE(dk(ngapmax,1), kindx(ngapmax,1), bindx(ngapmax,1))
   !
-  ngap = 0
+  ngapmax = 0
   DO ik = 1, nqbz
      DO ib = b_low, b_high
-        ngap = ngap + 1
-        dk(ngap,1) = dos(ib,ik,2)
-        kindx(ngap,1) = ik
-        bindx(ngap,1) = ib
+        ngapmax = ngapmax + 1
+        dk(ngapmax,1) = dos(ib,ik,2)
+        kindx(ngapmax,1) = ik
+        bindx(ngapmax,1) = ib
      END DO
   END DO
   !

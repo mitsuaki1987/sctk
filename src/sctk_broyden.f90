@@ -37,25 +37,24 @@ SUBROUTINE compute_dabs(lout,delta,dabs)
   USE kinds, ONLY : DP
   USE io_global, ONLY : stdout
   USE constants, ONLY : RYTOEV
-  USE sctk_val, ONLY : dk, emin, ngap, ngap1, ngap2, xi
+  USE sctk_val, ONLY : dk, emin, ngapmax, ngap, xi
   !
   LOGICAL,INTENT(IN) :: lout
-  REAL(DP),INTENT(INOUT) :: delta(ngap,2)
+  REAL(DP),INTENT(INOUT) :: delta(ngapmax,2)
   REAL(dp),INTENT(OUT) :: dabs
   !
-  LOGICAL :: lfermi(ngap)
+  INTEGER :: ii
+  LOGICAL :: lfermi(ngapmax)
   REAL(dp) :: ave(2), dave(2)
   !
   ave(1:2) = 0.0_dp
   dave(1:2) = 0.0_dp
   !
-  lfermi(1:ngap1) = ABS(xi(1:ngap1,1)) < emin
-  dave(1) = SUM(ABS(delta(1:ngap1,1)) * dk(1:ngap1,1), lfermi(1:ngap1))
-  ave(1)  = SUM(                        dk(1:ngap1,1), lfermi(1:ngap1))
-  !
-  lfermi(1:ngap2) = ABS(xi(1:ngap2,2)) < emin
-  dave(2) = SUM(ABS(delta(1:ngap2,2)) * dk(1:ngap2,2), lfermi(1:ngap2))
-  ave(2)  = SUM(                        dk(1:ngap2,2), lfermi(1:ngap2))
+  DO ii = 1, 2
+    lfermi(1:ngap(ii)) = ABS(xi(1:ngap(ii),ii)) < emin
+    dave(ii) = SUM(ABS(delta(1:ngap(ii),ii)) * dk(1:ngap(ii),ii), lfermi(1:ngap(ii)))
+    ave(ii)  = SUM(                            dk(1:ngap(ii),ii), lfermi(1:ngap(ii)))
+  END DO
   !
   dave(1:2) = dave(1:2) / ave(1:2) * RYTOEV * 1.0e3_dp
   dabs = 0.5_dp * SUM(dave(1:2))
@@ -63,8 +62,9 @@ SUBROUTINE compute_dabs(lout,delta,dabs)
   IF(lout) THEN
     WRITE(stdout,'(9x," Delta [meV] : ",2(e12.5,2x))') dave(1:2)
   ELSE
-    delta(1:ngap,1) = delta(1:ngap,1) * SIGN(1.0_dp, dave(1))
-    delta(1:ngap,2) = delta(1:ngap,2) * SIGN(1.0_dp, dave(2))
+    DO ii = 1, 2
+      delta(1:ngapmax,ii) = delta(1:ngapmax,ii) * SIGN(1.0_dp, dave(ii))
+    END DO
   END IF
   !
 END SUBROUTINE

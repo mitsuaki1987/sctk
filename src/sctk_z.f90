@@ -22,35 +22,35 @@ SUBROUTINE make_Z()
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   !
   USE sctk_val, ONLY : beta, bindx, dk, emin, gg, lz_coulomb, freq_min, &
-  &                    kindx, ngap, ngap1, ngap2, omg, xi, Z, lsf, Vc, nci
+  &                    kindx, ngapmax, ngap, omg, xi, Z, lsf, Vc, nci
   !
   USE sctk_kernel_weight, ONLY : Zweight, calc_Zsf
   !
   IMPLICIT NONE
   !
-  INTEGER :: igap, ik, ib, jgap, jk, jb, imode, ngap10, ngap11
+  INTEGER :: igap, ik, ib, jgap, jk, jb, imode, ngap1(2), ii
   REAL(dp) :: x, xp, om, zave(2), ave(2), Z0
   !
   CALL start_clock("make_Z")
   !
-  IF(.NOT. ALLOCATED(Z)) ALLOCATE(Z(ngap,2))
-  Z(1:ngap,1:2) = 0.0_dp
+  IF(.NOT. ALLOCATED(Z)) ALLOCATE(Z(ngapmax,2))
+  Z(1:ngapmax,1:2) = 0.0_dp
   !
-  CALL divide(world_comm, ngap1,ngap10,ngap11)
+  CALL divide(world_comm, ngap(1), ngap1(1), ngap1(2))
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(ngap10,ngap11,ngap2,nmodes,kindx,bindx,beta,lz_coulomb, &
+  !$OMP & SHARED(ngap1,ngap,nmodes,kindx,bindx,beta,lz_coulomb, &
   !$OMP &        elph_nbnd_min,elph_nbnd_max,xi,dk,Z,gg,omg,lsf,nci,Vc,freq_min) &
   !$OMP & PRIVATE(igap,ik,ib,jgap,jk,jb,imode,x,xp,om,Z0)
   !
   !$OMP DO REDUCTION(+: Z)
-  DO igap = ngap10, ngap11
+  DO igap = ngap1(1), ngap1(2)
      !
      x = xi(igap,1)
      ik = kindx(igap,1)
      ib = bindx(igap,1)
      !
-     DO jgap = 1, ngap2
+     DO jgap = 1, ngap(2)
         !
         xp = xi(jgap,2)
         jk = kindx(jgap,2)
@@ -99,10 +99,10 @@ SUBROUTINE make_Z()
   !
   CALL mp_sum( Z, world_comm )
   !
-  zave(1) = SUM(Z(1:ngap,1) * dk(1:ngap,1), ABS(xi(1:ngap,1)) < emin)
-  zave(2) = SUM(Z(1:ngap,2) * dk(1:ngap,2), ABS(xi(1:ngap,2)) < emin)
-  ave(1) = SUM(dk(1:ngap,1), ABS(xi(1:ngap,1)) < emin)
-  ave(2) = SUM(dk(1:ngap,2), ABS(xi(1:ngap,2)) < emin)
+  DO ii = 1, 2
+    zave(ii) = SUM(Z(1:ngapmax,ii) * dk(1:ngapmax,ii), ABS(xi(1:ngapmax,ii)) < emin)
+    ave(ii) = SUM(dk(1:ngapmax,ii), ABS(xi(1:ngapmax,ii)) < emin)
+  END DO
   !
   zave(1:2) = zave(1:2) / ave(1:2)
   !
@@ -124,7 +124,7 @@ SUBROUTINE make_Z_qpdos()
   USE fermisurfer_common, ONLY : b_low, b_high
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   !
-  USE sctk_val, ONLY : beta, bindx, dk, ggf, kindx, ngap2, nx, freq_min, &
+  USE sctk_val, ONLY : beta, bindx, dk, ggf, kindx, ngap, nx, freq_min, &
   &                    omgf, xi, xi0, ZF, lsf, Vcf, nci, lz_coulomb
   USE sctk_kernel_weight, ONLY : Zweight, calc_Zsf
   !
@@ -141,7 +141,7 @@ SUBROUTINE make_Z_qpdos()
   CALL divide(world_comm, nks,nks0,nks1)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(nx,nks0,nks1,b_low,b_high,nmodes,ngap2,xi,dk,kindx,bindx,lsf,nci, &
+  !$OMP & SHARED(nx,nks0,nks1,b_low,b_high,nmodes,ngap,xi,dk,kindx,bindx,lsf,nci, &
   !$OMP &        ZF,ggf,omgf,xi0,elph_nbnd_min,elph_nbnd_max,beta,VcF,lz_coulomb,freq_min) &
   !$OMP & PRIVATE(ik,ib,jgap,jk,jb,ix,imode,x,xp,om)
   !
@@ -154,7 +154,7 @@ SUBROUTINE make_Z_qpdos()
            !
            x = ABS(xi0(ix))
            !
-           DO jgap = 1, ngap2
+           DO jgap = 1, ngap(2)
               !
               xp = xi(jgap,2)
               jk = kindx(jgap,2)
@@ -216,7 +216,7 @@ SUBROUTINE make_Z_f()
   USE fermisurfer_common, ONLY : b_low, b_high
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   !
-  USE sctk_val, ONLY : beta, bindx, dk, ggf, kindx, ngap2, freq_min, &
+  USE sctk_val, ONLY : beta, bindx, dk, ggf, kindx, ngap, freq_min, &
   &                    omgf, xi, ZF, lsf, Vcf, nci, lz_coulomb
   USE sctk_kernel_weight, ONLY : Zweight, calc_Zsf
   !
@@ -233,7 +233,7 @@ SUBROUTINE make_Z_f()
   CALL divide(world_comm, nks,nks0,nks1)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(nks0,nks1,b_low,b_high,nmodes,ngap2,xi,dk,kindx,bindx,ZF,nci, &
+  !$OMP & SHARED(nks0,nks1,b_low,b_high,nmodes,ngap,xi,dk,kindx,bindx,ZF,nci, &
   !$OMP &        ggf,omgf,elph_nbnd_min,elph_nbnd_max,beta,lsf,Vcf,lz_coulomb,freq_min) &
   !$OMP & PRIVATE(ik,ib,jgap,jk,jb,imode,xp,om)
   !
@@ -242,7 +242,7 @@ SUBROUTINE make_Z_f()
      !
      DO ib = b_low, b_high
         !
-        DO jgap = 1, ngap2
+        DO jgap = 1, ngap(2)
            !
            xp = xi(jgap,2)
            jk = kindx(jgap,2)

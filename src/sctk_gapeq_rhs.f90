@@ -20,34 +20,34 @@ SUBROUTINE make_effint()
   USE modes, ONLY : nmodes
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   !
-  USE sctk_val, ONLY : beta, bindx, effint, gg, kindx, ngap1, ngap2, &
+  USE sctk_val, ONLY : beta, bindx, effint, gg, kindx, ngap, &
   &                    omg, Vc, xi, nci, freq_min
   !
   USE sctk_kernel_weight, ONLY : Kweight, calc_Kel
   !
   IMPLICIT NONE
   !
-  INTEGER :: igap, ik, ib, jgap, jk, jb, imode, ngap10, ngap11
+  INTEGER :: igap, ik, ib, jgap, jk, jb, imode, ngap1(2)
   REAL(dp) :: x, xp, om, Kph(2), Kel
   !
   CALL start_clock("make_effint")
   !
-  CALL divide(world_comm, ngap1, ngap10, ngap11)
-  IF(.NOT. ALLOCATED(effint)) ALLOCATE(effint(ngap2,ngap10:ngap11,2))
+  CALL divide(world_comm, ngap(1), ngap1(1), ngap1(2))
+  IF(.NOT. ALLOCATED(effint)) ALLOCATE(effint(ngap(2),ngap1(1):ngap1(2),2))
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(ngap10,ngap11,ngap1,ngap2,nmodes,kindx,bindx,beta,nci, &
+  !$OMP & SHARED(ngap1,ngap,nmodes,kindx,bindx,beta,nci, &
   !$OMP &        xi,omg,gg,Vc,effint,elph_nbnd_min,elph_nbnd_max,freq_min) &
   !$OMP & PRIVATE(igap,jgap,ik,jk,ib,jb,imode,x,xp,om,Kph,Kel)
   !
   !$OMP DO
-  DO igap = ngap10, ngap11
+  DO igap = ngap1(1), ngap1(2)
      !
      x = xi(igap,1)
      ik = kindx(igap,1)
      ib = bindx(igap,1)
      !
-     DO jgap = 1, ngap2
+     DO jgap = 1, ngap(2)
         !
         xp = xi(jgap,2)
         jk = kindx(jgap,2)
@@ -99,38 +99,32 @@ SUBROUTINE gapeq_rhs(delta,res)
   USE constants, ONLY : RYTOEV
   !
   USE sctk_val, ONLY : beta, zero_kelvin, dk, effint, &
-  &                    ngap, ngap1, ngap2, xi, xic, Z, dxq
+  &                    ngapmax, ngap, xi, xic, Z, dxq
   !
   IMPLICIT NONE
   !
-  REAL(dp),INTENT(in)  :: delta(ngap,2)
-  REAL(dp),INTENT(OUT) :: res(ngap,2)
+  REAL(dp),INTENT(in)  :: delta(ngapmax,2)
+  REAL(dp),INTENT(OUT) :: res(ngapmax,2)
   !
-  INTEGER :: igap, ngap10, ngap11, nh, ngap12, ii
-  REAL(dp) :: chi(ngap,2), dosh, Kh, dlth, xmax, tanhd, tanhe
+  INTEGER :: igap, ngap1(2), nh(2), ii
+  REAL(dp) :: chi(ngapmax,2), dosh(2), Kh, dlth(2), xmax(2), tanhd, tanhe
   !
   CALL start_clock("gapeq_rhs")
   !
-  CALL divide(world_comm, ngap1, ngap10, ngap11)
+  CALL divide(world_comm, ngap(1), ngap1(1), ngap1(2))
   !
-  res(1:ngap,1:2) = 0.0_dp
-  chi(1:ngap,1:2) = 0.0_dp
+  res(1:ngapmax,1:2) = 0.0_dp
+  chi(1:ngapmax,1:2) = 0.0_dp
   !
   IF(zero_kelvin) THEN
     !$OMP PARALLEL DEFAULT(NONE) &
-    !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi) &
-    !$OMP & PRIVATE(igap,ngap12,ii)
+    !$OMP & SHARED(ngap,xi,delta,dxq,chi) &
+    !$OMP & PRIVATE(igap,ii)
     !
     DO ii = 1, 2
       !
-      IF(ii == 1) THEN
-        ngap12 = ngap1
-      ELSE
-        ngap12 = ngap2
-      END IF
-      !
       !$OMP DO
-      DO igap = 1, ngap12
+      DO igap = 1, ngap(ii)
         IF(xi(igap,ii)**2 + delta(igap,ii)**2 > dxq(igap,ii)**2) THEN
           chi(igap,ii) = 1.0_dp
         ELSE
@@ -144,19 +138,13 @@ SUBROUTINE gapeq_rhs(delta,res)
     !$OMP END PARALLEL
   ELSE
     !$OMP PARALLEL DEFAULT(NONE) &
-    !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,chi,beta) &
-    !$OMP & PRIVATE(igap,tanhd,tanhe,ngap12,ii)
+    !$OMP & SHARED(ngap,xi,delta,dxq,chi,beta) &
+    !$OMP & PRIVATE(igap,tanhd,tanhe,ii)
     !
     DO ii = 1, 2
       !
-      IF(ii == 1) THEN
-        ngap12 = ngap1
-      ELSE
-        ngap12 = ngap2
-      END IF
-      !
       !$OMP DO
-      DO igap = 1, ngap12
+      DO igap = 1, ngap(ii)
         !
         tanhe = TANH(0.5_dp * beta * SQRT(xi(igap,ii)**2 + delta(igap,ii)**2))
         tanhd = TANH(0.5_dp * beta * ABS(dxq(igap,ii)))
@@ -180,71 +168,55 @@ SUBROUTINE gapeq_rhs(delta,res)
     !$OMP END PARALLEL
   END IF
   !
-  chi(1:ngap1,1) = 0.5_dp * dk(1:ngap1,1) * delta(1:ngap1,1) * chi(1:ngap1,1) &
-  &              / SQRT(xi(1:ngap1,1)**2 + delta(1:ngap1,1)**2)
+  DO ii = 1, 2
+    chi(1:ngap(ii),ii) = 0.5_dp * dk(1:ngap(ii),ii) * delta(1:ngap(ii),ii) * chi(1:ngap(ii),ii) &
+    &                  / SQRT(xi(1:ngap(ii),ii)**2 + delta(1:ngap(ii),ii)**2)
+  END DO
   !
-  chi(1:ngap2,2) = 0.5_dp * dk(1:ngap2,2) * delta(1:ngap2,2) * chi(1:ngap2,2) &
-  &              / SQRT(xi(1:ngap2,2)**2 + delta(1:ngap2,2)**2)
+  CALL dgemv("T", ngap(2), ngap1(2)-ngap1(1)+1, 1.0_dp, effint(1:ngap(2),ngap1(1):ngap1(2),1), ngap(2), &
+  &    chi(1:ngap(2),2), 1, 1.0_dp, res(ngap1(1):ngap1(2),1), 1)
   !
-  CALL dgemv("T", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,1), ngap2, &
-  &    chi(1:ngap2,2), 1, 1.0_dp, res(ngap10:ngap11,1), 1)
-  !
-  CALL dgemv("N", ngap2, ngap11-ngap10+1, 1.0_dp, effint(1:ngap2,ngap10:ngap11,2), ngap2, &
-  &    chi(ngap10:ngap11,1), 1, 1.0_dp, res(1:ngap2,2), 1)
+  CALL dgemv("N", ngap(2), ngap1(2)-ngap1(1)+1, 1.0_dp, effint(1:ngap(2),ngap1(1):ngap1(2),2), ngap(2), &
+  &    chi(ngap1(1):ngap1(2),1), 1, 1.0_dp, res(1:ngap(2),2), 1)
   !
   ! High energy region
   !
   IF(xic > 0) THEN
-     !
-     ! 1, 
-     !
-     nh = count(xi(1:ngap1,1) > xic)
-     dlth = SUM(delta(1:ngap1,1) / xi(1:ngap1,1), xi(1:ngap1,1) > xic) &
-     &    / SUM(1.0_dp / xi(1:ngap1,1)**2,         xi(1:ngap1,1) > xic)
-     !
-     xmax = MAXVAL(xi(1:ngap1,1))
-     dosh = SUM(dk(1:ngap1,1), xi(1:ngap1,1) > xic) / (xmax - xic)
-     !
-     WRITE(stdout,'(9x,"Extrapol 1 : ",e12.5)') dlth / xic * RYTOEV * 1.0e3_dp
-     !
-     !$OMP PARALLEL DEFAULT(NONE) &
-     !$OMP & SHARED(res,ngap2,effint,ngap10,ngap11,xi,xic,xmax,nh,dosh,dlth) &
-     !$OMP & PRIVATE(igap,Kh)
-     !$OMP DO
-     DO igap = 1, ngap2
-        Kh = SUM(effint(igap,ngap10:ngap11,2), xi(ngap10:ngap11,1) > xic) / REAL(nh, dp)
-        res(igap,2) = res(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
-     END DO
-     !$OMP END DO
-     !$OMP END PARALLEL
-     !
-     ! 2, 
-     !
-     nh = count(xi(1:ngap2,2) > xic)
-     dlth = SUM(delta(1:ngap2,2) / xi(1:ngap2,2), xi(1:ngap2,2) > xic) &
-     &    / SUM(1.0_dp / xi(1:ngap2,2)**2,         xi(1:ngap2,2) > xic)
-     !
-     xmax = MAXVAL(xi(1:ngap2,2))
-     dosh = SUM(dk(1:ngap2,2), xi(1:ngap2,2) > xic) / (xmax - xic)
-     !
-     WRITE(stdout,'(9x,"Extrapol 2 : ",e12.5)') dlth / xic * RYTOEV * 1.0e3_dp
-     !
-     !$OMP PARALLEL DEFAULT(NONE) &
-     !$OMP & SHARED(res,ngap2,effint,ngap10,ngap11,xi,xic,xmax,nh,dosh,dlth) &
-     !$OMP & PRIVATE(igap,Kh)
-     !$OMP DO
-     DO igap = ngap10, ngap11
-        Kh = SUM(effint(1:ngap2,igap,1), xi(1:ngap2,2) > xic) / REAL(nh, dp)
-        res(igap,2) = res(igap,2) + 0.5_dp * dosh * Kh * dlth / xmax
-     END DO
-     !$OMP END DO
-     !$OMP END PARALLEL
-     !
+    !
+    DO ii = 1, 2
+      nh(ii) = count(xi(1:ngap(ii),ii) > xic)
+      dlth(ii) = SUM(delta(1:ngap(ii),ii) / xi(1:ngap(ii),ii), xi(1:ngap(ii),ii) > xic) &
+      &        / SUM(1.0_dp / xi(1:ngap(ii),ii)**2,         xi(1:ngap(ii),ii) > xic)
+      !
+      xmax(ii) = MAXVAL(xi(1:ngap(ii),ii))
+      dosh(ii) = SUM(dk(1:ngap(ii),ii), xi(1:ngap(ii),ii) > xic) / (xmax(ii) - xic)
+      !
+      WRITE(stdout,'(9x,"Extrapol ",i1," : ",e12.5)') ii, dlth(ii) / xic * RYTOEV * 1.0e3_dp
+    END DO
+    !
+    !$OMP PARALLEL DEFAULT(NONE) &
+    !$OMP & SHARED(res,ngap,effint,ngap1,xi,xic,xmax,nh,dosh,dlth) &
+    !$OMP & PRIVATE(igap,Kh)
+    !$OMP DO
+    DO igap = 1, ngap(2)
+      Kh = SUM(effint(igap,ngap1(1):ngap1(2),2), xi(ngap1(1):ngap1(2),1) > xic) / REAL(nh(1), dp)
+      res(igap,2) = res(igap,2) + 0.5_dp * dosh(1) * Kh * dlth(1) / xmax(1)
+    END DO
+    !$OMP END DO
+    !     
+    !$OMP DO
+    DO igap = ngap1(1), ngap1(2)
+      Kh = SUM(effint(1:ngap(2),igap,1), xi(1:ngap(2),2) > xic) / REAL(nh(2), dp)
+      res(igap,1) = res(igap,1) + 0.5_dp * dosh(2) * Kh * dlth(2) / xmax(2)
+    END DO
+    !$OMP END DO
+    !$OMP END PARALLEL
+    !
   END IF ! (xic > 0)
   !
   CALL mp_sum( res, world_comm )
   !
-  res(1:ngap,1:2) = - res(1:ngap,1:2) / (1.0_dp + Z(1:ngap,1:2)) - delta(1:ngap,1:2)
+  res(1:ngapmax,1:2) = - res(1:ngapmax,1:2) / (1.0_dp + Z(1:ngapmax,1:2)) - delta(1:ngapmax,1:2)
   !
   CALL stop_clock("gapeq_rhs")
   !
@@ -263,7 +235,7 @@ SUBROUTINE gapeq_rhs_qpdos()
   USE fermisurfer_common,   ONLY : b_low, b_high
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE sctk_val, ONLY : beta, zero_kelvin, bindx, delta, dk, dltF, ggf, kindx, &
-  &                    nci, ngap2, nx, omgf, VcF, xi, xi0, xic, ZF, freq_min
+  &                    nci, ngap, nx, omgf, VcF, xi, xi0, xic, ZF, freq_min
   !
   USE sctk_kernel_weight, ONLY : Kweight, calc_Kel
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
@@ -280,19 +252,19 @@ SUBROUTINE gapeq_rhs_qpdos()
   !
   ! Extrapolation of high energy region
   !
-  nh = count(xi(1:ngap2,2) > xic)
-  dlth = SUM(delta(1:ngap2,2) / xi(1:ngap2,2), xi(1:ngap2,2) > xic) &
-  &    / SUM(1.0_dp / xi(1:ngap2,2)**2,      xi(1:ngap2,2) > xic)
+  nh = count(xi(1:ngap(2),2) > xic)
+  dlth = SUM(delta(1:ngap(2),2) / xi(1:ngap(2),2), xi(1:ngap(2),2) > xic) &
+  &    / SUM(1.0_dp / xi(1:ngap(2),2)**2,      xi(1:ngap(2),2) > xic)
   !
-  xmax = MAXVAL(xi(1:ngap2,2))
-  dosh = SUM(dk(1:ngap2,2), xi(1:ngap2,2) > xic) / (xmax - xic)
+  xmax = MAXVAL(xi(1:ngap(2),2))
+  dosh = SUM(dk(1:ngap(2),2), xi(1:ngap(2),2) > xic) / (xmax - xic)
   !
   WRITE(stdout,*) nh, dlth, xmax, dosh
   !
   CALL divide(world_comm, nks,nks0, nks1)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(xi0,nx,nks0,nks1,ngap2,b_low,b_high,nmodes,omgf,ggf,VcF, &
+  !$OMP & SHARED(xi0,nx,nks0,nks1,ngap,b_low,b_high,nmodes,omgf,ggf,VcF, &
   !$OMP &        xi,dk,delta,kindx,bindx,dltF,ZF,beta,elph_nbnd_min,elph_nbnd_max, &
   !$OMP &        nh,dlth,dosh,xic,xmax,zero_kelvin,nci,freq_min) &
   !$OMP & PRIVATE(ik,ib,jgap,jk,jb,imode,ix, &
@@ -308,7 +280,7 @@ SUBROUTINE gapeq_rhs_qpdos()
            Kave = 0.0_dp
            x = ABS(xi0(ix))
            !
-           DO jgap = 1, ngap2
+           DO jgap = 1, ngap(2)
               !
               xp = ABS(xi(jgap,2))
               jk = kindx(jgap,2)
@@ -399,7 +371,7 @@ SUBROUTINE gapeq_rhs_f()
   USE constants, ONLY : RYTOEV
   !
   USE sctk_val, ONLY : beta, bindx, delta, dk, dltf, ggf, kindx, freq_min, &
-  &                    nci, ngap2, omgf, VcF, xi, xic, Zf, zero_kelvin
+  &                    nci, ngap, omgf, VcF, xi, xic, Zf, zero_kelvin
   !
   USE sctk_kernel_weight, ONLY : Kweight, calc_Kel
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
@@ -416,19 +388,19 @@ SUBROUTINE gapeq_rhs_f()
   !
   ! Extrapolation of high energy region
   !
-  nh = count(xi(1:ngap2,2) > xic)
-  dlth = SUM(delta(1:ngap2,2) / xi(1:ngap2,2), xi(1:ngap2,2) > xic) &
-  &    / SUM(1.0_dp / xi(1:ngap2,2)**2,        xi(1:ngap2,2) > xic)
+  nh = count(xi(1:ngap(2),2) > xic)
+  dlth = SUM(delta(1:ngap(2),2) / xi(1:ngap(2),2), xi(1:ngap(2),2) > xic) &
+  &    / SUM(1.0_dp / xi(1:ngap(2),2)**2,        xi(1:ngap(2),2) > xic)
   !
-  xmax = MAXVAL(xi(1:ngap2,2))
-  dosh = SUM(dk(1:ngap2,2), xi(1:ngap2,2) > xic) / (xmax - xic)
+  xmax = MAXVAL(xi(1:ngap(2),2))
+  dosh = SUM(dk(1:ngap(2),2), xi(1:ngap(2),2) > xic) / (xmax - xic)
   !
   IF(xic > 0.0_dp) WRITE(stdout,*) dlth / xic * RYTOEV * 1.0e3_dp
   !
   CALL divide(world_comm, nks,nks0,nks1)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(nks0,nks1,ngap2,b_low,b_high,nmodes,omgf,ggf,VcF,nci, &
+  !$OMP & SHARED(nks0,nks1,ngap,b_low,b_high,nmodes,omgf,ggf,VcF,nci, &
   !$OMP &        xi,dk,delta,kindx,bindx,dltf,Zf,beta,elph_nbnd_min,elph_nbnd_max, &
   !$OMP &        nh,dlth,dosh,xic,xmax,zero_kelvin,freq_min) &
   !$OMP & PRIVATE(ik,ib,jgap,jk,jb,imode,xp,om,eqp,Kph,Kel,Kave)
@@ -440,7 +412,7 @@ SUBROUTINE gapeq_rhs_f()
         !
         Kave = 0.0_dp
         !
-        DO jgap = 1, ngap2
+        DO jgap = 1, ngap(2)
            !
            xp = ABS(xi(jgap,2))
            jk = kindx(jgap,2)
@@ -529,7 +501,7 @@ SUBROUTINE make_lambda_mu_f()
   USE io_global, ONLY : stdout
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   !
-  USE sctk_val, ONLY : bindx, dk, ggf, kindx, ngap, omgf, ZF, dltf, VcF, nci, freq_min
+  USE sctk_val, ONLY : bindx, dk, ggf, kindx, ngapmax, omgf, ZF, dltf, VcF, nci, freq_min
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   USE sctk_tetra, ONLY : calc_dosk
   !
@@ -547,7 +519,7 @@ SUBROUTINE make_lambda_mu_f()
   CALL divide(world_comm, nks,nks0,nks1)
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(nks0,nks1,b_low,b_high,ngap,kindx,bindx,ZF,dltf,dk,ggf,omgf,VcF,nmodes,nci,freq_min) &
+  !$OMP & SHARED(nks0,nks1,b_low,b_high,ngapmax,kindx,bindx,ZF,dltf,dk,ggf,omgf,VcF,nmodes,nci,freq_min) &
   !$OMP & PRIVATE(ik,ib,jgap,jk,jb)
   !
   !$OMP DO
@@ -555,7 +527,7 @@ SUBROUTINE make_lambda_mu_f()
      !
      DO ib = b_low, b_high
         !
-        DO jgap = 1, ngap
+        DO jgap = 1, ngapmax
            !
            jk = kindx(jgap,1)
            jb = bindx(jgap,1)
