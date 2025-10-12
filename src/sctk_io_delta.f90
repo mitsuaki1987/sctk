@@ -84,7 +84,7 @@ SUBROUTINE out_delta(fname)
     !
     DO ii = 1, 2
       DO it = 1, ngap(ii)
-        WRITE(fo,'(4e25.15,2i8)') xi(it,ii), delta(it,ii), Z(it,ii), dk(it,ii), dxq(it,ii), &
+        WRITE(fo,'(5e25.15,2i8)') xi(it,ii), delta(it,ii), Z(it,ii), dk(it,ii), dxq(it,ii), &
         &                       kindx(it,ii), bindx(it,ii)
       END DO
       !
