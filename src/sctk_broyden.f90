@@ -152,27 +152,21 @@ SUBROUTINE supercurrent()
   USE kinds, ONLY : dp
   USE io_global, ONLY : stdout
   USE cell_base, ONLY : omega, bg, tpiba
-  USE sctk_val, ONLY : xi, delta, dxq, ngap1, ngap2, dk, q_fflo, beta, d2xq
+  USE sctk_val, ONLY : xi, delta, dxq, ngap, dk, q_fflo, beta, d2xq
   !
-  INTEGER :: ii, igap, ngap12
+  INTEGER :: ii, igap
   REAL(dp) :: j_q(2), tanhd, tanhx, tanhe, qvec(3), qnorm, d_x, d_e, x_d, e_d, e_qp
   !
   j_q(1:2) = 0.0_dp
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(ngap1,ngap2,xi,delta,dxq,d2xq,dk,beta,j_q) &
-  !$OMP & PRIVATE(ii,igap,tanhd,tanhx,tanhe,ngap12,d_x,d_e,x_d,e_d,e_qp)
+  !$OMP & SHARED(ngap,xi,delta,dxq,d2xq,dk,beta,j_q) &
+  !$OMP & PRIVATE(ii,igap,tanhd,tanhx,tanhe,d_x,d_e,x_d,e_d,e_qp)
   !
   DO ii = 1, 2
     !
-    IF(ii == 1) THEN
-      ngap12 = ngap1
-    ELSE
-      ngap12 = ngap2
-    END IF
-    !
     !$OMP DO REDUCTION(+: j_q)
-    DO igap = 1, ngap12
+    DO igap = 1, ngap(ii)
       !
       e_qp = SQRT(xi(igap, ii)**2 + delta(igap, ii)**2)
       tanhd = TANH(0.5_dp * beta * ABS(dxq(igap, ii)))
