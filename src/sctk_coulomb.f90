@@ -135,7 +135,7 @@ SUBROUTINE prepare_q()
            WHERE(igv(1:3)*2 >= (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)) &
            &  igv(1:3) = igv(1:3) - (/dfftt%nr1, dfftt%nr2, dfftt%nr3/)
            gv(1:3) = MATMUL(bg(1:3,1:3), REAL(igv(1:3), dp)) * tpiba
-           gv(1:3) = gv(1:3) - x_q(1:3, current_iq) * tpiba
+           gv(1:3) = gv(1:3) + x_q(1:3, current_iq) * tpiba
            !
            gq20 = DOT_PRODUCT(gv(1:3), gv(1:3))
            !
