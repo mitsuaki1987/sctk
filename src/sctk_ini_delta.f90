@@ -111,6 +111,12 @@ SUBROUTINE ini_delta(lallocate)
            delta(1:ngapmax,1:2) = 2.0_dp * (delta(1:ngapmax,1:2) - 0.5_dp) * thr
         ELSE IF(initial_delta == "constant") THEN
            delta(1:ngapmax,1:2) = thr
+        ELSE IF(initial_delta == "band-constant") THEN
+           !odd-band
+           do
+           delta(1:ngapmax,1:2) = -thr
+           !even-band
+           delta(1:ngapmax,1:2) = thr
         ELSE
            CALL errore ('ini_delta', 'Invalid initial_delta in input', 1)
         END IF
