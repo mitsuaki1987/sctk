@@ -160,6 +160,9 @@ spin_fluc        Logical   .False.      If .True., the spin-fluctuation :ref:`[3
 scdft_kernel     Positive  1            1: Lüders2005 :ref:`[4] <ref>`, 2: Sanna2020 :ref:`[5] <ref>`
                  integer
 lz_coulomb       Logical   .False.      Coulomb renormalization :ref:`[6] <ref>`
+q_fflo           Real(3)   0.0 0.0 0.0  Momentum of the order parameter in reciprocal fractional unit
+initial_delta    String    "random-node Initial-guess tpe of k-dependent gap function. Choose from "random
+                           less"        -nodeless", "random-nodal", "constant", "band-constant"
 ================ ========= ============ ===================================================================
 
 Data files

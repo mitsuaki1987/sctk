@@ -17,20 +17,11 @@
 
       $ git clone https://gitlab.com/QEF/q-e.git
       $ cd q-e
-      $ git checkout 96cdd5ac6af9c060be392a95f14dbcbca5c1a890
-      $ git clone https://github.com/mitsuaki1987/sctk.git -b sctk1.2.1-qe6.7
-      $ patch -p1 < sctk/patch.diff
+      $ git checkout qe-7.4.1
+      $ git clone https://github.com/mitsuaki1987/sctk.git -b develop SCTK
+      $ patch -p1 < SCTK/patch.diff
 
-   開発版(developブランチ)を試す場合は次のようにする。
-   対応するqe本体のコミットについては https://github.com/mitsuaki1987/sctk/blob/develop/readme.md を参照
-
-   .. code-block:: bash
-
-      $ git clone https://gitlab.com/QEF/q-e.git
-      $ cd q-e
-      $ git checkout コミット番号は https://github.com/mitsuaki1987/sctk/blob/develop/readme.md を参照
-      $ git clone https://github.com/mitsuaki1987/sctk.git -b develop
-      $ patch -p1 < sctk/patch.diff
+   開発版(developブランチ)を試す場合については https://github.com/mitsuaki1987/sctk/blob/develop/readme.md を参照
       
 #. オリジナルの QuantumESPRESSO_ の場合と同様に ``configure`` で環境設定をする。
                
@@ -42,9 +33,11 @@
 
    .. code-block:: bash
 
-       $ make pw ph pp
-       $ cd sctk
-       $ make
+       $ make pw ph pp sctk
                
    実行ファイル名は ``sctk.x`` である。
+   コンパイルが不完全に終わることがあり、その場合は再度 ``make`` を実行する。
 
+   .. code-block:: bash
+
+       $ make sctk

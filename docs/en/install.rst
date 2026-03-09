@@ -17,20 +17,12 @@ Installation procedure
 
       $ git clone https://gitlab.com/QEF/q-e.git
       $ cd q-e
-      $ git checkout 96cdd5ac6af9c060be392a95f14dbcbca5c1a890
-      $ git clone https://github.com/mitsuaki1987/sctk.git -b sctk1.2.1-qe6.7
-      $ patch -p1 < sctk/patch.diff
+      $ git checkout qe-7.4.1
+      $ git clone https://github.com/mitsuaki1987/sctk.git -b develop SCTK
+      $ patch -p1 < SCTK/patch.diff
 
    To try the developping version, the corresponding original QE hash can be seen
    at https://github.com/mitsuaki1987/sctk/blob/develop/readme.md  
-
-   .. code-block:: bash
-
-      $ git clone https://gitlab.com/QEF/q-e.git
-      $ cd q-e
-      $ git checkout THE_HASH_CAN_BE_SEEN_AT https://github.com/mitsuaki1987/sctk/blob/develop/readme.md
-      $ git clone https://github.com/mitsuaki1987/sctk.git -b develop
-      $ patch -p1 < sctk/patch.diff
 
    This was forked from the original QuantumESPRESSO_.
 
@@ -45,8 +37,11 @@ Installation procedure
 
    .. code-block:: bash
 
-       $ make pw ph pp
-       $ cd sctk
-       $ make
+       $ make pw ph pp sctk
 
    The executable file is ``sctk.x``.
+   Sometimes, we need to ``make`` again because of incomplete compilation of SCTK.
+
+   .. code-block:: bash
+
+       $ make sctk
