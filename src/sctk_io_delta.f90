@@ -39,7 +39,7 @@ SUBROUTINE read_delta()
      ngapmax = MAXVAL(ngap(1:2))
      !
      WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap(1:2)
-     ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2))
+     ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2), dxq(ngapmax,2))
      !
      DO ii = 1, 2
        DO it = 1, ngap(ii)
