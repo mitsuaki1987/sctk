@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
--26896208 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud1
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:54:57 
+     Program SCTK v.7.4.1 starts on 13Mar2026 at 12:11:10 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,11 +10,16 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      24 processor cores
+     Parallel version (MPI & OpenMP), running on      64 processor cores
      Number of MPI processes:                 1
-     Threads/MPI process:                    24
+     Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
+     228800 MiB available memory on the printing compute node when the environment starts
+ 
+
+     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+
 
      Reading xml data from directory:
 
@@ -43,20 +33,20 @@ WARNING: There was an error initializing an OpenFabrics device.
      Any further DFT definition will be discarded
      Please, verify this is what you really want
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1155
-
+ 
      Using Slab Decomposition
-
+ 
 
      Check: negative core charge=   -0.000006
      Dense k-grid : 16  16  12
      Number of k(dense) : 210
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      Number of bands :      15
      Number of k times spin :     210
      Number of symmetries :      24
@@ -77,11 +67,17 @@ WARNING: There was an error initializing an OpenFabrics device.
        Max energy for QP-DOS [meV] :  0.50000E+01
              Convergense threshold :  0.10000E-14
                       Max itration : 100
-                  Spin-fluctuation : T
+                  Spin-fluctuation :  T
                       SCDFT kernel : 1
-                         Z_Coulomb : F
+                         Z_Coulomb :  F
                    Min. freq.[THz] :  0.00000E+00
                   Min. freq. ratio : -0.10000E+01
+                   Bisection steps : 10
+                Bisection min. [K] : -0.10000E+01
+                Bisection max. [K] : -0.10000E+01
+             Q_{FFLO} [fractional] :  0.00000E+00 0.00000E+00 0.00000E+00
+                 Q_{FFLO} [Ang^-1] :  0.00000E+00
+               Delta initial guess : random-nodeless
 
      #####  Read from elph*.dat  #####
 
@@ -113,7 +109,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Average matrix in grid  #####
 
-       nindmax : 4
+       nindmax : 8
          Total RAM for Vc per process :   0.53E+00 GB
          Total RAM for gg per process :   0.11E+00 GB
          Total RAM for Vc (temporary) per process :   0.21E-02 GB
@@ -128,23 +124,24 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Integrate gapeq  #####
 
-        8800                       NaN   1.6548694269063999        5.6477146662174809     
+        8800                     NaN   1.65486917247846     
+   5.64771525685195     
 
      #####  Compute qpdos  #####
 
 
      #####  Clock summary  #####
 
-     read_elph    :      0.06s CPU      0.09s WALL (       1 calls)
-     read_Coulomb :      0.00s CPU      0.02s WALL (       1 calls)
-     expand_g_v_f :      9.19s CPU      0.99s WALL (       1 calls)
-     make_Z_qpdos :  10812.16s CPU    904.29s WALL (       1 calls)
-     gapeq_rhs_qp :  10388.25s CPU    870.43s WALL (       1 calls)
+     read_elph    :      2.71s CPU      0.04s WALL (       1 calls)
+     read_Coulomb :      4.63s CPU      0.10s WALL (       1 calls)
+     expand_g_v_f :    557.32s CPU      9.31s WALL (       1 calls)
+     make_Z_qpdos :   3920.57s CPU     76.51s WALL (       1 calls)
+     gapeq_rhs_qp :   3541.14s CPU     71.18s WALL (       1 calls)
+ 
+     SCTK         :      2h16m CPU   2m39.98s WALL
 
-     SCTK         :      5h54m CPU  29m45.93s WALL
-
-
-   This run was terminated on:  12:24:43  29Jun2022            
+ 
+   This run was terminated on:  12:13:50  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

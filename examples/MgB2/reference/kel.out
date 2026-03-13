@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
--1643960144 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud1
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:20: 4 
+     Program SCTK v.7.4.1 starts on 13Mar2026 at  3: 8:21 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,12 +10,16 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      24 processor cores
-     Number of MPI processes:                 4
-     Threads/MPI process:                     6
+     Parallel version (MPI & OpenMP), running on      64 processor cores
+     Number of MPI processes:                 1
+     Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
-     K-points division:     npool     =       4
+     228511 MiB available memory on the printing compute node when the environment starts
+ 
+
+     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+
 
      Reading xml data from directory:
 
@@ -44,20 +33,20 @@ WARNING: There was an error initializing an OpenFabrics device.
      Any further DFT definition will be discarded
      Please, verify this is what you really want
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1155
-
+ 
      Using Slab Decomposition
-
+ 
 
      Check: negative core charge=   -0.000006
      Dense k-grid : 16  16  12
      Number of k(dense) : 210
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      Number of bands :      15
      Number of k times spin :     210
      Number of symmetries :      24
@@ -102,20 +91,12 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Read gvectors.dat & evc.dat  #####
 
-       Total RAM for input WFC :   0.35E-01 GB
+       Total RAM for input WFC :   0.16E-01 GB
 
      #####  FFT wfc(G) -> wfc(r)  #####
 
-       Total RAM for WFC(r) :   0.40E+00 GB
-       Total RAM for <beta|WFC> :   0.24E-02 GB
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
+       Total RAM for WFC(r) :   0.19E+00 GB
+       Total RAM for <beta|WFC> :   0.11E-02 GB
 
      #####  Generate f_xc  #####
 
@@ -138,39 +119,37 @@ Fortran runtime warning: An array temporary was created
 
        q-point : 1
 
-         Number of PWs for W : 1920
+         Number of PWs for W : 1921
          Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
-[macloud1:942346] 3 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud1:942346] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud1:942346] 3 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
-         Stoner factor:
-
-            0.15448E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15448E+00
+           EigMax(I_{xc} Pi_0) :  0.28760E+00
+             Iteration for power method :     11
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.4099E+00
-               0.8070E-01  0.4975E+00
-               0.2361E+00  0.6472E+00
-               0.5095E+00  0.9003E+00
-               0.1000E+01  0.1326E+01
-               0.1963E+01  0.1915E+01
-               0.4236E+01  0.2408E+01
-               0.1239E+02  0.2611E+01
-                 Infinity  0.2642E+01
+                        0  0.4209E+00
+               0.8070E-01  0.5131E+00
+               0.2361E+00  0.6697E+00
+               0.5095E+00  0.9324E+00
+               0.1000E+01  0.1372E+01
+               0.1963E+01  0.1977E+01
+               0.4236E+01  0.2480E+01
+               0.1239E+02  0.2685E+01
+                 Infinity  0.2717E+01
            Frequency [Ry], Spin-F. parameter(mu)
                         0  0.8486E-01
-               0.8070E-01  0.6324E-01
-               0.2361E+00  0.4619E-01
+               0.8070E-01  0.6323E-01
+               0.2361E+00  0.4618E-01
                0.5095E+00  0.3187E-01
-               0.1000E+01  0.1874E-01
+               0.1000E+01  0.1873E-01
                0.1963E+01  0.8192E-02
                0.4236E+01  0.2277E-02
                0.1239E+02  0.2893E-03
@@ -180,13 +159,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          5.068          0.727
+                 0.80701E-01          4.849          0.723
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          2.125          0.432
+                 0.50953E+00          1.670          0.412
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.798          0.248
+                 0.19626E+01          0.766          0.287
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.393          0.621
+                 0.12391E+02          1.458          0.665
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -195,7 +174,7 @@ Fortran runtime warning: An array temporary was created
                  0.00000E+00          0.000          0.000
                  0.80701E-01          8.854          1.289
                  0.23607E+00          0.000          0.000
-                 0.50953E+00         10.475          1.443
+                 0.50953E+00         10.474          1.443
                  0.10000E+01          0.000          0.000
                  0.19626E+01         29.556          4.967
                  0.42361E+01          0.000          0.000
@@ -203,32 +182,33 @@ Fortran runtime warning: An array temporary was created
 
        q-point : 2
 
-         Number of PWs for W : 1916
-         Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Number of PWs for W : 1902
+         Total RAM for Vscr :   0.93E+00 GB
+         Total RAM for rho  :   0.90E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15769E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15769E+00
+           EigMax(I_{xc} Pi_0) :  0.29074E+00
+             Iteration for power method :     14
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2804E+00
-               0.8070E-01  0.3079E+00
-               0.2361E+00  0.3432E+00
-               0.5095E+00  0.3945E+00
-               0.1000E+01  0.4748E+00
-               0.1963E+01  0.5833E+00
-               0.4236E+01  0.6803E+00
-               0.1239E+02  0.7245E+00
-                 Infinity  0.7317E+00
+                        0  0.3219E+00
+               0.8070E-01  0.3648E+00
+               0.2361E+00  0.4220E+00
+               0.5095E+00  0.5060E+00
+               0.1000E+01  0.6391E+00
+               0.1963E+01  0.8152E+00
+               0.4236E+01  0.9586E+00
+               0.1239E+02  0.1017E+01
+                 Infinity  0.1026E+01
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.7573E-01
+                        0  0.7572E-01
                0.8070E-01  0.5900E-01
                0.2361E+00  0.4490E-01
                0.5095E+00  0.3154E-01
@@ -242,13 +222,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          3.773          0.448
+                 0.80701E-01          2.160          0.397
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          4.012          0.445
+                 0.50953E+00          1.525          0.258
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          2.552          0.319
+                 0.19626E+01          0.921          0.274
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.153          0.334
+                 0.12391E+02          1.299          0.602
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -257,45 +237,46 @@ Fortran runtime warning: An array temporary was created
                  0.00000E+00          0.000          0.000
                  0.80701E-01          8.221          1.022
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          7.931          1.141
+                 0.50953E+00          7.931          1.140
                  0.10000E+01          0.000          0.000
-                 0.19626E+01         18.472          4.127
+                 0.19626E+01         18.471          4.127
                  0.42361E+01          0.000          0.000
                  0.12391E+02        200.000        173.555
 
        q-point : 3
 
-         Number of PWs for W : 1911
-         Total RAM for Vscr :   0.93E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Number of PWs for W : 1912
+         Total RAM for Vscr :   0.94E+00 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15152E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15152E+00
+           EigMax(I_{xc} Pi_0) :  0.24849E+00
+             Iteration for power method :     10
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1672E+00
-               0.8070E-01  0.1739E+00
-               0.2361E+00  0.1853E+00
-               0.5095E+00  0.2042E+00
-               0.1000E+01  0.2344E+00
-               0.1963E+01  0.2746E+00
-               0.4236E+01  0.3088E+00
-               0.1239E+02  0.3234E+00
-                 Infinity  0.3257E+00
+                        0  0.1891E+00
+               0.8070E-01  0.1977E+00
+               0.2361E+00  0.2124E+00
+               0.5095E+00  0.2370E+00
+               0.1000E+01  0.2759E+00
+               0.1963E+01  0.3277E+00
+               0.4236E+01  0.3722E+00
+               0.1239E+02  0.3912E+00
+                 Infinity  0.3942E+00
            Frequency [Ry], Spin-F. parameter(mu)
                         0  0.3702E-01
                0.8070E-01  0.3199E-01
                0.2361E+00  0.2564E-01
                0.5095E+00  0.1830E-01
                0.1000E+01  0.1082E-01
-               0.1963E+01  0.4740E-02
+               0.1963E+01  0.4739E-02
                0.4236E+01  0.1320E-02
                0.1239E+02  0.1680E-03
                  Infinity  0.0000E+00
@@ -304,13 +285,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          2.488          0.348
+                 0.80701E-01          2.405          0.425
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.911          0.311
+                 0.50953E+00          1.943          0.367
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.867          0.129
+                 0.19626E+01          0.720          0.162
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.007          0.411
+                 0.12391E+02          1.089          0.503
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -321,41 +302,42 @@ Fortran runtime warning: An array temporary was created
                  0.23607E+00          0.000          0.000
                  0.50953E+00          2.599          0.955
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          7.693          3.938
+                 0.19626E+01          7.693          3.937
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        186.679
+                 0.12391E+02        200.000        186.678
 
        q-point : 4
 
-         Number of PWs for W : 1912
-         Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Number of PWs for W : 1900
+         Total RAM for Vscr :   0.92E+00 GB
+         Total RAM for rho  :   0.90E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15639E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15639E+00
+           EigMax(I_{xc} Pi_0) :  0.24763E+00
+             Iteration for power method :     28
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1627E+00
-               0.8070E-01  0.1689E+00
-               0.2361E+00  0.1789E+00
-               0.5095E+00  0.1950E+00
-               0.1000E+01  0.2202E+00
-               0.1963E+01  0.2529E+00
-               0.4236E+01  0.2805E+00
-               0.1239E+02  0.2923E+00
-                 Infinity  0.2941E+00
+                        0  0.2023E+00
+               0.8070E-01  0.2120E+00
+               0.2361E+00  0.2280E+00
+               0.5095E+00  0.2542E+00
+               0.1000E+01  0.2963E+00
+               0.1963E+01  0.3528E+00
+               0.4236E+01  0.4010E+00
+               0.1239E+02  0.4214E+00
+                 Infinity  0.4246E+00
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4030E-01
+                        0  0.4029E-01
                0.8070E-01  0.3474E-01
                0.2361E+00  0.2769E-01
-               0.5095E+00  0.1961E-01
+               0.5095E+00  0.1960E-01
                0.1000E+01  0.1146E-01
                0.1963E+01  0.4967E-02
                0.4236E+01  0.1375E-02
@@ -366,53 +348,54 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          1.540          0.232
+                 0.80701E-01          2.033          0.376
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.519          0.216
+                 0.50953E+00          1.756          0.311
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.603          0.122
+                 0.19626E+01          0.682          0.185
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          0.865          0.354
+                 0.12391E+02          1.026          0.518
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          3.115          0.713
+                 0.80701E-01          3.114          0.713
                  0.23607E+00          0.000          0.000
                  0.50953E+00          2.658          0.963
                  0.10000E+01          0.000          0.000
                  0.19626E+01          7.487          3.887
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        181.045
+                 0.12391E+02        200.000        181.044
 
        q-point : 5
 
-         Number of PWs for W : 1912
+         Number of PWs for W : 1913
          Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.14688E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.14688E+00
+           EigMax(I_{xc} Pi_0) :  0.26568E+00
+             Iteration for power method :     19
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2110E+00
-               0.8070E-01  0.2238E+00
-               0.2361E+00  0.2518E+00
-               0.5095E+00  0.3010E+00
-               0.1000E+01  0.3801E+00
-               0.1963E+01  0.4854E+00
-               0.4236E+01  0.5727E+00
-               0.1239E+02  0.6086E+00
-                 Infinity  0.6142E+00
+                        0  0.2278E+00
+               0.8070E-01  0.2425E+00
+               0.2361E+00  0.2744E+00
+               0.5095E+00  0.3300E+00
+               0.1000E+01  0.4186E+00
+               0.1963E+01  0.5362E+00
+               0.4236E+01  0.6342E+00
+               0.1239E+02  0.6747E+00
+                 Infinity  0.6810E+00
            Frequency [Ry], Spin-F. parameter(mu)
                         0  0.4772E-01
                0.8070E-01  0.4143E-01
@@ -428,13 +411,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          4.226          0.612
+                 0.80701E-01          4.100          0.650
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          2.028          0.395
+                 0.50953E+00          1.885          0.416
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.629          0.165
+                 0.19626E+01          0.744          0.197
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.233          0.525
+                 0.12391E+02          1.269          0.577
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -447,37 +430,38 @@ Fortran runtime warning: An array temporary was created
                  0.10000E+01          0.000          0.000
                  0.19626E+01          6.337          3.563
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        182.205
+                 0.12391E+02        200.000        182.206
 
        q-point : 6
 
-         Number of PWs for W : 1908
-         Total RAM for Vscr :   0.93E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Number of PWs for W : 1895
+         Total RAM for Vscr :   0.92E+00 GB
+         Total RAM for rho  :   0.90E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15294E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15294E+00
+           EigMax(I_{xc} Pi_0) :  0.26275E+00
+             Iteration for power method :     18
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1782E+00
-               0.8070E-01  0.1850E+00
-               0.2361E+00  0.1983E+00
-               0.5095E+00  0.2199E+00
-               0.1000E+01  0.2526E+00
-               0.1963E+01  0.2939E+00
-               0.4236E+01  0.3284E+00
-               0.1239E+02  0.3432E+00
-                 Infinity  0.3456E+00
+                        0  0.2071E+00
+               0.8070E-01  0.2165E+00
+               0.2361E+00  0.2353E+00
+               0.5095E+00  0.2665E+00
+               0.1000E+01  0.3156E+00
+               0.1963E+01  0.3809E+00
+               0.4236E+01  0.4360E+00
+               0.1239E+02  0.4592E+00
+                 Infinity  0.4628E+00
            Frequency [Ry], Spin-F. parameter(mu)
                         0  0.4314E-01
-               0.8070E-01  0.3785E-01
+               0.8070E-01  0.3784E-01
                0.2361E+00  0.2993E-01
                0.5095E+00  0.2095E-01
                0.1000E+01  0.1218E-01
@@ -490,13 +474,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          3.320          0.472
+                 0.80701E-01          2.820          0.541
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          2.810          0.376
+                 0.50953E+00          1.936          0.348
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          1.583          0.213
+                 0.19626E+01          0.852          0.198
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          0.969          0.342
+                 0.12391E+02          1.095          0.547
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -509,39 +493,40 @@ Fortran runtime warning: An array temporary was created
                  0.10000E+01          0.000          0.000
                  0.19626E+01          6.382          3.438
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        173.054
+                 0.12391E+02        200.000        173.053
 
        q-point : 7
 
-         Number of PWs for W : 1916
+         Number of PWs for W : 1917
          Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.16547E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.16547E+00
+           EigMax(I_{xc} Pi_0) :  0.29542E+00
+             Iteration for power method :     19
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.4474E+00
-               0.8070E-01  0.6649E+00
-               0.2361E+00  0.1073E+01
-               0.5095E+00  0.1717E+01
-               0.1000E+01  0.2791E+01
-               0.1963E+01  0.4268E+01
-               0.4236E+01  0.5478E+01
-               0.1239E+02  0.5967E+01
-                 Infinity  0.6043E+01
+                        0  0.4539E+00
+               0.8070E-01  0.6782E+00
+               0.2361E+00  0.1098E+01
+               0.5095E+00  0.1759E+01
+               0.1000E+01  0.2854E+01
+               0.1963E+01  0.4347E+01
+               0.4236E+01  0.5550E+01
+               0.1239E+02  0.6029E+01
+                 Infinity  0.6102E+01
            Frequency [Ry], Spin-F. parameter(mu)
                         0  0.9861E-01
                0.8070E-01  0.6073E-01
                0.2361E+00  0.4220E-01
-               0.5095E+00  0.2971E-01
+               0.5095E+00  0.2970E-01
                0.1000E+01  0.1780E-01
                0.1963E+01  0.7867E-02
                0.4236E+01  0.2198E-02
@@ -552,13 +537,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01         10.950          1.518
+                 0.80701E-01         10.919          1.492
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          2.491          0.467
+                 0.50953E+00          1.999          0.427
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          1.003          0.333
+                 0.19626E+01          1.050          0.380
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.521          0.692
+                 0.12391E+02          1.579          0.730
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -567,7 +552,7 @@ Fortran runtime warning: An array temporary was created
                  0.00000E+00          0.000          0.000
                  0.80701E-01         25.101          2.917
                  0.23607E+00          0.000          0.000
-                 0.50953E+00         60.544          2.714
+                 0.50953E+00         60.543          2.714
                  0.10000E+01          0.000          0.000
                  0.19626E+01         89.521          6.772
                  0.42361E+01          0.000          0.000
@@ -575,37 +560,38 @@ Fortran runtime warning: An array temporary was created
 
        q-point : 8
 
-         Number of PWs for W : 1932
-         Total RAM for Vscr :   0.96E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Number of PWs for W : 1918
+         Total RAM for Vscr :   0.94E+00 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.16228E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.16228E+00
+           EigMax(I_{xc} Pi_0) :  0.31292E+00
+             Iteration for power method :     23
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.3024E+00
-               0.8070E-01  0.3636E+00
-               0.2361E+00  0.4194E+00
-               0.5095E+00  0.4888E+00
-               0.1000E+01  0.6036E+00
-               0.1963E+01  0.7705E+00
-               0.4236E+01  0.9330E+00
-               0.1239E+02  0.1013E+01
-                 Infinity  0.1026E+01
+                        0  0.3501E+00
+               0.8070E-01  0.4487E+00
+               0.2361E+00  0.5535E+00
+               0.5095E+00  0.6843E+00
+               0.1000E+01  0.8871E+00
+               0.1963E+01  0.1149E+01
+               0.4236E+01  0.1355E+01
+               0.1239E+02  0.1437E+01
+                 Infinity  0.1450E+01
            Frequency [Ry], Spin-F. parameter(mu)
                         0  0.8783E-01
                0.8070E-01  0.5970E-01
                0.2361E+00  0.4426E-01
                0.5095E+00  0.3137E-01
                0.1000E+01  0.1856E-01
-               0.1963E+01  0.8098E-02
+               0.1963E+01  0.8097E-02
                0.4236E+01  0.2245E-02
                0.1239E+02  0.2849E-03
                  Infinity  0.0000E+00
@@ -614,13 +600,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          4.237          0.418
+                 0.80701E-01          2.776          0.380
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          5.031          0.460
+                 0.50953E+00          1.822          0.283
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          3.532          0.411
+                 0.19626E+01          1.182          0.313
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.271          0.348
+                 0.12391E+02          1.366          0.628
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -639,35 +625,36 @@ Fortran runtime warning: An array temporary was created
 
          Number of PWs for W : 1903
          Total RAM for Vscr :   0.93E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Total RAM for rho  :   0.90E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15665E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15665E+00
+           EigMax(I_{xc} Pi_0) :  0.23847E+00
+             Iteration for power method :     70
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1347E+00
-               0.8070E-01  0.1388E+00
-               0.2361E+00  0.1444E+00
-               0.5095E+00  0.1537E+00
-               0.1000E+01  0.1676E+00
-               0.1963E+01  0.1848E+00
-               0.4236E+01  0.1989E+00
-               0.1239E+02  0.2048E+00
-                 Infinity  0.2058E+00
+                        0  0.1795E+00
+               0.8070E-01  0.1874E+00
+               0.2361E+00  0.1994E+00
+               0.5095E+00  0.2196E+00
+               0.1000E+01  0.2513E+00
+               0.1963E+01  0.2928E+00
+               0.4236E+01  0.3282E+00
+               0.1239E+02  0.3433E+00
+                 Infinity  0.3457E+00
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.3520E-01
-               0.8070E-01  0.3006E-01
+                        0  0.3519E-01
+               0.8070E-01  0.3005E-01
                0.2361E+00  0.2427E-01
-               0.5095E+00  0.1740E-01
+               0.5095E+00  0.1739E-01
                0.1000E+01  0.1030E-01
-               0.1963E+01  0.4515E-02
+               0.1963E+01  0.4514E-02
                0.4236E+01  0.1259E-02
                0.1239E+02  0.1602E-03
                  Infinity  0.0000E+00
@@ -676,13 +663,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          1.383          0.194
+                 0.80701E-01          2.043          0.346
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.534          0.205
+                 0.50953E+00          1.994          0.337
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.912          0.117
+                 0.19626E+01          0.750          0.170
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          0.739          0.294
+                 0.12391E+02          0.994          0.479
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -695,41 +682,42 @@ Fortran runtime warning: An array temporary was created
                  0.10000E+01          0.000          0.000
                  0.19626E+01          7.995          3.962
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        184.987
+                 0.12391E+02        200.000        184.986
 
        q-point : 10
 
-         Number of PWs for W : 1916
-         Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Number of PWs for W : 1904
+         Total RAM for Vscr :   0.93E+00 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15142E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15142E+00
+           EigMax(I_{xc} Pi_0) :  0.24397E+00
+             Iteration for power method :     67
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1374E+00
-               0.8070E-01  0.1417E+00
-               0.2361E+00  0.1475E+00
-               0.5095E+00  0.1568E+00
-               0.1000E+01  0.1704E+00
-               0.1963E+01  0.1869E+00
-               0.4236E+01  0.2000E+00
-               0.1239E+02  0.2053E+00
-                 Infinity  0.2061E+00
+                        0  0.1986E+00
+               0.8070E-01  0.2076E+00
+               0.2361E+00  0.2210E+00
+               0.5095E+00  0.2435E+00
+               0.1000E+01  0.2794E+00
+               0.1963E+01  0.3270E+00
+               0.4236E+01  0.3675E+00
+               0.1239E+02  0.3847E+00
+                 Infinity  0.3873E+00
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4008E-01
-               0.8070E-01  0.3425E-01
+                        0  0.4007E-01
+               0.8070E-01  0.3424E-01
                0.2361E+00  0.2755E-01
                0.5095E+00  0.1965E-01
                0.1000E+01  0.1155E-01
-               0.1963E+01  0.5021E-02
+               0.1963E+01  0.5020E-02
                0.4236E+01  0.1392E-02
                0.1239E+02  0.1767E-03
                  Infinity  0.0000E+00
@@ -738,13 +726,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          0.717          0.109
+                 0.80701E-01          1.927          0.305
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          0.681          0.101
+                 0.50953E+00          1.819          0.300
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.300          0.103
+                 0.19626E+01          0.712          0.193
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          0.743          0.291
+                 0.12391E+02          0.935          0.496
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -753,46 +741,47 @@ Fortran runtime warning: An array temporary was created
                  0.00000E+00          0.000          0.000
                  0.80701E-01          5.373          1.052
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          3.628          1.075
+                 0.50953E+00          3.627          1.075
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          8.483          4.070
+                 0.19626E+01          8.482          4.069
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        184.016
+                 0.12391E+02        200.000        184.014
 
        q-point : 11
 
-         Number of PWs for W : 1903
+         Number of PWs for W : 1904
          Total RAM for Vscr :   0.93E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15313E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15313E+00
+           EigMax(I_{xc} Pi_0) :  0.26049E+00
+             Iteration for power method :     20
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2118E+00
-               0.8070E-01  0.2236E+00
-               0.2361E+00  0.2468E+00
-               0.5095E+00  0.2843E+00
-               0.1000E+01  0.3449E+00
-               0.1963E+01  0.4274E+00
-               0.4236E+01  0.4978E+00
-               0.1239E+02  0.5274E+00
-                 Infinity  0.5320E+00
+                        0  0.2262E+00
+               0.8070E-01  0.2405E+00
+               0.2361E+00  0.2686E+00
+               0.5095E+00  0.3130E+00
+               0.1000E+01  0.3825E+00
+               0.1963E+01  0.4762E+00
+               0.4236E+01  0.5560E+00
+               0.1239E+02  0.5896E+00
+                 Infinity  0.5948E+00
            Frequency [Ry], Spin-F. parameter(mu)
                         0  0.4450E-01
-               0.8070E-01  0.3817E-01
+               0.8070E-01  0.3816E-01
                0.2361E+00  0.2968E-01
                0.5095E+00  0.2091E-01
                0.1000E+01  0.1234E-01
                0.1963E+01  0.5394E-02
-               0.4236E+01  0.1501E-02
+               0.4236E+01  0.1500E-02
                0.1239E+02  0.1908E-03
                  Infinity  0.0000E+00
 
@@ -800,13 +789,13 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          3.805          0.516
+                 0.80701E-01          3.709          0.594
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.924          0.333
+                 0.50953E+00          1.959          0.377
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.677          0.148
+                 0.19626E+01          0.719          0.175
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.182          0.475
+                 0.12391E+02          1.198          0.533
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
@@ -817,41 +806,42 @@ Fortran runtime warning: An array temporary was created
                  0.23607E+00          0.000          0.000
                  0.50953E+00          3.061          0.903
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          9.858          3.955
+                 0.19626E+01          9.857          3.955
                  0.42361E+01          0.000          0.000
                  0.12391E+02        200.000        186.793
 
        q-point : 12
 
-         Number of PWs for W : 1912
-         Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.16E+00 GB
-         Total RAM for weight on coarse grid :   0.16E-02 GB
+         Number of PWs for W : 1898
+         Total RAM for Vscr :   0.92E+00 GB
+         Total RAM for rho  :   0.90E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
-         Stoner factor:
-
-            0.15766E+00
-         Total RAM for Kel :   0.18E-02 GB
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15766E+00
+           EigMax(I_{xc} Pi_0) :  0.25595E+00
+             Iteration for power method :     15
+         Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1945E+00
-               0.8070E-01  0.2036E+00
-               0.2361E+00  0.2188E+00
-               0.5095E+00  0.2430E+00
-               0.1000E+01  0.2810E+00
-               0.1963E+01  0.3317E+00
-               0.4236E+01  0.3755E+00
-               0.1239E+02  0.3947E+00
-                 Infinity  0.3978E+00
+                        0  0.2309E+00
+               0.8070E-01  0.2450E+00
+               0.2361E+00  0.2688E+00
+               0.5095E+00  0.3064E+00
+               0.1000E+01  0.3668E+00
+               0.1963E+01  0.4494E+00
+               0.4236E+01  0.5207E+00
+               0.1239E+02  0.5510E+00
+                 Infinity  0.5558E+00
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4762E-01
+                        0  0.4761E-01
                0.8070E-01  0.4087E-01
                0.2361E+00  0.3222E-01
-               0.5095E+00  0.2265E-01
+               0.5095E+00  0.2264E-01
                0.1000E+01  0.1318E-01
                0.1963E+01  0.5683E-02
                0.4236E+01  0.1568E-02
@@ -862,56 +852,55 @@ Fortran runtime warning: An array temporary was created
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          2.441          0.320
+                 0.80701E-01          2.431          0.429
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          2.207          0.288
+                 0.50953E+00          1.764          0.315
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          1.123          0.164
+                 0.19626E+01          0.766          0.192
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          0.930          0.351
+                 0.12391E+02          1.100          0.526
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          1.872          0.598
+                 0.80701E-01          1.871          0.598
                  0.23607E+00          0.000          0.000
                  0.50953E+00          3.609          0.920
                  0.10000E+01          0.000          0.000
                  0.19626E+01         10.451          3.835
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        178.746
+                 0.12391E+02        200.000        178.745
 
      #####  Clock summary  #####
 
-     make_scrn    :    407.76s CPU     99.64s WALL (      12 calls)
-     invert       :   6558.68s CPU   1101.43s WALL (      24 calls)
-     make_kel     :    635.56s CPU    129.36s WALL (      12 calls)
-     lambda_sf    :   3305.95s CPU    677.78s WALL (      12 calls)
+     make_scrn    :   1784.47s CPU     44.24s WALL (      12 calls)
+     invert       :   6162.61s CPU     97.81s WALL (      24 calls)
+     make_kel     :   1952.09s CPU     33.60s WALL (      12 calls)
+     lambda_sf    :  14299.03s CPU    227.58s WALL (      12 calls)
 
      #####  In make_scrn #####
 
-     fermi_factor :     36.92s CPU     17.26s WALL (      12 calls)
-     zgemm(make_s :    238.98s CPU     40.46s WALL (    2880 calls)
+     fermi_factor :    392.29s CPU     17.44s WALL (      12 calls)
+     zgemm(make_s :    592.69s CPU      9.35s WALL (    1440 calls)
 
      #####  In make_kel #####
 
-     zgemm(make_k :    499.29s CPU     84.40s WALL (    5760 calls)
+     zgemm(make_k :   1301.42s CPU     23.38s WALL (    2880 calls)
 
      #####  In make_scrn and make_kel #####
 
-     wfc*wfc=rho  :    205.43s CPU     35.25s WALL (     720 calls)
-     fft[rho]     :     27.77s CPU     20.09s WALL (     720 calls)
+     wfc*wfc=rho  :    565.80s CPU      8.93s WALL (     360 calls)
+     fft[rho]     :    498.87s CPU      7.93s WALL (     360 calls)
 
      #####  In wfc*wfc=rho #####
 
-     addusxx      :    188.83s CPU     32.03s WALL (   43200 calls)
+ 
+     SCTK         :      5h55m CPU   6m 0.56s WALL
 
-     SCTK         :      2h 9m CPU  24m44.79s WALL
-
-
-   This run was terminated on:  11:44:48  29Jun2022            
+ 
+   This run was terminated on:   3:14:21  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

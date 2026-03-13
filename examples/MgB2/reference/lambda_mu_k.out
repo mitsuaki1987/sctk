@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
--1245685584 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud1
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program SCTK v.6.7GPU starts on 29Jun2022 at 11:44:50 
+     Program SCTK v.7.4.1 starts on 13Mar2026 at  3:14:22 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,11 +10,16 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      24 processor cores
+     Parallel version (MPI & OpenMP), running on      64 processor cores
      Number of MPI processes:                 1
-     Threads/MPI process:                    24
+     Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
+     228537 MiB available memory on the printing compute node when the environment starts
+ 
+
+     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+
 
      Reading xml data from directory:
 
@@ -43,20 +33,20 @@ WARNING: There was an error initializing an OpenFabrics device.
      Any further DFT definition will be discarded
      Please, verify this is what you really want
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1155
-
+ 
      Using Slab Decomposition
-
+ 
 
      Check: negative core charge=   -0.000006
      Dense k-grid : 16  16  12
      Number of k(dense) : 210
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      Number of bands :      15
      Number of k times spin :     210
      Number of symmetries :      24
@@ -77,11 +67,17 @@ WARNING: There was an error initializing an OpenFabrics device.
        Max energy for QP-DOS [meV] :  0.50000E+01
              Convergense threshold :  0.10000E-14
                       Max itration : 100
-                  Spin-fluctuation : T
+                  Spin-fluctuation :  T
                       SCDFT kernel : 1
-                         Z_Coulomb : F
+                         Z_Coulomb :  F
                    Min. freq.[THz] :  0.00000E+00
                   Min. freq. ratio : -0.10000E+01
+                   Bisection steps : 10
+                Bisection min. [K] : -0.10000E+01
+                Bisection max. [K] : -0.10000E+01
+             Q_{FFLO} [fractional] :  0.00000E+00 0.00000E+00 0.00000E+00
+                 Q_{FFLO} [Ang^-1] :  0.00000E+00
+               Delta initial guess : random-nodeless
 
      #####  Read from elph*.dat  #####
 
@@ -113,35 +109,36 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      #####  Average matrix in grid  #####
 
-       nindmax : 4
+       nindmax : 8
          Total RAM for Vc per process :   0.53E+00 GB
          Total RAM for gg per process :   0.11E+00 GB
          Total RAM for Vc (temporary) per process :   0.21E-02 GB
          Total RAM for gg (temporary) per process :   0.41E-03 GB
+       Number of symmetries conserving q_FFLO :    24
        DOS(E_F)[/Ry/cell/spin] :  0.47769E+01
        Number of total points for gap equation : 144
 
      #####  Integrate gapeq  #####
 
-           mu :     0.29441E+00
+           mu :     0.32862E+00
        lambda :     0.52488E+00
 
      #####  Write mu.frmsf and lambda_frmsf  #####
 
-     Max :         0.35932221     Min :         0.17523752
-     Max :         1.37120915     Min :         0.22875179
+     Max :         0.37339240     Min :         0.23696557
+     Max :         1.37121262     Min :         0.22875169
 
      #####  Clock summary  #####
 
-     read_elph    :      0.06s CPU      0.09s WALL (       1 calls)
-     read_Coulomb :      0.01s CPU      0.02s WALL (       1 calls)
-     expand_g_v_f :      9.44s CPU      1.02s WALL (       1 calls)
-     make_lambda_ :      1.79s CPU      0.16s WALL (       1 calls)
+     read_elph    :      3.38s CPU      0.05s WALL (       1 calls)
+     read_Coulomb :      2.62s CPU      0.09s WALL (       1 calls)
+     expand_g_v_f :    668.48s CPU     11.08s WALL (       1 calls)
+     make_lambda_ :      4.05s CPU      0.06s WALL (       1 calls)
+ 
+     SCTK         :  13m 2.97s CPU     13.10s WALL
 
-     SCTK         :     16.09s CPU      4.91s WALL
-
-
-   This run was terminated on:  11:44:55  29Jun2022            
+ 
+   This run was terminated on:   3:14:35  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

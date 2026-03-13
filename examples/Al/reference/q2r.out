@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
-1964009648 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud2
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program Q2R v.6.7GPU starts on 29Jun2022 at 11:47:17 
+     Program Q2R v.7.4.1 starts on 13Mar2026 at  2:39:44 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -30,8 +15,11 @@ WARNING: There was an error initializing an OpenFabrics device.
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
+     228967 MiB available memory on the printing compute node when the environment starts
+ 
 
-     reading grid info from file matdyn0    
+  reading grid info from file matdyn0    
+
   reading force constants from file matdyn1
   nqs=            8
  q=   0.08838835  0.08838835  0.08838835
@@ -312,64 +300,64 @@ WARNING: There was an error initializing an OpenFabrics device.
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
    Preparing gamma for a2F 
-
-
+ 
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
-
+ 
  Broadening =      0.000
       q-space grid ok, #points =   64
 
       fft-check success (sum of imaginary terms < 10^-12)
+ 
+     Q2R          :      0.15s CPU      0.47s WALL
 
-     Q2R          :      0.06s CPU      0.40s WALL
-
-
-   This run was terminated on:  11:47:18  29Jun2022            
+ 
+   This run was terminated on:   2:39:45  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

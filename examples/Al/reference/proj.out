@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
-1853720752 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud2
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program PROJWFC v.6.7GPU starts on 29Jun2022 at 11:47:46 
+     Program PROJWFC v.7.4.1 starts on 13Mar2026 at  2:40: 3 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,12 +10,14 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      24 processor cores
-     Number of MPI processes:                24
+     Parallel version (MPI & OpenMP), running on      64 processor cores
+     Number of MPI processes:                64
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     K-points division:     npool     =      24
+     K-points division:     npool     =      64
+     225316 MiB available memory on the printing compute node when the environment starts
+ 
 
      Reading xml data from directory:
 
@@ -42,14 +29,14 @@ WARNING: There was an error initializing an OpenFabrics device.
      Any further DFT definition will be discarded
      Please, verify this is what you really want
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283     97                 8801     3119     645
-
+ 
      Using Slab Decomposition
-
+ 
 
      Check: negative core charge=   -0.000003
 
@@ -57,66 +44,17 @@ WARNING: There was an error initializing an OpenFabrics device.
      [opt_tetra]  Optimized tetrahedron method is used.
 
      Calling projwave .... 
-
      Subspace diagonalization in iterative solution of the eigenvalue problem:
      a serial algorithm will be used
 
-
+ 
   Problem Sizes 
   natomwfc =            4
   nbnd     =           10
   nkstot   =          145
   npwx     =          396
   nkb      =            8
-
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
+ 
 
      Atomic states used for projection
      (read from pseudopotential files):
@@ -131,13 +69,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.999*[#   1]
     |psi|^2 = 0.999
 ==== e(   2) =    20.64128 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   3) =    20.64128 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   4) =    20.64128 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   5) =    22.14607 eV ==== 
      psi = 0.307*[#   2]+0.307*[#   3]+0.307*[#   4]
@@ -149,13 +87,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.307*[#   2]+0.307*[#   3]+0.307*[#   4]
     |psi|^2 = 0.922
 ==== e(   8) =    24.49734 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   9) =    27.46654 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    27.46654 eV ==== 
-
+ 
     |psi|^2 = 0.000
 
  k =   0.0441941738  0.0441941738 -0.0441941738
@@ -218,7 +156,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   9) =    25.70680 eV ==== 
      psi = 0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.010
-==== e(  10) =    27.93641 eV ==== 
+==== e(  10) =    27.93642 eV ==== 
      psi = 0.011*[#   1]+0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.033
 
@@ -293,10 +231,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =     9.18761 eV ==== 
      psi = 0.556*[#   1]+0.121*[#   2]+0.121*[#   3]+0.121*[#   4]
     |psi|^2 = 0.917
-==== e(   3) =    18.79581 eV ==== 
+==== e(   3) =    18.79582 eV ==== 
      psi = 0.208*[#   2]+0.208*[#   3]+0.208*[#   4]
     |psi|^2 = 0.624
-==== e(   4) =    18.79581 eV ==== 
+==== e(   4) =    18.79582 eV ==== 
      psi = 0.208*[#   2]+0.208*[#   3]+0.208*[#   4]
     |psi|^2 = 0.624
 ==== e(   5) =    21.71758 eV ==== 
@@ -308,7 +246,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    22.34679 eV ==== 
      psi = 0.039*[#   1]+0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.058
-==== e(   8) =    25.71602 eV ==== 
+==== e(   8) =    25.71603 eV ==== 
      psi = 0.018*[#   1]+0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.023
 ==== e(   9) =    28.60334 eV ==== 
@@ -337,7 +275,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    20.79218 eV ==== 
      psi = 0.114*[#   2]+0.114*[#   3]+0.114*[#   4]
     |psi|^2 = 0.341
-==== e(   7) =    22.46252 eV ==== 
+==== e(   7) =    22.46253 eV ==== 
      psi = 0.023*[#   1]+0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.031
 ==== e(   8) =    24.73981 eV ==== 
@@ -386,7 +324,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   1) =     3.35183 eV ==== 
      psi = 0.333*[#   2]+0.333*[#   3]+0.333*[#   4]
     |psi|^2 = 0.999
-==== e(   2) =     3.59027 eV ==== 
+==== e(   2) =     3.59028 eV ==== 
      psi = 0.975*[#   1]
     |psi|^2 = 0.975
 ==== e(   3) =    19.44114 eV ==== 
@@ -396,22 +334,22 @@ Fortran runtime warning: An array temporary was created
      psi = 0.323*[#   2]+0.323*[#   3]+0.323*[#   4]
     |psi|^2 = 0.970
 ==== e(   5) =    19.47528 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   6) =    19.47528 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   7) =    23.14872 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   8) =    23.33728 eV ==== 
      psi = 0.024*[#   1]
     |psi|^2 = 0.024
-==== e(   9) =    32.85110 eV ==== 
-
+==== e(   9) =    32.85111 eV ==== 
+ 
     |psi|^2 = 0.000
-==== e(  10) =    32.85110 eV ==== 
-
+==== e(  10) =    32.85111 eV ==== 
+ 
     |psi|^2 = 0.000
 
  k =   0.0883883476  0.0000000000  0.0000000000
@@ -425,7 +363,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.156*[#   2]+0.156*[#   3]+0.156*[#   4]
     |psi|^2 = 0.467
 ==== e(   4) =    19.71538 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   5) =    21.81087 eV ==== 
      psi = 0.260*[#   2]+0.260*[#   3]+0.260*[#   4]+0.142*[#   1]
@@ -437,17 +375,17 @@ Fortran runtime warning: An array temporary was created
      psi = 0.156*[#   2]+0.156*[#   3]+0.156*[#   4]
     |psi|^2 = 0.467
 ==== e(   8) =    25.70732 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   9) =    25.79024 eV ==== 
      psi = 0.009*[#   2]+0.009*[#   3]+0.009*[#   4]+0.006*[#   1]
     |psi|^2 = 0.034
 ==== e(  10) =    27.59780 eV ==== 
-
+ 
     |psi|^2 = 0.000
 
  k =   0.1325825215  0.0441941738 -0.0441941738
-==== e(   1) =    -2.81738 eV ==== 
+==== e(   1) =    -2.81737 eV ==== 
      psi = 0.679*[#   1]+0.107*[#   2]+0.107*[#   3]+0.107*[#   4]
     |psi|^2 = 0.999
 ==== e(   2) =    17.20273 eV ==== 
@@ -462,7 +400,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    22.01994 eV ==== 
      psi = 0.234*[#   2]+0.234*[#   3]+0.234*[#   4]+0.114*[#   1]
     |psi|^2 = 0.817
-==== e(   6) =    23.93737 eV ==== 
+==== e(   6) =    23.93738 eV ==== 
      psi = 0.085*[#   2]+0.085*[#   3]+0.085*[#   4]+0.023*[#   1]
     |psi|^2 = 0.278
 ==== e(   7) =    24.33526 eV ==== 
@@ -549,7 +487,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =    10.00011 eV ==== 
      psi = 0.482*[#   1]+0.141*[#   2]+0.141*[#   3]+0.141*[#   4]
     |psi|^2 = 0.906
-==== e(   3) =    17.60417 eV ==== 
+==== e(   3) =    17.60418 eV ==== 
      psi = 0.250*[#   2]+0.250*[#   3]+0.250*[#   4]
     |psi|^2 = 0.749
 ==== e(   4) =    19.04628 eV ==== 
@@ -584,7 +522,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    17.58299 eV ==== 
      psi = 0.248*[#   2]+0.248*[#   3]+0.248*[#   4]
     |psi|^2 = 0.743
-==== e(   4) =    19.02672 eV ==== 
+==== e(   4) =    19.02673 eV ==== 
      psi = 0.045*[#   2]+0.045*[#   3]+0.045*[#   4]+0.023*[#   1]
     |psi|^2 = 0.158
 ==== e(   5) =    19.22274 eV ==== 
@@ -599,7 +537,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    25.70992 eV ==== 
      psi = 0.008*[#   2]+0.008*[#   3]+0.008*[#   4]+0.006*[#   1]
     |psi|^2 = 0.030
-==== e(   9) =    28.33415 eV ==== 
+==== e(   9) =    28.33416 eV ==== 
      psi = 0.020*[#   2]+0.020*[#   3]+0.020*[#   4]+0.005*[#   1]
     |psi|^2 = 0.065
 ==== e(  10) =    30.99833 eV ==== 
@@ -666,8 +604,8 @@ Fortran runtime warning: An array temporary was created
 ==== e(   9) =    31.83983 eV ==== 
      psi = 0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.010
-==== e(  10) =    32.88298 eV ==== 
-
+==== e(  10) =    32.88299 eV ==== 
+ 
     |psi|^2 = 0.000
 
  k =  -0.2651650429 -0.3535533906  0.3535533906
@@ -699,7 +637,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.020
 ==== e(  10) =    32.49480 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.2209708691 -0.3093592168  0.3093592168
@@ -727,7 +665,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    25.53250 eV ==== 
      psi = 0.009*[#   2]+0.009*[#   3]+0.009*[#   4]+0.004*[#   1]
     |psi|^2 = 0.032
-==== e(   9) =    29.91183 eV ==== 
+==== e(   9) =    29.91184 eV ==== 
      psi = 0.017*[#   2]+0.017*[#   3]+0.017*[#   4]
     |psi|^2 = 0.052
 ==== e(  10) =    31.56097 eV ==== 
@@ -748,7 +686,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.300*[#   2]+0.300*[#   3]+0.300*[#   4]
     |psi|^2 = 0.899
 ==== e(   5) =    20.27550 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(   6) =    21.73159 eV ==== 
      psi = 0.060*[#   2]+0.060*[#   3]+0.060*[#   4]+0.021*[#   1]
@@ -817,7 +755,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    23.16551 eV ==== 
      psi = 0.045*[#   2]+0.045*[#   3]+0.045*[#   4]+0.031*[#   1]
     |psi|^2 = 0.167
-==== e(   7) =    23.97883 eV ==== 
+==== e(   7) =    23.97884 eV ==== 
      psi = 0.039*[#   1]+0.033*[#   2]+0.033*[#   3]+0.033*[#   4]
     |psi|^2 = 0.137
 ==== e(   8) =    24.73915 eV ==== 
@@ -840,19 +778,19 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    17.68746 eV ==== 
      psi = 0.177*[#   2]+0.177*[#   3]+0.177*[#   4]+0.149*[#   1]
     |psi|^2 = 0.679
-==== e(   4) =    20.79009 eV ==== 
+==== e(   4) =    20.79010 eV ==== 
      psi = 0.088*[#   2]+0.088*[#   3]+0.088*[#   4]
     |psi|^2 = 0.264
-==== e(   5) =    22.91605 eV ==== 
+==== e(   5) =    22.91606 eV ==== 
      psi = 0.238*[#   2]+0.238*[#   3]+0.238*[#   4]
     |psi|^2 = 0.713
 ==== e(   6) =    23.29038 eV ==== 
      psi = 0.081*[#   2]+0.081*[#   3]+0.081*[#   4]+0.031*[#   1]
     |psi|^2 = 0.273
 ==== e(   7) =    24.23422 eV ==== 
-
+ 
     |psi|^2 = 0.000
-==== e(   8) =    24.73802 eV ==== 
+==== e(   8) =    24.73803 eV ==== 
      psi = 0.070*[#   2]+0.070*[#   3]+0.070*[#   4]+0.060*[#   1]
     |psi|^2 = 0.271
 ==== e(   9) =    25.57503 eV ==== 
@@ -873,7 +811,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.162*[#   1]+0.155*[#   2]+0.155*[#   3]+0.155*[#   4]
     |psi|^2 = 0.628
 ==== e(   4) =    20.91787 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   5) =    22.32070 eV ==== 
      psi = 0.311*[#   2]+0.311*[#   3]+0.311*[#   4]
@@ -905,7 +843,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.234*[#   2]+0.234*[#   3]+0.234*[#   4]
     |psi|^2 = 0.702
 ==== e(   4) =    18.16329 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   5) =    20.99551 eV ==== 
      psi = 0.360*[#   1]+0.180*[#   2]+0.180*[#   3]+0.180*[#   4]
@@ -920,10 +858,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.086*[#   2]+0.086*[#   3]+0.086*[#   4]
     |psi|^2 = 0.258
 ==== e(   9) =    27.99281 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    28.11173 eV ==== 
-
+ 
     |psi|^2 = 0.000
 
  k =   0.2209708691  0.0441941738 -0.0441941738
@@ -936,7 +874,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    17.30746 eV ==== 
      psi = 0.257*[#   2]+0.257*[#   3]+0.257*[#   4]
     |psi|^2 = 0.771
-==== e(   4) =    18.46529 eV ==== 
+==== e(   4) =    18.46530 eV ==== 
      psi = 0.083*[#   1]+0.044*[#   2]+0.044*[#   3]+0.044*[#   4]
     |psi|^2 = 0.215
 ==== e(   5) =    20.94977 eV ==== 
@@ -951,7 +889,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    26.63096 eV ==== 
      psi = 0.067*[#   2]+0.067*[#   3]+0.067*[#   4]
     |psi|^2 = 0.200
-==== e(   9) =    27.88804 eV ==== 
+==== e(   9) =    27.88805 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.006
 ==== e(  10) =    30.05426 eV ==== 
@@ -994,7 +932,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   1) =    -0.84456 eV ==== 
      psi = 0.366*[#   1]+0.211*[#   2]+0.211*[#   3]+0.211*[#   4]
     |psi|^2 = 0.999
-==== e(   2) =    10.98795 eV ==== 
+==== e(   2) =    10.98796 eV ==== 
      psi = 0.326*[#   1]+0.188*[#   2]+0.188*[#   3]+0.188*[#   4]
     |psi|^2 = 0.889
 ==== e(   3) =    16.59764 eV ==== 
@@ -1041,7 +979,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    24.28210 eV ==== 
      psi = 0.041*[#   2]+0.041*[#   3]+0.041*[#   4]
     |psi|^2 = 0.122
-==== e(   7) =    25.09401 eV ==== 
+==== e(   7) =    25.09402 eV ==== 
      psi = 0.057*[#   2]+0.057*[#   3]+0.057*[#   4]+0.003*[#   1]
     |psi|^2 = 0.175
 ==== e(   8) =    26.34163 eV ==== 
@@ -1050,7 +988,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   9) =    27.86977 eV ==== 
      psi = 0.007*[#   1]
     |psi|^2 = 0.008
-==== e(  10) =    31.71709 eV ==== 
+==== e(  10) =    31.71710 eV ==== 
      psi = 0.009*[#   2]+0.009*[#   3]+0.009*[#   4]
     |psi|^2 = 0.027
 
@@ -1064,20 +1002,20 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    16.32850 eV ==== 
      psi = 0.154*[#   2]+0.154*[#   3]+0.154*[#   4]+0.098*[#   1]
     |psi|^2 = 0.559
-==== e(   4) =    16.60982 eV ==== 
+==== e(   4) =    16.60983 eV ==== 
      psi = 0.278*[#   2]+0.278*[#   3]+0.278*[#   4]
     |psi|^2 = 0.834
 ==== e(   5) =    18.35599 eV ==== 
      psi = 0.097*[#   1]+0.084*[#   2]+0.084*[#   3]+0.084*[#   4]
     |psi|^2 = 0.348
-==== e(   6) =    23.44138 eV ==== 
+==== e(   6) =    23.44139 eV ==== 
      psi = 0.048*[#   2]+0.048*[#   3]+0.048*[#   4]
     |psi|^2 = 0.144
 ==== e(   7) =    25.70811 eV ==== 
      psi = 0.031*[#   2]+0.031*[#   3]+0.031*[#   4]
     |psi|^2 = 0.094
 ==== e(   8) =    26.77448 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   9) =    28.01379 eV ==== 
      psi = 0.009*[#   1]+0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
@@ -1115,7 +1053,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.005*[#   2]+0.005*[#   3]+0.005*[#   4]+0.003*[#   1]
     |psi|^2 = 0.017
 ==== e(  10) =    32.98005 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.2209708691 -0.3977475644  0.3977475644
@@ -1144,7 +1082,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.021
 ==== e(   9) =    31.26792 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    31.53898 eV ==== 
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
@@ -1175,11 +1113,11 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    27.68760 eV ==== 
      psi = 0.008*[#   2]+0.008*[#   3]+0.008*[#   4]
     |psi|^2 = 0.025
-==== e(   9) =    29.60166 eV ==== 
+==== e(   9) =    29.60167 eV ==== 
      psi = 0.017*[#   2]+0.017*[#   3]+0.017*[#   4]
     |psi|^2 = 0.050
-==== e(  10) =    31.58294 eV ==== 
-
+==== e(  10) =    31.58295 eV ==== 
+ 
     |psi|^2 = 0.002
 
  k =  -0.1325825215 -0.3093592168  0.3093592168
@@ -1201,10 +1139,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    21.74706 eV ==== 
      psi = 0.078*[#   2]+0.078*[#   3]+0.078*[#   4]
     |psi|^2 = 0.234
-==== e(   7) =    24.49304 eV ==== 
+==== e(   7) =    24.49305 eV ==== 
      psi = 0.013*[#   2]+0.013*[#   3]+0.013*[#   4]+0.008*[#   1]
     |psi|^2 = 0.046
-==== e(   8) =    27.64016 eV ==== 
+==== e(   8) =    27.64017 eV ==== 
      psi = 0.032*[#   2]+0.032*[#   3]+0.032*[#   4]
     |psi|^2 = 0.095
 ==== e(   9) =    28.26322 eV ==== 
@@ -1288,8 +1226,8 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    15.71147 eV ==== 
      psi = 0.435*[#   1]+0.131*[#   2]+0.131*[#   3]+0.131*[#   4]
     |psi|^2 = 0.828
-==== e(   4) =    21.74528 eV ==== 
-
+==== e(   4) =    21.74529 eV ==== 
+ 
     |psi|^2 = 0.000
 ==== e(   5) =    22.08972 eV ==== 
      psi = 0.257*[#   2]+0.257*[#   3]+0.257*[#   4]
@@ -1310,7 +1248,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   1]
     |psi|^2 = 0.005
 
- k =   0.2651650429  0.0000000000  0.0000000000
+ k =   0.2651650429 -0.0000000000  0.0000000000
 ==== e(   1) =    -1.93326 eV ==== 
      psi = 0.435*[#   1]+0.188*[#   2]+0.188*[#   3]+0.188*[#   4]
     |psi|^2 = 0.999
@@ -1320,8 +1258,8 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    16.61525 eV ==== 
      psi = 0.277*[#   2]+0.277*[#   3]+0.277*[#   4]
     |psi|^2 = 0.830
-==== e(   4) =    16.70567 eV ==== 
-
+==== e(   4) =    16.70568 eV ==== 
+ 
     |psi|^2 = 0.000
 ==== e(   5) =    19.40814 eV ==== 
      psi = 0.133*[#   1]+0.034*[#   2]+0.034*[#   3]+0.034*[#   4]
@@ -1329,17 +1267,17 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    20.01144 eV ==== 
      psi = 0.429*[#   1]+0.111*[#   2]+0.111*[#   3]+0.111*[#   4]
     |psi|^2 = 0.761
-==== e(   7) =    27.88096 eV ==== 
+==== e(   7) =    27.88097 eV ==== 
      psi = 0.051*[#   2]+0.051*[#   3]+0.051*[#   4]
     |psi|^2 = 0.152
-==== e(   8) =    27.88096 eV ==== 
+==== e(   8) =    27.88097 eV ==== 
      psi = 0.051*[#   2]+0.051*[#   3]+0.051*[#   4]
     |psi|^2 = 0.152
 ==== e(   9) =    28.63930 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    30.98725 eV ==== 
-
+ 
     |psi|^2 = 0.000
 
  k =   0.3093592168  0.0441941738 -0.0441941738
@@ -1367,7 +1305,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    28.45351 eV ==== 
      psi = 0.033*[#   2]+0.033*[#   3]+0.033*[#   4]+0.001*[#   1]
     |psi|^2 = 0.101
-==== e(   9) =    29.52827 eV ==== 
+==== e(   9) =    29.52828 eV ==== 
      psi = 0.017*[#   2]+0.017*[#   3]+0.017*[#   4]
     |psi|^2 = 0.052
 ==== e(  10) =    32.12765 eV ==== 
@@ -1434,7 +1372,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   9) =    30.17878 eV ==== 
      psi = 0.002*[#   1]
     |psi|^2 = 0.002
-==== e(  10) =    32.45283 eV ==== 
+==== e(  10) =    32.45284 eV ==== 
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.020
 
@@ -1457,7 +1395,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    24.62279 eV ==== 
      psi = 0.031*[#   2]+0.031*[#   3]+0.031*[#   4]+0.012*[#   1]
     |psi|^2 = 0.107
-==== e(   7) =    25.39060 eV ==== 
+==== e(   7) =    25.39061 eV ==== 
      psi = 0.027*[#   2]+0.027*[#   3]+0.027*[#   4]
     |psi|^2 = 0.081
 ==== e(   8) =    28.38656 eV ==== 
@@ -1492,14 +1430,14 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    26.23352 eV ==== 
      psi = 0.020*[#   2]+0.020*[#   3]+0.020*[#   4]+0.002*[#   1]
     |psi|^2 = 0.061
-==== e(   8) =    28.24969 eV ==== 
+==== e(   8) =    28.24970 eV ==== 
      psi = 0.005*[#   1]
     |psi|^2 = 0.005
 ==== e(   9) =    29.59948 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.007
 ==== e(  10) =    33.14656 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =  -0.1767766953 -0.4419417382  0.4419417382
@@ -1509,7 +1447,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =     4.41530 eV ==== 
      psi = 0.705*[#   1]+0.092*[#   2]+0.092*[#   3]+0.092*[#   4]
     |psi|^2 = 0.981
-==== e(   3) =    12.94847 eV ==== 
+==== e(   3) =    12.94848 eV ==== 
      psi = 0.209*[#   1]+0.194*[#   2]+0.194*[#   3]+0.194*[#   4]
     |psi|^2 = 0.792
 ==== e(   4) =    16.27848 eV ==== 
@@ -1518,7 +1456,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    18.11089 eV ==== 
      psi = 0.079*[#   1]+0.031*[#   2]+0.031*[#   3]+0.031*[#   4]
     |psi|^2 = 0.173
-==== e(   6) =    24.10942 eV ==== 
+==== e(   6) =    24.10943 eV ==== 
      psi = 0.037*[#   2]+0.037*[#   3]+0.037*[#   4]
     |psi|^2 = 0.111
 ==== e(   7) =    26.63903 eV ==== 
@@ -1582,7 +1520,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    19.57570 eV ==== 
      psi = 0.067*[#   1]+0.015*[#   2]+0.015*[#   3]+0.015*[#   4]
     |psi|^2 = 0.114
-==== e(   6) =    23.49226 eV ==== 
+==== e(   6) =    23.49227 eV ==== 
      psi = 0.045*[#   2]+0.045*[#   3]+0.045*[#   4]
     |psi|^2 = 0.136
 ==== e(   7) =    26.01305 eV ==== 
@@ -1605,7 +1543,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =     9.82246 eV ==== 
      psi = 0.252*[#   2]+0.252*[#   3]+0.252*[#   4]+0.179*[#   1]
     |psi|^2 = 0.933
-==== e(   3) =    12.41721 eV ==== 
+==== e(   3) =    12.41722 eV ==== 
      psi = 0.411*[#   1]+0.156*[#   2]+0.156*[#   3]+0.156*[#   4]
     |psi|^2 = 0.880
 ==== e(   4) =    18.56151 eV ==== 
@@ -1623,14 +1561,14 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    25.68407 eV ==== 
      psi = 0.018*[#   2]+0.018*[#   3]+0.018*[#   4]+0.002*[#   1]
     |psi|^2 = 0.056
-==== e(   9) =    28.62937 eV ==== 
+==== e(   9) =    28.62938 eV ==== 
      psi = 0.007*[#   1]+0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.018
 ==== e(  10) =    32.25961 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.004
 
- k =   0.0000000000 -0.2651650429  0.2651650429
+ k =  -0.0000000000 -0.2651650429  0.2651650429
 ==== e(   1) =    -0.66970 eV ==== 
      psi = 0.357*[#   1]+0.214*[#   2]+0.214*[#   3]+0.214*[#   4]
     |psi|^2 = 0.999
@@ -1643,11 +1581,11 @@ Fortran runtime warning: An array temporary was created
 ==== e(   4) =    19.67483 eV ==== 
      psi = 0.213*[#   2]+0.213*[#   3]+0.213*[#   4]
     |psi|^2 = 0.638
-==== e(   5) =    21.70689 eV ==== 
+==== e(   5) =    21.70690 eV ==== 
      psi = 0.060*[#   1]+0.009*[#   2]+0.009*[#   3]+0.009*[#   4]
     |psi|^2 = 0.087
 ==== e(   6) =    23.11696 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   7) =    24.21470 eV ==== 
      psi = 0.119*[#   2]+0.119*[#   3]+0.119*[#   4]
@@ -1659,7 +1597,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.017*[#   1]+0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.026
 ==== e(  10) =    32.59831 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =   0.3535533906  0.0000000000  0.0000000000
@@ -1667,7 +1605,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.350*[#   1]+0.216*[#   2]+0.216*[#   3]+0.216*[#   4]
     |psi|^2 = 0.999
 ==== e(   2) =    15.47439 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   3) =    15.53069 eV ==== 
      psi = 0.302*[#   2]+0.302*[#   3]+0.302*[#   4]
@@ -1682,7 +1620,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.418*[#   1]+0.073*[#   2]+0.073*[#   3]+0.073*[#   4]
     |psi|^2 = 0.639
 ==== e(   7) =    29.52442 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   8) =    30.00607 eV ==== 
      psi = 0.029*[#   2]+0.029*[#   3]+0.029*[#   4]
@@ -1691,7 +1629,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.029*[#   2]+0.029*[#   3]+0.029*[#   4]
     |psi|^2 = 0.088
 ==== e(  10) =    34.20101 eV ==== 
-
+ 
     |psi|^2 = 0.000
 
  k =   0.3977475644  0.0441941738 -0.0441941738
@@ -1723,7 +1661,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.013*[#   2]+0.013*[#   3]+0.013*[#   4]
     |psi|^2 = 0.039
 ==== e(  10) =    33.95773 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =   0.4419417382  0.0883883476 -0.0883883476
@@ -1748,21 +1686,21 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    28.31627 eV ==== 
      psi = 0.013*[#   2]+0.013*[#   3]+0.013*[#   4]
     |psi|^2 = 0.038
-==== e(   8) =    30.57420 eV ==== 
+==== e(   8) =    30.57421 eV ==== 
      psi = 0.011*[#   2]+0.011*[#   3]+0.011*[#   4]+0.001*[#   1]
     |psi|^2 = 0.035
 ==== e(   9) =    33.02155 eV ==== 
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.017
 ==== e(  10) =    33.15167 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =   0.4861359121  0.1325825215 -0.1325825215
 ==== e(   1) =     1.64921 eV ==== 
      psi = 0.307*[#   1]+0.230*[#   2]+0.230*[#   3]+0.230*[#   4]
     |psi|^2 = 0.997
-==== e(   2) =     9.14177 eV ==== 
+==== e(   2) =     9.14178 eV ==== 
      psi = 0.250*[#   2]+0.250*[#   3]+0.250*[#   4]+0.188*[#   1]
     |psi|^2 = 0.938
 ==== e(   3) =    12.52339 eV ==== 
@@ -1780,14 +1718,14 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    27.47412 eV ==== 
      psi = 0.015*[#   2]+0.015*[#   3]+0.015*[#   4]
     |psi|^2 = 0.045
-==== e(   8) =    30.20898 eV ==== 
+==== e(   8) =    30.20899 eV ==== 
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]+0.001*[#   1]
     |psi|^2 = 0.018
 ==== e(   9) =    32.71130 eV ==== 
-
+ 
     |psi|^2 = 0.003
-==== e(  10) =    33.92650 eV ==== 
-
+==== e(  10) =    33.92651 eV ==== 
+ 
     |psi|^2 = 0.003
 
  k =  -0.1767766953 -0.5303300859  0.5303300859
@@ -1819,7 +1757,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.004
 ==== e(  10) =    33.37975 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =  -0.1325825215 -0.4861359121  0.4861359121
@@ -1876,7 +1814,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    27.61875 eV ==== 
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.019
-==== e(   8) =    28.96103 eV ==== 
+==== e(   8) =    28.96104 eV ==== 
      psi = 0.002*[#   1]+0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.007
 ==== e(   9) =    29.48540 eV ==== 
@@ -1912,7 +1850,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.008*[#   2]+0.008*[#   3]+0.008*[#   4]
     |psi|^2 = 0.024
 ==== e(   9) =    29.57053 eV ==== 
-
+ 
     |psi|^2 = 0.002
 ==== e(  10) =    32.71844 eV ==== 
      psi = 0.003*[#   1]+0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
@@ -1935,7 +1873,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.071*[#   1]+0.008*[#   2]+0.008*[#   3]+0.008*[#   4]
     |psi|^2 = 0.094
 ==== e(   6) =    25.01854 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   7) =    25.68407 eV ==== 
      psi = 0.068*[#   2]+0.068*[#   3]+0.068*[#   4]
@@ -1947,10 +1885,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   1]
     |psi|^2 = 0.004
 ==== e(  10) =    33.36164 eV ==== 
-
+ 
     |psi|^2 = 0.003
 
- k =   0.4419417382  0.0000000000  0.0000000000
+ k =   0.4419417382 -0.0000000000  0.0000000000
 ==== e(   1) =     0.30407 eV ==== 
      psi = 0.315*[#   1]+0.228*[#   2]+0.228*[#   3]+0.228*[#   4]
     |psi|^2 = 0.998
@@ -1958,7 +1896,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.354*[#   1]+0.061*[#   2]+0.061*[#   3]+0.061*[#   4]
     |psi|^2 = 0.537
 ==== e(   3) =    14.50341 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   4) =    14.68568 eV ==== 
      psi = 0.317*[#   2]+0.317*[#   3]+0.317*[#   4]
@@ -1970,7 +1908,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.329*[#   1]+0.044*[#   2]+0.044*[#   3]+0.044*[#   4]
     |psi|^2 = 0.462
 ==== e(   7) =    30.61364 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   8) =    31.85302 eV ==== 
      psi = 0.016*[#   2]+0.016*[#   3]+0.016*[#   4]
@@ -2011,7 +1949,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.018
 ==== e(  10) =    36.27280 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =   0.5303300859  0.0883883476 -0.0883883476
@@ -2030,7 +1968,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    15.73350 eV ==== 
      psi = 0.119*[#   1]+0.018*[#   2]+0.018*[#   3]+0.018*[#   4]
     |psi|^2 = 0.172
-==== e(   6) =    19.87716 eV ==== 
+==== e(   6) =    19.87717 eV ==== 
      psi = 0.068*[#   1]+0.041*[#   2]+0.041*[#   3]+0.041*[#   4]
     |psi|^2 = 0.191
 ==== e(   7) =    29.63250 eV ==== 
@@ -2040,10 +1978,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.005*[#   2]+0.005*[#   3]+0.005*[#   4]
     |psi|^2 = 0.015
 ==== e(   9) =    34.20520 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    35.87976 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.1325825215 -0.5745242597  0.5745242597
@@ -2072,10 +2010,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.008
 ==== e(   9) =    33.67506 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    35.64853 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =  -0.0883883476 -0.5303300859  0.5303300859
@@ -2085,7 +2023,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =     6.81109 eV ==== 
      psi = 0.258*[#   2]+0.258*[#   3]+0.258*[#   4]+0.204*[#   1]
     |psi|^2 = 0.977
-==== e(   3) =     9.20958 eV ==== 
+==== e(   3) =     9.20959 eV ==== 
      psi = 0.463*[#   1]+0.136*[#   2]+0.136*[#   3]+0.136*[#   4]
     |psi|^2 = 0.870
 ==== e(   4) =    14.69401 eV ==== 
@@ -2111,13 +2049,13 @@ Fortran runtime warning: An array temporary was created
     |psi|^2 = 0.002
 
  k =  -0.0441941738 -0.4861359121  0.4861359121
-==== e(   1) =     5.16138 eV ==== 
+==== e(   1) =     5.16139 eV ==== 
      psi = 0.270*[#   2]+0.270*[#   3]+0.270*[#   4]+0.181*[#   1]
     |psi|^2 = 0.990
 ==== e(   2) =     6.14007 eV ==== 
      psi = 0.259*[#   2]+0.259*[#   3]+0.259*[#   4]+0.204*[#   1]
     |psi|^2 = 0.981
-==== e(   3) =     8.74449 eV ==== 
+==== e(   3) =     8.74450 eV ==== 
      psi = 0.522*[#   1]+0.124*[#   2]+0.124*[#   3]+0.124*[#   4]
     |psi|^2 = 0.895
 ==== e(   4) =    15.15149 eV ==== 
@@ -2142,7 +2080,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.003*[#   1]
     |psi|^2 = 0.003
 
- k =   0.0000000000 -0.4419417382  0.4419417382
+ k =  -0.0000000000 -0.4419417382  0.4419417382
 ==== e(   1) =     3.72987 eV ==== 
      psi = 0.265*[#   1]+0.243*[#   2]+0.243*[#   3]+0.243*[#   4]
     |psi|^2 = 0.994
@@ -2159,12 +2097,12 @@ Fortran runtime warning: An array temporary was created
      psi = 0.079*[#   1]+0.005*[#   2]+0.005*[#   3]+0.005*[#   4]
     |psi|^2 = 0.095
 ==== e(   6) =    27.41714 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   7) =    27.58895 eV ==== 
      psi = 0.033*[#   2]+0.033*[#   3]+0.033*[#   4]
     |psi|^2 = 0.099
-==== e(   8) =    28.08216 eV ==== 
+==== e(   8) =    28.08217 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]+0.001*[#   1]
     |psi|^2 = 0.008
 ==== e(   9) =    28.82593 eV ==== 
@@ -2174,7 +2112,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   1]
     |psi|^2 = 0.005
 
- k =   0.5303300859  0.0000000000  0.0000000000
+ k =   0.5303300859 -0.0000000000  0.0000000000
 ==== e(   1) =     1.81713 eV ==== 
      psi = 0.306*[#   1]+0.230*[#   2]+0.230*[#   3]+0.230*[#   4]
     |psi|^2 = 0.995
@@ -2182,7 +2120,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.459*[#   1]+0.081*[#   2]+0.081*[#   3]+0.081*[#   4]
     |psi|^2 = 0.703
 ==== e(   3) =    13.80525 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   4) =    14.08215 eV ==== 
      psi = 0.325*[#   2]+0.325*[#   3]+0.325*[#   4]
@@ -2194,7 +2132,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.234*[#   1]+0.022*[#   2]+0.022*[#   3]+0.022*[#   4]
     |psi|^2 = 0.300
 ==== e(   7) =    31.82730 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   8) =    33.36979 eV ==== 
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
@@ -2203,7 +2141,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.020
 ==== e(  10) =    38.41666 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =   0.5745242597  0.0441941738 -0.0441941738
@@ -2231,11 +2169,11 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    33.60672 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.011
-==== e(   9) =    34.28852 eV ==== 
+==== e(   9) =    34.28853 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.005
 ==== e(  10) =    38.72271 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.0883883476 -0.6187184335  0.6187184335
@@ -2264,7 +2202,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.005
 ==== e(   9) =    34.02151 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    38.38449 eV ==== 
      psi = 0.001*[#   1]
@@ -2302,7 +2240,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   1]
     |psi|^2 = 0.002
 
- k =   0.0000000000 -0.5303300859  0.5303300859
+ k =  -0.0000000000 -0.5303300859  0.5303300859
 ==== e(   1) =     6.07660 eV ==== 
      psi = 0.331*[#   2]+0.331*[#   3]+0.331*[#   4]
     |psi|^2 = 0.993
@@ -2324,8 +2262,8 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    29.84923 eV ==== 
      psi = 0.015*[#   2]+0.015*[#   3]+0.015*[#   4]
     |psi|^2 = 0.044
-==== e(   8) =    30.23239 eV ==== 
-
+==== e(   8) =    30.23240 eV ==== 
+ 
     |psi|^2 = 0.000
 ==== e(   9) =    31.20220 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
@@ -2334,7 +2272,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   1]
     |psi|^2 = 0.003
 
- k =   0.6187184335  0.0000000000  0.0000000000
+ k =   0.6187184335 -0.0000000000  0.0000000000
 ==== e(   1) =     3.55850 eV ==== 
      psi = 0.275*[#   1]+0.237*[#   2]+0.237*[#   3]+0.237*[#   4]
     |psi|^2 = 0.987
@@ -2342,7 +2280,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.556*[#   1]+0.089*[#   2]+0.089*[#   3]+0.089*[#   4]
     |psi|^2 = 0.824
 ==== e(   3) =    13.38465 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   4) =    13.72025 eV ==== 
      psi = 0.330*[#   2]+0.330*[#   3]+0.330*[#   4]
@@ -2354,16 +2292,16 @@ Fortran runtime warning: An array temporary was created
      psi = 0.168*[#   1]+0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.187
 ==== e(   7) =    32.94833 eV ==== 
-
+ 
     |psi|^2 = 0.000
-==== e(   8) =    34.50547 eV ==== 
+==== e(   8) =    34.50548 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.005
-==== e(   9) =    34.50547 eV ==== 
+==== e(   9) =    34.50548 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.005
 ==== e(  10) =    40.44347 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.0441941738 -0.6629126074  0.6629126074
@@ -2389,16 +2327,16 @@ Fortran runtime warning: An array temporary was created
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.004
 ==== e(   8) =    34.46342 eV ==== 
-
+ 
     |psi|^2 = 0.002
-==== e(   9) =    34.49680 eV ==== 
-
+==== e(   9) =    34.49681 eV ==== 
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    40.45432 eV ==== 
-
+ 
     |psi|^2 = 0.003
 
- k =   0.0000000000 -0.6187184335  0.6187184335
+ k =  -0.0000000000 -0.6187184335  0.6187184335
 ==== e(   1) =     5.29404 eV ==== 
      psi = 0.333*[#   2]+0.333*[#   3]+0.333*[#   4]
     |psi|^2 = 0.998
@@ -2411,7 +2349,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   4) =    13.84280 eV ==== 
      psi = 0.328*[#   2]+0.328*[#   3]+0.328*[#   4]
     |psi|^2 = 0.983
-==== e(   5) =    15.19283 eV ==== 
+==== e(   5) =    15.19284 eV ==== 
      psi = 0.083*[#   1]+0.014*[#   2]+0.014*[#   3]+0.014*[#   4]
     |psi|^2 = 0.124
 ==== e(   6) =    19.39773 eV ==== 
@@ -2421,10 +2359,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.013
 ==== e(   8) =    33.20075 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   9) =    33.64149 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    39.10130 eV ==== 
      psi = 0.002*[#   1]
@@ -2438,7 +2376,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.853*[#   1]
     |psi|^2 = 0.853
 ==== e(   3) =    13.24431 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   4) =    13.59967 eV ==== 
      psi = 0.331*[#   2]+0.331*[#   3]+0.331*[#   4]
@@ -2446,23 +2384,23 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    13.59967 eV ==== 
      psi = 0.331*[#   2]+0.331*[#   3]+0.331*[#   4]
     |psi|^2 = 0.993
-==== e(   6) =    17.10336 eV ==== 
+==== e(   6) =    17.10337 eV ==== 
      psi = 0.145*[#   1]
     |psi|^2 = 0.145
 ==== e(   7) =    33.46504 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   8) =    34.97323 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(   9) =    34.97323 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    40.70797 eV ==== 
-
+ 
     |psi|^2 = 0.000
 
- k =   0.1767766953  0.0883883476  0.0000000000
+ k =   0.1767766953  0.0883883476 -0.0000000000
 ==== e(   1) =    -2.49847 eV ==== 
      psi = 0.557*[#   1]+0.147*[#   2]+0.147*[#   3]+0.147*[#   4]
     |psi|^2 = 0.999
@@ -2481,21 +2419,21 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    22.82855 eV ==== 
      psi = 0.006*[#   1]+0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.016
-==== e(   7) =    24.72649 eV ==== 
+==== e(   7) =    24.72650 eV ==== 
      psi = 0.073*[#   2]+0.073*[#   3]+0.073*[#   4]
     |psi|^2 = 0.218
 ==== e(   8) =    25.40298 eV ==== 
      psi = 0.069*[#   2]+0.069*[#   3]+0.069*[#   4]+0.032*[#   1]
     |psi|^2 = 0.240
 ==== e(   9) =    26.73674 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    29.30716 eV ==== 
      psi = 0.014*[#   2]+0.014*[#   3]+0.014*[#   4]
     |psi|^2 = 0.042
 
  k =   0.2209708691  0.1325825215 -0.0441941738
-==== e(   1) =    -1.96854 eV ==== 
+==== e(   1) =    -1.96853 eV ==== 
      psi = 0.453*[#   1]+0.182*[#   2]+0.182*[#   3]+0.182*[#   4]
     |psi|^2 = 0.999
 ==== e(   2) =    13.97786 eV ==== 
@@ -2510,10 +2448,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    21.18619 eV ==== 
      psi = 0.117*[#   2]+0.117*[#   3]+0.117*[#   4]+0.072*[#   1]
     |psi|^2 = 0.423
-==== e(   6) =    22.77898 eV ==== 
+==== e(   6) =    22.77899 eV ==== 
      psi = 0.119*[#   2]+0.119*[#   3]+0.119*[#   4]+0.027*[#   1]
     |psi|^2 = 0.385
-==== e(   7) =    24.88739 eV ==== 
+==== e(   7) =    24.88740 eV ==== 
      psi = 0.039*[#   2]+0.039*[#   3]+0.039*[#   4]+0.012*[#   1]
     |psi|^2 = 0.128
 ==== e(   8) =    25.22611 eV ==== 
@@ -2651,7 +2589,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.009*[#   2]+0.009*[#   3]+0.009*[#   4]+0.002*[#   1]
     |psi|^2 = 0.029
 ==== e(  10) =    32.59352 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =  -0.2651650429 -0.3535533906  0.4419417382
@@ -2686,8 +2624,8 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.008
 
- k =   0.2651650429  0.0883883476  0.0000000000
-==== e(   1) =    -1.79233 eV ==== 
+ k =   0.2651650429  0.0883883476 -0.0000000000
+==== e(   1) =    -1.79232 eV ==== 
      psi = 0.422*[#   1]+0.192*[#   2]+0.192*[#   3]+0.192*[#   4]
     |psi|^2 = 0.999
 ==== e(   2) =    14.71101 eV ==== 
@@ -2711,10 +2649,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    27.07120 eV ==== 
      psi = 0.039*[#   2]+0.039*[#   3]+0.039*[#   4]
     |psi|^2 = 0.118
-==== e(   9) =    28.23431 eV ==== 
+==== e(   9) =    28.23432 eV ==== 
      psi = 0.014*[#   2]+0.014*[#   3]+0.014*[#   4]+0.001*[#   1]
     |psi|^2 = 0.044
-==== e(  10) =    31.75074 eV ==== 
+==== e(  10) =    31.75075 eV ==== 
      psi = 0.002*[#   1]+0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.005
 
@@ -2792,7 +2730,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    14.74974 eV ==== 
      psi = 0.237*[#   2]+0.237*[#   3]+0.237*[#   4]+0.069*[#   1]
     |psi|^2 = 0.781
-==== e(   4) =    15.88536 eV ==== 
+==== e(   4) =    15.88537 eV ==== 
      psi = 0.193*[#   1]+0.162*[#   2]+0.162*[#   3]+0.162*[#   4]
     |psi|^2 = 0.679
 ==== e(   5) =    19.13943 eV ==== 
@@ -2833,7 +2771,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    23.10574 eV ==== 
      psi = 0.037*[#   2]+0.037*[#   3]+0.037*[#   4]+0.004*[#   1]
     |psi|^2 = 0.114
-==== e(   7) =    26.53326 eV ==== 
+==== e(   7) =    26.53327 eV ==== 
      psi = 0.025*[#   2]+0.025*[#   3]+0.025*[#   4]+0.002*[#   1]
     |psi|^2 = 0.078
 ==== e(   8) =    28.09758 eV ==== 
@@ -2843,7 +2781,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]+0.002*[#   1]
     |psi|^2 = 0.014
 ==== e(  10) =    32.91863 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.2209708691 -0.3977475644  0.4861359121
@@ -2865,13 +2803,13 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    22.47026 eV ==== 
      psi = 0.040*[#   2]+0.040*[#   3]+0.040*[#   4]+0.005*[#   1]
     |psi|^2 = 0.127
-==== e(   7) =    26.90603 eV ==== 
+==== e(   7) =    26.90604 eV ==== 
      psi = 0.015*[#   2]+0.015*[#   3]+0.015*[#   4]
     |psi|^2 = 0.046
 ==== e(   8) =    28.49257 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.011
-==== e(   9) =    29.48614 eV ==== 
+==== e(   9) =    29.48615 eV ==== 
      psi = 0.003*[#   2]+0.003*[#   3]+0.003*[#   4]+0.002*[#   1]
     |psi|^2 = 0.012
 ==== e(  10) =    31.98821 eV ==== 
@@ -2920,7 +2858,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    13.55748 eV ==== 
      psi = 0.217*[#   2]+0.217*[#   3]+0.217*[#   4]+0.176*[#   1]
     |psi|^2 = 0.828
-==== e(   4) =    16.55819 eV ==== 
+==== e(   4) =    16.55820 eV ==== 
      psi = 0.209*[#   2]+0.209*[#   3]+0.209*[#   4]+0.083*[#   1]
     |psi|^2 = 0.710
 ==== e(   5) =    20.96456 eV ==== 
@@ -2958,7 +2896,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    21.46043 eV ==== 
      psi = 0.091*[#   2]+0.091*[#   3]+0.091*[#   4]+0.001*[#   1]
     |psi|^2 = 0.275
-==== e(   6) =    21.97483 eV ==== 
+==== e(   6) =    21.97484 eV ==== 
      psi = 0.027*[#   1]+0.013*[#   2]+0.013*[#   3]+0.013*[#   4]
     |psi|^2 = 0.066
 ==== e(   7) =    25.46508 eV ==== 
@@ -2970,7 +2908,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   9) =    29.62884 eV ==== 
      psi = 0.012*[#   2]+0.012*[#   3]+0.012*[#   4]
     |psi|^2 = 0.036
-==== e(  10) =    31.19813 eV ==== 
+==== e(  10) =    31.19814 eV ==== 
      psi = 0.001*[#   1]
     |psi|^2 = 0.003
 
@@ -2978,7 +2916,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   1) =    -0.56493 eV ==== 
      psi = 0.352*[#   1]+0.215*[#   2]+0.215*[#   3]+0.215*[#   4]
     |psi|^2 = 0.999
-==== e(   2) =    11.13083 eV ==== 
+==== e(   2) =    11.13084 eV ==== 
      psi = 0.241*[#   2]+0.241*[#   3]+0.241*[#   4]+0.172*[#   1]
     |psi|^2 = 0.896
 ==== e(   3) =    13.67225 eV ==== 
@@ -2996,7 +2934,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    24.02003 eV ==== 
      psi = 0.061*[#   2]+0.061*[#   3]+0.061*[#   4]+0.027*[#   1]
     |psi|^2 = 0.209
-==== e(   8) =    26.15354 eV ==== 
+==== e(   8) =    26.15355 eV ==== 
      psi = 0.017*[#   2]+0.017*[#   3]+0.017*[#   4]+0.003*[#   1]
     |psi|^2 = 0.054
 ==== e(   9) =    28.57708 eV ==== 
@@ -3025,7 +2963,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    22.73451 eV ==== 
      psi = 0.161*[#   2]+0.161*[#   3]+0.161*[#   4]+0.024*[#   1]
     |psi|^2 = 0.508
-==== e(   7) =    24.23709 eV ==== 
+==== e(   7) =    24.23710 eV ==== 
      psi = 0.033*[#   1]+0.011*[#   2]+0.011*[#   3]+0.011*[#   4]
     |psi|^2 = 0.067
 ==== e(   8) =    25.76497 eV ==== 
@@ -3039,7 +2977,7 @@ Fortran runtime warning: An array temporary was created
     |psi|^2 = 0.003
 
  k =   0.3535533906  0.0883883476  0.0000000000
-==== e(   1) =    -0.80973 eV ==== 
+==== e(   1) =    -0.80972 eV ==== 
      psi = 0.347*[#   1]+0.218*[#   2]+0.218*[#   3]+0.218*[#   4]
     |psi|^2 = 0.999
 ==== e(   2) =    13.54025 eV ==== 
@@ -3063,10 +3001,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    29.46647 eV ==== 
      psi = 0.024*[#   2]+0.024*[#   3]+0.024*[#   4]
     |psi|^2 = 0.071
-==== e(   9) =    30.45909 eV ==== 
+==== e(   9) =    30.45910 eV ==== 
      psi = 0.014*[#   2]+0.014*[#   3]+0.014*[#   4]
     |psi|^2 = 0.041
-==== e(  10) =    33.08592 eV ==== 
+==== e(  10) =    33.08593 eV ==== 
      psi = 0.001*[#   1]
     |psi|^2 = 0.001
 
@@ -3099,7 +3037,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.009*[#   2]+0.009*[#   3]+0.009*[#   4]
     |psi|^2 = 0.027
 ==== e(  10) =    32.64132 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =   0.4419417382  0.1767766953 -0.0883883476
@@ -3118,7 +3056,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    18.24253 eV ==== 
      psi = 0.064*[#   2]+0.064*[#   3]+0.064*[#   4]+0.054*[#   1]
     |psi|^2 = 0.248
-==== e(   6) =    22.56065 eV ==== 
+==== e(   6) =    22.56066 eV ==== 
      psi = 0.047*[#   2]+0.047*[#   3]+0.047*[#   4]+0.033*[#   1]
     |psi|^2 = 0.173
 ==== e(   7) =    26.02231 eV ==== 
@@ -3163,7 +3101,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.006
 ==== e(  10) =    33.28319 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.1767766953 -0.4419417382  0.5303300859
@@ -3182,7 +3120,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    18.76099 eV ==== 
      psi = 0.059*[#   2]+0.059*[#   3]+0.059*[#   4]+0.034*[#   1]
     |psi|^2 = 0.211
-==== e(   6) =    24.39945 eV ==== 
+==== e(   6) =    24.39946 eV ==== 
      psi = 0.024*[#   2]+0.024*[#   3]+0.024*[#   4]+0.001*[#   1]
     |psi|^2 = 0.074
 ==== e(   7) =    26.49134 eV ==== 
@@ -3214,7 +3152,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    19.26676 eV ==== 
      psi = 0.053*[#   2]+0.053*[#   3]+0.053*[#   4]+0.029*[#   1]
     |psi|^2 = 0.188
-==== e(   6) =    23.90335 eV ==== 
+==== e(   6) =    23.90336 eV ==== 
      psi = 0.026*[#   2]+0.026*[#   3]+0.026*[#   4]+0.002*[#   1]
     |psi|^2 = 0.080
 ==== e(   7) =    27.91215 eV ==== 
@@ -3223,7 +3161,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    28.82416 eV ==== 
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.020
-==== e(   9) =    30.46269 eV ==== 
+==== e(   9) =    30.46270 eV ==== 
      psi = 0.003*[#   1]+0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.008
 ==== e(  10) =    31.68362 eV ==== 
@@ -3284,7 +3222,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    25.52292 eV ==== 
      psi = 0.042*[#   2]+0.042*[#   3]+0.042*[#   4]+0.006*[#   1]
     |psi|^2 = 0.132
-==== e(   8) =    27.83013 eV ==== 
+==== e(   8) =    27.83014 eV ==== 
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.021
 ==== e(   9) =    30.16723 eV ==== 
@@ -3294,7 +3232,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.006
 
- k =   0.0000000000 -0.2651650429  0.3535533906
+ k =  -0.0000000000 -0.2651650429  0.3535533906
 ==== e(   1) =     0.30528 eV ==== 
      psi = 0.328*[#   1]+0.223*[#   2]+0.223*[#   3]+0.223*[#   4]
     |psi|^2 = 0.998
@@ -3307,13 +3245,13 @@ Fortran runtime warning: An array temporary was created
 ==== e(   4) =    17.34335 eV ==== 
      psi = 0.190*[#   2]+0.190*[#   3]+0.190*[#   4]+0.087*[#   1]
     |psi|^2 = 0.656
-==== e(   5) =    21.79056 eV ==== 
+==== e(   5) =    21.79057 eV ==== 
      psi = 0.052*[#   2]+0.052*[#   3]+0.052*[#   4]+0.018*[#   1]
     |psi|^2 = 0.173
 ==== e(   6) =    22.78198 eV ==== 
      psi = 0.009*[#   2]+0.009*[#   3]+0.009*[#   4]
     |psi|^2 = 0.027
-==== e(   7) =    24.20806 eV ==== 
+==== e(   7) =    24.20807 eV ==== 
      psi = 0.073*[#   2]+0.073*[#   3]+0.073*[#   4]+0.019*[#   1]
     |psi|^2 = 0.238
 ==== e(   8) =    27.20673 eV ==== 
@@ -3323,10 +3261,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]+0.004*[#   1]
     |psi|^2 = 0.026
 ==== e(  10) =    33.28910 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
- k =   0.4419417382  0.0883883476  0.0000000000
+ k =   0.4419417382  0.0883883476 -0.0000000000
 ==== e(   1) =     0.44281 eV ==== 
      psi = 0.314*[#   1]+0.228*[#   2]+0.228*[#   3]+0.228*[#   4]
     |psi|^2 = 0.998
@@ -3355,7 +3293,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.019
 ==== e(  10) =    34.94371 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =   0.4861359121  0.1325825215 -0.0441941738
@@ -3387,7 +3325,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.007
 ==== e(  10) =    34.76005 eV ==== 
-
+ 
     |psi|^2 = 0.003
 
  k =  -0.1767766953 -0.5303300859  0.6187184335
@@ -3416,10 +3354,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.014
 ==== e(   9) =    33.64413 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    34.46013 eV ==== 
-
+ 
     |psi|^2 = 0.003
 
  k =  -0.1325825215 -0.4861359121  0.5745242597
@@ -3448,7 +3386,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.005*[#   2]+0.005*[#   3]+0.005*[#   4]
     |psi|^2 = 0.015
 ==== e(   9) =    32.47979 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    34.37158 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
@@ -3461,10 +3399,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =     5.47359 eV ==== 
      psi = 0.495*[#   1]+0.162*[#   2]+0.162*[#   3]+0.162*[#   4]
     |psi|^2 = 0.981
-==== e(   3) =     9.86233 eV ==== 
+==== e(   3) =     9.86234 eV ==== 
      psi = 0.366*[#   1]+0.173*[#   2]+0.173*[#   3]+0.173*[#   4]
     |psi|^2 = 0.884
-==== e(   4) =    13.94867 eV ==== 
+==== e(   4) =    13.94868 eV ==== 
      psi = 0.253*[#   2]+0.253*[#   3]+0.253*[#   4]+0.095*[#   1]
     |psi|^2 = 0.856
 ==== e(   5) =    18.39539 eV ==== 
@@ -3480,7 +3418,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.010*[#   2]+0.010*[#   3]+0.010*[#   4]
     |psi|^2 = 0.029
 ==== e(   9) =    31.11241 eV ==== 
-
+ 
     |psi|^2 = 0.004
 ==== e(  10) =    34.24973 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
@@ -3519,7 +3457,7 @@ Fortran runtime warning: An array temporary was created
     |psi|^2 = 0.008
 
  k =   0.0000000000 -0.3535533906  0.4419417382
-==== e(   1) =     2.50766 eV ==== 
+==== e(   1) =     2.50767 eV ==== 
      psi = 0.294*[#   1]+0.234*[#   2]+0.234*[#   3]+0.234*[#   4]
     |psi|^2 = 0.996
 ==== e(   2) =     8.29895 eV ==== 
@@ -3534,13 +3472,13 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    19.83693 eV ==== 
      psi = 0.044*[#   2]+0.044*[#   3]+0.044*[#   4]+0.027*[#   1]
     |psi|^2 = 0.158
-==== e(   6) =    24.87574 eV ==== 
+==== e(   6) =    24.87575 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.012
-==== e(   7) =    25.91203 eV ==== 
+==== e(   7) =    25.91204 eV ==== 
      psi = 0.040*[#   2]+0.040*[#   3]+0.040*[#   4]+0.005*[#   1]
     |psi|^2 = 0.124
-==== e(   8) =    29.07414 eV ==== 
+==== e(   8) =    29.07415 eV ==== 
      psi = 0.005*[#   2]+0.005*[#   3]+0.005*[#   4]
     |psi|^2 = 0.015
 ==== e(   9) =    29.84025 eV ==== 
@@ -3557,10 +3495,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =    10.69581 eV ==== 
      psi = 0.391*[#   1]+0.114*[#   2]+0.114*[#   3]+0.114*[#   4]
     |psi|^2 = 0.732
-==== e(   3) =    11.96906 eV ==== 
+==== e(   3) =    11.96907 eV ==== 
      psi = 0.238*[#   2]+0.238*[#   3]+0.238*[#   4]
     |psi|^2 = 0.715
-==== e(   4) =    13.24873 eV ==== 
+==== e(   4) =    13.24874 eV ==== 
      psi = 0.265*[#   2]+0.265*[#   3]+0.265*[#   4]+0.171*[#   1]
     |psi|^2 = 0.965
 ==== e(   5) =    16.17895 eV ==== 
@@ -3579,7 +3517,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.005
 ==== e(  10) =    37.31434 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.1325825215 -0.5745242597  0.6629126074
@@ -3611,7 +3549,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.003
 ==== e(  10) =    37.41055 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.0883883476 -0.5303300859  0.6187184335
@@ -3621,7 +3559,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =     8.38587 eV ==== 
      psi = 0.313*[#   2]+0.313*[#   3]+0.313*[#   4]+0.001*[#   1]
     |psi|^2 = 0.941
-==== e(   3) =     8.89922 eV ==== 
+==== e(   3) =     8.89923 eV ==== 
      psi = 0.581*[#   1]+0.101*[#   2]+0.101*[#   3]+0.101*[#   4]
     |psi|^2 = 0.883
 ==== e(   4) =    12.95510 eV ==== 
@@ -3630,20 +3568,20 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    17.23109 eV ==== 
      psi = 0.049*[#   2]+0.049*[#   3]+0.049*[#   4]+0.033*[#   1]
     |psi|^2 = 0.181
-==== e(   6) =    21.67834 eV ==== 
+==== e(   6) =    21.67835 eV ==== 
      psi = 0.021*[#   1]+0.019*[#   2]+0.019*[#   3]+0.019*[#   4]
     |psi|^2 = 0.077
-==== e(   7) =    28.85103 eV ==== 
+==== e(   7) =    28.85104 eV ==== 
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.021
 ==== e(   8) =    31.83516 eV ==== 
      psi = 0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.009
-==== e(   9) =    33.38645 eV ==== 
-
+==== e(   9) =    33.38646 eV ==== 
+ 
     |psi|^2 = 0.002
-==== e(  10) =    37.13555 eV ==== 
-
+==== e(  10) =    37.13556 eV ==== 
+ 
     |psi|^2 = 0.002
 
  k =  -0.0441941738 -0.4861359121  0.5745242597
@@ -3672,13 +3610,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.023
 ==== e(   9) =    32.41000 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    36.40581 eV ==== 
      psi = 0.001*[#   1]
     |psi|^2 = 0.003
 
- k =   0.0000000000 -0.4419417382  0.5303300859
+ k =  -0.0000000000 -0.4419417382  0.5303300859
 ==== e(   1) =     5.19867 eV ==== 
      psi = 0.264*[#   2]+0.264*[#   3]+0.264*[#   4]+0.197*[#   1]
     |psi|^2 = 0.990
@@ -3733,13 +3671,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.010
 ==== e(   8) =    33.89318 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(   9) =    34.51248 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.005
 ==== e(  10) =    39.51738 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.0441941738 -0.5745242597  0.6629126074
@@ -3768,13 +3706,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.004
 ==== e(   9) =    34.49961 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    39.29856 eV ==== 
      psi = 0.001*[#   1]
     |psi|^2 = 0.002
 
- k =   0.0000000000 -0.5303300859  0.6187184335
+ k =  -0.0000000000 -0.5303300859  0.6187184335
 ==== e(   1) =     5.68519 eV ==== 
      psi = 0.332*[#   2]+0.332*[#   3]+0.332*[#   4]
     |psi|^2 = 0.996
@@ -3794,13 +3732,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.019*[#   1]+0.015*[#   2]+0.015*[#   3]+0.015*[#   4]
     |psi|^2 = 0.064
 ==== e(   7) =    30.36240 eV ==== 
-
+ 
     |psi|^2 = 0.002
 ==== e(   8) =    30.59868 eV ==== 
      psi = 0.008*[#   2]+0.008*[#   3]+0.008*[#   4]+0.001*[#   1]
     |psi|^2 = 0.024
-==== e(   9) =    33.66247 eV ==== 
-
+==== e(   9) =    33.66248 eV ==== 
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    38.05665 eV ==== 
      psi = 0.002*[#   1]
@@ -3829,16 +3767,16 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.007
 ==== e(   8) =    33.34068 eV ==== 
-
+ 
     |psi|^2 = 0.001
-==== e(   9) =    35.00354 eV ==== 
-
+==== e(   9) =    35.00355 eV ==== 
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    40.65944 eV ==== 
      psi = 0.001*[#   1]
     |psi|^2 = 0.003
 
- k =   0.3535533906  0.1767766953  0.0000000000
+ k =   0.3535533906  0.1767766953 -0.0000000000
 ==== e(   1) =    -0.39059 eV ==== 
      psi = 0.338*[#   1]+0.220*[#   2]+0.220*[#   3]+0.220*[#   4]
     |psi|^2 = 0.999
@@ -3854,7 +3792,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    20.16205 eV ==== 
      psi = 0.028*[#   2]+0.028*[#   3]+0.028*[#   4]
     |psi|^2 = 0.085
-==== e(   6) =    21.96618 eV ==== 
+==== e(   6) =    21.96619 eV ==== 
      psi = 0.119*[#   2]+0.119*[#   3]+0.119*[#   4]+0.066*[#   1]
     |psi|^2 = 0.424
 ==== e(   7) =    24.99260 eV ==== 
@@ -3867,14 +3805,14 @@ Fortran runtime warning: An array temporary was created
      psi = 0.012*[#   2]+0.012*[#   3]+0.012*[#   4]+0.001*[#   1]
     |psi|^2 = 0.037
 ==== e(  10) =    32.92071 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =   0.3977475644  0.2209708691 -0.0441941738
 ==== e(   1) =     0.54765 eV ==== 
      psi = 0.321*[#   1]+0.226*[#   2]+0.226*[#   3]+0.226*[#   4]
     |psi|^2 = 0.998
-==== e(   2) =    10.08170 eV ==== 
+==== e(   2) =    10.08171 eV ==== 
      psi = 0.261*[#   2]+0.261*[#   3]+0.261*[#   4]+0.141*[#   1]
     |psi|^2 = 0.923
 ==== e(   3) =    12.64515 eV ==== 
@@ -3899,7 +3837,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.009*[#   2]+0.009*[#   3]+0.009*[#   4]
     |psi|^2 = 0.026
 ==== e(  10) =    32.64123 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =  -0.2651650429 -0.4419417382  0.6187184335
@@ -3909,7 +3847,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   2) =     8.11221 eV ==== 
      psi = 0.256*[#   1]+0.235*[#   2]+0.235*[#   3]+0.235*[#   4]
     |psi|^2 = 0.961
-==== e(   3) =    12.57796 eV ==== 
+==== e(   3) =    12.57797 eV ==== 
      psi = 0.227*[#   2]+0.227*[#   3]+0.227*[#   4]+0.181*[#   1]
     |psi|^2 = 0.862
 ==== e(   4) =    14.65496 eV ==== 
@@ -3931,7 +3869,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.005*[#   2]+0.005*[#   3]+0.005*[#   4]
     |psi|^2 = 0.016
 ==== e(  10) =    32.18921 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =  -0.2209708691 -0.3977475644  0.5745242597
@@ -3998,7 +3936,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.003*[#   1]
     |psi|^2 = 0.003
 
- k =   0.4419417382  0.1767766953  0.0000000000
+ k =   0.4419417382  0.1767766953 -0.0000000000
 ==== e(   1) =     0.85824 eV ==== 
      psi = 0.311*[#   1]+0.229*[#   2]+0.229*[#   3]+0.229*[#   4]
     |psi|^2 = 0.998
@@ -4027,7 +3965,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.013
 ==== e(  10) =    34.14495 eV ==== 
-
+ 
     |psi|^2 = 0.003
 
  k =  -0.2209708691 -0.4861359121  0.6629126074
@@ -4088,7 +4026,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.013
 ==== e(   9) =    32.37330 eV ==== 
-
+ 
     |psi|^2 = 0.004
 ==== e(  10) =    33.72699 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
@@ -4113,14 +4051,14 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    23.57296 eV ==== 
      psi = 0.017*[#   2]+0.017*[#   3]+0.017*[#   4]+0.004*[#   1]
     |psi|^2 = 0.056
-==== e(   7) =    26.56947 eV ==== 
+==== e(   7) =    26.56948 eV ==== 
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]+0.005*[#   1]
     |psi|^2 = 0.024
 ==== e(   8) =    29.15461 eV ==== 
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]+0.003*[#   1]
     |psi|^2 = 0.023
 ==== e(   9) =    31.96076 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    33.64322 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
@@ -4145,13 +4083,13 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    23.09689 eV ==== 
      psi = 0.015*[#   2]+0.015*[#   3]+0.015*[#   4]+0.005*[#   1]
     |psi|^2 = 0.051
-==== e(   7) =    26.95645 eV ==== 
+==== e(   7) =    26.95646 eV ==== 
      psi = 0.010*[#   2]+0.010*[#   3]+0.010*[#   4]+0.002*[#   1]
     |psi|^2 = 0.034
 ==== e(   8) =    28.80390 eV ==== 
      psi = 0.005*[#   2]+0.005*[#   3]+0.005*[#   4]+0.004*[#   1]
     |psi|^2 = 0.020
-==== e(   9) =    31.52201 eV ==== 
+==== e(   9) =    31.52202 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.004
 ==== e(  10) =    33.75049 eV ==== 
@@ -4171,7 +4109,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   4) =    13.59990 eV ==== 
      psi = 0.216*[#   1]+0.209*[#   2]+0.209*[#   3]+0.209*[#   4]
     |psi|^2 = 0.843
-==== e(   5) =    21.88031 eV ==== 
+==== e(   5) =    21.88032 eV ==== 
      psi = 0.043*[#   2]+0.043*[#   3]+0.043*[#   4]+0.005*[#   1]
     |psi|^2 = 0.134
 ==== e(   6) =    22.69897 eV ==== 
@@ -4180,7 +4118,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   7) =    25.11489 eV ==== 
      psi = 0.022*[#   2]+0.022*[#   3]+0.022*[#   4]+0.011*[#   1]
     |psi|^2 = 0.076
-==== e(   8) =    30.21002 eV ==== 
+==== e(   8) =    30.21003 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.011
 ==== e(   9) =    31.16584 eV ==== 
@@ -4190,7 +4128,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.011
 
- k =   0.0000000000 -0.2651650429  0.4419417382
+ k =  -0.0000000000 -0.2651650429  0.4419417382
 ==== e(   1) =     1.54798 eV ==== 
      psi = 0.306*[#   1]+0.231*[#   2]+0.231*[#   3]+0.231*[#   4]
     |psi|^2 = 0.998
@@ -4215,7 +4153,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    29.95427 eV ==== 
      psi = 0.006*[#   2]+0.006*[#   3]+0.006*[#   4]
     |psi|^2 = 0.019
-==== e(   9) =    31.20478 eV ==== 
+==== e(   9) =    31.20479 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.012
 ==== e(  10) =    33.89164 eV ==== 
@@ -4245,7 +4183,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.008*[#   2]+0.008*[#   3]+0.008*[#   4]+0.002*[#   1]
     |psi|^2 = 0.026
 ==== e(   8) =    32.96058 eV ==== 
-
+ 
     |psi|^2 = 0.002
 ==== e(   9) =    33.02271 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
@@ -4273,7 +4211,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    22.10546 eV ==== 
      psi = 0.027*[#   2]+0.027*[#   3]+0.027*[#   4]+0.021*[#   1]
     |psi|^2 = 0.102
-==== e(   7) =    26.58704 eV ==== 
+==== e(   7) =    26.58705 eV ==== 
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]+0.003*[#   1]
     |psi|^2 = 0.024
 ==== e(   8) =    31.55382 eV ==== 
@@ -4283,7 +4221,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.006
 ==== e(  10) =    36.57645 eV ==== 
-
+ 
     |psi|^2 = 0.003
 
  k =  -0.0883883476 -0.4419417382  0.6187184335
@@ -4296,10 +4234,10 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =     9.44371 eV ==== 
      psi = 0.325*[#   1]+0.192*[#   2]+0.192*[#   3]+0.192*[#   4]
     |psi|^2 = 0.900
-==== e(   4) =    11.62836 eV ==== 
+==== e(   4) =    11.62837 eV ==== 
      psi = 0.269*[#   1]+0.221*[#   2]+0.221*[#   3]+0.221*[#   4]
     |psi|^2 = 0.931
-==== e(   5) =    19.86150 eV ==== 
+==== e(   5) =    19.86151 eV ==== 
      psi = 0.030*[#   2]+0.030*[#   3]+0.030*[#   4]+0.011*[#   1]
     |psi|^2 = 0.101
 ==== e(   6) =    24.02668 eV ==== 
@@ -4312,7 +4250,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]+0.003*[#   1]
     |psi|^2 = 0.016
 ==== e(   9) =    33.37912 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    36.47198 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
@@ -4351,10 +4289,10 @@ Fortran runtime warning: An array temporary was created
     |psi|^2 = 0.006
 
  k =   0.0000000000 -0.3535533906  0.5303300859
-==== e(   1) =     3.99480 eV ==== 
+==== e(   1) =     3.99481 eV ==== 
      psi = 0.253*[#   1]+0.247*[#   2]+0.247*[#   3]+0.247*[#   4]
     |psi|^2 = 0.994
-==== e(   2) =     7.64469 eV ==== 
+==== e(   2) =     7.64470 eV ==== 
      psi = 0.326*[#   2]+0.326*[#   3]+0.326*[#   4]
     |psi|^2 = 0.978
 ==== e(   3) =     9.14257 eV ==== 
@@ -4411,7 +4349,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.004
 ==== e(  10) =    38.71174 eV ==== 
-
+ 
     |psi|^2 = 0.001
 
  k =  -0.0441941738 -0.4861359121  0.6629126074
@@ -4430,20 +4368,20 @@ Fortran runtime warning: An array temporary was created
 ==== e(   5) =    19.13658 eV ==== 
      psi = 0.027*[#   2]+0.027*[#   3]+0.027*[#   4]+0.007*[#   1]
     |psi|^2 = 0.090
-==== e(   6) =    21.88894 eV ==== 
+==== e(   6) =    21.88895 eV ==== 
      psi = 0.018*[#   1]+0.018*[#   2]+0.018*[#   3]+0.018*[#   4]
     |psi|^2 = 0.073
-==== e(   7) =    28.14491 eV ==== 
+==== e(   7) =    28.14492 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]+0.001*[#   1]
     |psi|^2 = 0.012
 ==== e(   8) =    30.08435 eV ==== 
      psi = 0.004*[#   2]+0.004*[#   3]+0.004*[#   4]+0.002*[#   1]
     |psi|^2 = 0.014
 ==== e(   9) =    34.59746 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    38.84398 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =   0.0000000000 -0.4419417382  0.6187184335
@@ -4471,8 +4409,8 @@ Fortran runtime warning: An array temporary was created
 ==== e(   8) =    28.33352 eV ==== 
      psi = 0.008*[#   2]+0.008*[#   3]+0.008*[#   4]+0.006*[#   1]
     |psi|^2 = 0.030
-==== e(   9) =    33.93995 eV ==== 
-
+==== e(   9) =    33.93996 eV ==== 
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    37.86166 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
@@ -4498,13 +4436,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.036*[#   1]+0.025*[#   2]+0.025*[#   3]+0.025*[#   4]
     |psi|^2 = 0.110
 ==== e(   7) =    30.27738 eV ==== 
-
+ 
     |psi|^2 = 0.002
 ==== e(   8) =    30.76893 eV ==== 
      psi = 0.005*[#   2]+0.005*[#   3]+0.005*[#   4]+0.002*[#   1]
     |psi|^2 = 0.016
 ==== e(   9) =    35.08074 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    40.09323 eV ==== 
      psi = 0.001*[#   1]
@@ -4514,7 +4452,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   1) =     3.04676 eV ==== 
      psi = 0.279*[#   1]+0.239*[#   2]+0.239*[#   3]+0.239*[#   4]
     |psi|^2 = 0.996
-==== e(   2) =     8.82291 eV ==== 
+==== e(   2) =     8.82292 eV ==== 
      psi = 0.318*[#   2]+0.318*[#   3]+0.318*[#   4]
     |psi|^2 = 0.953
 ==== e(   3) =    10.27874 eV ==== 
@@ -4584,7 +4522,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =    10.08145 eV ==== 
      psi = 0.294*[#   2]+0.294*[#   3]+0.294*[#   4]
     |psi|^2 = 0.883
-==== e(   4) =    10.74547 eV ==== 
+==== e(   4) =    10.74548 eV ==== 
      psi = 0.579*[#   1]+0.132*[#   2]+0.132*[#   3]+0.132*[#   4]
     |psi|^2 = 0.975
 ==== e(   5) =    22.49216 eV ==== 
@@ -4593,14 +4531,14 @@ Fortran runtime warning: An array temporary was created
 ==== e(   6) =    22.96807 eV ==== 
      psi = 0.008*[#   1]+0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.012
-==== e(   7) =    26.21776 eV ==== 
+==== e(   7) =    26.21777 eV ==== 
      psi = 0.007*[#   2]+0.007*[#   3]+0.007*[#   4]
     |psi|^2 = 0.022
 ==== e(   8) =    27.59785 eV ==== 
      psi = 0.010*[#   1]+0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.023
 ==== e(   9) =    33.45293 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    36.24294 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
@@ -4619,20 +4557,20 @@ Fortran runtime warning: An array temporary was created
 ==== e(   4) =    10.17172 eV ==== 
      psi = 0.690*[#   1]+0.097*[#   2]+0.097*[#   3]+0.097*[#   4]
     |psi|^2 = 0.981
-==== e(   5) =    21.01504 eV ==== 
+==== e(   5) =    21.01505 eV ==== 
      psi = 0.012*[#   2]+0.012*[#   3]+0.012*[#   4]
     |psi|^2 = 0.037
 ==== e(   6) =    22.70516 eV ==== 
      psi = 0.025*[#   2]+0.025*[#   3]+0.025*[#   4]+0.015*[#   1]
     |psi|^2 = 0.089
-==== e(   7) =    25.82496 eV ==== 
+==== e(   7) =    25.82497 eV ==== 
      psi = 0.004*[#   1]+0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.017
 ==== e(   8) =    29.60427 eV ==== 
      psi = 0.003*[#   1]+0.003*[#   2]+0.003*[#   3]+0.003*[#   4]
     |psi|^2 = 0.011
 ==== e(   9) =    34.42216 eV ==== 
-
+ 
     |psi|^2 = 0.003
 ==== e(  10) =    38.36747 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
@@ -4664,26 +4602,26 @@ Fortran runtime warning: An array temporary was created
      psi = 0.009*[#   1]+0.004*[#   2]+0.004*[#   3]+0.004*[#   4]
     |psi|^2 = 0.020
 ==== e(   9) =    34.68353 eV ==== 
-
+ 
     |psi|^2 = 0.001
 ==== e(  10) =    38.74869 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
     |psi|^2 = 0.003
 
- k =   0.0000000000 -0.3535533906  0.6187184335
+ k =  -0.0000000000 -0.3535533906  0.6187184335
 ==== e(   1) =     5.69743 eV ==== 
      psi = 0.274*[#   2]+0.274*[#   3]+0.274*[#   4]+0.165*[#   1]
     |psi|^2 = 0.988
 ==== e(   2) =     7.25239 eV ==== 
      psi = 0.328*[#   2]+0.328*[#   3]+0.328*[#   4]
     |psi|^2 = 0.983
-==== e(   3) =     8.68274 eV ==== 
+==== e(   3) =     8.68275 eV ==== 
      psi = 0.357*[#   1]+0.192*[#   2]+0.192*[#   3]+0.192*[#   4]
     |psi|^2 = 0.934
-==== e(   4) =    10.37502 eV ==== 
+==== e(   4) =    10.37503 eV ==== 
      psi = 0.459*[#   1]+0.164*[#   2]+0.164*[#   3]+0.164*[#   4]
     |psi|^2 = 0.952
-==== e(   5) =    22.57447 eV ==== 
+==== e(   5) =    22.57448 eV ==== 
      psi = 0.018*[#   2]+0.018*[#   3]+0.018*[#   4]+0.003*[#   1]
     |psi|^2 = 0.058
 ==== e(   6) =    23.97946 eV ==== 
@@ -4696,13 +4634,13 @@ Fortran runtime warning: An array temporary was created
      psi = 0.011*[#   1]+0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.018
 ==== e(   9) =    34.22444 eV ==== 
-
+ 
     |psi|^2 = 0.002
 ==== e(  10) =    38.07330 eV ==== 
      psi = 0.002*[#   2]+0.002*[#   3]+0.002*[#   4]
     |psi|^2 = 0.005
 
- k =  -0.7071067812  0.2651650429  0.0000000000
+ k =  -0.7071067812  0.2651650429 -0.0000000000
 ==== e(   1) =     6.20716 eV ==== 
      psi = 0.331*[#   2]+0.331*[#   3]+0.331*[#   4]
     |psi|^2 = 0.993
@@ -4728,10 +4666,10 @@ Fortran runtime warning: An array temporary was created
      psi = 0.007*[#   1]+0.005*[#   2]+0.005*[#   3]+0.005*[#   4]
     |psi|^2 = 0.022
 ==== e(   9) =    35.15861 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    40.00007 eV ==== 
-
+ 
     |psi|^2 = 0.002
 
  k =  -0.7071067812  0.3535533906  0.0000000000
@@ -4744,7 +4682,7 @@ Fortran runtime warning: An array temporary was created
 ==== e(   3) =     8.13464 eV ==== 
      psi = 0.310*[#   2]+0.310*[#   3]+0.310*[#   4]
     |psi|^2 = 0.931
-==== e(   4) =     9.12266 eV ==== 
+==== e(   4) =     9.12267 eV ==== 
      psi = 0.982*[#   1]
     |psi|^2 = 0.982
 ==== e(   5) =    23.85845 eV ==== 
@@ -4760,7 +4698,7 @@ Fortran runtime warning: An array temporary was created
      psi = 0.017*[#   1]
     |psi|^2 = 0.017
 ==== e(   9) =    35.19081 eV ==== 
-
+ 
     |psi|^2 = 0.000
 ==== e(  10) =    40.01861 eV ==== 
      psi = 0.001*[#   2]+0.001*[#   3]+0.001*[#   4]
@@ -4771,15 +4709,12 @@ Lowdin Charges:
      Atom #   1: total charge =   2.9566, s =  0.9353, 
      Atom #   1: total charge =   2.9566, p =  2.0212, pz=  0.6737, px=  0.6737, py=  0.6737, 
      Spilling Parameter:   0.0145
+ 
+     PROJWFC      :      0.78s CPU      0.93s WALL
 
-     PROJWFC      :      3.84s CPU      4.01s WALL
-
-
-   This run was terminated on:  11:47:50  29Jun2022            
+ 
+   This run was terminated on:   2:40: 4  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
 =------------------------------------------------------------------------------=
-[macloud2:996937] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:996937] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:996937] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init

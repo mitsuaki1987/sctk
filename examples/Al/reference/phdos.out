@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
--1596503888 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud2
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program MATDYN v.6.7GPU starts on 29Jun2022 at 11:47:22 
+     Program MATDYN v.7.4.1 starts on 13Mar2026 at  2:39:47 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -30,46 +15,60 @@ WARNING: There was an error initializing an OpenFabrics device.
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
+     228954 MiB available memory on the printing compute node when the environment starts
+ 
  mass for atomic type   1 not given; uses mass from file ifc.dat                                                                                                                                                                                                                                                         
-At line 1361 of file matdyn.f90
-Fortran runtime warning: An array temporary was created
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-At line 1550 of file matdyn.f90
-Fortran runtime warning: An array temporary was created
-At line 1550 of file matdyn.f90
-Fortran runtime warning: An array temporary was created
-At line 1604 of file matdyn.f90
-Fortran runtime warning: An array temporary was created
-At line 1604 of file matdyn.f90
-Fortran runtime warning: An array temporary was created
-Norm of the difference between old and new force-constants:   0.00060669981684353155
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00051942370741936634
+
      Message from routine matdyn:
      Z* not found in file ifc.dat, TO-LO splitting at q=0 will be absent!
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
-Norm of the difference between old and new effective charges:    0.00000000000000000000
-Norm of the difference between old and new force-constants:   0.01110021276474264240
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
 
-     MATDYN       :      5.25s CPU      5.96s WALL
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
 
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
 
-   This run was terminated on:  11:47:28  29Jun2022            
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ Norm of the difference between old and new effective charges:    0.00000000000000000000
+
+ Norm of the difference between old and new force-constants:   0.00222465437760871682
+
+ 
+     MATDYN       :      4.85s CPU      4.97s WALL
+
+ 
+   This run was terminated on:   2:39:52  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

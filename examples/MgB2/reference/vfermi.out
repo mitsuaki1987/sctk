@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
-652544176 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud1
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program FERMI_VELOCITY v.6.7GPU starts on 29Jun2022 at 11:19:51 
+     Program FERMI_VELOCITY v.7.4.1 starts on 13Mar2026 at  3: 8:13 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -30,6 +15,8 @@ WARNING: There was an error initializing an OpenFabrics device.
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
+     228484 MiB available memory on the printing compute node when the environment starts
+ 
      Reading input from nscf.in
 
      Reading xml data from directory:
@@ -44,28 +31,28 @@ WARNING: There was an error initializing an OpenFabrics device.
      Any further DFT definition will be discarded
      Please, verify this is what you really want
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    109                15395     5449    1011
-
+ 
      Using Slab Decomposition
-
+ 
 
      Check: negative core charge=   -0.000006
-
+ 
      Number of bands :      15
      Number of k times spin :     210
      Number of symmetries :      24
      Lowest band which contains FS :       3
      Highest band which contains FS :       5
-     Max :         1.49947139     Min :         0.00000000
+     Max :         1.49947131     Min :         0.00000000
+ 
+     FERMI_VELOCI :      0.70s CPU      0.76s WALL
 
-     FERMI_VELOCI :      0.93s CPU      0.97s WALL
-
-
-   This run was terminated on:  11:19:52  29Jun2022            
+ 
+   This run was terminated on:   3: 8:13  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

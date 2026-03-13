@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
--1563838288 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud2
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program PHONON v.6.7GPU starts on 29Jun2022 at 11:38:47 
+     Program PHONON v.7.4.1 starts on 13Mar2026 at  2:38:38 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,17 +10,23 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      24 processor cores
-     Number of MPI processes:                24
+     Parallel version (MPI & OpenMP), running on      64 processor cores
+     Number of MPI processes:                64
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     K-points division:     npool     =      24
+     225703 MiB available memory on the printing compute node when the environment starts
+ 
      Reading input from ph.in
 
      Reading xml data from directory:
 
      ./pwscf.save/
+ 
+     K-points division:     npool     =      64
+     Subspace diagonalization in iterative solution of the eigenvalue problem:
+     a serial algorithm will be used
+
 
      IMPORTANT: XC functional enforced from input :
      Exchange-correlation= PBE
@@ -43,17 +34,19 @@ WARNING: There was an error initializing an OpenFabrics device.
      Any further DFT definition will be discarded
      Please, verify this is what you really want
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283     91                 8801     3119     609
-
+ 
      Using Slab Decomposition
-
+ 
 
      Check: negative core charge=   -0.000003
-     Reading collected, re-writing distributed wavefunctions
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+     Reading collected, re-writing distributed wavefunctions in ./
 
 
      Dynamical matrices for ( 4, 4, 4)  uniform grid of q-points
@@ -72,22 +65,41 @@ WARNING: There was an error initializing an OpenFabrics device.
       10  -0.265165043  -0.265165043   0.795495129
      Because shifted q grid is used, q2r will not work !
 
-     Saving dvscf to file. Distribute only q points, not irreducible represetations.
+     Number and degeneracy of irreps per q-point
+       N         xq(1)         xq(2)         xq(3)   N irreps
+       1   0.088388348   0.088388348   0.088388348       2
+        1   2
+       2   0.265165043   0.265165043  -0.088388348       3
+     No degeneracy
+       3  -0.265165043  -0.265165043   0.441941738       3
+     No degeneracy
+       4  -0.088388348  -0.088388348   0.265165043       3
+     No degeneracy
+       5   0.441941738   0.088388348   0.088388348       3
+     No degeneracy
+       6  -0.088388348  -0.441941738   0.618718434       3
+     No degeneracy
+       7   0.088388348  -0.265165043   0.441941738       3
+     No degeneracy
+       8  -0.618718434   0.088388348   0.088388348       3
+     No degeneracy
+       9   0.265165043   0.265165043   0.265165043       2
+        1   2
+      10  -0.265165043  -0.265165043   0.795495129       3
+     No degeneracy
+
+     Saving dvscf to file. Distribute only q points, not irreducible representations.
 
      Calculation of q =    0.0883883   0.0883883   0.0883883
-
-     Subspace diagonalization in iterative solution of the eigenvalue problem:
-     a serial algorithm will be used
-
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283     97                 8801     3119     645
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -120,7 +132,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -133,7 +145,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -142,7 +154,7 @@ WARNING: There was an error initializing an OpenFabrics device.
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   240 (tetrahedron method)
 
@@ -152,9 +164,9 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.91 MB
+     Estimated max dynamical RAM per process >       4.05 MB
 
-     Estimated total dynamical RAM >      93.72 MB
+     Estimated total dynamical RAM >     258.99 MB
 
      Check: negative core charge=   -0.000003
 
@@ -165,114 +177,16 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      Band Structure Calculation
      Davidson diagonalization with overlap
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
 
-     ethr =  3.33E-10,  avg # of iterations = 18.0
+     ethr =  3.33E-10,  avg # of iterations = 17.9
 
-     total cpu time spent up to now is        1.3 secs
+     total cpu time spent up to now is        0.3 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_1/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -311,11 +225,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (   0.0883883   0.0883883   0.0883883 )
-
+ 
       6 Sym.Ops. (no q -> -q+G )
 
 
@@ -324,7 +238,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   240
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -345,9 +259,11 @@ Fortran runtime warning: An array temporary was created
      Representation     2      2 modes -  To be done
 
 
+     Message from routine init_vloc:
+     Interpolation table for Vloc re-allocated
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :      2.92s CPU      3.44s WALL
+     PHONON       :      0.94s CPU      1.37s WALL
 
 
 
@@ -355,50 +271,47 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :     3.7 secs   av.it.:   1.9
+      iter #   1 total cpu time :     1.5 secs   av.it.:   1.9
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.614E-01
 
-      iter #   2 total cpu time :     4.4 secs   av.it.:   2.6
+      iter #   2 total cpu time :     1.6 secs   av.it.:   2.6
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.576E+01
-[macloud2:996090] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud2:996090] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud2:996090] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
 
-      iter #   3 total cpu time :     5.0 secs   av.it.:   2.6
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.521E-05
+      iter #   3 total cpu time :     1.6 secs   av.it.:   2.6
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.520E-05
 
-      iter #   4 total cpu time :     5.8 secs   av.it.:   2.5
-      thresh= 3.900E-04 alpha_mix =  0.300 |ddv_scf|^2 =  1.907E-07
+      iter #   4 total cpu time :     1.7 secs   av.it.:   2.5
+      thresh= 3.899E-04 alpha_mix =  0.300 |ddv_scf|^2 =  1.907E-07
 
-      iter #   5 total cpu time :     6.4 secs   av.it.:   2.8
-      thresh= 4.367E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.652E-08
+      iter #   5 total cpu time :     1.8 secs   av.it.:   2.8
+      thresh= 4.366E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.647E-09
 
-      iter #   6 total cpu time :     7.1 secs   av.it.:   2.4
-      thresh= 1.285E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.171E-07
+      iter #   6 total cpu time :     1.8 secs   av.it.:   2.7
+      thresh= 6.817E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.539E-07
 
-      iter #   7 total cpu time :     7.9 secs   av.it.:   1.5
-      thresh= 4.659E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.978E-10
+      iter #   7 total cpu time :     1.9 secs   av.it.:   1.5
+      thresh= 3.924E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.002E-10
 
-      iter #   8 total cpu time :     8.6 secs   av.it.:   3.0
-      thresh= 1.406E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.922E-11
+      iter #   8 total cpu time :     2.0 secs   av.it.:   2.9
+      thresh= 1.415E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.443E-11
 
-      iter #   9 total cpu time :     9.3 secs   av.it.:   2.8
-      thresh= 4.384E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.461E-12
+      iter #   9 total cpu time :     2.1 secs   av.it.:   2.9
+      thresh= 3.798E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.322E-12
 
-      iter #  10 total cpu time :    10.0 secs   av.it.:   2.6
-      thresh= 1.569E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.068E-12
+      iter #  10 total cpu time :     2.2 secs   av.it.:   2.9
+      thresh= 1.150E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.016E-12
 
-      iter #  11 total cpu time :    10.6 secs   av.it.:   2.4
-      thresh= 1.438E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.770E-13
+      iter #  11 total cpu time :     2.2 secs   av.it.:   2.0
+      thresh= 2.004E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.018E-14
 
-      iter #  12 total cpu time :    11.4 secs   av.it.:   2.8
-      thresh= 4.207E-08 alpha_mix =  0.300 |ddv_scf|^2 =  8.943E-13
+      iter #  12 total cpu time :     2.3 secs   av.it.:   2.9
+      thresh= 2.004E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.835E-13
 
-      iter #  13 total cpu time :    12.2 secs   av.it.:   1.6
-      thresh= 9.457E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.365E-13
+      iter #  13 total cpu time :     2.4 secs   av.it.:   2.1
+      thresh= 4.284E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.362E-13
 
-      iter #  14 total cpu time :    12.7 secs   av.it.:   2.5
-      thresh= 3.695E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.305E-16
+      iter #  14 total cpu time :     2.5 secs   av.it.:   2.3
+      thresh= 3.691E-08 alpha_mix =  0.300 |ddv_scf|^2 =  2.040E-16
 
      End of self-consistent calculation
 
@@ -409,34 +322,34 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    14.1 secs   av.it.:   1.0
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.269E-07
+      iter #   1 total cpu time :     2.6 secs   av.it.:   1.0
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.270E-07
 
-      iter #   2 total cpu time :    15.3 secs   av.it.:   2.6
+      iter #   2 total cpu time :     2.7 secs   av.it.:   2.6
       thresh= 4.764E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.071E-07
 
-      iter #   3 total cpu time :    16.7 secs   av.it.:   2.8
+      iter #   3 total cpu time :     2.9 secs   av.it.:   2.8
       thresh= 3.273E-05 alpha_mix =  0.300 |ddv_scf|^2 =  3.409E-10
 
-      iter #   4 total cpu time :    18.2 secs   av.it.:   3.1
-      thresh= 1.846E-06 alpha_mix =  0.300 |ddv_scf|^2 =  6.447E-12
+      iter #   4 total cpu time :     3.0 secs   av.it.:   3.0
+      thresh= 1.846E-06 alpha_mix =  0.300 |ddv_scf|^2 =  6.252E-12
 
-      iter #   5 total cpu time :    19.4 secs   av.it.:   2.9
-      thresh= 2.539E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.469E-13
+      iter #   5 total cpu time :     3.1 secs   av.it.:   2.9
+      thresh= 2.500E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.468E-13
 
-      iter #   6 total cpu time :    20.8 secs   av.it.:   2.9
-      thresh= 8.043E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.428E-15
+      iter #   6 total cpu time :     3.2 secs   av.it.:   2.9
+      thresh= 8.043E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.420E-15
 
-      iter #   7 total cpu time :    22.0 secs   av.it.:   3.0
-      thresh= 6.654E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.303E-15
+      iter #   7 total cpu time :     3.3 secs   av.it.:   3.0
+      thresh= 6.648E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.286E-15
 
-      iter #   8 total cpu time :    22.5 secs   av.it.:   2.9
-      thresh= 3.609E-09 alpha_mix =  0.300 |ddv_scf|^2 =  8.689E-19
+      iter #   8 total cpu time :     3.4 secs   av.it.:   2.9
+      thresh= 3.586E-09 alpha_mix =  0.300 |ddv_scf|^2 =  8.687E-19
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =    8
      List of q in the star:
           1   0.088388348   0.088388348   0.088388348
@@ -453,21 +366,21 @@ Fortran runtime warning: An array temporary was created
      q = (    0.088388348   0.088388348   0.088388348 ) 
 
  **************************************************************************
-     freq (    1) =       2.141383 [THz] =      71.428858 [cm-1]
-     freq (    2) =       2.141383 [THz] =      71.428858 [cm-1]
-     freq (    3) =       3.802431 [THz] =     126.835448 [cm-1]
+     freq (    1) =       2.141340 [THz] =      71.427404 [cm-1]
+     freq (    2) =       2.141340 [THz] =      71.427404 [cm-1]
+     freq (    3) =       3.802808 [THz] =     126.848019 [cm-1]
  **************************************************************************
 
      Calculation of q =    0.2651650   0.2651650  -0.0883883
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    109                 8801     3119     749
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -500,7 +413,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -513,7 +426,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -522,7 +435,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   576 (tetrahedron method)
 
@@ -532,9 +445,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.91 MB
+     Estimated max dynamical RAM per process >       4.27 MB
 
-     Estimated total dynamical RAM >      93.87 MB
+     Estimated total dynamical RAM >     273.00 MB
 
      Check: negative core charge=   -0.000003
 
@@ -546,17 +459,15 @@ Fortran runtime warning: An array temporary was created
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  3.33E-10,  avg # of iterations = 17.7
+     ethr =  3.33E-10,  avg # of iterations = 17.6
 
-     total cpu time spent up to now is        3.5 secs
+     total cpu time spent up to now is        0.7 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_2/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -595,11 +506,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (   0.2651650   0.2651650  -0.0883883 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -608,7 +519,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   576
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -633,7 +544,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :     11.47s CPU     28.12s WALL
+     PHONON       :      3.34s CPU      4.10s WALL
 
 
 
@@ -641,38 +552,44 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    28.5 secs   av.it.:   1.8
+      iter #   1 total cpu time :     4.2 secs   av.it.:   1.8
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  4.136E-04
 
-      iter #   2 total cpu time :    29.2 secs   av.it.:   2.3
+      iter #   2 total cpu time :     4.2 secs   av.it.:   2.3
       thresh= 2.034E-03 alpha_mix =  0.300 |ddv_scf|^2 =  3.743E-04
 
-      iter #   3 total cpu time :    29.9 secs   av.it.:   2.1
+      iter #   3 total cpu time :     4.3 secs   av.it.:   2.1
       thresh= 1.935E-03 alpha_mix =  0.300 |ddv_scf|^2 =  2.985E-07
 
-      iter #   4 total cpu time :    30.8 secs   av.it.:   2.8
-      thresh= 5.464E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.914E-08
+      iter #   4 total cpu time :     4.4 secs   av.it.:   2.8
+      thresh= 5.464E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.915E-08
 
-      iter #   5 total cpu time :    31.6 secs   av.it.:   2.7
-      thresh= 2.217E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.043E-09
+      iter #   5 total cpu time :     4.5 secs   av.it.:   2.7
+      thresh= 2.217E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.042E-09
 
-      iter #   6 total cpu time :    32.4 secs   av.it.:   2.9
-      thresh= 4.520E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.276E-11
+      iter #   6 total cpu time :     4.5 secs   av.it.:   2.9
+      thresh= 4.519E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.410E-11
 
-      iter #   7 total cpu time :    33.3 secs   av.it.:   2.9
-      thresh= 4.771E-07 alpha_mix =  0.300 |ddv_scf|^2 =  5.031E-12
+      iter #   7 total cpu time :     4.6 secs   av.it.:   2.9
+      thresh= 4.909E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.135E-11
 
-      iter #   8 total cpu time :    34.0 secs   av.it.:   2.8
-      thresh= 2.243E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.309E-13
+      iter #   8 total cpu time :     4.7 secs   av.it.:   2.6
+      thresh= 3.369E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.176E-12
 
-      iter #   9 total cpu time :    34.9 secs   av.it.:   2.7
-      thresh= 6.565E-08 alpha_mix =  0.300 |ddv_scf|^2 =  2.656E-13
+      iter #   9 total cpu time :     4.8 secs   av.it.:   2.7
+      thresh= 2.485E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.132E-12
 
-      iter #  10 total cpu time :    35.8 secs   av.it.:   2.4
-      thresh= 5.154E-08 alpha_mix =  0.300 |ddv_scf|^2 =  2.250E-14
+      iter #  10 total cpu time :     4.8 secs   av.it.:   2.7
+      thresh= 1.460E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.878E-14
 
-      iter #  11 total cpu time :    36.3 secs   av.it.:   2.9
-      thresh= 1.500E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.777E-16
+      iter #  11 total cpu time :     4.9 secs   av.it.:   3.0
+      thresh= 1.696E-08 alpha_mix =  0.300 |ddv_scf|^2 =  6.602E-15
+
+      iter #  12 total cpu time :     5.0 secs   av.it.:   2.8
+      thresh= 8.125E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.456E-15
+
+      iter #  13 total cpu time :     5.1 secs   av.it.:   2.8
+      thresh= 3.816E-09 alpha_mix =  0.300 |ddv_scf|^2 =  9.057E-17
 
      End of self-consistent calculation
 
@@ -683,41 +600,41 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    37.8 secs   av.it.:   1.6
+      iter #   1 total cpu time :     5.2 secs   av.it.:   1.6
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  6.677E-05
 
-      iter #   2 total cpu time :    38.7 secs   av.it.:   2.4
+      iter #   2 total cpu time :     5.3 secs   av.it.:   2.4
       thresh= 8.171E-04 alpha_mix =  0.300 |ddv_scf|^2 =  6.019E-05
 
-      iter #   3 total cpu time :    39.6 secs   av.it.:   2.1
+      iter #   3 total cpu time :     5.4 secs   av.it.:   2.1
       thresh= 7.758E-04 alpha_mix =  0.300 |ddv_scf|^2 =  2.853E-07
 
-      iter #   4 total cpu time :    40.6 secs   av.it.:   2.8
-      thresh= 5.341E-05 alpha_mix =  0.300 |ddv_scf|^2 =  5.303E-09
+      iter #   4 total cpu time :     5.5 secs   av.it.:   2.8
+      thresh= 5.341E-05 alpha_mix =  0.300 |ddv_scf|^2 =  5.302E-09
 
-      iter #   5 total cpu time :    41.5 secs   av.it.:   2.8
-      thresh= 7.282E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.928E-10
+      iter #   5 total cpu time :     5.6 secs   av.it.:   2.8
+      thresh= 7.282E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.929E-10
 
-      iter #   6 total cpu time :    42.3 secs   av.it.:   2.9
-      thresh= 1.711E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.757E-11
+      iter #   6 total cpu time :     5.6 secs   av.it.:   2.9
+      thresh= 1.711E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.762E-11
 
-      iter #   7 total cpu time :    43.1 secs   av.it.:   2.9
-      thresh= 4.192E-07 alpha_mix =  0.300 |ddv_scf|^2 =  9.413E-13
+      iter #   7 total cpu time :     5.7 secs   av.it.:   2.9
+      thresh= 4.197E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.356E-12
 
-      iter #   8 total cpu time :    44.0 secs   av.it.:   2.9
-      thresh= 9.702E-08 alpha_mix =  0.300 |ddv_scf|^2 =  6.285E-13
+      iter #   8 total cpu time :     5.8 secs   av.it.:   2.8
+      thresh= 1.164E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.658E-13
 
-      iter #   9 total cpu time :    44.8 secs   av.it.:   2.4
-      thresh= 7.928E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.953E-14
+      iter #   9 total cpu time :     5.9 secs   av.it.:   2.5
+      thresh= 9.305E-08 alpha_mix =  0.300 |ddv_scf|^2 =  7.271E-14
 
-      iter #  10 total cpu time :    45.7 secs   av.it.:   2.9
-      thresh= 2.226E-08 alpha_mix =  0.300 |ddv_scf|^2 =  2.574E-14
+      iter #  10 total cpu time :     5.9 secs   av.it.:   2.8
+      thresh= 2.697E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.021E-14
 
-      iter #  11 total cpu time :    46.6 secs   av.it.:   2.8
-      thresh= 1.604E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.078E-15
+      iter #  11 total cpu time :     6.0 secs   av.it.:   2.8
+      thresh= 1.738E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.340E-15
 
-      iter #  12 total cpu time :    47.1 secs   av.it.:   2.9
-      thresh= 3.284E-09 alpha_mix =  0.300 |ddv_scf|^2 =  3.119E-16
+      iter #  12 total cpu time :     6.1 secs   av.it.:   2.8
+      thresh= 3.661E-09 alpha_mix =  0.300 |ddv_scf|^2 =  4.026E-16
 
      End of self-consistent calculation
 
@@ -728,34 +645,34 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    48.5 secs   av.it.:   1.0
+      iter #   1 total cpu time :     6.2 secs   av.it.:   1.0
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  8.792E-07
 
-      iter #   2 total cpu time :    49.4 secs   av.it.:   2.5
+      iter #   2 total cpu time :     6.3 secs   av.it.:   2.5
       thresh= 9.377E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.156E-07
 
-      iter #   3 total cpu time :    50.3 secs   av.it.:   2.6
+      iter #   3 total cpu time :     6.3 secs   av.it.:   2.6
       thresh= 6.446E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.459E-09
 
-      iter #   4 total cpu time :    51.1 secs   av.it.:   2.9
-      thresh= 3.819E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.549E-11
+      iter #   4 total cpu time :     6.4 secs   av.it.:   2.9
+      thresh= 3.819E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.534E-11
 
-      iter #   5 total cpu time :    52.0 secs   av.it.:   2.8
-      thresh= 5.049E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.222E-12
+      iter #   5 total cpu time :     6.5 secs   av.it.:   2.8
+      thresh= 5.034E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.223E-12
 
-      iter #   6 total cpu time :    52.7 secs   av.it.:   2.8
+      iter #   6 total cpu time :     6.6 secs   av.it.:   2.8
       thresh= 1.795E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.273E-14
 
-      iter #   7 total cpu time :    53.7 secs   av.it.:   2.9
-      thresh= 1.128E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.237E-15
+      iter #   7 total cpu time :     6.6 secs   av.it.:   2.9
+      thresh= 1.128E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.227E-15
 
-      iter #   8 total cpu time :    54.3 secs   av.it.:   2.7
-      thresh= 6.509E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.305E-17
+      iter #   8 total cpu time :     6.7 secs   av.it.:   2.7
+      thresh= 6.502E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.305E-17
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   24
      List of q in the star:
           1   0.265165043   0.265165043  -0.088388348
@@ -788,21 +705,21 @@ Fortran runtime warning: An array temporary was created
      q = (    0.265165043   0.265165043  -0.088388348 ) 
 
  **************************************************************************
-     freq (    1) =       4.077049 [THz] =     135.995729 [cm-1]
-     freq (    2) =       4.824106 [THz] =     160.914848 [cm-1]
-     freq (    3) =       7.812919 [THz] =     260.610918 [cm-1]
+     freq (    1) =       4.076934 [THz] =     135.991874 [cm-1]
+     freq (    2) =       4.823597 [THz] =     160.897871 [cm-1]
+     freq (    3) =       7.813142 [THz] =     260.618358 [cm-1]
  **************************************************************************
 
      Calculation of q =   -0.2651650  -0.2651650   0.4419417
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    121                 8801     3119     869
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -835,7 +752,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -848,7 +765,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -857,7 +774,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   576 (tetrahedron method)
 
@@ -867,9 +784,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.92 MB
+     Estimated max dynamical RAM per process >       4.27 MB
 
-     Estimated total dynamical RAM >      93.99 MB
+     Estimated total dynamical RAM >     273.32 MB
 
      Check: negative core charge=   -0.000003
 
@@ -883,15 +800,13 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  3.33E-10,  avg # of iterations = 17.6
 
-     total cpu time spent up to now is        5.7 secs
+     total cpu time spent up to now is        1.0 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_3/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -930,11 +845,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (  -0.2651650  -0.2651650   0.4419417 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -943,7 +858,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   576
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -968,7 +883,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :     25.12s CPU     59.30s WALL
+     PHONON       :      6.27s CPU      7.38s WALL
 
 
 
@@ -976,32 +891,32 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    59.7 secs   av.it.:   1.9
+      iter #   1 total cpu time :     7.5 secs   av.it.:   1.9
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.492E-05
 
-      iter #   2 total cpu time :    60.4 secs   av.it.:   2.5
+      iter #   2 total cpu time :     7.5 secs   av.it.:   2.5
       thresh= 4.992E-04 alpha_mix =  0.300 |ddv_scf|^2 =  7.259E-07
 
-      iter #   3 total cpu time :    61.2 secs   av.it.:   2.6
+      iter #   3 total cpu time :     7.6 secs   av.it.:   2.6
       thresh= 8.520E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.972E-07
 
-      iter #   4 total cpu time :    62.0 secs   av.it.:   2.6
-      thresh= 4.440E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.708E-08
+      iter #   4 total cpu time :     7.7 secs   av.it.:   2.6
+      thresh= 4.440E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.707E-08
 
-      iter #   5 total cpu time :    62.8 secs   av.it.:   2.7
+      iter #   5 total cpu time :     7.8 secs   av.it.:   2.7
       thresh= 2.170E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.961E-11
 
-      iter #   6 total cpu time :    63.6 secs   av.it.:   3.0
+      iter #   6 total cpu time :     7.8 secs   av.it.:   3.0
       thresh= 7.044E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.478E-11
 
-      iter #   7 total cpu time :    64.5 secs   av.it.:   2.7
-      thresh= 3.845E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.748E-14
+      iter #   7 total cpu time :     7.9 secs   av.it.:   2.7
+      thresh= 3.845E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.753E-14
 
-      iter #   8 total cpu time :    65.3 secs   av.it.:   3.1
-      thresh= 2.179E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.654E-14
+      iter #   8 total cpu time :     8.0 secs   av.it.:   3.0
+      thresh= 2.180E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.651E-14
 
-      iter #   9 total cpu time :    65.8 secs   av.it.:   2.8
-      thresh= 1.286E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.222E-16
+      iter #   9 total cpu time :     8.1 secs   av.it.:   2.8
+      thresh= 1.285E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.251E-16
 
      End of self-consistent calculation
 
@@ -1012,35 +927,35 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    67.0 secs   av.it.:   1.4
+      iter #   1 total cpu time :     8.2 secs   av.it.:   1.4
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.433E-06
 
-      iter #   2 total cpu time :    67.9 secs   av.it.:   2.6
+      iter #   2 total cpu time :     8.2 secs   av.it.:   2.6
       thresh= 1.560E-04 alpha_mix =  0.300 |ddv_scf|^2 =  4.082E-07
 
-      iter #   3 total cpu time :    68.8 secs   av.it.:   2.4
+      iter #   3 total cpu time :     8.3 secs   av.it.:   2.4
       thresh= 6.389E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.667E-07
 
-      iter #   4 total cpu time :    69.6 secs   av.it.:   2.7
-      thresh= 4.082E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.182E-09
+      iter #   4 total cpu time :     8.4 secs   av.it.:   2.7
+      thresh= 4.082E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.175E-09
 
-      iter #   5 total cpu time :    70.4 secs   av.it.:   2.9
-      thresh= 4.671E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.096E-10
+      iter #   5 total cpu time :     8.5 secs   av.it.:   2.9
+      thresh= 4.664E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.096E-10
 
-      iter #   6 total cpu time :    71.2 secs   av.it.:   2.9
-      thresh= 1.047E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.716E-12
+      iter #   6 total cpu time :     8.5 secs   av.it.:   2.9
+      thresh= 1.047E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.697E-12
 
-      iter #   7 total cpu time :    72.0 secs   av.it.:   3.0
-      thresh= 1.648E-07 alpha_mix =  0.300 |ddv_scf|^2 =  5.389E-13
+      iter #   7 total cpu time :     8.6 secs   av.it.:   3.0
+      thresh= 1.642E-07 alpha_mix =  0.300 |ddv_scf|^2 =  5.389E-13
 
-      iter #   8 total cpu time :    72.8 secs   av.it.:   2.9
-      thresh= 7.341E-08 alpha_mix =  0.300 |ddv_scf|^2 =  8.215E-15
+      iter #   8 total cpu time :     8.7 secs   av.it.:   2.9
+      thresh= 7.341E-08 alpha_mix =  0.300 |ddv_scf|^2 =  8.205E-15
 
-      iter #   9 total cpu time :    73.6 secs   av.it.:   3.0
-      thresh= 9.064E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.812E-15
+      iter #   9 total cpu time :     8.8 secs   av.it.:   3.0
+      thresh= 9.058E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.752E-15
 
-      iter #  10 total cpu time :    74.2 secs   av.it.:   2.8
-      thresh= 4.256E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.538E-17
+      iter #  10 total cpu time :     8.8 secs   av.it.:   2.8
+      thresh= 4.186E-09 alpha_mix =  0.300 |ddv_scf|^2 =  3.247E-17
 
      End of self-consistent calculation
 
@@ -1051,34 +966,34 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    75.4 secs   av.it.:   1.1
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  8.259E-07
+      iter #   1 total cpu time :     8.9 secs   av.it.:   1.1
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  8.258E-07
 
-      iter #   2 total cpu time :    76.1 secs   av.it.:   2.5
+      iter #   2 total cpu time :     9.0 secs   av.it.:   2.5
       thresh= 9.088E-05 alpha_mix =  0.300 |ddv_scf|^2 =  3.950E-07
 
-      iter #   3 total cpu time :    77.1 secs   av.it.:   2.6
+      iter #   3 total cpu time :     9.1 secs   av.it.:   2.6
       thresh= 6.285E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.181E-09
 
-      iter #   4 total cpu time :    77.9 secs   av.it.:   2.9
-      thresh= 3.437E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.147E-11
+      iter #   4 total cpu time :     9.2 secs   av.it.:   2.9
+      thresh= 3.437E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.110E-11
 
-      iter #   5 total cpu time :    78.8 secs   av.it.:   2.8
-      thresh= 5.610E-07 alpha_mix =  0.300 |ddv_scf|^2 =  5.629E-12
+      iter #   5 total cpu time :     9.2 secs   av.it.:   2.8
+      thresh= 5.577E-07 alpha_mix =  0.300 |ddv_scf|^2 =  5.640E-12
 
-      iter #   6 total cpu time :    79.6 secs   av.it.:   2.8
-      thresh= 2.373E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.319E-14
+      iter #   6 total cpu time :     9.3 secs   av.it.:   2.8
+      thresh= 2.375E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.320E-14
 
-      iter #   7 total cpu time :    80.4 secs   av.it.:   2.9
-      thresh= 2.078E-08 alpha_mix =  0.300 |ddv_scf|^2 =  6.230E-15
+      iter #   7 total cpu time :     9.4 secs   av.it.:   2.9
+      thresh= 2.079E-08 alpha_mix =  0.300 |ddv_scf|^2 =  6.151E-15
 
-      iter #   8 total cpu time :    80.8 secs   av.it.:   2.8
-      thresh= 7.893E-09 alpha_mix =  0.300 |ddv_scf|^2 =  8.892E-18
+      iter #   8 total cpu time :     9.5 secs   av.it.:   2.8
+      thresh= 7.843E-09 alpha_mix =  0.300 |ddv_scf|^2 =  8.893E-18
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   24
      List of q in the star:
           1  -0.265165043  -0.265165043   0.441941738
@@ -1111,21 +1026,21 @@ Fortran runtime warning: An array temporary was created
      q = (   -0.265165043  -0.265165043   0.441941738 ) 
 
  **************************************************************************
-     freq (    1) =       4.679604 [THz] =     156.094779 [cm-1]
-     freq (    2) =       5.531694 [THz] =     184.517455 [cm-1]
-     freq (    3) =       9.518773 [THz] =     317.512101 [cm-1]
+     freq (    1) =       4.679470 [THz] =     156.090330 [cm-1]
+     freq (    2) =       5.531864 [THz] =     184.523136 [cm-1]
+     freq (    3) =       9.518663 [THz] =     317.508414 [cm-1]
  **************************************************************************
 
      Calculation of q =   -0.0883883  -0.0883883   0.2651650
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    109                 8801     3119     725
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -1158,7 +1073,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1171,7 +1086,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -1180,7 +1095,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   576 (tetrahedron method)
 
@@ -1190,9 +1105,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.91 MB
+     Estimated max dynamical RAM per process >       4.26 MB
 
-     Estimated total dynamical RAM >      93.81 MB
+     Estimated total dynamical RAM >     272.83 MB
 
      Check: negative core charge=   -0.000003
 
@@ -1206,15 +1121,13 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  3.33E-10,  avg # of iterations = 17.7
 
-     total cpu time spent up to now is        8.1 secs
+     total cpu time spent up to now is        1.3 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_4/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -1253,11 +1166,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (  -0.0883883  -0.0883883   0.2651650 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -1266,7 +1179,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   576
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1291,7 +1204,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :     36.67s CPU   1m26.02s WALL
+     PHONON       :      8.71s CPU     10.10s WALL
 
 
 
@@ -1299,44 +1212,44 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    86.4 secs   av.it.:   1.8
+      iter #   1 total cpu time :    10.2 secs   av.it.:   1.8
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.227E-03
 
-      iter #   2 total cpu time :    87.1 secs   av.it.:   2.3
+      iter #   2 total cpu time :    10.3 secs   av.it.:   2.3
       thresh= 4.720E-03 alpha_mix =  0.300 |ddv_scf|^2 =  1.092E-02
 
-      iter #   3 total cpu time :    87.9 secs   av.it.:   1.9
+      iter #   3 total cpu time :    10.4 secs   av.it.:   1.9
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  3.295E-07
 
-      iter #   4 total cpu time :    88.8 secs   av.it.:   2.8
+      iter #   4 total cpu time :    10.4 secs   av.it.:   2.8
       thresh= 5.740E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.515E-07
 
-      iter #   5 total cpu time :    89.7 secs   av.it.:   2.6
-      thresh= 3.892E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.745E-09
+      iter #   5 total cpu time :    10.5 secs   av.it.:   2.6
+      thresh= 3.892E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.945E-09
 
-      iter #   6 total cpu time :    90.7 secs   av.it.:   2.7
-      thresh= 4.177E-06 alpha_mix =  0.300 |ddv_scf|^2 =  5.702E-10
+      iter #   6 total cpu time :    10.6 secs   av.it.:   2.6
+      thresh= 4.411E-06 alpha_mix =  0.300 |ddv_scf|^2 =  6.445E-10
 
-      iter #   7 total cpu time :    91.7 secs   av.it.:   2.7
-      thresh= 2.388E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.123E-09
+      iter #   7 total cpu time :    10.7 secs   av.it.:   2.7
+      thresh= 2.539E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.155E-09
 
-      iter #   8 total cpu time :    92.5 secs   av.it.:   2.1
-      thresh= 3.352E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.171E-11
+      iter #   8 total cpu time :    10.8 secs   av.it.:   2.1
+      thresh= 3.399E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.309E-11
 
-      iter #   9 total cpu time :    93.4 secs   av.it.:   2.6
-      thresh= 6.458E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.639E-13
+      iter #   9 total cpu time :    10.8 secs   av.it.:   2.6
+      thresh= 6.564E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.637E-13
 
-      iter #  10 total cpu time :    94.2 secs   av.it.:   3.0
-      thresh= 8.148E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.132E-14
+      iter #  10 total cpu time :    10.9 secs   av.it.:   3.0
+      thresh= 8.147E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.135E-14
 
-      iter #  11 total cpu time :    95.2 secs   av.it.:   2.9
-      thresh= 1.064E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.095E-15
+      iter #  11 total cpu time :    11.0 secs   av.it.:   2.9
+      thresh= 1.065E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.158E-15
 
-      iter #  12 total cpu time :    95.9 secs   av.it.:   2.8
-      thresh= 6.399E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.631E-15
+      iter #  12 total cpu time :    11.1 secs   av.it.:   2.8
+      thresh= 6.448E-09 alpha_mix =  0.300 |ddv_scf|^2 =  4.186E-15
 
-      iter #  13 total cpu time :    96.3 secs   av.it.:   2.4
-      thresh= 5.129E-09 alpha_mix =  0.300 |ddv_scf|^2 =  8.078E-17
+      iter #  13 total cpu time :    11.1 secs   av.it.:   2.3
+      thresh= 6.470E-09 alpha_mix =  0.300 |ddv_scf|^2 =  8.067E-17
 
      End of self-consistent calculation
 
@@ -1347,41 +1260,41 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :    97.6 secs   av.it.:   1.6
+      iter #   1 total cpu time :    11.2 secs   av.it.:   1.6
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  7.181E-04
 
-      iter #   2 total cpu time :    98.3 secs   av.it.:   2.3
+      iter #   2 total cpu time :    11.3 secs   av.it.:   2.3
       thresh= 2.680E-03 alpha_mix =  0.300 |ddv_scf|^2 =  3.516E-03
 
-      iter #   3 total cpu time :    99.1 secs   av.it.:   1.9
+      iter #   3 total cpu time :    11.4 secs   av.it.:   1.9
       thresh= 5.930E-03 alpha_mix =  0.300 |ddv_scf|^2 =  3.408E-07
 
-      iter #   4 total cpu time :    99.8 secs   av.it.:   2.8
+      iter #   4 total cpu time :    11.5 secs   av.it.:   2.8
       thresh= 5.838E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.346E-07
 
-      iter #   5 total cpu time :   100.6 secs   av.it.:   2.7
-      thresh= 3.668E-05 alpha_mix =  0.300 |ddv_scf|^2 =  8.212E-10
+      iter #   5 total cpu time :    11.6 secs   av.it.:   2.7
+      thresh= 3.668E-05 alpha_mix =  0.300 |ddv_scf|^2 =  9.051E-10
 
-      iter #   6 total cpu time :   101.5 secs   av.it.:   3.0
-      thresh= 2.866E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.193E-09
+      iter #   6 total cpu time :    11.7 secs   av.it.:   2.9
+      thresh= 3.008E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.082E-09
 
-      iter #   7 total cpu time :   102.5 secs   av.it.:   2.5
-      thresh= 3.454E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.962E-10
+      iter #   7 total cpu time :    11.8 secs   av.it.:   2.6
+      thresh= 3.290E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.995E-10
 
-      iter #   8 total cpu time :   103.3 secs   av.it.:   2.3
-      thresh= 1.991E-06 alpha_mix =  0.300 |ddv_scf|^2 =  7.887E-12
+      iter #   8 total cpu time :    11.9 secs   av.it.:   2.3
+      thresh= 1.999E-06 alpha_mix =  0.300 |ddv_scf|^2 =  7.867E-12
 
-      iter #   9 total cpu time :   104.2 secs   av.it.:   2.8
-      thresh= 2.808E-07 alpha_mix =  0.300 |ddv_scf|^2 =  7.380E-13
+      iter #   9 total cpu time :    11.9 secs   av.it.:   2.8
+      thresh= 2.805E-07 alpha_mix =  0.300 |ddv_scf|^2 =  7.377E-13
 
-      iter #  10 total cpu time :   105.0 secs   av.it.:   2.9
-      thresh= 8.591E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.007E-15
+      iter #  10 total cpu time :    12.0 secs   av.it.:   2.9
+      thresh= 8.589E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.015E-15
 
-      iter #  11 total cpu time :   105.9 secs   av.it.:   2.9
-      thresh= 7.076E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.093E-15
+      iter #  11 total cpu time :    12.1 secs   av.it.:   2.9
+      thresh= 7.082E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.107E-15
 
-      iter #  12 total cpu time :   106.4 secs   av.it.:   2.8
-      thresh= 4.575E-09 alpha_mix =  0.300 |ddv_scf|^2 =  3.017E-16
+      iter #  12 total cpu time :    12.1 secs   av.it.:   2.7
+      thresh= 4.590E-09 alpha_mix =  0.300 |ddv_scf|^2 =  6.600E-16
 
      End of self-consistent calculation
 
@@ -1392,34 +1305,34 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   107.8 secs   av.it.:   1.1
+      iter #   1 total cpu time :    12.2 secs   av.it.:   1.1
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  8.584E-07
 
-      iter #   2 total cpu time :   108.7 secs   av.it.:   2.5
+      iter #   2 total cpu time :    12.3 secs   av.it.:   2.5
       thresh= 9.265E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.095E-07
 
-      iter #   3 total cpu time :   109.5 secs   av.it.:   2.6
+      iter #   3 total cpu time :    12.4 secs   av.it.:   2.6
       thresh= 6.400E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.129E-09
 
-      iter #   4 total cpu time :   110.3 secs   av.it.:   2.9
-      thresh= 3.361E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.772E-11
+      iter #   4 total cpu time :    12.4 secs   av.it.:   2.9
+      thresh= 3.361E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.797E-11
 
-      iter #   5 total cpu time :   111.1 secs   av.it.:   2.7
-      thresh= 6.142E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.643E-12
+      iter #   5 total cpu time :    12.5 secs   av.it.:   2.8
+      thresh= 6.162E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.637E-12
 
-      iter #   6 total cpu time :   112.1 secs   av.it.:   2.8
-      thresh= 2.577E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.792E-14
+      iter #   6 total cpu time :    12.6 secs   av.it.:   2.8
+      thresh= 2.576E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.792E-14
 
-      iter #   7 total cpu time :   112.9 secs   av.it.:   3.0
-      thresh= 1.339E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.722E-15
+      iter #   7 total cpu time :    12.7 secs   av.it.:   3.0
+      thresh= 1.339E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.741E-15
 
-      iter #   8 total cpu time :   113.3 secs   av.it.:   2.7
-      thresh= 7.564E-09 alpha_mix =  0.300 |ddv_scf|^2 =  6.320E-18
+      iter #   8 total cpu time :    12.7 secs   av.it.:   2.7
+      thresh= 7.577E-09 alpha_mix =  0.300 |ddv_scf|^2 =  6.319E-18
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   24
      List of q in the star:
           1  -0.088388348  -0.088388348   0.265165043
@@ -1452,21 +1365,21 @@ Fortran runtime warning: An array temporary was created
      q = (   -0.088388348  -0.088388348   0.265165043 ) 
 
  **************************************************************************
-     freq (    1) =       3.599801 [THz] =     120.076432 [cm-1]
-     freq (    2) =       3.722578 [THz] =     124.171835 [cm-1]
-     freq (    3) =       6.423190 [THz] =     214.254550 [cm-1]
+     freq (    1) =       3.599856 [THz] =     120.078264 [cm-1]
+     freq (    2) =       3.722560 [THz] =     124.171220 [cm-1]
+     freq (    3) =       6.423162 [THz] =     214.253607 [cm-1]
  **************************************************************************
 
      Calculation of q =    0.4419417   0.0883883   0.0883883
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    109                 8801     3119     749
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -1499,7 +1412,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1512,7 +1425,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -1521,7 +1434,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   576 (tetrahedron method)
 
@@ -1531,9 +1444,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.91 MB
+     Estimated max dynamical RAM per process >       4.27 MB
 
-     Estimated total dynamical RAM >      93.91 MB
+     Estimated total dynamical RAM >     273.11 MB
 
      Check: negative core charge=   -0.000003
 
@@ -1545,17 +1458,15 @@ Fortran runtime warning: An array temporary was created
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  3.33E-10,  avg # of iterations = 17.7
+     ethr =  3.33E-10,  avg # of iterations = 17.6
 
-     total cpu time spent up to now is       10.3 secs
+     total cpu time spent up to now is        1.6 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_5/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -1594,11 +1505,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (   0.4419417   0.0883883   0.0883883 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -1607,7 +1518,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   576
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1632,7 +1543,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :     50.14s CPU   1m58.39s WALL
+     PHONON       :     11.50s CPU     13.40s WALL
 
 
 
@@ -1640,35 +1551,35 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   118.8 secs   av.it.:   1.8
+      iter #   1 total cpu time :    13.5 secs   av.it.:   1.8
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.243E-04
 
-      iter #   2 total cpu time :   119.5 secs   av.it.:   2.3
-      thresh= 1.115E-03 alpha_mix =  0.300 |ddv_scf|^2 =  2.141E-05
+      iter #   2 total cpu time :    13.5 secs   av.it.:   2.3
+      thresh= 1.115E-03 alpha_mix =  0.300 |ddv_scf|^2 =  2.142E-05
 
-      iter #   3 total cpu time :   120.3 secs   av.it.:   2.3
-      thresh= 4.627E-04 alpha_mix =  0.300 |ddv_scf|^2 =  2.450E-07
+      iter #   3 total cpu time :    13.6 secs   av.it.:   2.3
+      thresh= 4.628E-04 alpha_mix =  0.300 |ddv_scf|^2 =  2.450E-07
 
-      iter #   4 total cpu time :   121.1 secs   av.it.:   2.8
+      iter #   4 total cpu time :    13.7 secs   av.it.:   2.8
       thresh= 4.949E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.964E-09
 
-      iter #   5 total cpu time :   122.0 secs   av.it.:   2.9
-      thresh= 5.444E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.694E-10
+      iter #   5 total cpu time :    13.8 secs   av.it.:   2.9
+      thresh= 5.444E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.693E-10
 
-      iter #   6 total cpu time :   123.0 secs   av.it.:   2.8
-      thresh= 2.167E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.153E-11
+      iter #   6 total cpu time :    13.8 secs   av.it.:   2.8
+      thresh= 2.166E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.153E-11
 
-      iter #   7 total cpu time :   123.8 secs   av.it.:   2.9
-      thresh= 3.395E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.935E-13
+      iter #   7 total cpu time :    13.9 secs   av.it.:   2.9
+      thresh= 3.396E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.754E-13
 
-      iter #   8 total cpu time :   124.5 secs   av.it.:   2.9
-      thresh= 4.399E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.776E-14
+      iter #   8 total cpu time :    14.0 secs   av.it.:   2.9
+      thresh= 5.248E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.780E-14
 
-      iter #   9 total cpu time :   125.3 secs   av.it.:   2.8
-      thresh= 1.943E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.591E-15
+      iter #   9 total cpu time :    14.1 secs   av.it.:   2.7
+      thresh= 2.186E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.503E-14
 
-      iter #  10 total cpu time :   125.8 secs   av.it.:   2.9
-      thresh= 5.993E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.101E-16
+      iter #  10 total cpu time :    14.1 secs   av.it.:   2.8
+      thresh= 1.226E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.722E-16
 
      End of self-consistent calculation
 
@@ -1679,29 +1590,29 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   127.3 secs   av.it.:   1.2
+      iter #   1 total cpu time :    14.2 secs   av.it.:   1.2
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  7.964E-07
 
-      iter #   2 total cpu time :   128.0 secs   av.it.:   2.5
+      iter #   2 total cpu time :    14.3 secs   av.it.:   2.5
       thresh= 8.924E-05 alpha_mix =  0.300 |ddv_scf|^2 =  3.868E-07
 
-      iter #   3 total cpu time :   128.9 secs   av.it.:   2.6
-      thresh= 6.219E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.122E-10
+      iter #   3 total cpu time :    14.4 secs   av.it.:   2.6
+      thresh= 6.219E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.121E-10
 
-      iter #   4 total cpu time :   129.7 secs   av.it.:   2.9
-      thresh= 2.030E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.694E-11
+      iter #   4 total cpu time :    14.5 secs   av.it.:   2.9
+      thresh= 2.030E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.702E-11
 
-      iter #   5 total cpu time :   130.5 secs   av.it.:   2.7
-      thresh= 6.851E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.538E-12
+      iter #   5 total cpu time :    14.5 secs   av.it.:   2.7
+      thresh= 6.857E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.532E-12
 
-      iter #   6 total cpu time :   131.4 secs   av.it.:   2.8
-      thresh= 1.881E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.189E-14
+      iter #   6 total cpu time :    14.6 secs   av.it.:   2.8
+      thresh= 1.879E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.189E-14
 
-      iter #   7 total cpu time :   132.1 secs   av.it.:   3.0
+      iter #   7 total cpu time :    14.7 secs   av.it.:   3.0
       thresh= 1.090E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.452E-15
 
-      iter #   8 total cpu time :   132.7 secs   av.it.:   2.7
-      thresh= 6.673E-09 alpha_mix =  0.300 |ddv_scf|^2 =  3.327E-18
+      iter #   8 total cpu time :    14.8 secs   av.it.:   2.7
+      thresh= 6.672E-09 alpha_mix =  0.300 |ddv_scf|^2 =  3.327E-18
 
      End of self-consistent calculation
 
@@ -1712,40 +1623,37 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   134.1 secs   av.it.:   1.5
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  9.366E-06
+      iter #   1 total cpu time :    14.8 secs   av.it.:   1.5
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  9.367E-06
 
-      iter #   2 total cpu time :   135.0 secs   av.it.:   2.5
-      thresh= 3.060E-04 alpha_mix =  0.300 |ddv_scf|^2 =  1.875E-06
+      iter #   2 total cpu time :    14.9 secs   av.it.:   2.5
+      thresh= 3.061E-04 alpha_mix =  0.300 |ddv_scf|^2 =  1.876E-06
 
-      iter #   3 total cpu time :   135.9 secs   av.it.:   2.4
-      thresh= 1.369E-04 alpha_mix =  0.300 |ddv_scf|^2 =  2.443E-07
+      iter #   3 total cpu time :    15.0 secs   av.it.:   2.4
+      thresh= 1.370E-04 alpha_mix =  0.300 |ddv_scf|^2 =  2.443E-07
 
-      iter #   4 total cpu time :   136.7 secs   av.it.:   2.7
-      thresh= 4.942E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.654E-09
+      iter #   4 total cpu time :    15.1 secs   av.it.:   2.7
+      thresh= 4.942E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.655E-09
 
-      iter #   5 total cpu time :   137.7 secs   av.it.:   2.9
-      thresh= 4.067E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.099E-10
+      iter #   5 total cpu time :    15.2 secs   av.it.:   2.9
+      thresh= 4.068E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.102E-10
 
-      iter #   6 total cpu time :   138.5 secs   av.it.:   2.8
-      thresh= 1.449E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.697E-11
+      iter #   6 total cpu time :    15.2 secs   av.it.:   2.8
+      thresh= 1.450E-06 alpha_mix =  0.300 |ddv_scf|^2 =  1.696E-11
 
-      iter #   7 total cpu time :   139.4 secs   av.it.:   2.9
-      thresh= 4.119E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.682E-13
+      iter #   7 total cpu time :    15.3 secs   av.it.:   2.9
+      thresh= 4.118E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.172E-13
 
-      iter #   8 total cpu time :   140.2 secs   av.it.:   3.0
-      thresh= 5.179E-08 alpha_mix =  0.300 |ddv_scf|^2 =  9.924E-14
+      iter #   8 total cpu time :    15.4 secs   av.it.:   2.9
+      thresh= 4.660E-08 alpha_mix =  0.300 |ddv_scf|^2 =  9.002E-14
 
-      iter #   9 total cpu time :   141.0 secs   av.it.:   2.7
-      thresh= 3.150E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.501E-14
-
-      iter #  10 total cpu time :   141.5 secs   av.it.:   2.8
-      thresh= 1.871E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.816E-16
+      iter #   9 total cpu time :    15.5 secs   av.it.:   2.8
+      thresh= 3.000E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.134E-16
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   24
      List of q in the star:
           1   0.441941738   0.088388348   0.088388348
@@ -1778,21 +1686,21 @@ Fortran runtime warning: An array temporary was created
      q = (    0.441941738   0.088388348   0.088388348 ) 
 
  **************************************************************************
-     freq (    1) =       4.933835 [THz] =     164.575020 [cm-1]
-     freq (    2) =       5.508487 [THz] =     183.743356 [cm-1]
-     freq (    3) =       8.400154 [THz] =     280.198987 [cm-1]
+     freq (    1) =       4.933281 [THz] =     164.556545 [cm-1]
+     freq (    2) =       5.508196 [THz] =     183.733642 [cm-1]
+     freq (    3) =       8.400453 [THz] =     280.208947 [cm-1]
  **************************************************************************
 
      Calculation of q =   -0.0883883  -0.4419417   0.6187184
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    121                 8801     3119     893
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -1825,7 +1733,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1838,7 +1746,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -1847,7 +1755,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=  1024 (tetrahedron method)
 
@@ -1857,9 +1765,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.92 MB
+     Estimated max dynamical RAM per process >       4.49 MB
 
-     Estimated total dynamical RAM >      94.11 MB
+     Estimated total dynamical RAM >     287.25 MB
 
      Check: negative core charge=   -0.000003
 
@@ -1873,15 +1781,13 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  3.33E-10,  avg # of iterations = 17.6
 
-     total cpu time spent up to now is       14.2 secs
+     total cpu time spent up to now is        2.0 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_6/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -1920,11 +1826,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (  -0.0883883  -0.4419417   0.6187184 )
-
+ 
      No symmetry!
 
      G cutoff =  205.8787  (   8801 G-vectors)     FFT grid: ( 30, 30, 30)
@@ -1932,7 +1838,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=  1024
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1957,7 +1863,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :   1m 3.13s CPU   2m28.55s WALL
+     PHONON       :     13.97s CPU     16.18s WALL
 
 
 
@@ -1965,35 +1871,35 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   149.1 secs   av.it.:   1.8
+      iter #   1 total cpu time :    16.2 secs   av.it.:   1.8
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  5.157E-06
 
-      iter #   2 total cpu time :   149.9 secs   av.it.:   2.6
+      iter #   2 total cpu time :    16.3 secs   av.it.:   2.6
       thresh= 2.271E-04 alpha_mix =  0.300 |ddv_scf|^2 =  7.386E-07
 
-      iter #   3 total cpu time :   151.0 secs   av.it.:   2.7
+      iter #   3 total cpu time :    16.4 secs   av.it.:   2.7
       thresh= 8.594E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.332E-07
 
-      iter #   4 total cpu time :   151.8 secs   av.it.:   2.7
-      thresh= 3.649E-05 alpha_mix =  0.300 |ddv_scf|^2 =  5.407E-09
+      iter #   4 total cpu time :    16.5 secs   av.it.:   2.7
+      thresh= 3.649E-05 alpha_mix =  0.300 |ddv_scf|^2 =  5.405E-09
 
-      iter #   5 total cpu time :   152.9 secs   av.it.:   2.9
-      thresh= 7.353E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.249E-11
+      iter #   5 total cpu time :    16.6 secs   av.it.:   2.9
+      thresh= 7.352E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.248E-11
 
-      iter #   6 total cpu time :   153.9 secs   av.it.:   3.0
-      thresh= 6.518E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.504E-11
+      iter #   6 total cpu time :    16.7 secs   av.it.:   3.0
+      thresh= 6.518E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.503E-11
 
-      iter #   7 total cpu time :   154.9 secs   av.it.:   2.7
-      thresh= 3.878E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.020E-13
+      iter #   7 total cpu time :    16.8 secs   av.it.:   2.7
+      thresh= 3.877E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.025E-13
 
-      iter #   8 total cpu time :   155.9 secs   av.it.:   2.9
-      thresh= 8.956E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.581E-14
+      iter #   8 total cpu time :    16.9 secs   av.it.:   2.9
+      thresh= 8.958E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.896E-14
 
-      iter #   9 total cpu time :   156.9 secs   av.it.:   2.9
-      thresh= 1.258E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.073E-15
+      iter #   9 total cpu time :    17.0 secs   av.it.:   2.9
+      thresh= 1.377E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.381E-15
 
-      iter #  10 total cpu time :   157.5 secs   av.it.:   2.7
-      thresh= 7.123E-09 alpha_mix =  0.300 |ddv_scf|^2 =  6.932E-16
+      iter #  10 total cpu time :    17.1 secs   av.it.:   2.7
+      thresh= 7.336E-09 alpha_mix =  0.300 |ddv_scf|^2 =  9.864E-16
 
      End of self-consistent calculation
 
@@ -2004,38 +1910,38 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   159.1 secs   av.it.:   1.7
+      iter #   1 total cpu time :    17.2 secs   av.it.:   1.7
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.014E-06
 
-      iter #   2 total cpu time :   160.2 secs   av.it.:   2.7
+      iter #   2 total cpu time :    17.3 secs   av.it.:   2.7
       thresh= 1.419E-04 alpha_mix =  0.300 |ddv_scf|^2 =  4.922E-07
 
-      iter #   3 total cpu time :   161.2 secs   av.it.:   2.7
+      iter #   3 total cpu time :    17.5 secs   av.it.:   2.7
       thresh= 7.016E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.108E-07
 
-      iter #   4 total cpu time :   162.3 secs   av.it.:   2.7
-      thresh= 3.329E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.463E-09
+      iter #   4 total cpu time :    17.5 secs   av.it.:   2.7
+      thresh= 3.329E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.462E-09
 
-      iter #   5 total cpu time :   163.4 secs   av.it.:   2.9
-      thresh= 4.963E-06 alpha_mix =  0.300 |ddv_scf|^2 =  5.744E-11
+      iter #   5 total cpu time :    17.6 secs   av.it.:   2.9
+      thresh= 4.962E-06 alpha_mix =  0.300 |ddv_scf|^2 =  5.727E-11
 
-      iter #   6 total cpu time :   164.5 secs   av.it.:   2.9
-      thresh= 7.579E-07 alpha_mix =  0.300 |ddv_scf|^2 =  9.838E-12
+      iter #   6 total cpu time :    17.7 secs   av.it.:   2.9
+      thresh= 7.568E-07 alpha_mix =  0.300 |ddv_scf|^2 =  9.852E-12
 
-      iter #   7 total cpu time :   165.7 secs   av.it.:   2.8
-      thresh= 3.137E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.418E-12
+      iter #   7 total cpu time :    17.8 secs   av.it.:   2.8
+      thresh= 3.139E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.418E-12
 
-      iter #   8 total cpu time :   166.7 secs   av.it.:   2.9
-      thresh= 1.191E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.013E-14
+      iter #   8 total cpu time :    17.9 secs   av.it.:   2.9
+      thresh= 1.191E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.758E-14
 
-      iter #   9 total cpu time :   167.8 secs   av.it.:   3.0
-      thresh= 1.736E-08 alpha_mix =  0.300 |ddv_scf|^2 =  8.026E-15
+      iter #   9 total cpu time :    18.0 secs   av.it.:   3.0
+      thresh= 1.661E-08 alpha_mix =  0.300 |ddv_scf|^2 =  8.056E-15
 
-      iter #  10 total cpu time :   168.8 secs   av.it.:   2.8
-      thresh= 8.959E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.463E-15
+      iter #  10 total cpu time :    18.1 secs   av.it.:   2.8
+      thresh= 8.975E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.172E-15
 
-      iter #  11 total cpu time :   169.5 secs   av.it.:   2.9
-      thresh= 3.825E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.345E-16
+      iter #  11 total cpu time :    18.2 secs   av.it.:   2.9
+      thresh= 3.423E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.069E-16
 
      End of self-consistent calculation
 
@@ -2046,43 +1952,43 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   171.0 secs   av.it.:   1.6
+      iter #   1 total cpu time :    18.3 secs   av.it.:   1.6
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.338E-06
 
-      iter #   2 total cpu time :   171.8 secs   av.it.:   2.7
+      iter #   2 total cpu time :    18.4 secs   av.it.:   2.7
       thresh= 1.157E-04 alpha_mix =  0.300 |ddv_scf|^2 =  4.616E-07
 
-      iter #   3 total cpu time :   172.8 secs   av.it.:   2.7
-      thresh= 6.794E-05 alpha_mix =  0.300 |ddv_scf|^2 =  7.318E-08
+      iter #   3 total cpu time :    18.5 secs   av.it.:   2.7
+      thresh= 6.794E-05 alpha_mix =  0.300 |ddv_scf|^2 =  7.316E-08
 
-      iter #   4 total cpu time :   173.7 secs   av.it.:   2.8
-      thresh= 2.705E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.234E-09
+      iter #   4 total cpu time :    18.6 secs   av.it.:   2.8
+      thresh= 2.705E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.229E-09
 
-      iter #   5 total cpu time :   174.8 secs   av.it.:   2.9
-      thresh= 4.726E-06 alpha_mix =  0.300 |ddv_scf|^2 =  5.678E-11
+      iter #   5 total cpu time :    18.7 secs   av.it.:   2.9
+      thresh= 4.721E-06 alpha_mix =  0.300 |ddv_scf|^2 =  5.646E-11
 
-      iter #   6 total cpu time :   175.9 secs   av.it.:   2.9
-      thresh= 7.536E-07 alpha_mix =  0.300 |ddv_scf|^2 =  9.367E-12
+      iter #   6 total cpu time :    18.7 secs   av.it.:   2.9
+      thresh= 7.514E-07 alpha_mix =  0.300 |ddv_scf|^2 =  9.363E-12
 
-      iter #   7 total cpu time :   177.0 secs   av.it.:   2.8
-      thresh= 3.061E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.155E-12
+      iter #   7 total cpu time :    18.8 secs   av.it.:   2.8
+      thresh= 3.060E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.155E-12
 
-      iter #   8 total cpu time :   178.0 secs   av.it.:   2.9
-      thresh= 1.075E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.042E-14
+      iter #   8 total cpu time :    18.9 secs   av.it.:   2.9
+      thresh= 1.075E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.234E-14
 
-      iter #   9 total cpu time :   179.0 secs   av.it.:   2.9
-      thresh= 1.744E-08 alpha_mix =  0.300 |ddv_scf|^2 =  9.961E-15
+      iter #   9 total cpu time :    19.0 secs   av.it.:   2.9
+      thresh= 1.798E-08 alpha_mix =  0.300 |ddv_scf|^2 =  9.738E-15
 
-      iter #  10 total cpu time :   180.5 secs   av.it.:   2.7
-      thresh= 9.980E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.683E-15
+      iter #  10 total cpu time :    19.1 secs   av.it.:   2.7
+      thresh= 9.868E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.073E-15
 
-      iter #  11 total cpu time :   181.3 secs   av.it.:   2.9
-      thresh= 4.103E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.539E-16
+      iter #  11 total cpu time :    19.2 secs   av.it.:   2.8
+      thresh= 4.553E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.709E-16
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   48
      List of q in the star:
           1  -0.088388348  -0.441941738   0.618718434
@@ -2139,21 +2045,21 @@ Fortran runtime warning: An array temporary was created
      q = (   -0.088388348  -0.441941738   0.618718434 ) 
 
  **************************************************************************
-     freq (    1) =       5.955096 [THz] =     198.640615 [cm-1]
-     freq (    2) =       7.631642 [THz] =     254.564166 [cm-1]
-     freq (    3) =       8.912223 [THz] =     297.279766 [cm-1]
+     freq (    1) =       5.955160 [THz] =     198.642769 [cm-1]
+     freq (    2) =       7.631237 [THz] =     254.550650 [cm-1]
+     freq (    3) =       8.912459 [THz] =     297.287646 [cm-1]
  **************************************************************************
 
      Calculation of q =    0.0883883  -0.2651650   0.4419417
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    121                 8801     3119     821
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -2186,7 +2092,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2199,7 +2105,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -2208,7 +2114,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=  1024 (tetrahedron method)
 
@@ -2218,9 +2124,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.91 MB
+     Estimated max dynamical RAM per process >       4.48 MB
 
-     Estimated total dynamical RAM >      93.96 MB
+     Estimated total dynamical RAM >     286.84 MB
 
      Check: negative core charge=   -0.000003
 
@@ -2232,17 +2138,15 @@ Fortran runtime warning: An array temporary was created
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  3.33E-10,  avg # of iterations = 17.5
+     ethr =  3.33E-10,  avg # of iterations = 17.4
 
-     total cpu time spent up to now is       18.0 secs
+     total cpu time spent up to now is        2.5 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_7/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -2281,11 +2185,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (   0.0883883  -0.2651650   0.4419417 )
-
+ 
      No symmetry!
 
      G cutoff =  205.8787  (   8801 G-vectors)     FFT grid: ( 30, 30, 30)
@@ -2293,7 +2197,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=  1024
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2318,7 +2222,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :   1m23.50s CPU   3m 7.85s WALL
+     PHONON       :     17.37s CPU     19.99s WALL
 
 
 
@@ -2326,38 +2230,38 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   188.3 secs   av.it.:   1.7
+      iter #   1 total cpu time :    20.1 secs   av.it.:   1.7
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.746E-05
 
-      iter #   2 total cpu time :   189.2 secs   av.it.:   2.5
-      thresh= 4.178E-04 alpha_mix =  0.300 |ddv_scf|^2 =  6.868E-07
+      iter #   2 total cpu time :    20.2 secs   av.it.:   2.5
+      thresh= 4.178E-04 alpha_mix =  0.300 |ddv_scf|^2 =  6.869E-07
 
-      iter #   3 total cpu time :   190.2 secs   av.it.:   2.6
-      thresh= 8.287E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.107E-07
+      iter #   3 total cpu time :    20.3 secs   av.it.:   2.6
+      thresh= 8.288E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.107E-07
 
-      iter #   4 total cpu time :   191.2 secs   av.it.:   2.7
+      iter #   4 total cpu time :    20.4 secs   av.it.:   2.7
       thresh= 4.590E-05 alpha_mix =  0.300 |ddv_scf|^2 =  9.268E-10
 
-      iter #   5 total cpu time :   192.0 secs   av.it.:   3.0
-      thresh= 3.044E-06 alpha_mix =  0.300 |ddv_scf|^2 =  7.399E-11
+      iter #   5 total cpu time :    20.5 secs   av.it.:   3.0
+      thresh= 3.044E-06 alpha_mix =  0.300 |ddv_scf|^2 =  7.403E-11
 
-      iter #   6 total cpu time :   193.1 secs   av.it.:   2.8
-      thresh= 8.602E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.368E-11
+      iter #   6 total cpu time :    20.6 secs   av.it.:   2.8
+      thresh= 8.604E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.368E-11
 
-      iter #   7 total cpu time :   194.1 secs   av.it.:   2.8
-      thresh= 3.699E-07 alpha_mix =  0.300 |ddv_scf|^2 =  7.323E-13
+      iter #   7 total cpu time :    20.7 secs   av.it.:   2.8
+      thresh= 3.698E-07 alpha_mix =  0.300 |ddv_scf|^2 =  7.320E-13
 
-      iter #   8 total cpu time :   195.1 secs   av.it.:   2.9
-      thresh= 8.557E-08 alpha_mix =  0.300 |ddv_scf|^2 =  7.712E-14
+      iter #   8 total cpu time :    20.8 secs   av.it.:   2.9
+      thresh= 8.556E-08 alpha_mix =  0.300 |ddv_scf|^2 =  6.457E-14
 
-      iter #   9 total cpu time :   196.1 secs   av.it.:   2.9
-      thresh= 2.777E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.718E-15
+      iter #   9 total cpu time :    20.9 secs   av.it.:   2.9
+      thresh= 2.541E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.643E-15
 
-      iter #  10 total cpu time :   197.1 secs   av.it.:   2.8
-      thresh= 6.869E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.620E-15
+      iter #  10 total cpu time :    21.0 secs   av.it.:   2.8
+      thresh= 6.814E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.512E-15
 
-      iter #  11 total cpu time :   197.7 secs   av.it.:   2.8
-      thresh= 4.025E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.833E-16
+      iter #  11 total cpu time :    21.0 secs   av.it.:   2.8
+      thresh= 3.888E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.804E-16
 
      End of self-consistent calculation
 
@@ -2368,38 +2272,38 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   199.0 secs   av.it.:   1.8
+      iter #   1 total cpu time :    21.1 secs   av.it.:   1.8
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.087E-05
 
-      iter #   2 total cpu time :   199.9 secs   av.it.:   2.5
-      thresh= 4.568E-04 alpha_mix =  0.300 |ddv_scf|^2 =  7.685E-07
+      iter #   2 total cpu time :    21.2 secs   av.it.:   2.5
+      thresh= 4.568E-04 alpha_mix =  0.300 |ddv_scf|^2 =  7.687E-07
 
-      iter #   3 total cpu time :   201.0 secs   av.it.:   2.6
-      thresh= 8.766E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.162E-07
+      iter #   3 total cpu time :    21.3 secs   av.it.:   2.6
+      thresh= 8.768E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.162E-07
 
-      iter #   4 total cpu time :   201.9 secs   av.it.:   2.7
-      thresh= 4.650E-05 alpha_mix =  0.300 |ddv_scf|^2 =  6.628E-09
+      iter #   4 total cpu time :    21.4 secs   av.it.:   2.7
+      thresh= 4.650E-05 alpha_mix =  0.300 |ddv_scf|^2 =  6.629E-09
 
-      iter #   5 total cpu time :   202.9 secs   av.it.:   2.8
-      thresh= 8.141E-06 alpha_mix =  0.300 |ddv_scf|^2 =  6.782E-11
+      iter #   5 total cpu time :    21.5 secs   av.it.:   2.8
+      thresh= 8.142E-06 alpha_mix =  0.300 |ddv_scf|^2 =  6.780E-11
 
-      iter #   6 total cpu time :   203.9 secs   av.it.:   2.9
-      thresh= 8.235E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.447E-11
+      iter #   6 total cpu time :    21.6 secs   av.it.:   2.9
+      thresh= 8.234E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.448E-11
 
-      iter #   7 total cpu time :   205.0 secs   av.it.:   2.8
-      thresh= 4.947E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.221E-13
+      iter #   7 total cpu time :    21.7 secs   av.it.:   2.8
+      thresh= 4.948E-07 alpha_mix =  0.300 |ddv_scf|^2 =  3.221E-13
 
-      iter #   8 total cpu time :   205.9 secs   av.it.:   2.9
-      thresh= 5.675E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.148E-13
+      iter #   8 total cpu time :    21.7 secs   av.it.:   2.9
+      thresh= 5.675E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.155E-13
 
-      iter #   9 total cpu time :   206.8 secs   av.it.:   2.8
-      thresh= 3.389E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.297E-15
+      iter #   9 total cpu time :    21.8 secs   av.it.:   2.8
+      thresh= 3.399E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.293E-15
 
-      iter #  10 total cpu time :   207.8 secs   av.it.:   2.9
-      thresh= 5.742E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.142E-15
+      iter #  10 total cpu time :    21.9 secs   av.it.:   2.9
+      thresh= 5.738E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.140E-15
 
-      iter #  11 total cpu time :   208.5 secs   av.it.:   2.8
-      thresh= 3.380E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.268E-16
+      iter #  11 total cpu time :    22.0 secs   av.it.:   2.8
+      thresh= 3.377E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.266E-16
 
      End of self-consistent calculation
 
@@ -2410,40 +2314,40 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   209.8 secs   av.it.:   1.8
+      iter #   1 total cpu time :    22.1 secs   av.it.:   1.8
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.282E-05
 
-      iter #   2 total cpu time :   210.7 secs   av.it.:   2.5
-      thresh= 3.580E-04 alpha_mix =  0.300 |ddv_scf|^2 =  6.779E-07
+      iter #   2 total cpu time :    22.2 secs   av.it.:   2.5
+      thresh= 3.580E-04 alpha_mix =  0.300 |ddv_scf|^2 =  6.781E-07
 
-      iter #   3 total cpu time :   211.7 secs   av.it.:   2.6
-      thresh= 8.234E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.285E-07
+      iter #   3 total cpu time :    22.3 secs   av.it.:   2.6
+      thresh= 8.235E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.286E-07
 
-      iter #   4 total cpu time :   212.6 secs   av.it.:   2.7
+      iter #   4 total cpu time :    22.4 secs   av.it.:   2.7
       thresh= 4.781E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.727E-08
 
-      iter #   5 total cpu time :   213.7 secs   av.it.:   2.8
-      thresh= 1.314E-05 alpha_mix =  0.300 |ddv_scf|^2 =  7.316E-11
+      iter #   5 total cpu time :    22.5 secs   av.it.:   2.8
+      thresh= 1.314E-05 alpha_mix =  0.300 |ddv_scf|^2 =  7.315E-11
 
-      iter #   6 total cpu time :   214.8 secs   av.it.:   3.0
+      iter #   6 total cpu time :    22.6 secs   av.it.:   3.0
       thresh= 8.553E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.642E-11
 
-      iter #   7 total cpu time :   215.7 secs   av.it.:   2.8
+      iter #   7 total cpu time :    22.7 secs   av.it.:   2.8
       thresh= 5.140E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.773E-13
 
-      iter #   8 total cpu time :   216.6 secs   av.it.:   3.0
-      thresh= 4.211E-08 alpha_mix =  0.300 |ddv_scf|^2 =  7.400E-14
+      iter #   8 total cpu time :    22.7 secs   av.it.:   3.0
+      thresh= 4.211E-08 alpha_mix =  0.300 |ddv_scf|^2 =  7.392E-14
 
-      iter #   9 total cpu time :   217.6 secs   av.it.:   2.8
-      thresh= 2.720E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.650E-15
+      iter #   9 total cpu time :    22.8 secs   av.it.:   2.8
+      thresh= 2.719E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.649E-15
 
-      iter #  10 total cpu time :   218.2 secs   av.it.:   3.0
-      thresh= 4.062E-09 alpha_mix =  0.300 |ddv_scf|^2 =  5.789E-16
+      iter #  10 total cpu time :    22.9 secs   av.it.:   3.0
+      thresh= 4.061E-09 alpha_mix =  0.300 |ddv_scf|^2 =  5.782E-16
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   48
      List of q in the star:
           1   0.088388348  -0.265165043   0.441941738
@@ -2500,21 +2404,21 @@ Fortran runtime warning: An array temporary was created
      q = (    0.088388348  -0.265165043   0.441941738 ) 
 
  **************************************************************************
-     freq (    1) =       5.077339 [THz] =     169.361789 [cm-1]
-     freq (    2) =       6.387391 [THz] =     213.060416 [cm-1]
-     freq (    3) =       8.905263 [THz] =     297.047616 [cm-1]
+     freq (    1) =       5.077413 [THz] =     169.364259 [cm-1]
+     freq (    2) =       6.387378 [THz] =     213.059990 [cm-1]
+     freq (    3) =       8.905393 [THz] =     297.051931 [cm-1]
  **************************************************************************
 
      Calculation of q =   -0.6187184   0.0883883   0.0883883
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    121                 8801     3119     869
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -2547,7 +2451,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2560,7 +2464,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -2569,7 +2473,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   576 (tetrahedron method)
 
@@ -2579,9 +2483,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.92 MB
+     Estimated max dynamical RAM per process >       4.27 MB
 
-     Estimated total dynamical RAM >      94.02 MB
+     Estimated total dynamical RAM >     273.41 MB
 
      Check: negative core charge=   -0.000003
 
@@ -2595,15 +2499,13 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  3.33E-10,  avg # of iterations = 17.7
 
-     total cpu time spent up to now is       20.3 secs
+     total cpu time spent up to now is        2.8 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_8/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -2642,11 +2544,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (  -0.6187184   0.0883883   0.0883883 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -2655,7 +2557,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   576
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2680,7 +2582,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :   1m41.68s CPU   3m43.50s WALL
+     PHONON       :     20.59s CPU     23.62s WALL
 
 
 
@@ -2688,38 +2590,38 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   223.9 secs   av.it.:   1.8
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  6.703E-06
+      iter #   1 total cpu time :    23.7 secs   av.it.:   1.8
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  6.702E-06
 
-      iter #   2 total cpu time :   224.6 secs   av.it.:   2.5
+      iter #   2 total cpu time :    23.8 secs   av.it.:   2.5
       thresh= 2.589E-04 alpha_mix =  0.300 |ddv_scf|^2 =  6.209E-07
 
-      iter #   3 total cpu time :   225.4 secs   av.it.:   2.6
-      thresh= 7.879E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.608E-07
+      iter #   3 total cpu time :    23.9 secs   av.it.:   2.6
+      thresh= 7.880E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.608E-07
 
-      iter #   4 total cpu time :   226.1 secs   av.it.:   2.7
-      thresh= 4.010E-05 alpha_mix =  0.300 |ddv_scf|^2 =  8.892E-09
+      iter #   4 total cpu time :    23.9 secs   av.it.:   2.7
+      thresh= 4.010E-05 alpha_mix =  0.300 |ddv_scf|^2 =  8.894E-09
 
-      iter #   5 total cpu time :   227.1 secs   av.it.:   2.8
-      thresh= 9.430E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.331E-11
+      iter #   5 total cpu time :    24.0 secs   av.it.:   2.8
+      thresh= 9.431E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.339E-11
 
-      iter #   6 total cpu time :   227.8 secs   av.it.:   3.0
-      thresh= 6.581E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.409E-11
+      iter #   6 total cpu time :    24.1 secs   av.it.:   3.0
+      thresh= 6.587E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.408E-11
 
-      iter #   7 total cpu time :   228.7 secs   av.it.:   2.7
-      thresh= 3.753E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.227E-13
+      iter #   7 total cpu time :    24.2 secs   av.it.:   2.7
+      thresh= 3.752E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.228E-13
 
-      iter #   8 total cpu time :   229.6 secs   av.it.:   2.8
-      thresh= 9.070E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.367E-13
+      iter #   8 total cpu time :    24.3 secs   av.it.:   2.8
+      thresh= 9.071E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.426E-13
 
-      iter #   9 total cpu time :   230.4 secs   av.it.:   2.8
-      thresh= 3.697E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.345E-15
+      iter #   9 total cpu time :    24.3 secs   av.it.:   2.8
+      thresh= 3.777E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.341E-15
 
-      iter #  10 total cpu time :   231.3 secs   av.it.:   2.9
-      thresh= 7.311E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.653E-15
+      iter #  10 total cpu time :    24.4 secs   av.it.:   2.9
+      thresh= 7.308E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.648E-15
 
-      iter #  11 total cpu time :   231.8 secs   av.it.:   2.8
-      thresh= 4.066E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.427E-16
+      iter #  11 total cpu time :    24.5 secs   av.it.:   2.8
+      thresh= 4.060E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.497E-16
 
      End of self-consistent calculation
 
@@ -2730,29 +2632,29 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   233.1 secs   av.it.:   1.3
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  7.624E-07
+      iter #   1 total cpu time :    24.6 secs   av.it.:   1.3
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  7.625E-07
 
-      iter #   2 total cpu time :   233.8 secs   av.it.:   2.5
+      iter #   2 total cpu time :    24.7 secs   av.it.:   2.5
       thresh= 8.732E-05 alpha_mix =  0.300 |ddv_scf|^2 =  3.740E-07
 
-      iter #   3 total cpu time :   234.6 secs   av.it.:   2.5
-      thresh= 6.116E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.996E-10
+      iter #   3 total cpu time :    24.7 secs   av.it.:   2.5
+      thresh= 6.116E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.998E-10
 
-      iter #   4 total cpu time :   235.6 secs   av.it.:   3.0
-      thresh= 1.731E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.125E-11
+      iter #   4 total cpu time :    24.8 secs   av.it.:   3.0
+      thresh= 1.731E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.084E-11
 
-      iter #   5 total cpu time :   236.3 secs   av.it.:   2.6
-      thresh= 6.422E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.964E-12
+      iter #   5 total cpu time :    24.9 secs   av.it.:   2.6
+      thresh= 6.390E-07 alpha_mix =  0.300 |ddv_scf|^2 =  5.020E-12
 
-      iter #   6 total cpu time :   237.3 secs   av.it.:   2.8
-      thresh= 2.228E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.265E-15
+      iter #   6 total cpu time :    24.9 secs   av.it.:   2.8
+      thresh= 2.241E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.259E-15
 
-      iter #   7 total cpu time :   238.3 secs   av.it.:   3.1
-      thresh= 6.531E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.781E-15
+      iter #   7 total cpu time :    25.0 secs   av.it.:   3.1
+      thresh= 6.526E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.783E-15
 
-      iter #   8 total cpu time :   238.8 secs   av.it.:   2.7
-      thresh= 4.220E-09 alpha_mix =  0.300 |ddv_scf|^2 =  4.933E-18
+      iter #   8 total cpu time :    25.1 secs   av.it.:   2.7
+      thresh= 4.222E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.397E-18
 
      End of self-consistent calculation
 
@@ -2763,43 +2665,43 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   240.1 secs   av.it.:   1.8
+      iter #   1 total cpu time :    25.2 secs   av.it.:   1.8
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  5.262E-06
 
-      iter #   2 total cpu time :   241.1 secs   av.it.:   2.5
+      iter #   2 total cpu time :    25.2 secs   av.it.:   2.5
       thresh= 2.294E-04 alpha_mix =  0.300 |ddv_scf|^2 =  5.392E-07
 
-      iter #   3 total cpu time :   241.8 secs   av.it.:   2.6
+      iter #   3 total cpu time :    25.3 secs   av.it.:   2.6
       thresh= 7.343E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.552E-07
 
-      iter #   4 total cpu time :   242.6 secs   av.it.:   2.7
-      thresh= 3.940E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.398E-09
+      iter #   4 total cpu time :    25.4 secs   av.it.:   2.7
+      thresh= 3.940E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.392E-09
 
-      iter #   5 total cpu time :   243.4 secs   av.it.:   2.9
-      thresh= 6.632E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.829E-11
+      iter #   5 total cpu time :    25.4 secs   av.it.:   2.9
+      thresh= 6.627E-06 alpha_mix =  0.300 |ddv_scf|^2 =  4.812E-11
 
-      iter #   6 total cpu time :   244.2 secs   av.it.:   2.9
-      thresh= 6.949E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.201E-11
+      iter #   6 total cpu time :    25.5 secs   av.it.:   2.9
+      thresh= 6.937E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.204E-11
 
-      iter #   7 total cpu time :   245.0 secs   av.it.:   2.8
-      thresh= 3.465E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.123E-12
+      iter #   7 total cpu time :    25.6 secs   av.it.:   2.8
+      thresh= 3.469E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.123E-12
 
-      iter #   8 total cpu time :   246.0 secs   av.it.:   2.8
-      thresh= 1.060E-07 alpha_mix =  0.300 |ddv_scf|^2 =  4.495E-14
+      iter #   8 total cpu time :    25.7 secs   av.it.:   2.8
+      thresh= 1.060E-07 alpha_mix =  0.300 |ddv_scf|^2 =  5.715E-14
 
-      iter #   9 total cpu time :   246.7 secs   av.it.:   2.9
-      thresh= 2.120E-08 alpha_mix =  0.300 |ddv_scf|^2 =  7.684E-15
+      iter #   9 total cpu time :    25.7 secs   av.it.:   2.9
+      thresh= 2.391E-08 alpha_mix =  0.300 |ddv_scf|^2 =  7.667E-15
 
-      iter #  10 total cpu time :   247.5 secs   av.it.:   2.7
-      thresh= 8.766E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.935E-15
+      iter #  10 total cpu time :    25.8 secs   av.it.:   2.7
+      thresh= 8.756E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.189E-15
 
-      iter #  11 total cpu time :   248.0 secs   av.it.:   2.8
-      thresh= 4.398E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.658E-16
+      iter #  11 total cpu time :    25.9 secs   av.it.:   2.8
+      thresh= 4.678E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.609E-16
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   24
      List of q in the star:
           1  -0.618718434   0.088388348   0.088388348
@@ -2832,21 +2734,21 @@ Fortran runtime warning: An array temporary was created
      q = (   -0.618718434   0.088388348   0.088388348 ) 
 
  **************************************************************************
-     freq (    1) =       5.830025 [THz] =     194.468694 [cm-1]
-     freq (    2) =       6.442866 [THz] =     214.910892 [cm-1]
-     freq (    3) =       9.466136 [THz] =     315.756324 [cm-1]
+     freq (    1) =       5.830306 [THz] =     194.478084 [cm-1]
+     freq (    2) =       6.443043 [THz] =     214.916791 [cm-1]
+     freq (    3) =       9.466185 [THz] =     315.757954 [cm-1]
  **************************************************************************
 
      Calculation of q =    0.2651650   0.2651650   0.2651650
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    109                 8801     3119     749
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -2879,7 +2781,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2892,7 +2794,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -2901,7 +2803,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   240 (tetrahedron method)
 
@@ -2911,9 +2813,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.91 MB
+     Estimated max dynamical RAM per process >       4.05 MB
 
-     Estimated total dynamical RAM >      93.91 MB
+     Estimated total dynamical RAM >     259.51 MB
 
      Check: negative core charge=   -0.000003
 
@@ -2925,17 +2827,15 @@ Fortran runtime warning: An array temporary was created
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  3.33E-10,  avg # of iterations = 18.0
+     ethr =  3.33E-10,  avg # of iterations = 17.7
 
-     total cpu time spent up to now is       21.8 secs
+     total cpu time spent up to now is        3.0 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_9/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -2974,11 +2874,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (   0.2651650   0.2651650   0.2651650 )
-
+ 
       6 Sym.Ops. (no q -> -q+G )
 
 
@@ -2987,7 +2887,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   240
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3010,7 +2910,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :   1m53.39s CPU   4m11.91s WALL
+     PHONON       :     22.98s CPU     26.31s WALL
 
 
 
@@ -3018,38 +2918,35 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   252.2 secs   av.it.:   1.9
+      iter #   1 total cpu time :    26.4 secs   av.it.:   1.9
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  1.413E-04
 
-      iter #   2 total cpu time :   252.8 secs   av.it.:   2.3
+      iter #   2 total cpu time :    26.4 secs   av.it.:   2.3
       thresh= 1.189E-03 alpha_mix =  0.300 |ddv_scf|^2 =  2.821E-05
 
-      iter #   3 total cpu time :   253.6 secs   av.it.:   2.3
+      iter #   3 total cpu time :    26.5 secs   av.it.:   2.3
       thresh= 5.311E-04 alpha_mix =  0.300 |ddv_scf|^2 =  3.040E-07
 
-      iter #   4 total cpu time :   254.3 secs   av.it.:   2.7
-      thresh= 5.514E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.853E-08
+      iter #   4 total cpu time :    26.5 secs   av.it.:   2.7
+      thresh= 5.514E-05 alpha_mix =  0.300 |ddv_scf|^2 =  4.852E-08
 
-      iter #   5 total cpu time :   255.0 secs   av.it.:   2.7
-      thresh= 2.203E-05 alpha_mix =  0.300 |ddv_scf|^2 =  6.183E-10
+      iter #   5 total cpu time :    26.6 secs   av.it.:   2.7
+      thresh= 2.203E-05 alpha_mix =  0.300 |ddv_scf|^2 =  6.186E-10
 
-      iter #   6 total cpu time :   255.8 secs   av.it.:   2.9
-      thresh= 2.487E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.632E-11
+      iter #   6 total cpu time :    26.7 secs   av.it.:   2.9
+      thresh= 2.487E-06 alpha_mix =  0.300 |ddv_scf|^2 =  2.626E-11
 
-      iter #   7 total cpu time :   256.5 secs   av.it.:   2.9
-      thresh= 5.130E-07 alpha_mix =  0.300 |ddv_scf|^2 =  9.431E-13
+      iter #   7 total cpu time :    26.7 secs   av.it.:   2.8
+      thresh= 5.125E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.151E-13
 
-      iter #   8 total cpu time :   257.2 secs   av.it.:   2.8
-      thresh= 9.711E-08 alpha_mix =  0.300 |ddv_scf|^2 =  1.976E-13
+      iter #   8 total cpu time :    26.8 secs   av.it.:   2.9
+      thresh= 4.638E-08 alpha_mix =  0.300 |ddv_scf|^2 =  7.859E-14
 
-      iter #   9 total cpu time :   258.0 secs   av.it.:   2.6
-      thresh= 4.446E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.299E-14
+      iter #   9 total cpu time :    26.9 secs   av.it.:   2.6
+      thresh= 2.803E-08 alpha_mix =  0.300 |ddv_scf|^2 =  2.628E-14
 
-      iter #  10 total cpu time :   258.6 secs   av.it.:   2.8
-      thresh= 2.074E-08 alpha_mix =  0.300 |ddv_scf|^2 =  8.641E-15
-
-      iter #  11 total cpu time :   258.9 secs   av.it.:   2.8
-      thresh= 9.295E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.633E-16
+      iter #  10 total cpu time :    26.9 secs   av.it.:   2.8
+      thresh= 1.621E-08 alpha_mix =  0.300 |ddv_scf|^2 =  4.788E-16
 
      End of self-consistent calculation
 
@@ -3060,31 +2957,31 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   260.4 secs   av.it.:   1.0
+      iter #   1 total cpu time :    27.0 secs   av.it.:   1.0
       thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  2.140E-07
 
-      iter #   2 total cpu time :   261.7 secs   av.it.:   2.7
+      iter #   2 total cpu time :    27.1 secs   av.it.:   2.7
       thresh= 4.626E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.015E-07
 
-      iter #   3 total cpu time :   262.9 secs   av.it.:   2.8
+      iter #   3 total cpu time :    27.2 secs   av.it.:   2.8
       thresh= 3.186E-05 alpha_mix =  0.300 |ddv_scf|^2 =  3.720E-10
 
-      iter #   4 total cpu time :   264.2 secs   av.it.:   3.1
-      thresh= 1.929E-06 alpha_mix =  0.300 |ddv_scf|^2 =  5.672E-12
+      iter #   4 total cpu time :    27.3 secs   av.it.:   3.1
+      thresh= 1.929E-06 alpha_mix =  0.300 |ddv_scf|^2 =  5.781E-12
 
-      iter #   5 total cpu time :   265.6 secs   av.it.:   3.0
-      thresh= 2.382E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.940E-13
+      iter #   5 total cpu time :    27.5 secs   av.it.:   3.0
+      thresh= 2.404E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.939E-13
 
-      iter #   6 total cpu time :   266.9 secs   av.it.:   2.9
-      thresh= 9.455E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.820E-15
+      iter #   6 total cpu time :    27.6 secs   av.it.:   2.9
+      thresh= 9.455E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.822E-15
 
-      iter #   7 total cpu time :   267.4 secs   av.it.:   3.2
-      thresh= 6.180E-09 alpha_mix =  0.300 |ddv_scf|^2 =  9.418E-16
+      iter #   7 total cpu time :    27.7 secs   av.it.:   3.1
+      thresh= 6.182E-09 alpha_mix =  0.300 |ddv_scf|^2 =  9.551E-16
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =    8
      List of q in the star:
           1   0.265165043   0.265165043   0.265165043
@@ -3101,21 +2998,21 @@ Fortran runtime warning: An array temporary was created
      q = (    0.265165043   0.265165043   0.265165043 ) 
 
  **************************************************************************
-     freq (    1) =       4.295241 [THz] =     143.273823 [cm-1]
-     freq (    2) =       4.295241 [THz] =     143.273823 [cm-1]
-     freq (    3) =       9.012998 [THz] =     300.641240 [cm-1]
+     freq (    1) =       4.294970 [THz] =     143.264784 [cm-1]
+     freq (    2) =       4.294970 [THz] =     143.264784 [cm-1]
+     freq (    3) =       9.013771 [THz] =     300.667053 [cm-1]
  **************************************************************************
 
      Calculation of q =   -0.2651650  -0.2651650   0.7954951
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         559     283    121                 8801     3119     941
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Phonon                                                                     
@@ -3148,7 +3045,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3161,7 +3058,7 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        Al             3.00    26.98154     Al( 1.00)
+     Al                3.00    26.98154     Al( 1.00)
 
      48 Sym. Ops., with inversion, found
 
@@ -3170,7 +3067,7 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Al  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         1        Al     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
 
      number of k points=   576 (tetrahedron method)
 
@@ -3180,9 +3077,9 @@ Fortran runtime warning: An array temporary was created
 
      Smooth grid:     3119 G-vectors     FFT dimensions: (  24,  24,  24)
 
-     Estimated max dynamical RAM per process >       3.92 MB
+     Estimated max dynamical RAM per process >       4.28 MB
 
-     Estimated total dynamical RAM >      94.18 MB
+     Estimated total dynamical RAM >     273.83 MB
 
      Check: negative core charge=   -0.000003
 
@@ -3194,17 +3091,15 @@ Fortran runtime warning: An array temporary was created
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  3.33E-10,  avg # of iterations = 17.7
+     ethr =  3.33E-10,  avg # of iterations = 17.6
 
-     total cpu time spent up to now is       24.1 secs
+     total cpu time spent up to now is        3.4 secs
 
      End of band structure calculation
 
      Number of k-points >= 100: set verbosity='high' to print the bands.
 
      the Fermi energy is     7.9299 ev
-
-     Writing output data file ./_ph0/pwscf.q_10/pwscf.save/
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.4128430E+01
 
@@ -3243,11 +3138,11 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Al  26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
+        1  Al     26.9815   tau(    1) = (    0.00000    0.00000    0.00000  )
 
      Computing dynamical matrix for 
                     q = (  -0.2651650  -0.2651650   0.7954951 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -3256,7 +3151,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=   576
 
      PseudoPot. # 1 for Al read from file:
-     ../../../pseudo/Al.pbe-n-rrkjus_psl.0.1.UPF
+     ./Al.pbe-n-rrkjus_psl.0.1.UPF
      MD5 check sum: 6479f6627750700cef6db36d98bbe09a
      Pseudo is Ultrasoft + core correction, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3281,7 +3176,7 @@ Fortran runtime warning: An array temporary was created
 
 
      Alpha used in Ewald sum =   2.8000
-     PHONON       :   2m 1.34s CPU   4m33.13s WALL
+     PHONON       :     24.77s CPU     28.33s WALL
 
 
 
@@ -3289,35 +3184,35 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   273.5 secs   av.it.:   1.8
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  5.824E-06
+      iter #   1 total cpu time :    28.4 secs   av.it.:   1.8
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  5.823E-06
 
-      iter #   2 total cpu time :   274.2 secs   av.it.:   2.5
+      iter #   2 total cpu time :    28.5 secs   av.it.:   2.5
       thresh= 2.413E-04 alpha_mix =  0.300 |ddv_scf|^2 =  5.492E-07
 
-      iter #   3 total cpu time :   275.1 secs   av.it.:   2.6
+      iter #   3 total cpu time :    28.5 secs   av.it.:   2.6
       thresh= 7.411E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.562E-07
 
-      iter #   4 total cpu time :   275.8 secs   av.it.:   2.7
+      iter #   4 total cpu time :    28.6 secs   av.it.:   2.7
       thresh= 3.952E-05 alpha_mix =  0.300 |ddv_scf|^2 =  2.067E-09
 
-      iter #   5 total cpu time :   276.6 secs   av.it.:   2.9
-      thresh= 4.546E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.805E-11
+      iter #   5 total cpu time :    28.7 secs   av.it.:   2.9
+      thresh= 4.547E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.806E-11
 
-      iter #   6 total cpu time :   277.3 secs   av.it.:   2.9
+      iter #   6 total cpu time :    28.8 secs   av.it.:   2.9
       thresh= 6.169E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.248E-11
 
-      iter #   7 total cpu time :   278.1 secs   av.it.:   2.8
-      thresh= 3.533E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.888E-13
+      iter #   7 total cpu time :    28.8 secs   av.it.:   2.8
+      thresh= 3.532E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.881E-13
 
-      iter #   8 total cpu time :   279.0 secs   av.it.:   3.0
-      thresh= 4.346E-08 alpha_mix =  0.300 |ddv_scf|^2 =  2.708E-14
+      iter #   8 total cpu time :    28.9 secs   av.it.:   3.0
+      thresh= 4.337E-08 alpha_mix =  0.300 |ddv_scf|^2 =  2.704E-14
 
-      iter #   9 total cpu time :   280.0 secs   av.it.:   2.8
-      thresh= 1.646E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.489E-15
+      iter #   9 total cpu time :    29.0 secs   av.it.:   2.8
+      thresh= 1.644E-08 alpha_mix =  0.300 |ddv_scf|^2 =  3.487E-15
 
-      iter #  10 total cpu time :   280.5 secs   av.it.:   2.8
-      thresh= 5.907E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.623E-16
+      iter #  10 total cpu time :    29.1 secs   av.it.:   2.8
+      thresh= 5.905E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.595E-16
 
      End of self-consistent calculation
 
@@ -3328,35 +3223,35 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   281.7 secs   av.it.:   1.8
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  7.387E-06
+      iter #   1 total cpu time :    29.2 secs   av.it.:   1.8
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  7.388E-06
 
-      iter #   2 total cpu time :   282.4 secs   av.it.:   2.6
-      thresh= 2.718E-04 alpha_mix =  0.300 |ddv_scf|^2 =  7.704E-07
+      iter #   2 total cpu time :    29.2 secs   av.it.:   2.6
+      thresh= 2.718E-04 alpha_mix =  0.300 |ddv_scf|^2 =  7.703E-07
 
-      iter #   3 total cpu time :   283.3 secs   av.it.:   2.7
-      thresh= 8.777E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.515E-07
+      iter #   3 total cpu time :    29.3 secs   av.it.:   2.7
+      thresh= 8.776E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.516E-07
 
-      iter #   4 total cpu time :   284.0 secs   av.it.:   2.7
-      thresh= 3.893E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.672E-08
+      iter #   4 total cpu time :    29.4 secs   av.it.:   2.7
+      thresh= 3.893E-05 alpha_mix =  0.300 |ddv_scf|^2 =  1.671E-08
 
-      iter #   5 total cpu time :   284.9 secs   av.it.:   2.8
-      thresh= 1.293E-05 alpha_mix =  0.300 |ddv_scf|^2 =  7.002E-11
+      iter #   5 total cpu time :    29.5 secs   av.it.:   2.8
+      thresh= 1.293E-05 alpha_mix =  0.300 |ddv_scf|^2 =  6.998E-11
 
-      iter #   6 total cpu time :   285.7 secs   av.it.:   3.0
-      thresh= 8.368E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.418E-11
+      iter #   6 total cpu time :    29.5 secs   av.it.:   3.0
+      thresh= 8.366E-07 alpha_mix =  0.300 |ddv_scf|^2 =  1.419E-11
 
-      iter #   7 total cpu time :   286.4 secs   av.it.:   2.8
-      thresh= 3.766E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.003E-12
+      iter #   7 total cpu time :    29.6 secs   av.it.:   2.8
+      thresh= 3.767E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.002E-12
 
-      iter #   8 total cpu time :   287.2 secs   av.it.:   2.8
-      thresh= 1.415E-07 alpha_mix =  0.300 |ddv_scf|^2 =  8.441E-15
+      iter #   8 total cpu time :    29.7 secs   av.it.:   2.8
+      thresh= 1.415E-07 alpha_mix =  0.300 |ddv_scf|^2 =  6.044E-15
 
-      iter #   9 total cpu time :   288.0 secs   av.it.:   3.1
-      thresh= 9.188E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.912E-15
+      iter #   9 total cpu time :    29.8 secs   av.it.:   3.1
+      thresh= 7.774E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.856E-15
 
-      iter #  10 total cpu time :   288.4 secs   av.it.:   2.7
-      thresh= 4.372E-09 alpha_mix =  0.300 |ddv_scf|^2 =  3.173E-16
+      iter #  10 total cpu time :    29.8 secs   av.it.:   2.7
+      thresh= 4.308E-09 alpha_mix =  0.300 |ddv_scf|^2 =  2.404E-16
 
      End of self-consistent calculation
 
@@ -3367,34 +3262,34 @@ Fortran runtime warning: An array temporary was created
 
      Self-consistent Calculation
 
-      iter #   1 total cpu time :   289.7 secs   av.it.:   1.1
-      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  8.047E-07
+      iter #   1 total cpu time :    29.9 secs   av.it.:   1.1
+      thresh= 1.000E-02 alpha_mix =  0.300 |ddv_scf|^2 =  8.046E-07
 
-      iter #   2 total cpu time :   290.5 secs   av.it.:   2.5
+      iter #   2 total cpu time :    30.0 secs   av.it.:   2.5
       thresh= 8.970E-05 alpha_mix =  0.300 |ddv_scf|^2 =  3.871E-07
 
-      iter #   3 total cpu time :   291.3 secs   av.it.:   2.6
-      thresh= 6.221E-05 alpha_mix =  0.300 |ddv_scf|^2 =  8.587E-10
+      iter #   3 total cpu time :    30.1 secs   av.it.:   2.6
+      thresh= 6.221E-05 alpha_mix =  0.300 |ddv_scf|^2 =  8.586E-10
 
-      iter #   4 total cpu time :   292.0 secs   av.it.:   2.9
-      thresh= 2.930E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.755E-11
+      iter #   4 total cpu time :    30.2 secs   av.it.:   2.9
+      thresh= 2.930E-06 alpha_mix =  0.300 |ddv_scf|^2 =  3.750E-11
 
-      iter #   5 total cpu time :   292.8 secs   av.it.:   2.8
-      thresh= 6.128E-07 alpha_mix =  0.300 |ddv_scf|^2 =  7.041E-12
+      iter #   5 total cpu time :    30.2 secs   av.it.:   2.8
+      thresh= 6.124E-07 alpha_mix =  0.300 |ddv_scf|^2 =  7.044E-12
 
-      iter #   6 total cpu time :   293.5 secs   av.it.:   2.8
-      thresh= 2.653E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.099E-14
+      iter #   6 total cpu time :    30.3 secs   av.it.:   2.8
+      thresh= 2.654E-07 alpha_mix =  0.300 |ddv_scf|^2 =  2.099E-14
 
-      iter #   7 total cpu time :   294.3 secs   av.it.:   3.0
-      thresh= 1.449E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.871E-15
+      iter #   7 total cpu time :    30.4 secs   av.it.:   3.0
+      thresh= 1.449E-08 alpha_mix =  0.300 |ddv_scf|^2 =  5.866E-15
 
-      iter #   8 total cpu time :   294.7 secs   av.it.:   2.7
-      thresh= 7.662E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.405E-17
+      iter #   8 total cpu time :    30.5 secs   av.it.:   2.7
+      thresh= 7.659E-09 alpha_mix =  0.300 |ddv_scf|^2 =  1.405E-17
 
      End of self-consistent calculation
 
      Convergence has been achieved 
-
+ 
      Number of q in the star =   24
      List of q in the star:
           1  -0.265165043  -0.265165043   0.795495129
@@ -3427,128 +3322,134 @@ Fortran runtime warning: An array temporary was created
      q = (   -0.265165043  -0.265165043   0.795495129 ) 
 
  **************************************************************************
-     freq (    1) =       5.347140 [THz] =     178.361385 [cm-1]
-     freq (    2) =       7.550798 [THz] =     251.867506 [cm-1]
-     freq (    3) =       9.115140 [THz] =     304.048355 [cm-1]
+     freq (    1) =       5.347148 [THz] =     178.361664 [cm-1]
+     freq (    2) =       7.550824 [THz] =     251.868387 [cm-1]
+     freq (    3) =       9.115047 [THz] =     304.045230 [cm-1]
  **************************************************************************
-
-     init_run     :      3.66s CPU      4.02s WALL (      10 calls)
-     electrons    :     17.39s CPU     17.99s WALL (      10 calls)
+ 
+     init_run     :      0.66s CPU      0.86s WALL (      10 calls)
+     electrons    :      1.82s CPU      1.96s WALL (      10 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.02s WALL (      10 calls)
-     potinit      :      0.58s CPU      0.90s WALL (      10 calls)
-     hinit0       :      2.88s CPU      2.89s WALL (      10 calls)
+     potinit      :      0.28s CPU      0.45s WALL (      10 calls)
+     hinit0       :      0.16s CPU      0.16s WALL (      10 calls)
 
      Called by electrons:
-     c_bands      :     15.60s CPU     16.20s WALL (      10 calls)
-     v_of_rho     :      0.24s CPU      0.24s WALL (      11 calls)
-     newd         :      0.21s CPU      0.22s WALL (      11 calls)
+     c_bands      :      1.74s CPU      1.88s WALL (      10 calls)
+     v_of_rho     :      0.11s CPU      0.11s WALL (      11 calls)
+     newd         :      0.11s CPU      0.11s WALL (      11 calls)
 
      Called by c_bands:
-     init_us_2    :      0.50s CPU      0.53s WALL (    4856 calls)
-     cegterg      :      9.85s CPU     10.06s WALL (     320 calls)
+     init_us_2    :      0.13s CPU      0.13s WALL (    2072 calls)
+     cegterg      :      1.09s CPU      1.13s WALL (     138 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.51s CPU      0.52s WALL (    4978 calls)
-     h_psi        :     36.36s CPU     37.29s WALL (   31577 calls)
-     s_psi        :      0.66s CPU      0.68s WALL (   61663 calls)
-     g_psi        :      0.17s CPU      0.17s WALL (    4726 calls)
+     cdiaghg      :      0.16s CPU      0.17s WALL (    2069 calls)
+     h_psi        :      3.07s CPU      3.19s WALL (   12507 calls)
+     s_psi        :      0.11s CPU      0.12s WALL (   24317 calls)
+     g_psi        :      0.01s CPU      0.01s WALL (    1969 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.60s CPU      0.61s WALL (   31577 calls)
-     vloc_psi     :     35.07s CPU     35.96s WALL (   31577 calls)
-     add_vuspsi   :      0.40s CPU      0.42s WALL (   31577 calls)
+     h_psi:calbec :      0.08s CPU      0.08s WALL (   12507 calls)
+     vloc_psi     :      2.85s CPU      2.97s WALL (   12507 calls)
+     add_vuspsi   :      0.06s CPU      0.06s WALL (   12507 calls)
 
      General routines
-     calbec       :      1.02s CPU      1.05s WALL (   69124 calls)
-     fft          :      3.46s CPU      3.53s WALL (    5438 calls)
-     ffts         :      0.31s CPU      0.32s WALL (    1134 calls)
-     fftw         :     45.64s CPU     46.85s WALL (  264690 calls)
-     interpolate  :      0.68s CPU      0.71s WALL (     642 calls)
-     davcio       :      0.42s CPU      1.44s WALL (   22755 calls)
-
+     calbec       :      0.12s CPU      0.13s WALL (   27277 calls)
+     fft          :      1.32s CPU      1.34s WALL (    5438 calls)
+     ffts         :      0.05s CPU      0.05s WALL (     906 calls)
+     fftw         :      3.25s CPU      3.39s WALL (  101576 calls)
+     interpolate  :      0.31s CPU      0.31s WALL (     642 calls)
+     davcio       :      0.01s CPU      0.03s WALL (      30 calls)
+ 
      Parallel routines
-
-     PHONON       :   2m 9.76s CPU   4m56.41s WALL
+ 
+     PHONON       :     26.76s CPU     30.55s WALL
 
      INITIALIZATION: 
-     phq_setup    :      0.80s CPU      1.22s WALL (      10 calls)
-     phq_init     :     10.58s CPU     10.84s WALL (      10 calls)
-
-     phq_init     :     10.58s CPU     10.84s WALL (      10 calls)
-     set_drhoc    :      6.43s CPU      6.44s WALL (      30 calls)
-     init_vloc    :      0.03s CPU      0.03s WALL (      11 calls)
-     init_us_1    :      2.67s CPU      2.68s WALL (      11 calls)
-     newd         :      0.21s CPU      0.22s WALL (      11 calls)
-     dvanqq       :      0.54s CPU      0.54s WALL (      10 calls)
-     drho         :      1.70s CPU      1.73s WALL (      10 calls)
-
+     phq_setup    :      0.43s CPU      0.58s WALL (      10 calls)
+     phq_init     :      1.74s CPU      1.81s WALL (      10 calls)
+ 
+     phq_init     :      1.74s CPU      1.81s WALL (      10 calls)
+     set_drhoc    :      0.04s CPU      0.04s WALL (      30 calls)
+     init_vloc    :      0.02s CPU      0.02s WALL (      11 calls)
+     init_us_1    :      0.11s CPU      0.11s WALL (      11 calls)
+     init_us_2    :      0.13s CPU      0.13s WALL (    2072 calls)
+     newd         :      0.11s CPU      0.11s WALL (      11 calls)
+     dvanqq       :      0.58s CPU      0.59s WALL (      10 calls)
+     drho         :      0.77s CPU      0.78s WALL (      10 calls)
+     drhous       :      0.08s CPU      0.09s WALL (      10 calls)
+     nldyntot     :      0.00s CPU      0.00s WALL (      10 calls)
+ 
      DYNAMICAL MATRIX:
-     dynmat0      :      4.76s CPU      4.97s WALL (      10 calls)
-     phqscf       :     96.11s CPU    252.14s WALL (      10 calls)
-     dynmatrix    :      0.04s CPU      1.45s WALL (      10 calls)
-
-     phqscf       :     96.11s CPU    252.14s WALL (      10 calls)
-     solve_linter :     95.75s CPU    237.19s WALL (      28 calls)
-     drhodv       :      0.32s CPU      0.34s WALL (      28 calls)
-
-     dynmat0      :      4.76s CPU      4.97s WALL (      10 calls)
-     dynmat_us    :      0.07s CPU      0.08s WALL (      10 calls)
-     d2ionq       :      0.01s CPU      0.02s WALL (      10 calls)
-     dynmatcc     :      4.44s CPU      4.45s WALL (      10 calls)
-
-     dynmat_us    :      0.07s CPU      0.08s WALL (      10 calls)
+     dynmat0      :      0.32s CPU      0.38s WALL (      10 calls)
+     dynmat_us    :      0.19s CPU      0.19s WALL (      10 calls)
      addusdynmat  :      0.00s CPU      0.00s WALL (      10 calls)
-
-     phqscf       :     96.11s CPU    252.14s WALL (      10 calls)
-     solve_linter :     95.75s CPU    237.19s WALL (      28 calls)
-
-     solve_linter :     95.75s CPU    237.19s WALL (      28 calls)
-     dvqpsi_us    :      1.21s CPU      1.23s WALL (     378 calls)
-     ortho        :      0.28s CPU      0.28s WALL (    3807 calls)
-     cgsolve      :     29.48s CPU     30.30s WALL (    3807 calls)
-     incdrhoscf   :      9.64s CPU      9.86s WALL (    3807 calls)
-     addusddens   :      4.12s CPU      4.17s WALL (     309 calls)
-     vpsifft      :      8.26s CPU      8.53s WALL (    3429 calls)
-     dv_of_drho   :      3.51s CPU      3.64s WALL (     296 calls)
-     mix_pot      :      0.39s CPU     86.28s WALL (     281 calls)
-     psymdvscf    :      0.84s CPU      0.85s WALL (     217 calls)
-     newdq        :      4.09s CPU      4.13s WALL (     281 calls)
-     adddvscf     :      0.12s CPU      0.12s WALL (    3429 calls)
-     drhodvus     :      0.02s CPU      0.03s WALL (      28 calls)
-
-     dvqpsi_us    :      1.21s CPU      1.23s WALL (     378 calls)
-     dvqpsi_us_on :      0.08s CPU      0.08s WALL (     378 calls)
-
-     cgsolve      :     29.48s CPU     30.30s WALL (    3807 calls)
-     ch_psi       :     29.18s CPU     29.98s WALL (   26279 calls)
-
-     ch_psi       :     29.18s CPU     29.98s WALL (   26279 calls)
-     h_psi        :     36.36s CPU     37.29s WALL (   31577 calls)
-     last         :      1.28s CPU      1.32s WALL (   26279 calls)
-
-     h_psi        :     36.36s CPU     37.29s WALL (   31577 calls)
-     add_vuspsi   :      0.40s CPU      0.42s WALL (   31577 calls)
-
-     incdrhoscf   :      9.64s CPU      9.86s WALL (    3807 calls)
-     addusdbec    :      0.16s CPU      0.16s WALL (    4185 calls)
-
-     drhodvus     :      0.02s CPU      0.03s WALL (      28 calls)
-
+     d2ionq       :      0.00s CPU      0.00s WALL (      10 calls)
+     dynmatcc     :      0.10s CPU      0.10s WALL (      10 calls)
+     phqscf       :     21.44s CPU     23.41s WALL (      10 calls)
+     dynmatrix    :      0.01s CPU      0.05s WALL (      10 calls)
+ 
+     phqscf       :     21.44s CPU     23.41s WALL (      10 calls)
+     solve_linter :     21.36s CPU     23.12s WALL (      28 calls)
+     sth_kernel   :      5.94s CPU      6.16s WALL (     281 calls)
+     h_prec       :      0.01s CPU      0.01s WALL (    1480 calls)
+     apply_dpot_b :      0.80s CPU      0.84s WALL (    1360 calls)
+     ortho        :      0.06s CPU      0.07s WALL (    1510 calls)
+     cgsolve      :      2.76s CPU      2.87s WALL (    1510 calls)
+     incdrhoscf   :      0.92s CPU      0.96s WALL (    1510 calls)
+                                        0.00s GPU  (    1510 calls)
+     addusddens   :      4.79s CPU      4.80s WALL (     309 calls)
+     dv_of_drho   :      2.59s CPU      2.60s WALL (     296 calls)
+     mix_pot      :      0.42s CPU      0.43s WALL (     281 calls)
+     drhodv       :      0.04s CPU      0.04s WALL (      28 calls)
+     psymdvscf    :      0.54s CPU      0.54s WALL (     217 calls)
+     newdq        :      4.63s CPU      4.63s WALL (     281 calls)
+     adddvscf     :      0.02s CPU      0.02s WALL (    1360 calls)
+     com_dvloc    :      0.02s CPU      0.02s WALL (     264 calls)
+                                        0.00s GPU  (     264 calls)
+     addcore      :      0.18s CPU      0.19s WALL (     416 calls)
+                                        0.00s GPU  (     416 calls)
+     drhodvus     :      0.02s CPU      0.02s WALL (      28 calls)
+ 
+     dvqpsi_us    :      0.10s CPU      0.11s WALL (     150 calls)
+                                        0.00s GPU  (     150 calls)
+     dvqpsi_us_on :      0.01s CPU      0.01s WALL (     150 calls)
+ 
+     add_vuspsi   :      0.06s CPU      0.06s WALL (   12507 calls)
+     addusdbec    :      0.02s CPU      0.02s WALL (    1660 calls)
+ 
+     drhodvus     :      0.02s CPU      0.02s WALL (      28 calls)
+ 
       General routines
-     calbec       :      1.02s CPU      1.05s WALL (   69124 calls)
-     fft          :      3.46s CPU      3.53s WALL (    5438 calls)
-     ffts         :      0.31s CPU      0.32s WALL (    1134 calls)
-     fftw         :     45.64s CPU     46.85s WALL (  264690 calls)
-     davcio       :      0.42s CPU      1.44s WALL (   22755 calls)
-     write_rec    :      0.18s CPU     68.00s WALL (     309 calls)
+     calbec       :      0.12s CPU      0.13s WALL (   27277 calls)
+     fft          :      1.32s CPU      1.34s WALL (    5438 calls)
+     ffts         :      0.05s CPU      0.05s WALL (     906 calls)
+     fftw         :      3.25s CPU      3.39s WALL (  101576 calls)
+     davcio       :      0.01s CPU      0.03s WALL (      30 calls)
+     write_rec    :      0.79s CPU      2.30s WALL (     309 calls)
+ 
+      Additional routines
+     ch_psi       :      2.67s CPU      2.78s WALL (   10300 calls)
+     last         :      0.29s CPU      0.30s WALL (   10300 calls)
+     Hesh         :      0.02s CPU      0.02s WALL (   10300 calls)
+     ch_psi_all_k :      0.23s CPU      0.23s WALL (   10300 calls)
+                                        0.00s GPU  (   10300 calls)
+     ch_psi_calbe :      0.05s CPU      0.06s WALL (   10300 calls)
+                                        0.00s GPU  (   10300 calls)
+     h_psi_bgrp   :      3.09s CPU      3.22s WALL (   12507 calls)
+     h_psi        :      3.07s CPU      3.19s WALL (   12507 calls)
+     h_psi:pot    :      3.03s CPU      3.15s WALL (   12507 calls)
+     h_psi:calbec :      0.08s CPU      0.08s WALL (   12507 calls)
+     s_psi_bgrp   :      0.18s CPU      0.19s WALL (   24317 calls)
+     s_psi        :      0.11s CPU      0.12s WALL (   24317 calls)
+ 
+ 
+     PHONON       :     26.76s CPU     30.55s WALL
 
-
-     PHONON       :   2m 9.76s CPU   4m56.41s WALL
-
-
-   This run was terminated on:  11:43:44  29Jun2022            
+ 
+   This run was terminated on:   2:39: 9  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

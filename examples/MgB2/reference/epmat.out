@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
--375465808 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud1
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program PHONON v.6.7GPU starts on 29Jun2022 at 11:17:58 
+     Program PHONON v.7.4.1 starts on 13Mar2026 at  3: 6:56 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,17 +10,23 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      24 processor cores
-     Number of MPI processes:                24
+     Parallel version (MPI & OpenMP), running on      64 processor cores
+     Number of MPI processes:                64
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     K-points division:     npool     =      24
+     225489 MiB available memory on the printing compute node when the environment starts
+ 
      Reading input from epmat.in
 
      Reading xml data from directory:
 
      ./pwscf.save/
+ 
+     K-points division:     npool     =      64
+     Subspace diagonalization in iterative solution of the eigenvalue problem:
+     a serial algorithm will be used
+
      file B.pbe-n-kjpaw_psl.0.1.upf: wavefunction(s)  2P renormalized
      file Mg.pbe-n-kjpaw_psl.0.3.0.upf: wavefunction(s)  3S renormalized
 
@@ -45,17 +36,19 @@ WARNING: There was an error initializing an OpenFabrics device.
      Any further DFT definition will be discarded
      Please, verify this is what you really want
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    109                15395     5449    1011
-
+ 
      Using Slab Decomposition
-
+ 
 
      Check: negative core charge=   -0.000006
-     Reading collected, re-writing distributed wavefunctions
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+     Reading collected, re-writing distributed wavefunctions in ./
 
 
      Dynamical matrices for ( 4, 4, 3)  uniform grid of q-points
@@ -76,24 +69,22 @@ WARNING: There was an error initializing an OpenFabrics device.
       12   0.375000000  -0.216506351  -0.436358562
      Because shifted q grid is used, q2r will not work !
 
-     Saving dvscf to file. Distribute only q points, not irreducible represetations.
+     Saving dvscf to file. Distribute only q points, not irreducible representations.
 
      Calculation of q =    0.1250000   0.2165064   0.1454529
-
-     Subspace diagonalization in iterative solution of the eigenvalue problem:
-     a serial algorithm will be used
-
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1155
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -120,13 +111,13 @@ WARNING: There was an error initializing an OpenFabrics device.
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -140,7 +131,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -154,8 +145,8 @@ WARNING: There was an error initializing an OpenFabrics device.
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -164,9 +155,9 @@ WARNING: There was an error initializing an OpenFabrics device.
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -273,7 +264,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      Estimated max dynamical RAM per process >       7.22 MB
 
-     Estimated total dynamical RAM >     173.27 MB
+     Estimated total dynamical RAM >     462.05 MB
 
      Check: negative core charge=   -0.000006
 
@@ -285,106 +276,10 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      Band Structure Calculation
      Davidson diagonalization with overlap
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is        1.3 secs
+     total cpu time spent up to now is        0.3 secs
 
      End of band structure calculation
 
@@ -514,7 +409,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330 0.2909 (   678 PWs)   bands (ev):
 
@@ -530,7 +425,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -634,7 +529,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.8660 0.2909 (   670 PWs)   bands (ev):
 
@@ -650,7 +545,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.5774 0.0000 (   673 PWs)   bands (ev):
 
@@ -774,7 +669,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_1/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_1/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -803,9 +699,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -813,13 +709,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000   0.2165064   0.1454529 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -828,7 +724,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -842,7 +738,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -878,10 +774,9 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-[macloud1:940865] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud1:940865] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud1:940865] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
-     PHONON       :      4.47s CPU      4.85s WALL
+     Message from routine init_vloc:
+     Interpolation table for Vloc re-allocated
+     PHONON       :      2.17s CPU      2.64s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn1
@@ -891,15 +786,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000   0.216506351   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       5.978315 [THz] =     199.415120 [cm-1]
-     freq (    2) =       6.149582 [THz] =     205.127979 [cm-1]
-     freq (    3) =       8.043169 [THz] =     268.291246 [cm-1]
-     freq (    4) =      11.718825 [THz] =     390.897927 [cm-1]
-     freq (    5) =      12.105225 [THz] =     403.786845 [cm-1]
-     freq (    6) =      13.860626 [THz] =     462.340729 [cm-1]
-     freq (    7) =      19.153973 [THz] =     638.907754 [cm-1]
-     freq (    8) =      19.448988 [THz] =     648.748405 [cm-1]
-     freq (    9) =      20.401973 [THz] =     680.536575 [cm-1]
+     freq (    1) =       5.978329 [THz] =     199.415592 [cm-1]
+     freq (    2) =       6.149591 [THz] =     205.128265 [cm-1]
+     freq (    3) =       8.043179 [THz] =     268.291558 [cm-1]
+     freq (    4) =      11.718818 [THz] =     390.897700 [cm-1]
+     freq (    5) =      12.105234 [THz] =     403.787149 [cm-1]
+     freq (    6) =      13.860620 [THz] =     462.340526 [cm-1]
+     freq (    7) =      19.153972 [THz] =     638.907729 [cm-1]
+     freq (    8) =      19.448981 [THz] =     648.748169 [cm-1]
+     freq (    9) =      20.401978 [THz] =     680.536743 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -910,14 +805,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1155
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -944,13 +841,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -964,7 +861,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -978,8 +875,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -988,9 +885,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -1097,7 +994,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     173.52 MB
+     Estimated total dynamical RAM >     462.72 MB
 
      Check: negative core charge=   -0.000006
 
@@ -1112,7 +1009,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is        2.5 secs
+     total cpu time spent up to now is        0.6 secs
 
      End of band structure calculation
 
@@ -1250,7 +1147,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330-0.2909 (   678 PWs)   bands (ev):
 
@@ -1258,7 +1155,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -1370,7 +1267,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.8660-0.2909 (   670 PWs)   bands (ev):
 
@@ -1378,7 +1275,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.5774 0.0000 (   673 PWs)   bands (ev):
 
@@ -1502,7 +1399,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_2/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_2/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -1531,9 +1429,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -1541,13 +1439,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000   0.2165064  -0.4363586 )
-
+ 
       4 Sym.Ops. (no q -> -q+G )
 
 
@@ -1556,7 +1454,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1570,7 +1468,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1606,7 +1504,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :      8.92s CPU     10.65s WALL
+     PHONON       :      5.15s CPU      5.95s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn2
@@ -1616,15 +1514,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000   0.216506351  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       7.263067 [THz] =     242.269849 [cm-1]
-     freq (    2) =       7.587499 [THz] =     253.091712 [cm-1]
-     freq (    3) =       8.634552 [THz] =     288.017667 [cm-1]
-     freq (    4) =      10.962946 [THz] =     365.684515 [cm-1]
-     freq (    5) =      12.736149 [THz] =     424.832194 [cm-1]
-     freq (    6) =      13.799917 [THz] =     460.315687 [cm-1]
-     freq (    7) =      18.963882 [THz] =     632.567013 [cm-1]
-     freq (    8) =      19.288477 [THz] =     643.394324 [cm-1]
-     freq (    9) =      21.244830 [THz] =     708.651252 [cm-1]
+     freq (    1) =       7.263079 [THz] =     242.270221 [cm-1]
+     freq (    2) =       7.587511 [THz] =     253.092116 [cm-1]
+     freq (    3) =       8.634558 [THz] =     288.017859 [cm-1]
+     freq (    4) =      10.962935 [THz] =     365.684150 [cm-1]
+     freq (    5) =      12.736161 [THz] =     424.832594 [cm-1]
+     freq (    6) =      13.799910 [THz] =     460.315443 [cm-1]
+     freq (    7) =      18.963873 [THz] =     632.566701 [cm-1]
+     freq (    8) =      19.288485 [THz] =     643.394619 [cm-1]
+     freq (    9) =      21.244828 [THz] =     708.651179 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -1635,14 +1533,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1179
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -1669,13 +1569,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1689,7 +1589,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -1703,8 +1603,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -1713,9 +1613,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -1822,7 +1722,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     173.56 MB
+     Estimated total dynamical RAM >     462.84 MB
 
      Check: negative core charge=   -0.000006
 
@@ -1837,7 +1737,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is        3.8 secs
+     total cpu time spent up to now is        0.9 secs
 
      End of band structure calculation
 
@@ -1943,7 +1843,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.1443 0.2909 (   680 PWs)   bands (ev):
 
@@ -1959,7 +1859,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -2063,7 +1963,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750 0.5052 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
 
@@ -2079,7 +1979,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750 0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.8660 0.0000 (   676 PWs)   bands (ev):
 
@@ -2227,7 +2127,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_3/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_3/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -2256,9 +2157,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -2266,13 +2167,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000   0.5051815   0.1454529 )
-
+ 
      No symmetry!
 
      G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
@@ -2280,7 +2181,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2294,7 +2195,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2330,7 +2231,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     13.37s CPU     16.47s WALL
+     PHONON       :      7.95s CPU      9.09s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn3
@@ -2340,15 +2241,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000   0.505181486   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       7.824241 [THz] =     260.988578 [cm-1]
-     freq (    2) =       7.930720 [THz] =     264.540360 [cm-1]
-     freq (    3) =       9.574462 [THz] =     319.369667 [cm-1]
-     freq (    4) =      13.282171 [THz] =     443.045544 [cm-1]
-     freq (    5) =      15.133773 [THz] =     504.808314 [cm-1]
-     freq (    6) =      16.560180 [THz] =     552.388137 [cm-1]
-     freq (    7) =      20.892471 [THz] =     696.897831 [cm-1]
-     freq (    8) =      22.307940 [THz] =     744.112780 [cm-1]
-     freq (    9) =      23.366130 [THz] =     779.410194 [cm-1]
+     freq (    1) =       7.824251 [THz] =     260.988918 [cm-1]
+     freq (    2) =       7.930729 [THz] =     264.540628 [cm-1]
+     freq (    3) =       9.574471 [THz] =     319.369976 [cm-1]
+     freq (    4) =      13.282183 [THz] =     443.045930 [cm-1]
+     freq (    5) =      15.133766 [THz] =     504.808082 [cm-1]
+     freq (    6) =      16.560190 [THz] =     552.388482 [cm-1]
+     freq (    7) =      20.892465 [THz] =     696.897634 [cm-1]
+     freq (    8) =      22.307933 [THz] =     744.112563 [cm-1]
+     freq (    9) =      23.366124 [THz] =     779.410017 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -2359,14 +2260,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1287
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -2393,13 +2296,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2413,7 +2316,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -2427,8 +2330,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -2437,9 +2340,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -2546,7 +2449,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.24 MB
 
-     Estimated total dynamical RAM >     173.73 MB
+     Estimated total dynamical RAM >     463.28 MB
 
      Check: negative core charge=   -0.000006
 
@@ -2561,7 +2464,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is        5.1 secs
+     total cpu time spent up to now is        1.1 secs
 
      End of band structure calculation
 
@@ -2675,7 +2578,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.1443-0.2909 (   680 PWs)   bands (ev):
 
@@ -2683,7 +2586,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -2795,7 +2698,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750 0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
 
@@ -2803,7 +2706,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750 0.5052-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.8660 0.0000 (   676 PWs)   bands (ev):
 
@@ -2951,7 +2854,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_4/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_4/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -2980,9 +2884,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -2990,13 +2894,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000   0.5051815  -0.4363586 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -3005,7 +2909,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3019,7 +2923,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3055,7 +2959,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     17.90s CPU     22.30s WALL
+     PHONON       :     10.78s CPU     12.26s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn4
@@ -3065,15 +2969,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000   0.505181486  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       8.003528 [THz] =     266.968958 [cm-1]
-     freq (    2) =       8.166091 [THz] =     272.391481 [cm-1]
-     freq (    3) =       9.176399 [THz] =     306.091711 [cm-1]
-     freq (    4) =      14.422813 [THz] =     481.093270 [cm-1]
-     freq (    5) =      15.100053 [THz] =     503.683567 [cm-1]
-     freq (    6) =      16.725179 [THz] =     557.891922 [cm-1]
-     freq (    7) =      21.051242 [THz] =     702.193858 [cm-1]
-     freq (    8) =      22.256849 [THz] =     742.408564 [cm-1]
-     freq (    9) =      23.517164 [THz] =     784.448140 [cm-1]
+     freq (    1) =       8.003538 [THz] =     266.969305 [cm-1]
+     freq (    2) =       8.166098 [THz] =     272.391712 [cm-1]
+     freq (    3) =       9.176409 [THz] =     306.092055 [cm-1]
+     freq (    4) =      14.422824 [THz] =     481.093620 [cm-1]
+     freq (    5) =      15.100046 [THz] =     503.683332 [cm-1]
+     freq (    6) =      16.725189 [THz] =     557.892264 [cm-1]
+     freq (    7) =      21.051237 [THz] =     702.193673 [cm-1]
+     freq (    8) =      22.256842 [THz] =     742.408341 [cm-1]
+     freq (    9) =      23.517159 [THz] =     784.447977 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -3084,14 +2988,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1299
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -3118,13 +3024,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3138,7 +3044,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3152,8 +3058,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -3162,9 +3068,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -3271,7 +3177,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     173.41 MB
+     Estimated total dynamical RAM >     462.43 MB
 
      Check: negative core charge=   -0.000006
 
@@ -3286,7 +3192,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is        6.3 secs
+     total cpu time spent up to now is        1.4 secs
 
      End of band structure calculation
 
@@ -3464,7 +3370,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.1443 0.2909 (   680 PWs)   bands (ev):
 
@@ -3480,7 +3386,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.2887 0.0000 (   676 PWs)   bands (ev):
 
@@ -3488,7 +3394,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.2887 0.2909 (   670 PWs)   bands (ev):
 
@@ -3504,7 +3410,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
 
@@ -3676,7 +3582,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_5/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_5/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -3705,9 +3612,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -3715,13 +3622,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000  -0.3608439   0.1454529 )
-
+ 
      No symmetry!
 
      G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
@@ -3729,7 +3636,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3743,7 +3650,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3779,7 +3686,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     22.36s CPU     28.12s WALL
+     PHONON       :     13.64s CPU     15.45s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn5
@@ -3789,15 +3696,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000  -0.360843918   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       7.201621 [THz] =     240.220215 [cm-1]
-     freq (    2) =       7.278154 [THz] =     242.773100 [cm-1]
-     freq (    3) =       9.117284 [THz] =     304.119847 [cm-1]
-     freq (    4) =      12.394197 [THz] =     413.425922 [cm-1]
-     freq (    5) =      14.013429 [THz] =     467.437672 [cm-1]
-     freq (    6) =      17.524489 [THz] =     584.554019 [cm-1]
-     freq (    7) =      18.914099 [THz] =     630.906438 [cm-1]
-     freq (    8) =      22.291295 [THz] =     743.557564 [cm-1]
-     freq (    9) =      24.093159 [THz] =     803.661275 [cm-1]
+     freq (    1) =       7.201632 [THz] =     240.220574 [cm-1]
+     freq (    2) =       7.278165 [THz] =     242.773441 [cm-1]
+     freq (    3) =       9.117293 [THz] =     304.120151 [cm-1]
+     freq (    4) =      12.394209 [THz] =     413.426317 [cm-1]
+     freq (    5) =      14.013422 [THz] =     467.437431 [cm-1]
+     freq (    6) =      17.524482 [THz] =     584.553811 [cm-1]
+     freq (    7) =      18.914108 [THz] =     630.906747 [cm-1]
+     freq (    8) =      22.291289 [THz] =     743.557352 [cm-1]
+     freq (    9) =      24.093154 [THz] =     803.661118 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -3808,14 +3715,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    127                15395     5449    1353
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -3842,13 +3751,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3862,7 +3771,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -3876,8 +3785,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -3886,9 +3795,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -3995,7 +3904,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     173.62 MB
+     Estimated total dynamical RAM >     462.99 MB
 
      Check: negative core charge=   -0.000006
 
@@ -4010,7 +3919,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is        7.6 secs
+     total cpu time spent up to now is        1.7 secs
 
      End of band structure calculation
 
@@ -4196,7 +4105,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.1443-0.2909 (   680 PWs)   bands (ev):
 
@@ -4204,7 +4113,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.2887 0.0000 (   676 PWs)   bands (ev):
 
@@ -4220,7 +4129,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.2887-0.2909 (   670 PWs)   bands (ev):
 
@@ -4228,7 +4137,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
 
@@ -4400,7 +4309,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_6/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_6/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -4429,9 +4339,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -4439,13 +4349,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000  -0.3608439  -0.4363586 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -4454,7 +4364,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -4468,7 +4378,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -4504,7 +4414,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     26.76s CPU     33.84s WALL
+     PHONON       :     16.54s CPU     18.69s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn6
@@ -4514,15 +4424,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000  -0.360843918  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       7.728147 [THz] =     257.783242 [cm-1]
-     freq (    2) =       8.381213 [THz] =     279.567169 [cm-1]
-     freq (    3) =       8.388032 [THz] =     279.794646 [cm-1]
-     freq (    4) =      13.542500 [THz] =     451.729177 [cm-1]
-     freq (    5) =      13.791646 [THz] =     460.039798 [cm-1]
-     freq (    6) =      17.719228 [THz] =     591.049819 [cm-1]
-     freq (    7) =      18.480056 [THz] =     616.428310 [cm-1]
-     freq (    8) =      21.963222 [THz] =     732.614235 [cm-1]
-     freq (    9) =      24.465289 [THz] =     816.074202 [cm-1]
+     freq (    1) =       7.728158 [THz] =     257.783602 [cm-1]
+     freq (    2) =       8.381219 [THz] =     279.567379 [cm-1]
+     freq (    3) =       8.388044 [THz] =     279.795021 [cm-1]
+     freq (    4) =      13.542511 [THz] =     451.729544 [cm-1]
+     freq (    5) =      13.791638 [THz] =     460.039537 [cm-1]
+     freq (    6) =      17.719222 [THz] =     591.049615 [cm-1]
+     freq (    7) =      18.480066 [THz] =     616.428639 [cm-1]
+     freq (    8) =      21.963216 [THz] =     732.614016 [cm-1]
+     freq (    9) =      24.465284 [THz] =     816.074034 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -4533,14 +4443,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1179
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -4567,13 +4479,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -4587,7 +4499,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -4601,8 +4513,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -4611,9 +4523,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -4720,7 +4632,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.22 MB
 
-     Estimated total dynamical RAM >     173.17 MB
+     Estimated total dynamical RAM >     461.78 MB
 
      Check: negative core charge=   -0.000006
 
@@ -4735,7 +4647,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is        8.8 secs
+     total cpu time spent up to now is        2.0 secs
 
      End of band structure calculation
 
@@ -4889,7 +4801,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.4330 0.2909 (   678 PWs)   bands (ev):
 
@@ -4905,7 +4817,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.1443 0.0000 (   681 PWs)   bands (ev):
 
@@ -5009,7 +4921,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.5774 0.2909 (   678 PWs)   bands (ev):
 
@@ -5025,7 +4937,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.2500-0.1443 0.0000 (   681 PWs)   bands (ev):
 
@@ -5125,7 +5037,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_7/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_7/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -5154,9 +5067,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -5164,13 +5077,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000  -0.0721688   0.1454529 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -5179,7 +5092,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -5193,7 +5106,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -5229,7 +5142,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     31.15s CPU     39.55s WALL
+     PHONON       :     19.38s CPU     21.86s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn7
@@ -5239,15 +5152,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000  -0.072168784   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       4.514514 [THz] =     150.587984 [cm-1]
-     freq (    2) =       4.982010 [THz] =     166.181978 [cm-1]
-     freq (    3) =       6.385846 [THz] =     213.008893 [cm-1]
-     freq (    4) =      10.261464 [THz] =     342.285587 [cm-1]
-     freq (    5) =      10.929434 [THz] =     364.566692 [cm-1]
-     freq (    6) =      12.548793 [THz] =     418.582676 [cm-1]
-     freq (    7) =      17.193204 [THz] =     573.503560 [cm-1]
-     freq (    8) =      17.613940 [THz] =     587.537799 [cm-1]
-     freq (    9) =      20.560939 [THz] =     685.839105 [cm-1]
+     freq (    1) =       4.514518 [THz] =     150.588104 [cm-1]
+     freq (    2) =       4.982024 [THz] =     166.182433 [cm-1]
+     freq (    3) =       6.385855 [THz] =     213.009209 [cm-1]
+     freq (    4) =      10.261459 [THz] =     342.285432 [cm-1]
+     freq (    5) =      10.929429 [THz] =     364.566523 [cm-1]
+     freq (    6) =      12.548802 [THz] =     418.582963 [cm-1]
+     freq (    7) =      17.193193 [THz] =     573.503195 [cm-1]
+     freq (    8) =      17.613929 [THz] =     587.537428 [cm-1]
+     freq (    9) =      20.560948 [THz] =     685.839386 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -5258,14 +5171,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1287
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -5292,13 +5207,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -5312,7 +5227,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -5326,8 +5241,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -5336,9 +5251,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -5445,7 +5360,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     173.48 MB
+     Estimated total dynamical RAM >     462.61 MB
 
      Check: negative core charge=   -0.000006
 
@@ -5460,7 +5375,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is       10.1 secs
+     total cpu time spent up to now is        2.2 secs
 
      End of band structure calculation
 
@@ -5622,7 +5537,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.4330-0.2909 (   678 PWs)   bands (ev):
 
@@ -5630,7 +5545,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.1443 0.0000 (   681 PWs)   bands (ev):
 
@@ -5742,7 +5657,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.5000-0.5774-0.2909 (   678 PWs)   bands (ev):
 
@@ -5750,7 +5665,7 @@ Fortran runtime warning: An array temporary was created
 
           k =-0.3750-0.6495-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k =-0.2500-0.1443 0.0000 (   681 PWs)   bands (ev):
 
@@ -5850,7 +5765,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_8/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_8/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -5879,9 +5795,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -5889,13 +5805,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.1250000  -0.0721688  -0.4363586 )
-
+ 
       4 Sym.Ops. (no q -> -q+G )
 
 
@@ -5904,7 +5820,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -5918,7 +5834,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -5954,7 +5870,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     35.58s CPU     45.36s WALL
+     PHONON       :     22.00s CPU     24.84s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn8
@@ -5964,15 +5880,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.125000000  -0.072168784  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       6.939916 [THz] =     231.490671 [cm-1]
-     freq (    2) =       7.090205 [THz] =     236.503774 [cm-1]
-     freq (    3) =       8.478127 [THz] =     282.799861 [cm-1]
-     freq (    4) =       8.537460 [THz] =     284.779015 [cm-1]
-     freq (    5) =      10.577096 [THz] =     352.813937 [cm-1]
-     freq (    6) =      12.276377 [THz] =     409.495871 [cm-1]
-     freq (    7) =      16.775058 [THz] =     559.555713 [cm-1]
-     freq (    8) =      17.557823 [THz] =     585.665942 [cm-1]
-     freq (    9) =      19.388262 [THz] =     646.722803 [cm-1]
+     freq (    1) =       6.939928 [THz] =     231.491070 [cm-1]
+     freq (    2) =       7.090217 [THz] =     236.504178 [cm-1]
+     freq (    3) =       8.478114 [THz] =     282.799438 [cm-1]
+     freq (    4) =       8.537460 [THz] =     284.779019 [cm-1]
+     freq (    5) =      10.577091 [THz] =     352.813764 [cm-1]
+     freq (    6) =      12.276390 [THz] =     409.496298 [cm-1]
+     freq (    7) =      16.775047 [THz] =     559.555338 [cm-1]
+     freq (    8) =      17.557813 [THz] =     585.665606 [cm-1]
+     freq (    9) =      19.388271 [THz] =     646.723095 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -5983,14 +5899,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1299
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -6017,13 +5935,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -6037,7 +5955,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -6051,8 +5969,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -6061,9 +5979,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -6170,7 +6088,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.24 MB
 
-     Estimated total dynamical RAM >     173.84 MB
+     Estimated total dynamical RAM >     463.57 MB
 
      Check: negative core charge=   -0.000006
 
@@ -6185,7 +6103,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is       11.3 secs
+     total cpu time spent up to now is        2.5 secs
 
      End of band structure calculation
 
@@ -6195,7 +6113,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.0000 0.0000 0.2909 (   690 PWs)   bands (ev):
 
@@ -6211,7 +6129,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.0000 0.2887 0.0000 (   681 PWs)   bands (ev):
 
@@ -6315,7 +6233,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250 1.0825 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330 0.2909 (   678 PWs)   bands (ev):
 
@@ -6331,7 +6249,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250 1.0825-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -6575,7 +6493,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_9/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_9/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -6604,9 +6523,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -6614,13 +6533,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.3750000   0.6495191   0.1454529 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -6629,7 +6548,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -6643,7 +6562,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -6679,7 +6598,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     40.11s CPU     51.19s WALL
+     PHONON       :     24.84s CPU     27.99s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn9
@@ -6689,15 +6608,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.375000000   0.649519053   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       8.051260 [THz] =     268.561122 [cm-1]
-     freq (    2) =       8.507806 [THz] =     283.789849 [cm-1]
-     freq (    3) =       9.279164 [THz] =     309.519587 [cm-1]
-     freq (    4) =      13.799907 [THz] =     460.315339 [cm-1]
-     freq (    5) =      14.877558 [THz] =     496.261915 [cm-1]
-     freq (    6) =      18.056218 [THz] =     602.290589 [cm-1]
-     freq (    7) =      21.580543 [THz] =     719.849441 [cm-1]
-     freq (    8) =      21.639673 [THz] =     721.821780 [cm-1]
-     freq (    9) =      22.711159 [THz] =     757.562725 [cm-1]
+     freq (    1) =       8.051268 [THz] =     268.561382 [cm-1]
+     freq (    2) =       8.507815 [THz] =     283.790174 [cm-1]
+     freq (    3) =       9.279173 [THz] =     309.519888 [cm-1]
+     freq (    4) =      13.799919 [THz] =     460.315734 [cm-1]
+     freq (    5) =      14.877569 [THz] =     496.262283 [cm-1]
+     freq (    6) =      18.056212 [THz] =     602.290415 [cm-1]
+     freq (    7) =      21.580537 [THz] =     719.849237 [cm-1]
+     freq (    8) =      21.639667 [THz] =     721.821607 [cm-1]
+     freq (    9) =      22.711153 [THz] =     757.562508 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -6708,14 +6627,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1347
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -6742,13 +6663,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -6762,7 +6683,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -6776,8 +6697,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -6786,9 +6707,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -6895,7 +6816,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.25 MB
 
-     Estimated total dynamical RAM >     173.96 MB
+     Estimated total dynamical RAM >     463.89 MB
 
      Check: negative core charge=   -0.000006
 
@@ -6910,7 +6831,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is       12.5 secs
+     total cpu time spent up to now is        2.8 secs
 
      End of band structure calculation
 
@@ -6928,7 +6849,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.0000 0.0000-0.2909 (   690 PWs)   bands (ev):
 
@@ -6936,7 +6857,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750 0.6495-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.0000 0.2887 0.0000 (   681 PWs)   bands (ev):
 
@@ -7048,7 +6969,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250 1.0825-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330-0.2909 (   678 PWs)   bands (ev):
 
@@ -7056,7 +6977,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250 1.0825-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500-0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -7300,7 +7221,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_10/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_10/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -7329,9 +7251,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -7339,13 +7261,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.3750000   0.6495191  -0.4363586 )
-
+ 
       4 Sym.Ops. (no q -> -q+G )
 
 
@@ -7354,7 +7276,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -7368,7 +7290,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -7404,7 +7326,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     44.55s CPU     56.96s WALL
+     PHONON       :     27.68s CPU     31.17s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn10
@@ -7414,15 +7336,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.375000000   0.649519053  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       8.155777 [THz] =     272.047433 [cm-1]
-     freq (    2) =       8.684970 [THz] =     289.699418 [cm-1]
-     freq (    3) =       9.220442 [THz] =     307.560827 [cm-1]
-     freq (    4) =      14.838152 [THz] =     494.947489 [cm-1]
-     freq (    5) =      15.511087 [THz] =     517.394182 [cm-1]
-     freq (    6) =      18.054465 [THz] =     602.232131 [cm-1]
-     freq (    7) =      21.599536 [THz] =     720.482969 [cm-1]
-     freq (    8) =      21.603981 [THz] =     720.631240 [cm-1]
-     freq (    9) =      22.136989 [THz] =     738.410460 [cm-1]
+     freq (    1) =       8.155784 [THz] =     272.047677 [cm-1]
+     freq (    2) =       8.684980 [THz] =     289.699750 [cm-1]
+     freq (    3) =       9.220451 [THz] =     307.561153 [cm-1]
+     freq (    4) =      14.838163 [THz] =     494.947840 [cm-1]
+     freq (    5) =      15.511098 [THz] =     517.394523 [cm-1]
+     freq (    6) =      18.054460 [THz] =     602.231949 [cm-1]
+     freq (    7) =      21.599530 [THz] =     720.482763 [cm-1]
+     freq (    8) =      21.603976 [THz] =     720.631067 [cm-1]
+     freq (    9) =      22.136982 [THz] =     738.410226 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -7433,14 +7355,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1191
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -7467,13 +7391,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -7487,7 +7411,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -7501,8 +7425,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -7511,9 +7435,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -7620,7 +7544,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     173.47 MB
+     Estimated total dynamical RAM >     462.58 MB
 
      Check: negative core charge=   -0.000006
 
@@ -7635,7 +7559,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is       13.8 secs
+     total cpu time spent up to now is        3.1 secs
 
      End of band structure calculation
 
@@ -7717,7 +7641,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.0000-0.2887 0.2909 (   680 PWs)   bands (ev):
 
@@ -7733,7 +7657,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.1443 0.0000 (   681 PWs)   bands (ev):
 
@@ -7741,7 +7665,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250-0.0722 0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.1443 0.2909 (   680 PWs)   bands (ev):
 
@@ -7757,7 +7681,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250-0.0722-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -8025,7 +7949,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_11/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_11/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -8054,9 +7979,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -8064,13 +7989,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.3750000  -0.2165064   0.1454529 )
-
+ 
       2 Sym.Ops. (no q -> -q+G )
 
 
@@ -8079,7 +8004,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -8093,7 +8018,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -8129,7 +8054,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     49.02s CPU   1m 2.74s WALL
+     PHONON       :     30.64s CPU     34.45s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn11
@@ -8139,15 +8064,15 @@ Fortran runtime warning: An array temporary was created
      q = (    0.375000000  -0.216506351   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       7.374252 [THz] =     245.978563 [cm-1]
-     freq (    2) =       7.591223 [THz] =     253.215954 [cm-1]
-     freq (    3) =       9.471415 [THz] =     315.932397 [cm-1]
-     freq (    4) =      12.737711 [THz] =     424.884297 [cm-1]
-     freq (    5) =      13.381073 [THz] =     446.344536 [cm-1]
-     freq (    6) =      18.142251 [THz] =     605.160359 [cm-1]
-     freq (    7) =      19.417271 [THz] =     647.690436 [cm-1]
-     freq (    8) =      22.037769 [THz] =     735.100862 [cm-1]
-     freq (    9) =      23.736684 [THz] =     791.770543 [cm-1]
+     freq (    1) =       7.374262 [THz] =     245.978912 [cm-1]
+     freq (    2) =       7.591233 [THz] =     253.216263 [cm-1]
+     freq (    3) =       9.471424 [THz] =     315.932699 [cm-1]
+     freq (    4) =      12.737723 [THz] =     424.884700 [cm-1]
+     freq (    5) =      13.381065 [THz] =     446.344279 [cm-1]
+     freq (    6) =      18.142261 [THz] =     605.160680 [cm-1]
+     freq (    7) =      19.417265 [THz] =     647.690236 [cm-1]
+     freq (    8) =      22.037763 [THz] =     735.100635 [cm-1]
+     freq (    9) =      23.736679 [THz] =     791.770383 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
@@ -8158,14 +8083,16 @@ Fortran runtime warning: An array temporary was created
      Message from routine kpoint_grid:
      ATTENTION: skip check of k-points equivalence
      [opt_tetra]  Optimized tetrahedron method is used.
-
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    121                15395     5449    1299
-
+ 
      Using Slab Decomposition
-
+ 
 
      Title: 
      Electron-phonon matrix                                                     
@@ -8192,13 +8119,13 @@ Fortran runtime warning: An array temporary was created
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -8212,7 +8139,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -8226,8 +8153,8 @@ Fortran runtime warning: An array temporary was created
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -8236,9 +8163,9 @@ Fortran runtime warning: An array temporary was created
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
                        cart. coord. in units 2pi/alat
@@ -8345,7 +8272,7 @@ Fortran runtime warning: An array temporary was created
 
      Estimated max dynamical RAM per process >       7.24 MB
 
-     Estimated total dynamical RAM >     173.65 MB
+     Estimated total dynamical RAM >     463.07 MB
 
      Check: negative core charge=   -0.000006
 
@@ -8360,7 +8287,7 @@ Fortran runtime warning: An array temporary was created
 
      ethr =  1.25E-10,  avg # of iterations = 20.6
 
-     total cpu time spent up to now is       15.2 secs
+     total cpu time spent up to now is        3.4 secs
 
      End of band structure calculation
 
@@ -8450,7 +8377,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.0000-0.2887-0.2909 (   680 PWs)   bands (ev):
 
@@ -8458,7 +8385,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.3750-0.5052-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.1443 0.0000 (   681 PWs)   bands (ev):
 
@@ -8474,7 +8401,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250-0.0722-0.1455 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.1443-0.2909 (   680 PWs)   bands (ev):
 
@@ -8482,7 +8409,7 @@ Fortran runtime warning: An array temporary was created
 
           k = 0.6250-0.0722-0.7273 (   675 PWs)   bands (ev):
 
-     0.0469   0.6595   2.6610   7.5260   8.7900  14.3040  15.3094  15.5921
+     0.0469   0.6595   2.6610   7.5259   8.7900  14.3040  15.3094  15.5921
 
           k = 0.2500 0.4330 0.0000 (   673 PWs)   bands (ev):
 
@@ -8750,7 +8677,8 @@ Fortran runtime warning: An array temporary was created
 
      the Fermi energy is     7.7432 ev
 
-     Writing output data file ./_ph0/pwscf.q_12/pwscf.save/
+     Writing config to output data dir ./_ph0/pwscf.q_12/pwscf.save/ :
+     XML data file
  
      [dfpt_tetra]  Dos(E_F)[/Ry] :   0.1053843E+02
 
@@ -8779,9 +8707,9 @@ Fortran runtime warning: An array temporary was created
                a(3) = (  0.0000  0.0000  1.1458 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774 -0.0000 )  
+               b(1) = (  1.0000  0.5774  0.0000 )  
                b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000 -0.0000  0.8727 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
 
 
      Atoms inside the unit cell: 
@@ -8789,13 +8717,13 @@ Fortran runtime warning: An array temporary was created
      Cartesian axes
 
      site n.  atom      mass           positions (alat units)
-        1     Mg  24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2     B   10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3     B   10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
                     q = (   0.3750000  -0.2165064  -0.4363586 )
-
+ 
       4 Sym.Ops. (no q -> -q+G )
 
 
@@ -8804,7 +8732,7 @@ Fortran runtime warning: An array temporary was created
      number of k points=    96
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -8818,7 +8746,7 @@ Fortran runtime warning: An array temporary was created
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -8854,7 +8782,7 @@ Fortran runtime warning: An array temporary was created
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     53.57s CPU   1m 8.60s WALL
+     PHONON       :     33.61s CPU     37.74s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn12
@@ -8864,110 +8792,113 @@ Fortran runtime warning: An array temporary was created
      q = (    0.375000000  -0.216506351  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       7.633686 [THz] =     254.632348 [cm-1]
-     freq (    2) =       8.266906 [THz] =     275.754293 [cm-1]
-     freq (    3) =       8.778700 [THz] =     292.825925 [cm-1]
-     freq (    4) =      13.271612 [THz] =     442.693335 [cm-1]
-     freq (    5) =      13.886181 [THz] =     463.193157 [cm-1]
-     freq (    6) =      17.940560 [THz] =     598.432661 [cm-1]
-     freq (    7) =      19.626900 [THz] =     654.682907 [cm-1]
-     freq (    8) =      22.268301 [THz] =     742.790575 [cm-1]
-     freq (    9) =      24.057932 [THz] =     802.486248 [cm-1]
+     freq (    1) =       7.633697 [THz] =     254.632712 [cm-1]
+     freq (    2) =       8.266913 [THz] =     275.754522 [cm-1]
+     freq (    3) =       8.778711 [THz] =     292.826294 [cm-1]
+     freq (    4) =      13.271604 [THz] =     442.693058 [cm-1]
+     freq (    5) =      13.886192 [THz] =     463.193517 [cm-1]
+     freq (    6) =      17.940569 [THz] =     598.432978 [cm-1]
+     freq (    7) =      19.626894 [THz] =     654.682715 [cm-1]
+     freq (    8) =      22.268295 [THz] =     742.790364 [cm-1]
+     freq (    9) =      24.057928 [THz] =     802.486093 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
  [elph_scdft]   Lowest band which contains FS :            3
  [elph_scdft]  Highest band which contains FS :            5
  [elph_scdft]    # of bands which contains FS :            3
-
-     init_run     :      8.32s CPU      8.41s WALL (      12 calls)
-     electrons    :      5.59s CPU      5.70s WALL (      12 calls)
+ 
+     init_run     :      1.31s CPU      1.69s WALL (      12 calls)
+     electrons    :      0.98s CPU      1.02s WALL (      12 calls)
 
      Called by init_run:
-     wfcinit      :      0.00s CPU      0.02s WALL (      12 calls)
-     potinit      :      1.18s CPU      1.22s WALL (      12 calls)
-     hinit0       :      6.95s CPU      6.97s WALL (      12 calls)
+     wfcinit      :      0.01s CPU      0.20s WALL (      12 calls)
+     potinit      :      0.69s CPU      0.87s WALL (      12 calls)
+     hinit0       :      0.29s CPU      0.30s WALL (      12 calls)
 
      Called by electrons:
-     c_bands      :      5.27s CPU      5.38s WALL (      12 calls)
-     v_of_rho     :      0.39s CPU      0.40s WALL (      13 calls)
-     newd         :      0.05s CPU      0.06s WALL (      13 calls)
-     PAW_pot      :      0.44s CPU      0.46s WALL (      13 calls)
+     c_bands      :      0.95s CPU      0.99s WALL (      12 calls)
+     v_of_rho     :      0.15s CPU      0.16s WALL (      13 calls)
+     newd         :      0.02s CPU      0.02s WALL (      13 calls)
+     PAW_pot      :      0.29s CPU      0.30s WALL (      13 calls)
 
      Called by c_bands:
-     init_us_2    :      0.09s CPU      0.10s WALL (     336 calls)
-     cegterg      :      3.01s CPU      3.07s WALL (      56 calls)
+     init_us_2    :      0.04s CPU      0.04s WALL (     168 calls)
+     cegterg      :      0.45s CPU      0.47s WALL (      28 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.15s CPU      0.16s WALL (     838 calls)
-     h_psi        :      2.69s CPU      2.74s WALL (     894 calls)
-     s_psi        :      0.07s CPU      0.07s WALL (     894 calls)
-     g_psi        :      0.08s CPU      0.08s WALL (     790 calls)
+     cdiaghg      :      0.06s CPU      0.06s WALL (     395 calls)
+     h_psi        :      0.34s CPU      0.36s WALL (     423 calls)
+     s_psi        :      0.01s CPU      0.01s WALL (     423 calls)
+     g_psi        :      0.00s CPU      0.00s WALL (     371 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.08s CPU      0.08s WALL (     894 calls)
-     vloc_psi     :      2.53s CPU      2.58s WALL (     894 calls)
-     add_vuspsi   :      0.07s CPU      0.07s WALL (     894 calls)
+     h_psi:calbec :      0.02s CPU      0.02s WALL (     423 calls)
+     vloc_psi     :      0.30s CPU      0.32s WALL (     423 calls)
+     add_vuspsi   :      0.01s CPU      0.01s WALL (     423 calls)
 
      General routines
-     calbec       :      0.11s CPU      0.12s WALL (    1302 calls)
-     fft          :      0.57s CPU      0.58s WALL (     672 calls)
-     ffts         :      0.16s CPU      0.17s WALL (     564 calls)
-     fftw         :      3.33s CPU      3.39s WALL (   18432 calls)
-     interpolate  :      0.30s CPU      0.32s WALL (     240 calls)
-     davcio       :      0.06s CPU      0.07s WALL (     926 calls)
-
+     calbec       :      0.03s CPU      0.03s WALL (     627 calls)
+     fft          :      0.12s CPU      0.14s WALL (     672 calls)
+     ffts         :      0.03s CPU      0.03s WALL (     456 calls)
+     fftw         :      0.32s CPU      0.34s WALL (    8940 calls)
+     interpolate  :      0.10s CPU      0.11s WALL (     240 calls)
+     davcio       :      0.06s CPU      0.09s WALL (     397 calls)
+ 
      Parallel routines
-
-     PHONON       :     54.56s CPU   1m10.78s WALL
+ 
+     PHONON       :     34.90s CPU     39.14s WALL
 
      INITIALIZATION: 
-     phq_setup    :      1.21s CPU      1.53s WALL (      12 calls)
-     phq_init     :     26.08s CPU     26.21s WALL (      12 calls)
-
-     phq_init     :     26.08s CPU     26.21s WALL (      12 calls)
-     set_drhoc    :      8.68s CPU      8.69s WALL (      12 calls)
-     init_vloc    :      0.33s CPU      0.33s WALL (      13 calls)
-     init_us_1    :      5.84s CPU      5.85s WALL (      13 calls)
-     newd         :      0.05s CPU      0.06s WALL (      13 calls)
-     dvanqq       :      9.85s CPU      9.89s WALL (      24 calls)
-     drho         :      6.96s CPU      7.04s WALL (      12 calls)
-
-
-
-
-     dvqpsi_us    :      0.94s CPU      0.96s WALL (     216 calls)
-     addusddens   :      5.51s CPU      5.54s WALL (     108 calls)
-     newdq        :      5.09s CPU      5.11s WALL (     108 calls)
-     adddvscf     :      0.03s CPU      0.03s WALL (     216 calls)
-
-     dvqpsi_us    :      0.94s CPU      0.96s WALL (     216 calls)
-     dvqpsi_us_on :      0.13s CPU      0.13s WALL (     216 calls)
-
-
-     h_psi        :      2.69s CPU      2.74s WALL (     894 calls)
-
-     h_psi        :      2.69s CPU      2.74s WALL (     894 calls)
-     add_vuspsi   :      0.07s CPU      0.07s WALL (     894 calls)
-
-     addusdbec    :      0.02s CPU      0.02s WALL (     216 calls)
-
-
+     phq_setup    :      0.57s CPU      0.70s WALL (      12 calls)
+     phq_init     :     16.22s CPU     16.37s WALL (      12 calls)
+ 
+     phq_init     :     16.22s CPU     16.37s WALL (      12 calls)
+     set_drhoc    :      0.05s CPU      0.06s WALL (      12 calls)
+     init_vloc    :      0.03s CPU      0.03s WALL (      13 calls)
+     init_us_1    :      0.11s CPU      0.11s WALL (      13 calls)
+     init_us_2    :      0.04s CPU      0.04s WALL (     168 calls)
+     newd         :      0.02s CPU      0.02s WALL (      13 calls)
+     dvanqq       :     12.98s CPU     13.00s WALL (      24 calls)
+     drho         :      9.65s CPU      9.76s WALL (      12 calls)
+     drhous       :      0.09s CPU      0.12s WALL (      12 calls)
+     nldyntot     :      0.00s CPU      0.00s WALL (      12 calls)
+     newdq        :      6.63s CPU      6.65s WALL (     108 calls)
+     adddvscf     :      0.01s CPU      0.01s WALL (     108 calls)
+     com_dvloc    :      0.03s CPU      0.03s WALL (     216 calls)
+                                        0.00s GPU  (     216 calls)
+ 
+     dvqpsi_us    :      0.15s CPU      0.15s WALL (     108 calls)
+                                        0.00s GPU  (     108 calls)
+     dvqpsi_us_on :      0.03s CPU      0.03s WALL (     108 calls)
+ 
+     add_vuspsi   :      0.01s CPU      0.01s WALL (     423 calls)
+     addusdbec    :      0.01s CPU      0.01s WALL (     108 calls)
+ 
+ 
       Electron-phonon coupling
-     elphon       :      7.19s CPU      7.25s WALL (      12 calls)
-     elphel       :      1.33s CPU      1.35s WALL (     108 calls)
-
+     elphon       :      8.49s CPU      8.53s WALL (      12 calls)
+     elphel       :      0.22s CPU      0.23s WALL (     108 calls)
+ 
       General routines
-     calbec       :      0.11s CPU      0.12s WALL (    1302 calls)
-     fft          :      0.57s CPU      0.58s WALL (     672 calls)
-     ffts         :      0.16s CPU      0.17s WALL (     564 calls)
-     fftw         :      3.33s CPU      3.39s WALL (   18432 calls)
-     davcio       :      0.06s CPU      0.07s WALL (     926 calls)
+     calbec       :      0.03s CPU      0.03s WALL (     627 calls)
+     fft          :      0.12s CPU      0.14s WALL (     672 calls)
+     ffts         :      0.03s CPU      0.03s WALL (     456 calls)
+     fftw         :      0.32s CPU      0.34s WALL (    8940 calls)
+     davcio       :      0.06s CPU      0.09s WALL (     397 calls)
+ 
+      Additional routines
+     h_psi_bgrp   :      0.34s CPU      0.36s WALL (     423 calls)
+     h_psi        :      0.34s CPU      0.36s WALL (     423 calls)
+     h_psi:pot    :      0.33s CPU      0.35s WALL (     423 calls)
+     h_psi:calbec :      0.02s CPU      0.02s WALL (     423 calls)
+     s_psi_bgrp   :      0.02s CPU      0.02s WALL (     423 calls)
+     s_psi        :      0.01s CPU      0.01s WALL (     423 calls)
+ 
+ 
+     PHONON       :     34.90s CPU     39.14s WALL
 
-
-     PHONON       :     54.56s CPU   1m10.78s WALL
-
-
-   This run was terminated on:  11:19: 9  29Jun2022            
+ 
+   This run was terminated on:   3: 7:35  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

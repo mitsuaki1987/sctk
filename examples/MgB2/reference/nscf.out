@@ -1,20 +1,5 @@
---------------------------------------------------------------------------
-Open MPI's OFI driver detected multiple equidistant NICs from the current process,
-but had insufficient information to ensure MPI processes fairly pick a NIC for use.
-This may negatively impact performance. A more modern PMIx server is necessary to
-resolve this issue.
 
-Note: This message is displayed only when the OFI component's verbosity level is
--111576912 or higher.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-WARNING: There was an error initializing an OpenFabrics device.
-
-  Local host:   macloud1
-  Local device: mlx4_0
---------------------------------------------------------------------------
-
-     Program PWSCF v.6.7GPU starts on 29Jun2022 at 11:19:34 
+     Program PWSCF v.7.4.1 starts on 13Mar2026 at  3: 8: 7 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -25,40 +10,41 @@ WARNING: There was an error initializing an OpenFabrics device.
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      24 processor cores
-     Number of MPI processes:                24
+     Parallel version (MPI & OpenMP), running on      64 processor cores
+     Number of MPI processes:                64
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     K-points division:     npool     =      24
+     225276 MiB available memory on the printing compute node when the environment starts
+ 
      Reading input from nscf.in
 
      Current dimensions of program PWSCF are:
      Max number of different atomic species (ntypx) = 10
      Max number of k-points (npk) =  40000
-     Max angular momentum in pseudopotentials (lmaxx) =  3
+     Max angular momentum in pseudopotentials (lmaxx) =  4
+     file B.pbe-n-kjpaw_psl.0.1.upf: wavefunction(s)  2P renormalized
+     file Mg.pbe-n-kjpaw_psl.0.3.0.upf: wavefunction(s)  3S renormalized
 
      Atomic positions and unit cell read from directory:
      ./pwscf.save/
-     Atomic positions from file used, from input discarded
-
-     file B.pbe-n-kjpaw_psl.0.1.upf: wavefunction(s)  2P renormalized
-     file Mg.pbe-n-kjpaw_psl.0.3.0.upf: wavefunction(s)  3S renormalized
+ 
      Message from routine setup:
      using ibrav=0 with symmetry is DISCOURAGED, use correct ibrav instead
      [opt_tetra]  Optimized tetrahedron method is used.
-
+ 
+     K-points division:     npool     =      64
      Subspace diagonalization in iterative solution of the eigenvalue problem:
      a serial algorithm will be used
 
-
+ 
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
      Sum         649     313    109                15395     5449    1011
-
+ 
      Using Slab Decomposition
-
+ 
 
 
      bravais-lattice index     =            0
@@ -82,13 +68,13 @@ WARNING: There was an error initializing an OpenFabrics device.
                a(3) = (   0.000000   0.000000   1.145847 )  
 
      reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350 -0.000000 )  
+               b(1) = (  1.000000  0.577350  0.000000 )  
                b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000 -0.000000  0.872717 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
 
 
      PseudoPot. # 1 for B  read from file:
-     ../../../pseudo/B.pbe-n-kjpaw_psl.0.1.upf
+     ./B.pbe-n-kjpaw_psl.0.1.upf
      MD5 check sum: b4345a612e0782cca08559f453f3313f
      Pseudo is Projector augmented-wave + core cor, Zval =  3.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -102,7 +88,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
 
      PseudoPot. # 2 for Mg read from file:
-     ../../../pseudo/Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
      MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
      Pseudo is Projector augmented-wave + core cor, Zval =  2.0
      Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
@@ -116,8 +102,8 @@ WARNING: There was an error initializing an OpenFabrics device.
 
 
      atomic species   valence    mass     pseudopotential
-        B              3.00    10.81100     B ( 1.00)
-        Mg             2.00    24.30500     Mg( 1.00)
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
 
      24 Sym. Ops., with inversion, found
 
@@ -126,9 +112,9 @@ WARNING: There was an error initializing an OpenFabrics device.
    Cartesian axes
 
      site n.     atom                  positions (alat units)
-         1           Mg  tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2           B   tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3           B   tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=   210 (tetrahedron method)
 
@@ -140,7 +126,7 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      Estimated max dynamical RAM per process >       7.20 MB
 
-     Estimated total dynamical RAM >     172.82 MB
+     Estimated total dynamical RAM >     460.84 MB
 
      Check: negative core charge=   -0.000006
 
@@ -152,109 +138,10 @@ WARNING: There was an error initializing an OpenFabrics device.
 
      Band Structure Calculation
      Davidson diagonalization with overlap
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 106 of file init_us_2_base.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
-At line 1740 of file mp.f90
-Fortran runtime warning: An array temporary was created
 
-     ethr =  1.25E-08,  avg # of iterations = 38.2
-[macloud1:941218] 23 more processes have sent help message help-common-ofi.txt / package_rank failed
-[macloud1:941218] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
-[macloud1:941218] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+     ethr =  1.25E-08,  avg # of iterations = 37.9
 
-     total cpu time spent up to now is        7.1 secs
+     total cpu time spent up to now is        1.4 secs
 
      End of band structure calculation
 
@@ -263,51 +150,52 @@ Fortran runtime warning: An array temporary was created
      the Fermi energy is     7.6811 ev
      (compare with:     7.6604 eV, computed in scf)
 
-     Writing output data file ./pwscf.save/
-
-     init_run     :      0.63s CPU      0.65s WALL (       1 calls)
-     electrons    :      5.69s CPU      5.72s WALL (       1 calls)
+     Writing all to output data dir ./pwscf.save/ :
+     XML data file, pseudopotentials, collected wavefunctions
+ 
+     init_run     :      0.32s CPU      0.36s WALL (       1 calls)
+     electrons    :      0.52s CPU      0.55s WALL (       1 calls)
 
      Called by init_run:
-     wfcinit      :      0.00s CPU      0.00s WALL (       1 calls)
-     potinit      :      0.05s CPU      0.06s WALL (       1 calls)
-     hinit0       :      0.56s CPU      0.56s WALL (       1 calls)
+     wfcinit      :      0.00s CPU      0.01s WALL (       1 calls)
+     potinit      :      0.11s CPU      0.13s WALL (       1 calls)
+     hinit0       :      0.17s CPU      0.17s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :      2.87s CPU      2.90s WALL (       1 calls)
-     v_of_rho     :      0.03s CPU      0.03s WALL (       1 calls)
+     c_bands      :      0.47s CPU      0.49s WALL (       1 calls)
+     v_of_rho     :      0.02s CPU      0.02s WALL (       1 calls)
      newd         :      0.00s CPU      0.00s WALL (       1 calls)
      PAW_pot      :      0.01s CPU      0.02s WALL (       1 calls)
 
      Called by c_bands:
-     init_us_2    :      0.00s CPU      0.00s WALL (       9 calls)
-     cegterg      :      1.77s CPU      1.79s WALL (      22 calls)
+     init_us_2    :      0.00s CPU      0.00s WALL (       4 calls)
+     cegterg      :      0.35s CPU      0.36s WALL (       9 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.10s CPU      0.10s WALL (     315 calls)
-     h_psi        :      1.44s CPU      1.46s WALL (     337 calls)
-     s_psi        :      0.03s CPU      0.03s WALL (     337 calls)
-     g_psi        :      0.04s CPU      0.04s WALL (     306 calls)
+     cdiaghg      :      0.04s CPU      0.04s WALL (     129 calls)
+     h_psi        :      0.23s CPU      0.24s WALL (     138 calls)
+     s_psi        :      0.01s CPU      0.01s WALL (     138 calls)
+     g_psi        :      0.00s CPU      0.00s WALL (     125 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.04s CPU      0.04s WALL (     337 calls)
-     vloc_psi     :      1.37s CPU      1.39s WALL (     337 calls)
-     add_vuspsi   :      0.03s CPU      0.03s WALL (     337 calls)
+     h_psi:calbec :      0.01s CPU      0.01s WALL (     138 calls)
+     vloc_psi     :      0.21s CPU      0.22s WALL (     138 calls)
+     add_vuspsi   :      0.01s CPU      0.01s WALL (     138 calls)
 
      General routines
-     calbec       :      0.03s CPU      0.04s WALL (     337 calls)
-     fft          :      0.01s CPU      0.01s WALL (      13 calls)
+     calbec       :      0.01s CPU      0.01s WALL (     138 calls)
+     fft          :      0.00s CPU      0.00s WALL (      13 calls)
      ffts         :      0.00s CPU      0.00s WALL (       1 calls)
-     fftw         :      1.15s CPU      1.17s WALL (    6374 calls)
+     fftw         :      0.14s CPU      0.15s WALL (    2776 calls)
      interpolate  :      0.00s CPU      0.00s WALL (       1 calls)
-     davcio       :      0.00s CPU      0.00s WALL (      18 calls)
-
+     davcio       :      0.00s CPU      0.00s WALL (       8 calls)
+ 
      Parallel routines
+ 
+     PWSCF        :      1.25s CPU      1.53s WALL
 
-     PWSCF        :      7.06s CPU      8.07s WALL
-
-
-   This run was terminated on:  11:19:42  29Jun2022            
+ 
+   This run was terminated on:   3: 8: 9  13Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
