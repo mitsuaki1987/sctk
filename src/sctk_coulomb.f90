@@ -110,6 +110,7 @@ SUBROUTINE prepare_q()
   USE uspp, ONLY : nkb, okvan
   USE exx, ONLY : dfftt
   USE mp, ONLY : mp_circular_shift_left, mp_barrier
+  USE elph_tetra_mod, ONLY : lshift_q
   !
   USE sctk_val, ONLY : gindx, gq2, ngv, nqbz, wfc, wfcq, becwfc, becwfcq, wscr, &
   &                    ngv0, ngv1, lsf, nmf, nb, nb_max, kplusq
@@ -180,7 +181,7 @@ SUBROUTINE prepare_q()
   !
   ! Prepare wave functions with phase shift
   !
-  iqv(1:3) = NINT(MATMUL(x_q(1:3,current_iq), at(1:3,1:3)) * REAL((/nq1, nq2, nq3/), dp) - 0.5_dp)
+  iqv(1:3) = NINT(MATMUL(x_q(1:3,current_iq), at(1:3,1:3)) * REAL((/nq1, nq2, nq3/), dp) - 0.5_dp* REAL(lshift_q(1:3), dp))
   !
   DO ik = 1, nqbz
      !

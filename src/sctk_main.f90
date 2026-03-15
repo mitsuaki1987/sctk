@@ -103,7 +103,6 @@ PROGRAM sctk_main
   CALL read_file_new ( needwf )
   caLL degenerated_band()
   CALL read_a2Fsave()
-  lshift_q = .TRUE.
   !
   IF(TRIM(calculation) == "kel") THEN
      !

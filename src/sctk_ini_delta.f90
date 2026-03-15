@@ -198,6 +198,7 @@ SUBROUTINE compute_dosk(dos, dxq_dos, d2xq_dos)
   USE disp,  ONLY : nq1, nq2, nq3
   USE klist, ONLY : nks
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
+  USE elph_tetra_mod, ONLY : lshift_q
   USE sctk_val, ONLY : nqbz, nx, d_et, d2_et
   !
   USE sctk_tetra, ONLY : calc_dosk, interpol_indx
@@ -207,7 +208,7 @@ SUBROUTINE compute_dosk(dos, dxq_dos, d2xq_dos)
   &                   dxq_dos(nx*(elph_nbnd_max-elph_nbnd_min+1),nqbz,2), &
   &                  d2xq_dos(nx*(elph_nbnd_max-elph_nbnd_min+1),nqbz,2)
   !
-  INTEGER :: ik, ikv(3), kintp(8), i8, ibnd
+  INTEGER :: ik, ikv(3), kintp(8), i8, ibnd, ii
   REAL(dp) :: kv(3), wintp(8), dosd(nx*(elph_nbnd_max-elph_nbnd_min+1),nks)
   REAL(dp),ALLOCATABLE :: dxq_dosd(:), d2xq_dosd(:)
   !
@@ -226,72 +227,51 @@ SUBROUTINE compute_dosk(dos, dxq_dos, d2xq_dos)
   d2xq_dos(1:nx*(elph_nbnd_max-elph_nbnd_min+1),1:nqbz,1:2) = 0.0_dp
   !
   !!$OMP PARALLEL DEFAULT(NONE) &
-  !!$OMP & SHARED(nks,nqbz,nx,dosd,dos,dxq_dos,d2xq_dos,elph_nbnd_min,elph_nbnd_max,nk1,nk2,nk3,nq1,nq2,nq3,d_et,d2_et,world_comm) &
-  !!$OMP & PRIVATE(ik,ikv,kv,wintp,kintp,i8,dxq_dosd,d2xq_dosd)
+  !!$OMP & SHARED(nks,nqbz,nx,dosd,dos,dxq_dos,d2xq_dos,elph_nbnd_min,elph_nbnd_max,nk1, &
+  !!$OMP &        nk2,nk3,nq1,nq2,nq3,d_et,d2_et,world_comm) &
+  !!$OMP & PRIVATE(ik,ikv,kv,wintp,kintp,i8,dxq_dosd,d2xq_dosd,ii)
   !
   ALLOCATE(dxq_dosd(nx*(elph_nbnd_max-elph_nbnd_min+1)), &
   &       d2xq_dosd(nx*(elph_nbnd_max-elph_nbnd_min+1))  )
   !
-  !!$OMP DO REDUCTION(+: dos, dxq_dos, d2xq_dos)
-  DO ik = 1, nks
-     !
-     ! 1. Non-shifted grid
-     !
-     ikv(1) = (ik - 1) / (nk2*nk3)
-     ikv(2) = (ik - 1 - ikv(1)*nk2*nk3) / nk3
-     ikv(3) =  ik - 1 - ikv(1)*nk2*nk3 - ikv(2)*nk3
-     kv(1:3) = REAL(ikv(1:3), dp) / REAL((/nk1,nk2,nk3/), dp)
-     CALL interpol_indx((/nq1,nq2,nq3/),kv,kintp,wintp)
-     DO i8 = 1, 8
-        dos(     1:nx*(elph_nbnd_max-elph_nbnd_min+1),      kintp(i8),1) &
-        & = dos( 1:nx*(elph_nbnd_max-elph_nbnd_min+1),      kintp(i8),1) &
+  DO ii = 1, 2
+    !
+    !!$OMP DO REDUCTION(+: dos, dxq_dos, d2xq_dos)
+    DO ik = 1, nks
+      !
+      ikv(1) = (ik - 1) / (nk2*nk3)
+      ikv(2) = (ik - 1 - ikv(1)*nk2*nk3) / nk3
+      ikv(3) =  ik - 1 - ikv(1)*nk2*nk3 - ikv(2)*nk3
+      kv(1:3) = REAL(ikv(1:3), dp) / REAL((/nk1,nk2,nk3/), dp) &
+      &       - 0.5_dp * REAL((ii-1)*lshift_q(1:3),DP) / REAL((/nq1,nq2,nq3/), dp)
+      CALL interpol_indx((/nq1,nq2,nq3/),kv,kintp,wintp)
+      DO i8 = 1, 8
+        dos(     1:nx*(elph_nbnd_max-elph_nbnd_min+1),      kintp(i8),ii) &
+        & = dos( 1:nx*(elph_nbnd_max-elph_nbnd_min+1),      kintp(i8),ii) &
         & + dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1),ik) * wintp(i8)
-     END DO
-     !
-     DO ibnd = 1, elph_nbnd_max-elph_nbnd_min+1
+      END DO
+      !
+      DO ibnd = 1, elph_nbnd_max-elph_nbnd_min+1
         dxq_dosd( (ibnd-1)*nx+1:ibnd*nx) = dosd((ibnd-1)*nx+1:ibnd*nx,ik) * d_et( elph_nbnd_min-1+ibnd,ik)
         d2xq_dosd((ibnd-1)*nx+1:ibnd*nx) = dosd((ibnd-1)*nx+1:ibnd*nx,ik) * d2_et(elph_nbnd_min-1+ibnd,ik)
-     END DO
-     DO i8 = 1, 8
-        dxq_dos(      1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),1) &
-        & = dxq_dos(  1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),1) &
+      END DO
+      !
+      DO i8 = 1, 8
+        dxq_dos(      1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),ii) &
+        & = dxq_dos(  1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),ii) &
         &  + dxq_dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1)) * wintp(i8)
         !
-        d2xq_dos(      1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),1) &
-        & = d2xq_dos(  1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),1) &
+        d2xq_dos(      1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),ii) &
+        & = d2xq_dos(  1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),ii) &
         &  + d2xq_dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1)) * wintp(i8)
-     END DO
-     !
-     ! 2. Shifted grid (k + 1/2)
-     !
-     ikv(1) = (ik - 1) / (nk2*nk3)
-     ikv(2) = (ik - 1 - ikv(1)*nk2*nk3) / nk3
-     ikv(3) =  ik - 1 - ikv(1)*nk2*nk3 - ikv(2)*nk3
-     kv(1:3) = REAL(ikv(1:3), dp) / REAL((/nk1,nk2,nk3/), dp) - 0.5_dp / REAL((/nq1,nq2,nq3/), dp)
-     CALL interpol_indx((/nq1,nq2,nq3/),kv,kintp,wintp)
-     DO i8 = 1, 8
-        dos(     1:nx*(elph_nbnd_max-elph_nbnd_min+1),      kintp(i8),2) &
-        & = dos( 1:nx*(elph_nbnd_max-elph_nbnd_min+1),      kintp(i8),2) &
-        & + dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1),ik) * wintp(i8)
-     END DO
-     !
-     DO ibnd = 1, elph_nbnd_max-elph_nbnd_min+1
-        dxq_dosd( (ibnd-1)*nx+1:ibnd*nx) = dosd((ibnd-1)*nx+1:ibnd*nx,ik) * d_et( elph_nbnd_min-1+ibnd,ik)
-        d2xq_dosd((ibnd-1)*nx+1:ibnd*nx) = dosd((ibnd-1)*nx+1:ibnd*nx,ik) * d2_et(elph_nbnd_min-1+ibnd,ik)
-     END DO
-     !
-     DO i8 = 1, 8
-        dxq_dos(      1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),2) &
-        & = dxq_dos(  1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),2) &
-        &  + dxq_dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1)) * wintp(i8)
-        !
-        d2xq_dos(      1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),2) &
-        & = d2xq_dos(  1:nx*(elph_nbnd_max-elph_nbnd_min+1),   kintp(i8),2) &
-        &  + d2xq_dosd(1:nx*(elph_nbnd_max-elph_nbnd_min+1)) * wintp(i8)
-     END DO
-     !
-  END DO
-  !!$OMP END DO
+      END DO
+      !
+    END DO
+    !!$OMP END DO
+    !
+  END DO ! ii
+write(201,*) dos(:,:,1)
+write(202,*) dos(:,:,2)
   !
   DEALLOCATE(dxq_dosd, d2xq_dosd)
   !
@@ -302,6 +282,8 @@ SUBROUTINE compute_dosk(dos, dxq_dos, d2xq_dos)
   CALL mp_sum(d2xq_dos, world_comm)
   !
   CALL symm_dosk(dos, dxq_dos, d2xq_dos)
+write(301,*) dos(:,:,1)
+write(302,*) dos(:,:,2)
   !
   dxq_dos(:,:,:) = dxq_dos(:,:,:) / dos(:,:,:)
   d2xq_dos(:,:,:) = d2xq_dos(:,:,:) / dos(:,:,:)
@@ -420,13 +402,14 @@ SUBROUTINE compute_d3k()
   USE kinds, ONLY : DP
   USE io_global, ONLY : stdout
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
+  USE elph_tetra_mod, ONLY : lshift_q
   USE sctk_val, ONLY : bindx, dk, fbee, kindx, lbee, dxq, d2xq, &
   &                     nqbz, ngapmax, ngap, nx, xi, xi0
   !
   IMPLICIT NONE
   !
   INTEGER :: ik, ib, ix, ii
-  REAL(dp) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), thr = 1e-12_dp, shift, &
+  REAL(dp) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), thr = 1e-12_dp, shift(3), &
   &       dxq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), &
   &      d2xq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2)
   !
@@ -473,9 +456,9 @@ SUBROUTINE compute_d3k()
   DO ii = 1, 2
     !
     IF(ii == 1) THEN
-      shift = 0.0_dp
+      shift(1:3) = 0.0_dp
     ELSE
-      shift = 0.5_dp
+      shift(1:3) = 0.5_dp * REAL(lshift_q(1:3), DP)
     END IF
     !
     CALL store_d3k(dos(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz,ii), &
@@ -507,7 +490,7 @@ SUBROUTINE store_d3k(dos,dxq_dos,d2xq_dos,shift,ngap,xi,dk,kindx,bindx,dxq,d2xq)
   INTEGER,INTENT(IN) :: ngap
   REAL(dp),INTENT(IN) :: dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz), &
   &                  dxq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz), &
-  &                 d2xq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz), shift
+  &                 d2xq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz), shift(3)
   REAL(dp),INTENT(OUT) :: xi(ngap), dk(ngap), dxq(ngap), d2xq(ngap)
   INTEGER,INTENT(OUT) :: kindx(ngap), bindx(ngap)
   !
@@ -554,7 +537,7 @@ SUBROUTINE store_d3k(dos,dxq_dos,d2xq_dos,shift,ngap,xi,dk,kindx,bindx,dxq,d2xq)
         !
         ngap0 = ngap0 + 1
         !
-        kv(1:3) = (REAL(ikv(1:3), dp) + shift) / REAL((/nq1,nq2,nq3/), dp)
+        kv(1:3) = (REAL(ikv(1:3), dp) + shift(1:3)) / REAL((/nq1,nq2,nq3/), dp)
         CALL interpol_indx((/nk1,nk2,nk3/),kv,kintp,wintp)
         xi(ngap0) = DOT_PRODUCT(wintp(1:8), et(ib,kintp(1:8))) - ef
         dxq(ngap0) = DOT_PRODUCT(wintp(1:8), d_et(ib,kintp(1:8)))
@@ -584,6 +567,7 @@ SUBROUTINE symm_dosk(dos, dxq_dos,d2xq_dos)
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE io_global, ONLY : stdout
   USE sctk_val, ONLY : nqbz, nx, q_fflo
+  USE elph_tetra_mod, ONLY : lshift_q
   !
   IMPLICIT NONE
   !
@@ -591,7 +575,7 @@ SUBROUTINE symm_dosk(dos, dxq_dos,d2xq_dos)
   &                     dxq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2), &
   &                    d2xq_dos(nx,elph_nbnd_min:elph_nbnd_max,nqbz,2)
   !
-  INTEGER :: ik, ik2, isym, ikv2(3), nksym(nqbz)
+  INTEGER :: ik, ik2, isym, ikv2(3), nksym(nqbz), ii
   REAL(dp) :: dostmp(nx,elph_nbnd_min:elph_nbnd_max,nqbz), kv1(3), kv2(3), q_fflo2(3), qnorm, &
   &       dxq_dostmp(nx,elph_nbnd_min:elph_nbnd_max,nqbz), d2xq_dostmp(nx,elph_nbnd_min:elph_nbnd_max,nqbz)
   LOGICAL :: lq_sym(nsym)
@@ -607,25 +591,26 @@ SUBROUTINE symm_dosk(dos, dxq_dos,d2xq_dos)
   END DO
   WRITE(stdout,'(7x,"Number of symmetries conserving q_FFLO : ",i5)') COUNT(lq_sym(1:nsym)) 
   !
-  ! 1. Non-shifted grid
-  !
-  nksym(1:nqbz) = 0
-  dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
-  dxq_dostmp( 1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
-  d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
-  !
-  DO ik = 1, nqbz
-     !
-     ikv2(1) = (ik - 1) / (nq2*nq3)
-     ikv2(2) = (ik - 1 - ikv2(1)*nq2*nq3) / nq3
-     ikv2(3) =  ik - 1 - ikv2(1)*nq2*nq3 - ikv2(2)*nq3
-     kv1(1:3) = REAL(ikv2(1:3), dp) / REAL((/nq1,nq2,nq3/), dp)
-     !
-     DO isym = 1, nsym
+  DO ii = 1, 2
+    !
+    nksym(1:nqbz) = 0
+    dostmp(     1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
+    dxq_dostmp( 1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
+    d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
+    !
+    DO ik = 1, nqbz
+      !
+      ikv2(1) = (ik - 1) / (nq2*nq3)
+      ikv2(2) = (ik - 1 - ikv2(1)*nq2*nq3) / nq3
+      ikv2(3) =  ik - 1 - ikv2(1)*nq2*nq3 - ikv2(2)*nq3
+      kv1(1:3) = (REAL(ikv2(1:3), dp) + 0.5_dp*REAL((ii-1)*lshift_q(1:3), DP)) / REAL((/nq1,nq2,nq3/), dp)
+      !
+      DO isym = 1, nsym
         !
         IF(.NOT. lq_sym(isym)) CYCLE
         !
         kv2(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv1(1:3)) * REAL((/nq1,nq2,nq3/), dp)
+        kv2(1:3) = kv2(1:3) - 0.5_dp * REAL((ii-1)*lshift_q(1:3),dp)
         ikv2(1:3) = NINT(kv2(1:3))
         !
         IF(ANY(ABS(kv2(1:3) - REAL(ikv2(1:3), dp)) > 1e-8_dp)) CYCLE
@@ -637,86 +622,32 @@ SUBROUTINE symm_dosk(dos, dxq_dos,d2xq_dos)
         !
         dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
         & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & + dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,1)
+        & + dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,ii)
         !
         dxq_dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
         & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & + dxq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,1)
+        & + dxq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,ii)
         !
         d2xq_dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
         & = d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & + d2xq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,1)
+        & + d2xq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,ii)
         !
-     END DO
-     !
-  END DO
-  !
-  DO ik = 1, nqbz
-     dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,1) &
-     & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
-     !
-     dxq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,1) &
-     & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
-     !
-     d2xq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,1) &
-     & = d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
-  END DO
-  !
-  ! 2. Shifted grid (k + 1/2)
-  !
-  nksym(1:nqbz) = 0
-  dostmp(     1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
-  dxq_dostmp( 1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
-  d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,1:nqbz) = 0.0_dp
-  !
-  DO ik = 1, nqbz
-     !
-     ikv2(1) = (ik - 1) / (nq2*nq3)
-     ikv2(2) = (ik - 1 - ikv2(1)*nq2*nq3) / nq3
-     ikv2(3) =  ik - 1 - ikv2(1)*nq2*nq3 - ikv2(2)*nq3
-     kv1(1:3) = (REAL(ikv2(1:3), dp) + 0.5_dp) / REAL((/nq1,nq2,nq3/), dp)
-     !
-     DO isym = 1, nsym
-        !
-        IF(.NOT. lq_sym(isym)) CYCLE
-        !
-        kv2(1:3) = MATMUL(REAL(s(1:3,1:3,isym), dp), kv1(1:3)) * REAL((/nq1,nq2,nq3/), dp)
-        kv2(1:3) = kv2(1:3) - 0.5_dp
-        ikv2(1:3) = NINT(kv2(1:3))
-        !
-        IF(ANY(ABS(kv2(1:3) - REAL(ikv2(1:3), dp)) > 1e-8_dp)) CYCLE
-        !
-        ikv2(1:3) = MODULO(ikv2(1:3), (/nq1,nq2,nq3/))
-        ik2 = 1 + ikv2(3) + ikv2(2)*nq3 + ikv2(1)*nq2*nq3
-        !
-        nksym(ik2) = nksym(ik2) + 1
-        !
-        dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & + dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,2)
-        !
-        dxq_dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & + dxq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,2)
-        !
-        d2xq_dostmp(    1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & = d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik2) &
-        & + d2xq_dos(   1:nx,elph_nbnd_min:elph_nbnd_max,ik,2)
-        !
-     END DO
-     !
-  END DO
-  !
-  DO ik = 1, nqbz
-     dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,2) &
-     & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
-     !
-     dxq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,2) &
-     & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
-     !
-     d2xq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,2) &
-     & = d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
-  END DO
+      END DO
+      !
+    END DO
+    !
+    DO ik = 1, nqbz
+      dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,ii) &
+      & = dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
+      !
+      dxq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,ii) &
+      & = dxq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
+      !
+      d2xq_dos(       1:nx,elph_nbnd_min:elph_nbnd_max,ik,ii) &
+      & = d2xq_dostmp(1:nx,elph_nbnd_min:elph_nbnd_max,ik) / REAL(nksym(ik), dp)
+    END DO
+    !
+  END DO ! ii
   !
 END SUBROUTINE symm_dosk
 !
@@ -733,6 +664,7 @@ SUBROUTINE ini_lambda_mu()
   USE disp,  ONLY : nq1, nq2, nq3
   USE el_phon, ONLY : elph_nbnd_min, elph_nbnd_max
   USE fermisurfer_common, ONLY : b_low, b_high
+  USE elph_tetra_mod, ONLY : lshift_q
   USE sctk_val, ONLY : bindx, dk, kindx, nqbz, ngapmax, nx, xi0, dx0
   !
   USE sctk_tetra, ONLY : calc_dosk, interpol_indx
@@ -756,7 +688,7 @@ SUBROUTINE ini_lambda_mu()
   !
   !$OMP PARALLEL DEFAULT(NONE) &
   !$OMP & SHARED(nqbz,nx,dosd,dos,elph_nbnd_min,elph_nbnd_max, &
-  !$OMP &        nk1,nk2,nk3,nq1,nq2,nq3,nks) &
+  !$OMP &        nk1,nk2,nk3,nq1,nq2,nq3,nks,lshift_q) &
   !$OMP & PRIVATE(ik,ikv,kv,wintp,kintp,i8)
   !
   !$OMP DO REDUCTION(+: dos)
@@ -765,7 +697,7 @@ SUBROUTINE ini_lambda_mu()
      ikv(1) = (ik - 1) / (nk2*nk3)
      ikv(2) = (ik - 1 - ikv(1)*nk2*nk3) / nk3
      ikv(3) =  ik - 1 - ikv(1)*nk2*nk3 - ikv(2)*nk3
-     kv(1:3) = REAL(ikv(1:3), dp) / REAL((/nk1,nk2,nk3/), dp) - 0.5_dp / REAL((/nq1,nq2,nq3/), dp)
+     kv(1:3) = REAL(ikv(1:3), dp) / REAL((/nk1,nk2,nk3/), dp) - 0.5_dp*REAL(lshift_q(1:3), DP) / REAL((/nq1,nq2,nq3/), dp)
      CALL interpol_indx((/nq1,nq2,nq3/),kv,kintp,wintp)
      DO i8 = 1, 8
         dos(     elph_nbnd_min:elph_nbnd_max,      kintp(i8),2) &

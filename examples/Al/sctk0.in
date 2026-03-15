@@ -1,5 +1,6 @@
 &CONTROL
 calculation = ""
+lshift_q = 1, 1, 1
 /
 &KEL
      nci = 5

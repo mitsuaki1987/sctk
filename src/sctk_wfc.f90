@@ -23,6 +23,7 @@ SUBROUTINE get_wfcg()
   USE disp, ONLY : nq1, nq2, nq3
   USE io_global, ONLY : stdout
   USE noncollin_module, ONLY : npol
+  USE elph_tetra_mod, ONLY : lshift_q
   !
   USE sctk_coulomb, ONLY : circular_shift_wrapper_c
   USE sctk_val, ONLY : nqbz, wfc0, igv, npw, nb, bdsp, nb_max
@@ -108,9 +109,9 @@ SUBROUTINE get_wfcg()
            ikv(1) = (ik - 1) / (nq3*nq2)
            ikv(2) = (ik - 1 - ikv(1)*nq2*nq3) / nq3
            ikv(3) =  ik - 1 - ikv(1)*nq2*nq3 - ikv(2)*nq3
-           WHERE(ikv(1:3)*2 + ii - 1 >= (/nq1,nq2,nq3/)) ikv(1:3) = ikv(1:3) - (/nq1,nq2,nq3/)
+           WHERE(ikv(1:3)*2 + (ii-1)*lshift_q(1:3) >= (/nq1,nq2,nq3/)) ikv(1:3) = ikv(1:3) - (/nq1,nq2,nq3/)
            !
-           xk1(1:3) = (REAL(ikv(1:3), dp) + 0.5_dp*REAL(ii-1, dp)) / REAL((/nq1, nq2, nq3/), dp)
+           xk1(1:3) = (REAL(ikv(1:3), dp) + 0.5_dp*REAL((ii-1)*lshift_q(1:3), dp)) / REAL((/nq1, nq2, nq3/), dp)
            xk1(1:3) = MATMUL(bvec0(1:3, 1:3), xk1(1:3))
            IF(ANY(ABS(xk1(1:3) - xk0(1:3)) > 1.0e-5_dp)) THEN
               WRITE(stdout,'("ik = ",i5,", ii = ",i5)') ik, ii
@@ -152,6 +153,7 @@ SUBROUTINE fft_wfc()
   USE uspp, ONLY : nkb, okvan
   USE disp, ONLY : nq1, nq2, nq3
   USE uspp_init, ONLY : init_us_2
+  USE elph_tetra_mod, ONLY : lshift_q
   !
   USE sctk_val, ONLY : igv, npw, wfc0, nb, nb_max, &
   &                    wfc, wfcq, becwfc, becwfcq, nqbz
@@ -226,9 +228,9 @@ SUBROUTINE fft_wfc()
            ikv(1) = (ik - 1) / (nq3*nq2)
            ikv(2) = (ik - 1 - ikv(1)*nq2*nq3) / nq3
            ikv(3) =  ik - 1 - ikv(1)*nq2*nq3 - ikv(2)*nq3
-           WHERE(ikv(1:3)*2 + ii - 1 >= (/nq1,nq2,nq3/)) ikv(1:3) = ikv(1:3) - (/nq1,nq2,nq3/)
+           WHERE(ikv(1:3)*2 + (ii-1)*lshift_q(1:3) >= (/nq1,nq2,nq3/)) ikv(1:3) = ikv(1:3) - (/nq1,nq2,nq3/)
            !
-           xk(1:3) = (REAL(ikv(1:3), dp) + 0.5_dp*REAL(ii-1, dp)) / REAL((/nq1, nq2, nq3/), dp)
+           xk(1:3) = (REAL(ikv(1:3), dp) + 0.5_dp*REAL((ii-1)*lshift_q(1:3), dp)) / REAL((/nq1, nq2, nq3/), dp)
            xk(1:3) = MATMUL(bg(1:3, 1:3), xk(1:3))
            !
            !$OMP PARALLEL DEFAULT(NONE) &

@@ -166,6 +166,7 @@ SUBROUTINE k_kplusq_sym(fstk,lstk,nqsym,iks)
   USE symm_base, ONLY : nsym, s, time_reversal
   USE cell_base, ONLY : at
   USE disp,  ONLY : nq1, nq2, nq3, nqs, x_q
+  USE elph_tetra_mod, ONLY : lshift_q
   USE sctk_val, ONLY : nqbz
   !
   IMPLICIT NONE
@@ -214,7 +215,7 @@ SUBROUTINE k_kplusq_sym(fstk,lstk,nqsym,iks)
               IF(ik2 < fstk .OR. lstk < ik2) CYCLE
               !
               kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), kv0(1:3) + rqv(1:3))
-              kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
+              kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp * REAL(lshift_q(1:3), dp)
               ikv1(1:3) = NINT(kv1(1:3))
               !
               IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
@@ -411,6 +412,7 @@ SUBROUTINE k_kplusq_sym_f(nindmax,nind,ind)
   USE symm_base, ONLY : nsym, s, time_reversal
   USE cell_base, ONLY : at
   USE disp,  ONLY : nq1, nq2, nq3, nqs, x_q
+  USE elph_tetra_mod, ONLY : lshift_q
   USE sctk_val, ONLY : nqbz
   !
   IMPLICIT NONE
@@ -462,7 +464,7 @@ SUBROUTINE k_kplusq_sym_f(nindmax,nind,ind)
               !
               kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp),  &
               &                 kv0(1:3) + rqv(1:3)) * REAL((/nq1,nq2,nq3/), dp)
-              kv1(1:3) = kv1(1:3) - 0.5_dp
+              kv1(1:3) = kv1(1:3) - 0.5_dp * REAL(lshift_q(1:3), dp)
               ikv1(1:3) = NINT(kv1(1:3))
               !
               IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
@@ -518,7 +520,7 @@ SUBROUTINE k_kplusq_sym_f(nindmax,nind,ind)
               !
               kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp),  &
               &                 kv0(1:3) + rqv(1:3)) * REAL((/nq1,nq2,nq3/), dp)
-              kv1(1:3) = kv1(1:3) - 0.5_dp
+              kv1(1:3) = kv1(1:3) - 0.5_dp * REAL(lshift_q(1:3), dp)
               ikv1(1:3) = NINT(kv1(1:3))
               !
               IF(ANY(ABS(kv1(1:3) - REAL(ikv1(1:3), dp)) > 1e-5_dp)) CYCLE
@@ -546,6 +548,7 @@ SUBROUTINE interpol_g_v(kv0,nind,nindmax,ind,nqsym,iks,wght)
   USE kinds, ONLY : DP
   USE symm_base, ONLY : nsym, s, time_reversal
   USE disp,  ONLY : nq1, nq2, nq3, nqs
+  USE elph_tetra_mod, ONLY : lshift_q
   USE sctk_val, ONLY : nqbz
   !
   USE sctk_tetra, ONLY : interpol_indx
@@ -588,8 +591,8 @@ SUBROUTINE interpol_g_v(kv0,nind,nindmax,ind,nqsym,iks,wght)
            kv1(1:3) = REAL(jkv1(1:3), dp) / REAL((/nq1,nq2,nq3/), dp)
            !
            kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), &
-           &                 kv1(1:3) + 0.5_dp / REAL((/nq1,nq2,nq3/), dp))
-           kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
+           &                 kv1(1:3) + 0.5_dp * REAL(lshift_q(1:3), dp) / REAL((/nq1,nq2,nq3/), dp))
+           kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp * REAL(lshift_q(1:3), dp)
            jkv1(1:3) = NINT(kv1(1:3))
            !
            IF(ANY(ABS(kv1(1:3) - REAL(jkv1(1:3), dp)) > 1e-5_dp)) CYCLE
@@ -636,8 +639,8 @@ SUBROUTINE interpol_g_v(kv0,nind,nindmax,ind,nqsym,iks,wght)
            kv1(1:3) = REAL(jkv1(1:3), dp) / REAL((/nq1,nq2,nq3/), dp)
            !
            kv1(1:3) = MATMUL(REAL(s(1:3,1:3,isym)*tsign(itsign), dp), &
-           &                 kv1(1:3) + 0.5_dp / REAL((/nq1,nq2,nq3/), dp))
-           kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp
+           &                 kv1(1:3) + 0.5_dp * REAL(lshift_q(1:3), dp) / REAL((/nq1,nq2,nq3/), dp))
+           kv1(1:3) = kv1(1:3) * REAL((/nq1,nq2,nq3/), dp) - 0.5_dp * REAL(lshift_q(1:3), dp)
            jkv1(1:3) = NINT(kv1(1:3))
            !
            IF(ANY(ABS(kv1(1:3) - REAL(jkv1(1:3), dp)) > 1e-5_dp)) CYCLE

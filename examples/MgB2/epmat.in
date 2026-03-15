@@ -1,6 +1,6 @@
 Electron-phonon matrix
 &INPUTPH
-        lshift_q = .true.
+        lshift_q = 1, 1, 1
            ldisp = .true.
       search_sym = .false.
              nq1 = 4

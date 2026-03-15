@@ -20,18 +20,20 @@ SUBROUTINE stdin_control()
   USE mp, ONLY : mp_bcast
   USE io_files, ONLY : prefix, tmp_dir
   USE input_parameters, ONLY : calculation, restart_mode
+  USE elph_tetra_mod, ONLY : lshift_q
   !
   IMPLICIT NONE
   !
   CHARACTER(256) :: outdir
   CHARACTER(256), EXTERNAL :: trimcheck
-  NAMELIST /control/ prefix, outdir, calculation, restart_mode
+  NAMELIST /control/ prefix, outdir, calculation, restart_mode, lshift_q
   !
   prefix = 'pwscf'
   CALL get_environment_variable('ESPRESSO_TMPDIR', outdir)
   IF(TRIM(outdir) == ' ') outdir = './'
   calculation = 'kel'
   restart_mode = 'from_scratch'
+  lshift_q(1:3) = 0
   !
   IF(ionode) THEN
      !
@@ -45,6 +47,7 @@ SUBROUTINE stdin_control()
   CALL mp_bcast(tmp_dir, ionode_id, world_comm)
   CALL mp_bcast(calculation, ionode_id, world_comm)
   CALL mp_bcast(restart_mode, ionode_id, world_comm)
+  CALL mp_bcast(lshift_q, ionode_id, world_comm)
   !
   IF(TRIM(calculation) /= "kel" .AND. &
   &  TRIM(calculation) /= "scdft" .AND. &
