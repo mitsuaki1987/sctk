@@ -1,7 +1,7 @@
 Electron-phonon
 &INPUTPH
 reduce_io = .true.
-        lshift_q = 1, 1, 1
+        lshift_q = 0, 0, 1
            ldisp = .true.
       search_sym = .false.
              nq1 = 4

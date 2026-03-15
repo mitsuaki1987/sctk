@@ -1,5 +1,5 @@
 
-     Program PHONON v.7.4.1 starts on 13Mar2026 at  3: 5:42 
+     Program PHONON v.7.4.1 starts on 15Mar2026 at 22:59:22 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     225479 MiB available memory on the printing compute node when the environment starts
+     225125 MiB available memory on the printing compute node when the environment starts
  
      Reading input from elph.in
 
@@ -52,32 +52,28 @@
 
 
      Dynamical matrices for ( 4, 4, 3)  uniform grid of q-points
-     With a half shift
-     (  12 q-points):
+     With a half shift  0  0  1
+     (   8 q-points):
        N         xq(1)         xq(2)         xq(3) 
-       1   0.125000000   0.216506351   0.145452854
-       2   0.125000000   0.216506351  -0.436358562
-       3   0.125000000   0.505181486   0.145452854
-       4   0.125000000   0.505181486  -0.436358562
-       5   0.125000000  -0.360843918   0.145452854
-       6   0.125000000  -0.360843918  -0.436358562
-       7   0.125000000  -0.072168784   0.145452854
-       8   0.125000000  -0.072168784  -0.436358562
-       9   0.375000000   0.649519053   0.145452854
-      10   0.375000000   0.649519053  -0.436358562
-      11   0.375000000  -0.216506351   0.145452854
-      12   0.375000000  -0.216506351  -0.436358562
+       1   0.000000000   0.000000000   0.145452854
+       2   0.000000000   0.000000000  -0.436358562
+       3   0.000000000   0.288675135   0.145452854
+       4   0.000000000   0.288675135  -0.436358562
+       5   0.000000000  -0.577350269   0.145452854
+       6   0.000000000  -0.577350269  -0.436358562
+       7   0.250000000   0.433012702   0.145452854
+       8   0.250000000   0.433012702  -0.436358562
      Because shifted q grid is used, q2r will not work !
 
      Saving dvscf to file. Distribute only q points, not irreducible representations.
 
-     Calculation of q =    0.1250000   0.2165064   0.1454529
+     Calculation of q =    0.0000000   0.0000000   0.1454529
      [opt_tetra]  Optimized tetrahedron method is used.
  
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1131
+     Sum         649     313    109                15395     5449    1023
  
      Using Slab Decomposition
  
@@ -155,7 +151,7 @@
          2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
-     number of k points=  3264 (tetrahedron method)
+     number of k points=   720 (tetrahedron method)
 
      Number of k-points >= 100: set verbosity='high' to print them.
 
@@ -163,9 +159,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >      11.52 MB
+     Estimated max dynamical RAM per process >       8.21 MB
 
-     Estimated total dynamical RAM >     737.49 MB
+     Estimated total dynamical RAM >     525.17 MB
 
      Check: negative core charge=   -0.000006
 
@@ -178,9 +174,9 @@
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  1.25E-10,  avg # of iterations = 22.8
+     ethr =  1.25E-10,  avg # of iterations = 22.0
 
-     total cpu time spent up to now is        2.4 secs
+     total cpu time spent up to now is        0.9 secs
 
      End of band structure calculation
 
@@ -230,14 +226,14 @@
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
-                    q = (   0.1250000   0.2165064   0.1454529 )
+                    q = (   0.0000000   0.0000000   0.1454529 )
  
-      2 Sym.Ops. (no q -> -q+G )
+     12 Sym.Ops. (no q -> -q+G )
 
 
      G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
      G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  3264
+     number of k points=   720
 
      PseudoPot. # 1 for B  read from file:
      ./B.pbe-n-kjpaw_psl.0.1.upf
@@ -269,48 +265,42 @@
 
 
      Atomic displacements:
-     There are    9 irreducible representations
+     There are    6 irreducible representations
 
      Representation     1      1 modes -  To be done
 
      Representation     2      1 modes -  To be done
 
-     Representation     3      1 modes -  To be done
+     Representation     3      2 modes -  To be done
 
      Representation     4      1 modes -  To be done
 
-     Representation     5      1 modes -  To be done
+     Representation     5      2 modes -  To be done
 
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
+     Representation     6      2 modes -  To be done
 
 
      Message from routine init_vloc:
      Interpolation table for Vloc re-allocated
-     PHONON       :      4.73s CPU      5.15s WALL
+     PHONON       :      2.73s CPU      2.94s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn1
 
      Diagonalizing the dynamical matrix
 
-     q = (    0.125000000   0.216506351   0.145452854 ) 
+     q = (    0.000000000   0.000000000   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       5.978329 [THz] =     199.415592 [cm-1]
-     freq (    2) =       6.149591 [THz] =     205.128265 [cm-1]
-     freq (    3) =       8.043179 [THz] =     268.291558 [cm-1]
-     freq (    4) =      11.718818 [THz] =     390.897700 [cm-1]
-     freq (    5) =      12.105234 [THz] =     403.787149 [cm-1]
-     freq (    6) =      13.860620 [THz] =     462.340526 [cm-1]
-     freq (    7) =      19.153972 [THz] =     638.907729 [cm-1]
-     freq (    8) =      19.448981 [THz] =     648.748169 [cm-1]
-     freq (    9) =      20.401978 [THz] =     680.536743 [cm-1]
+     freq (    1) =       2.789734 [THz] =      93.055520 [cm-1]
+     freq (    2) =       2.789734 [THz] =      93.055520 [cm-1]
+     freq (    3) =       5.117168 [THz] =     170.690367 [cm-1]
+     freq (    4) =       9.711593 [THz] =     323.943877 [cm-1]
+     freq (    5) =       9.711593 [THz] =     323.943877 [cm-1]
+     freq (    6) =      12.583603 [THz] =     419.743802 [cm-1]
+     freq (    7) =      17.386509 [THz] =     579.951513 [cm-1]
+     freq (    8) =      17.386509 [THz] =     579.951513 [cm-1]
+     freq (    9) =      20.727703 [THz] =     691.401764 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -319,39 +309,29 @@
  
      Tetrahedron method
      DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 43.915595
-     lambda(    1)=  0.0171   gamma=    2.79 GHz
-     lambda(    2)=  0.0133   gamma=    2.30 GHz
-     lambda(    3)=  0.0368   gamma=   10.87 GHz
-     lambda(    4)=  0.0535   gamma=   33.54 GHz
-     lambda(    5)=  0.0105   gamma=    7.02 GHz
-     lambda(    6)=  0.0289   gamma=   25.35 GHz
-     lambda(    7)=  0.3435   gamma=  574.92 GHz
-     lambda(    8)=  0.3021   gamma=  521.34 GHz
-     lambda(    9)=  0.0890   gamma=  169.02 GHz
+     double delta at Ef = 34.652952
+     lambda(    1)=  0.0301   gamma=    1.07 GHz
+     lambda(    2)=  0.0301   gamma=    1.07 GHz
+     lambda(    3)=  0.0682   gamma=    8.15 GHz
+     lambda(    4)=  0.0021   gamma=    0.92 GHz
+     lambda(    5)=  0.0021   gamma=    0.92 GHz
+     lambda(    6)=  0.0077   gamma=    5.59 GHz
+     lambda(    7)=  0.4774   gamma=  658.26 GHz
+     lambda(    8)=  0.4774   gamma=  658.26 GHz
+     lambda(    9)= -0.0001   gamma=   -0.13 GHz
  
-     Number of q in the star =   12
+     Number of q in the star =    2
      List of q in the star:
-          1   0.125000000   0.216506351   0.145452854
-          2  -0.125000000   0.216506351  -0.145452854
-          3   0.125000000  -0.216506351  -0.145452854
-          4  -0.125000000   0.216506351   0.145452854
-          5   0.250000000   0.000000000   0.145452854
-          6  -0.250000000  -0.000000000   0.145452854
-          7   0.125000000  -0.216506351   0.145452854
-          8  -0.125000000  -0.216506351  -0.145452854
-          9   0.250000000   0.000000000  -0.145452854
-         10  -0.250000000  -0.000000000  -0.145452854
-         11   0.125000000   0.216506351  -0.145452854
-         12  -0.125000000  -0.216506351   0.145452854
+          1   0.000000000   0.000000000   0.145452854
+          2   0.000000000   0.000000000  -0.145452854
 
-     Calculation of q =    0.1250000   0.2165064  -0.4363586
+     Calculation of q =    0.0000000   0.0000000  -0.4363586
      [opt_tetra]  Optimized tetrahedron method is used.
  
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1287
+     Sum         649     313    121                15395     5449    1167
  
      Using Slab Decomposition
  
@@ -429,7 +409,7 @@
          2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
-     number of k points=  1904 (tetrahedron method)
+     number of k points=   420 (tetrahedron method)
 
      Number of k-points >= 100: set verbosity='high' to print them.
 
@@ -437,9 +417,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >       9.71 MB
+     Estimated max dynamical RAM per process >       7.89 MB
 
-     Estimated total dynamical RAM >     621.63 MB
+     Estimated total dynamical RAM >     504.89 MB
 
      Check: negative core charge=   -0.000006
 
@@ -452,9 +432,9 @@
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  1.25E-10,  avg # of iterations = 22.3
+     ethr =  1.25E-10,  avg # of iterations = 21.5
 
-     total cpu time spent up to now is        4.0 secs
+     total cpu time spent up to now is        1.5 secs
 
      End of band structure calculation
 
@@ -504,14 +484,14 @@
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
-                    q = (   0.1250000   0.2165064  -0.4363586 )
+                    q = (   0.0000000   0.0000000  -0.4363586 )
  
-      4 Sym.Ops. (no q -> -q+G )
+     25 Sym.Ops. (with q -> -q+G )
 
 
      G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
      G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  1904
+     number of k points=   420
 
      PseudoPot. # 1 for B  read from file:
      ./B.pbe-n-kjpaw_psl.0.1.upf
@@ -543,311 +523,40 @@
 
 
      Atomic displacements:
-     There are    9 irreducible representations
+     There are    6 irreducible representations
 
      Representation     1      1 modes -  To be done
 
      Representation     2      1 modes -  To be done
 
-     Representation     3      1 modes -  To be done
+     Representation     3      2 modes -  To be done
 
      Representation     4      1 modes -  To be done
 
-     Representation     5      1 modes -  To be done
+     Representation     5      2 modes -  To be done
 
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
+     Representation     6      2 modes -  To be done
 
 
-     PHONON       :      9.36s CPU     10.04s WALL
+     PHONON       :      6.00s CPU      6.59s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn2
 
      Diagonalizing the dynamical matrix
 
-     q = (    0.125000000   0.216506351  -0.436358562 ) 
+     q = (    0.000000000   0.000000000  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       7.263079 [THz] =     242.270221 [cm-1]
-     freq (    2) =       7.587511 [THz] =     253.092116 [cm-1]
-     freq (    3) =       8.634558 [THz] =     288.017859 [cm-1]
-     freq (    4) =      10.962935 [THz] =     365.684150 [cm-1]
-     freq (    5) =      12.736161 [THz] =     424.832594 [cm-1]
-     freq (    6) =      13.799910 [THz] =     460.315443 [cm-1]
-     freq (    7) =      18.963873 [THz] =     632.566701 [cm-1]
-     freq (    8) =      19.288485 [THz] =     643.394619 [cm-1]
-     freq (    9) =      21.244828 [THz] =     708.651179 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 30.954076
-     lambda(    1)=  0.0009   gamma=    0.22 GHz
-     lambda(    2)=  0.0002   gamma=    0.04 GHz
-     lambda(    3)=  0.0506   gamma=   17.21 GHz
-     lambda(    4)=  0.0144   gamma=    7.91 GHz
-     lambda(    5)=  0.0031   gamma=    2.26 GHz
-     lambda(    6)=  0.0472   gamma=   41.01 GHz
-     lambda(    7)=  0.3929   gamma=  644.50 GHz
-     lambda(    8)=  0.0125   gamma=   21.18 GHz
-     lambda(    9)=  0.0022   gamma=    4.54 GHz
- 
-     Number of q in the star =    6
-     List of q in the star:
-          1   0.125000000   0.216506351  -0.436358562
-          2  -0.125000000   0.216506351  -0.436358562
-          3   0.250000000   0.000000000  -0.436358562
-          4  -0.250000000  -0.000000000  -0.436358562
-          5   0.125000000  -0.216506351  -0.436358562
-          6  -0.125000000  -0.216506351   0.436358562
-
-     Calculation of q =    0.1250000   0.5051815   0.1454529
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1287
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  6144 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >      15.18 MB
-
-     Estimated total dynamical RAM >     971.34 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_3/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 23.0
-
-     total cpu time spent up to now is        8.1 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.1250000   0.5051815   0.1454529 )
- 
-     No symmetry!
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  6144
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     16.53s CPU     17.51s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn3
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.125000000   0.505181486   0.145452854 ) 
-
- **************************************************************************
-     freq (    1) =       7.824251 [THz] =     260.988918 [cm-1]
-     freq (    2) =       7.930729 [THz] =     264.540628 [cm-1]
-     freq (    3) =       9.574471 [THz] =     319.369976 [cm-1]
-     freq (    4) =      13.282183 [THz] =     443.045930 [cm-1]
-     freq (    5) =      15.133766 [THz] =     504.808082 [cm-1]
-     freq (    6) =      16.560190 [THz] =     552.388482 [cm-1]
-     freq (    7) =      20.892465 [THz] =     696.897634 [cm-1]
-     freq (    8) =      22.307933 [THz] =     744.112563 [cm-1]
-     freq (    9) =      23.366124 [THz] =     779.410017 [cm-1]
+     freq (    1) =       6.771100 [THz] =     225.859570 [cm-1]
+     freq (    2) =       6.771100 [THz] =     225.859570 [cm-1]
+     freq (    3) =       7.133843 [THz] =     237.959402 [cm-1]
+     freq (    4) =       7.133843 [THz] =     237.959402 [cm-1]
+     freq (    5) =       9.591613 [THz] =     319.941784 [cm-1]
+     freq (    6) =      12.099974 [THz] =     403.611701 [cm-1]
+     freq (    7) =      16.563583 [THz] =     552.501647 [cm-1]
+     freq (    8) =      16.563583 [THz] =     552.501647 [cm-1]
+     freq (    9) =      19.479162 [THz] =     649.754905 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -856,1954 +565,28 @@
  
      Tetrahedron method
      DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 44.267584
-     lambda(    1)=  0.0087   gamma=    2.44 GHz
-     lambda(    2)=  0.0055   gamma=    1.59 GHz
-     lambda(    3)=  0.0139   gamma=    5.83 GHz
-     lambda(    4)=  0.1406   gamma=  113.18 GHz
-     lambda(    5)=  0.0012   gamma=    1.28 GHz
-     lambda(    6)=  0.0989   gamma=  123.71 GHz
-     lambda(    7)=  0.0096   gamma=   19.09 GHz
-     lambda(    8)=  0.0209   gamma=   47.40 GHz
-     lambda(    9)=  0.0074   gamma=   18.36 GHz
+     double delta at Ef =134.244979
+     lambda(    1)=  0.0001   gamma=    0.01 GHz
+     lambda(    2)=  0.0001   gamma=    0.01 GHz
+     lambda(    3)=  0.0566   gamma=   13.13 GHz
+     lambda(    4)=  0.0566   gamma=   13.13 GHz
+     lambda(    5)=  0.0918   gamma=   38.54 GHz
+     lambda(    6)=  0.0055   gamma=    3.69 GHz
+     lambda(    7)=  2.4266   gamma= 3036.94 GHz
+     lambda(    8)=  2.4266   gamma= 3036.94 GHz
+     lambda(    9)=  0.0004   gamma=    0.77 GHz
  
-     Number of q in the star =   24
+     Number of q in the star =    1
      List of q in the star:
-          1   0.125000000   0.505181486   0.145452854
-          2   0.375000000   0.360843918   0.145452854
-          3   0.375000000   0.360843918  -0.145452854
-          4   0.125000000   0.505181486  -0.145452854
-          5  -0.375000000   0.360843918   0.145452854
-          6   0.500000000   0.144337567   0.145452854
-          7  -0.500000000  -0.144337567   0.145452854
-          8   0.375000000  -0.360843918   0.145452854
-          9  -0.375000000  -0.360843918  -0.145452854
-         10   0.500000000  -0.144337567  -0.145452854
-         11  -0.500000000   0.144337567  -0.145452854
-         12  -0.125000000   0.505181486  -0.145452854
-         13  -0.125000000  -0.505181486  -0.145452854
-         14   0.125000000  -0.505181486  -0.145452854
-         15   0.125000000  -0.505181486   0.145452854
-         16  -0.125000000   0.505181486   0.145452854
-         17   0.375000000  -0.360843918  -0.145452854
-         18  -0.500000000  -0.144337567  -0.145452854
-         19   0.500000000   0.144337567  -0.145452854
-         20  -0.375000000   0.360843918  -0.145452854
-         21  -0.125000000  -0.505181486   0.145452854
-         22  -0.500000000   0.144337567   0.145452854
-         23   0.500000000  -0.144337567   0.145452854
-         24  -0.375000000  -0.360843918   0.145452854
+          1   0.000000000   0.000000000  -0.436358562
 
-     Calculation of q =    0.1250000   0.5051815  -0.4363586
+     Calculation of q =    0.0000000   0.2886751   0.1454529
      [opt_tetra]  Optimized tetrahedron method is used.
  
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1347
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  3584 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >      11.87 MB
-
-     Estimated total dynamical RAM >     759.90 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_4/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 22.5
-
-     total cpu time spent up to now is       10.9 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.1250000   0.5051815  -0.4363586 )
- 
-      2 Sym.Ops. (no q -> -q+G )
-
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  3584
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     22.92s CPU     24.17s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn4
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.125000000   0.505181486  -0.436358562 ) 
-
- **************************************************************************
-     freq (    1) =       8.003538 [THz] =     266.969305 [cm-1]
-     freq (    2) =       8.166098 [THz] =     272.391712 [cm-1]
-     freq (    3) =       9.176409 [THz] =     306.092055 [cm-1]
-     freq (    4) =      14.422824 [THz] =     481.093620 [cm-1]
-     freq (    5) =      15.100046 [THz] =     503.683332 [cm-1]
-     freq (    6) =      16.725189 [THz] =     557.892264 [cm-1]
-     freq (    7) =      21.051237 [THz] =     702.193673 [cm-1]
-     freq (    8) =      22.256842 [THz] =     742.408341 [cm-1]
-     freq (    9) =      23.517159 [THz] =     784.447977 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 46.758162
-     lambda(    1)=  0.0153   gamma=    4.48 GHz
-     lambda(    2)=  0.0032   gamma=    0.97 GHz
-     lambda(    3)=  0.0083   gamma=    3.18 GHz
-     lambda(    4)=  0.1324   gamma=  125.67 GHz
-     lambda(    5)=  0.0019   gamma=    2.02 GHz
-     lambda(    6)=  0.0877   gamma=  111.94 GHz
-     lambda(    7)=  0.0050   gamma=   10.17 GHz
-     lambda(    8)=  0.0608   gamma=  137.34 GHz
-     lambda(    9)=  0.0045   gamma=   11.25 GHz
- 
-     Number of q in the star =   12
-     List of q in the star:
-          1   0.125000000   0.505181486  -0.436358562
-          2   0.375000000   0.360843918   0.436358562
-          3  -0.375000000   0.360843918  -0.436358562
-          4   0.500000000   0.144337567  -0.436358562
-          5  -0.500000000  -0.144337567  -0.436358562
-          6   0.375000000  -0.360843918  -0.436358562
-          7  -0.375000000  -0.360843918   0.436358562
-          8   0.500000000  -0.144337567   0.436358562
-          9  -0.500000000   0.144337567   0.436358562
-         10  -0.125000000   0.505181486   0.436358562
-         11  -0.125000000  -0.505181486   0.436358562
-         12   0.125000000  -0.505181486   0.436358562
-
-     Calculation of q =    0.1250000  -0.3608439   0.1454529
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1191
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  6144 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >      15.17 MB
-
-     Estimated total dynamical RAM >     970.93 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_5/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 23.0
-
-     total cpu time spent up to now is       15.1 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.1250000  -0.3608439   0.1454529 )
- 
-     No symmetry!
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  6144
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     30.37s CPU     32.00s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn5
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.125000000  -0.360843918   0.145452854 ) 
-
- **************************************************************************
-     freq (    1) =       7.201632 [THz] =     240.220574 [cm-1]
-     freq (    2) =       7.278165 [THz] =     242.773441 [cm-1]
-     freq (    3) =       9.117293 [THz] =     304.120151 [cm-1]
-     freq (    4) =      12.394209 [THz] =     413.426317 [cm-1]
-     freq (    5) =      14.013422 [THz] =     467.437431 [cm-1]
-     freq (    6) =      17.524482 [THz] =     584.553811 [cm-1]
-     freq (    7) =      18.914108 [THz] =     630.906747 [cm-1]
-     freq (    8) =      22.291289 [THz] =     743.557352 [cm-1]
-     freq (    9) =      24.093154 [THz] =     803.661118 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 30.891597
-     lambda(    1)=  0.0232   gamma=    5.49 GHz
-     lambda(    2)=  0.0105   gamma=    2.53 GHz
-     lambda(    3)=  0.0276   gamma=   10.48 GHz
-     lambda(    4)=  0.1332   gamma=   93.31 GHz
-     lambda(    5)=  0.0047   gamma=    4.23 GHz
-     lambda(    6)=  0.0080   gamma=   11.15 GHz
-     lambda(    7)=  0.0188   gamma=   30.61 GHz
-     lambda(    8)=  0.0326   gamma=   73.79 GHz
-     lambda(    9)=  0.0141   gamma=   37.22 GHz
- 
-     Number of q in the star =   24
-     List of q in the star:
-          1   0.125000000  -0.360843918   0.145452854
-          2   0.125000000  -0.360843918  -0.145452854
-          3  -0.375000000  -0.072168784  -0.145452854
-          4  -0.375000000  -0.072168784   0.145452854
-          5   0.375000000  -0.072168784   0.145452854
-          6  -0.250000000  -0.288675135   0.145452854
-          7   0.250000000   0.288675135   0.145452854
-          8  -0.375000000   0.072168784   0.145452854
-          9   0.375000000   0.072168784  -0.145452854
-         10  -0.250000000   0.288675135  -0.145452854
-         11   0.250000000  -0.288675135  -0.145452854
-         12  -0.125000000  -0.360843918  -0.145452854
-         13  -0.125000000   0.360843918  -0.145452854
-         14   0.125000000   0.360843918  -0.145452854
-         15   0.125000000   0.360843918   0.145452854
-         16  -0.125000000  -0.360843918   0.145452854
-         17  -0.375000000   0.072168784  -0.145452854
-         18   0.250000000   0.288675135  -0.145452854
-         19  -0.250000000  -0.288675135  -0.145452854
-         20   0.375000000  -0.072168784  -0.145452854
-         21  -0.125000000   0.360843918   0.145452854
-         22   0.250000000  -0.288675135   0.145452854
-         23  -0.250000000   0.288675135   0.145452854
-         24   0.375000000   0.072168784   0.145452854
-
-     Calculation of q =    0.1250000  -0.3608439  -0.4363586
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1299
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  3584 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >      11.87 MB
-
-     Estimated total dynamical RAM >     759.61 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_6/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 22.5
-
-     total cpu time spent up to now is       17.6 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.1250000  -0.3608439  -0.4363586 )
- 
-      2 Sym.Ops. (no q -> -q+G )
-
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  3584
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     36.68s CPU     38.64s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn6
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.125000000  -0.360843918  -0.436358562 ) 
-
- **************************************************************************
-     freq (    1) =       7.728158 [THz] =     257.783602 [cm-1]
-     freq (    2) =       8.381219 [THz] =     279.567379 [cm-1]
-     freq (    3) =       8.388044 [THz] =     279.795021 [cm-1]
-     freq (    4) =      13.542511 [THz] =     451.729544 [cm-1]
-     freq (    5) =      13.791638 [THz] =     460.039537 [cm-1]
-     freq (    6) =      17.719222 [THz] =     591.049615 [cm-1]
-     freq (    7) =      18.480066 [THz] =     616.428639 [cm-1]
-     freq (    8) =      21.963216 [THz] =     732.614016 [cm-1]
-     freq (    9) =      24.465284 [THz] =     816.074034 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 28.742650
-     lambda(    1)=  0.0065   gamma=    1.76 GHz
-     lambda(    2)=  0.0082   gamma=    2.64 GHz
-     lambda(    3)=  0.0053   gamma=    1.72 GHz
-     lambda(    4)=  0.0213   gamma=   17.78 GHz
-     lambda(    5)=  0.0052   gamma=    4.49 GHz
-     lambda(    6)=  0.0048   gamma=    6.88 GHz
-     lambda(    7)=  0.0210   gamma=   32.70 GHz
-     lambda(    8)=  0.0584   gamma=  128.45 GHz
-     lambda(    9)=  0.0014   gamma=    3.92 GHz
- 
-     Number of q in the star =   12
-     List of q in the star:
-          1   0.125000000  -0.360843918  -0.436358562
-          2  -0.375000000  -0.072168784   0.436358562
-          3   0.375000000  -0.072168784  -0.436358562
-          4  -0.250000000  -0.288675135  -0.436358562
-          5   0.250000000   0.288675135  -0.436358562
-          6  -0.375000000   0.072168784  -0.436358562
-          7   0.375000000   0.072168784   0.436358562
-          8  -0.250000000   0.288675135   0.436358562
-          9   0.250000000  -0.288675135   0.436358562
-         10  -0.125000000  -0.360843918   0.436358562
-         11  -0.125000000   0.360843918   0.436358562
-         12   0.125000000   0.360843918   0.436358562
-
-     Calculation of q =    0.1250000  -0.0721688   0.1454529
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    109                15395     5449    1107
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  3264 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >      11.52 MB
-
-     Estimated total dynamical RAM >     737.22 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_7/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 22.8
-
-     total cpu time spent up to now is       20.0 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.1250000  -0.0721688   0.1454529 )
- 
-      2 Sym.Ops. (no q -> -q+G )
-
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  3264
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     42.35s CPU     44.58s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn7
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.125000000  -0.072168784   0.145452854 ) 
-
- **************************************************************************
-     freq (    1) =       4.514518 [THz] =     150.588104 [cm-1]
-     freq (    2) =       4.982024 [THz] =     166.182433 [cm-1]
-     freq (    3) =       6.385855 [THz] =     213.009209 [cm-1]
-     freq (    4) =      10.261459 [THz] =     342.285432 [cm-1]
-     freq (    5) =      10.929429 [THz] =     364.566523 [cm-1]
-     freq (    6) =      12.548802 [THz] =     418.582963 [cm-1]
-     freq (    7) =      17.193193 [THz] =     573.503195 [cm-1]
-     freq (    8) =      17.613929 [THz] =     587.537428 [cm-1]
-     freq (    9) =      20.560948 [THz] =     685.839386 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 56.142335
-     lambda(    1)=  0.0577   gamma=    5.36 GHz
-     lambda(    2)=  0.0437   gamma=    4.95 GHz
-     lambda(    3)=  0.0399   gamma=    7.43 GHz
-     lambda(    4)=  0.0326   gamma=   15.65 GHz
-     lambda(    5)=  0.0999   gamma=   54.45 GHz
-     lambda(    6)=  0.0200   gamma=   14.39 GHz
-     lambda(    7)=  0.8924   gamma= 1203.37 GHz
-     lambda(    8)=  0.4621   gamma=  654.03 GHz
-     lambda(    9)=  0.0094   gamma=   18.05 GHz
- 
-     Number of q in the star =   12
-     List of q in the star:
-          1   0.125000000  -0.072168784   0.145452854
-          2  -0.125000000   0.072168784  -0.145452854
-          3  -0.125000000   0.072168784   0.145452854
-          4   0.125000000   0.072168784   0.145452854
-          5   0.000000000  -0.144337567   0.145452854
-          6  -0.000000000   0.144337567   0.145452854
-          7  -0.125000000  -0.072168784   0.145452854
-          8   0.125000000  -0.072168784  -0.145452854
-          9   0.000000000   0.144337567  -0.145452854
-         10  -0.000000000  -0.144337567  -0.145452854
-         11  -0.125000000  -0.072168784  -0.145452854
-         12   0.125000000   0.072168784  -0.145452854
-
-     Calculation of q =    0.1250000  -0.0721688  -0.4363586
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1191
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  1904 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >       9.71 MB
-
-     Estimated total dynamical RAM >     621.51 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_8/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 22.3
-
-     total cpu time spent up to now is       21.4 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.1250000  -0.0721688  -0.4363586 )
- 
-      4 Sym.Ops. (no q -> -q+G )
-
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  1904
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     46.82s CPU     49.28s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn8
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.125000000  -0.072168784  -0.436358562 ) 
-
- **************************************************************************
-     freq (    1) =       6.939928 [THz] =     231.491070 [cm-1]
-     freq (    2) =       7.090217 [THz] =     236.504178 [cm-1]
-     freq (    3) =       8.478114 [THz] =     282.799438 [cm-1]
-     freq (    4) =       8.537460 [THz] =     284.779019 [cm-1]
-     freq (    5) =      10.577091 [THz] =     352.813764 [cm-1]
-     freq (    6) =      12.276390 [THz] =     409.496298 [cm-1]
-     freq (    7) =      16.775047 [THz] =     559.555338 [cm-1]
-     freq (    8) =      17.557813 [THz] =     585.665606 [cm-1]
-     freq (    9) =      19.388271 [THz] =     646.723095 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 58.435486
-     lambda(    1)=  0.0008   gamma=    0.18 GHz
-     lambda(    2)=  0.0010   gamma=    0.22 GHz
-     lambda(    3)=  0.1385   gamma=   45.42 GHz
-     lambda(    4)=  0.1102   gamma=   36.64 GHz
-     lambda(    5)=  0.1068   gamma=   54.48 GHz
-     lambda(    6)=  0.0045   gamma=    3.11 GHz
-     lambda(    7)=  0.5669   gamma=  727.65 GHz
-     lambda(    8)=  0.7035   gamma=  989.26 GHz
-     lambda(    9)=  0.0214   gamma=   36.69 GHz
- 
-     Number of q in the star =    6
-     List of q in the star:
-          1   0.125000000  -0.072168784  -0.436358562
-          2   0.125000000   0.072168784  -0.436358562
-          3   0.000000000  -0.144337567  -0.436358562
-          4  -0.000000000   0.144337567  -0.436358562
-          5  -0.125000000  -0.072168784  -0.436358562
-          6  -0.125000000   0.072168784   0.436358562
-
-     Calculation of q =    0.3750000   0.6495191   0.1454529
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    127                15395     5449    1353
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  3264 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >      11.55 MB
-
-     Estimated total dynamical RAM >     739.01 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_9/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 22.8
-
-     total cpu time spent up to now is       23.8 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.3750000   0.6495191   0.1454529 )
- 
-      2 Sym.Ops. (no q -> -q+G )
-
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  3264
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     52.28s CPU     55.01s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn9
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.375000000   0.649519053   0.145452854 ) 
-
- **************************************************************************
-     freq (    1) =       8.051268 [THz] =     268.561382 [cm-1]
-     freq (    2) =       8.507815 [THz] =     283.790174 [cm-1]
-     freq (    3) =       9.279173 [THz] =     309.519888 [cm-1]
-     freq (    4) =      13.799919 [THz] =     460.315734 [cm-1]
-     freq (    5) =      14.877569 [THz] =     496.262283 [cm-1]
-     freq (    6) =      18.056212 [THz] =     602.290415 [cm-1]
-     freq (    7) =      21.580537 [THz] =     719.849237 [cm-1]
-     freq (    8) =      21.639667 [THz] =     721.821607 [cm-1]
-     freq (    9) =      22.711153 [THz] =     757.562508 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 62.927188
-     lambda(    1)=  0.0164   gamma=    4.86 GHz
-     lambda(    2)=  0.0148   gamma=    4.89 GHz
-     lambda(    3)=  0.0189   gamma=    7.43 GHz
-     lambda(    4)=  0.1773   gamma=  154.06 GHz
-     lambda(    5)=  0.1834   gamma=  185.17 GHz
-     lambda(    6)=  0.0041   gamma=    6.16 GHz
-     lambda(    7)=  0.0094   gamma=   19.88 GHz
-     lambda(    8)=  0.0049   gamma=   10.53 GHz
-     lambda(    9)=  0.0344   gamma=   80.98 GHz
- 
-     Number of q in the star =   12
-     List of q in the star:
-          1   0.375000000   0.649519053   0.145452854
-          2  -0.375000000  -0.649519053  -0.145452854
-          3   0.375000000   0.649519053  -0.145452854
-          4  -0.375000000   0.649519053   0.145452854
-          5   0.750000000   0.000000000   0.145452854
-          6  -0.750000000  -0.000000000   0.145452854
-          7   0.375000000  -0.649519053   0.145452854
-          8   0.750000000   0.000000000  -0.145452854
-          9  -0.750000000  -0.000000000  -0.145452854
-         10  -0.375000000   0.649519053  -0.145452854
-         11   0.375000000  -0.649519053  -0.145452854
-         12  -0.375000000  -0.649519053   0.145452854
-
-     Calculation of q =    0.3750000   0.6495191  -0.4363586
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    139                15395     5449    1499
- 
-     Using Slab Decomposition
- 
-
-     Title: 
-     Electron-phonon                                                            
-
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     number of electrons       =         8.00
-     number of Kohn-Sham states=            8
-     kinetic-energy cutoff     =      35.0000  Ry
-     charge density cutoff     =     280.0000  Ry
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
-     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (   1.000000   0.000000   0.000000 )  
-               a(2) = (  -0.500000   0.866025   0.000000 )  
-               a(3) = (   0.000000   0.000000   1.145847 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.000000  0.577350  0.000000 )  
-               b(2) = (  0.000000  1.154701  0.000000 )  
-               b(3) = (  0.000000  0.000000  0.872717 )  
-
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     atomic species   valence    mass     pseudopotential
-     B                 3.00    10.81100     B ( 1.00)
-     Mg                2.00    24.30500     Mg( 1.00)
-
-     24 Sym. Ops., with inversion, found
-
-
-
-   Cartesian axes
-
-     site n.     atom                  positions (alat units)
-         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
-         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
-
-     number of k points=  1904 (tetrahedron method)
-
-     Number of k-points >= 100: set verbosity='high' to print them.
-
-     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
-
-     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
-
-     Estimated max dynamical RAM per process >       9.73 MB
-
-     Estimated total dynamical RAM >     622.80 MB
-
-     Check: negative core charge=   -0.000006
-
-     The potential is recalculated from file :
-     ./_ph0/pwscf.q_10/pwscf.save/charge-density
-
-     Starting wfcs are   12 atomic wfcs
-     Checking if some PAW data can be deallocated... 
-
-     Band Structure Calculation
-     Davidson diagonalization with overlap
-
-     ethr =  1.25E-10,  avg # of iterations = 22.3
-
-     total cpu time spent up to now is       25.3 secs
-
-     End of band structure calculation
-
-     Number of k-points >= 100: set verbosity='high' to print the bands.
-
-     the Fermi energy is     7.6811 ev
- 
-     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
-
-     Electron-phonon                                                            
-
-     bravais-lattice index     =            0
-     lattice parameter (alat)  =       5.8042  a.u.
-     unit-cell volume          =     194.0373 (a.u.)^3
-     number of atoms/cell      =            3
-     number of atomic types    =            2
-     kinetic-energy cut-off    =      35.0000  Ry
-     charge density cut-off    =     280.0000  Ry
-     convergence threshold     =      1.0E-12
-     beta                      =       0.7000
-     number of iterations used =            4
-     Exchange-correlation= PBE
-                           (   1   4   3   4   0   0   0)
-
-
-     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
-     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
-
-     crystal axes: (cart. coord. in units of alat)
-               a(1) = (  1.0000  0.0000  0.0000 )  
-               a(2) = ( -0.5000  0.8660  0.0000 )  
-               a(3) = (  0.0000  0.0000  1.1458 )  
-
-     reciprocal axes: (cart. coord. in units 2 pi/alat)
-               b(1) = (  1.0000  0.5774  0.0000 )  
-               b(2) = (  0.0000  1.1547  0.0000 )  
-               b(3) = (  0.0000  0.0000  0.8727 )  
-
-
-     Atoms inside the unit cell: 
-
-     Cartesian axes
-
-     site n.  atom      mass           positions (alat units)
-        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
-        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
-
-     Computing dynamical matrix for 
-                    q = (   0.3750000   0.6495191  -0.4363586 )
- 
-      4 Sym.Ops. (no q -> -q+G )
-
-
-     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
-     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
-     number of k points=  1904
-
-     PseudoPot. # 1 for B  read from file:
-     ./B.pbe-n-kjpaw_psl.0.1.upf
-     MD5 check sum: b4345a612e0782cca08559f453f3313f
-     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: BESSEL
-     Using radial grid of 1059 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-     PseudoPot. # 2 for Mg read from file:
-     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
-     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
-     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
-     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
-     Shape of augmentation charge: PSQ
-     Using radial grid of 1129 points,  4 beta functions with: 
-                l(1) =   0
-                l(2) =   0
-                l(3) =   1
-                l(4) =   1
-     Q(r) pseudized with 0 coefficients 
-
-
-
-     Atomic displacements:
-     There are    9 irreducible representations
-
-     Representation     1      1 modes -  To be done
-
-     Representation     2      1 modes -  To be done
-
-     Representation     3      1 modes -  To be done
-
-     Representation     4      1 modes -  To be done
-
-     Representation     5      1 modes -  To be done
-
-     Representation     6      1 modes -  To be done
-
-     Representation     7      1 modes -  To be done
-
-     Representation     8      1 modes -  To be done
-
-     Representation     9      1 modes -  To be done
-
-
-     PHONON       :     57.12s CPU   1m 0.12s WALL
-
-     Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn10
-
-     Diagonalizing the dynamical matrix
-
-     q = (    0.375000000   0.649519053  -0.436358562 ) 
-
- **************************************************************************
-     freq (    1) =       8.155784 [THz] =     272.047677 [cm-1]
-     freq (    2) =       8.684980 [THz] =     289.699750 [cm-1]
-     freq (    3) =       9.220451 [THz] =     307.561153 [cm-1]
-     freq (    4) =      14.838163 [THz] =     494.947840 [cm-1]
-     freq (    5) =      15.511098 [THz] =     517.394523 [cm-1]
-     freq (    6) =      18.054460 [THz] =     602.231949 [cm-1]
-     freq (    7) =      21.599530 [THz] =     720.482763 [cm-1]
-     freq (    8) =      21.603976 [THz] =     720.631067 [cm-1]
-     freq (    9) =      22.136982 [THz] =     738.410226 [cm-1]
- **************************************************************************
-
-     [elph_tetra]   Lowest band which contains FS :          3
-     [elph_tetra]  Highest band which contains FS :          5
-     [elph_tetra]    # of bands which contains FS :          3
- 
-     Tetrahedron method
-     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 56.134731
-     lambda(    1)=  0.0052   gamma=    1.57 GHz
-     lambda(    2)=  0.0120   gamma=    4.14 GHz
-     lambda(    3)=  0.0014   gamma=    0.55 GHz
-     lambda(    4)=  0.1318   gamma=  132.35 GHz
-     lambda(    5)=  0.1482   gamma=  162.61 GHz
-     lambda(    6)=  0.0027   gamma=    4.07 GHz
-     lambda(    7)=  0.0112   gamma=   23.85 GHz
-     lambda(    8)=  0.0047   gamma=   10.06 GHz
-     lambda(    9)=  0.0816   gamma=  182.36 GHz
- 
-     Number of q in the star =    6
-     List of q in the star:
-          1   0.375000000   0.649519053  -0.436358562
-          2  -0.375000000   0.649519053  -0.436358562
-          3   0.750000000   0.000000000  -0.436358562
-          4  -0.750000000  -0.000000000  -0.436358562
-          5   0.375000000  -0.649519053  -0.436358562
-          6  -0.375000000  -0.649519053   0.436358562
-
-     Calculation of q =    0.3750000  -0.2165064   0.1454529
-     [opt_tetra]  Optimized tetrahedron method is used.
- 
-     G-vector sticks info
-     --------------------
-     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1191
+     Sum         649     313    121                15395     5449    1155
  
      Using Slab Decomposition
  
@@ -2891,12 +674,12 @@
 
      Estimated max dynamical RAM per process >      11.53 MB
 
-     Estimated total dynamical RAM >     738.01 MB
+     Estimated total dynamical RAM >     737.60 MB
 
      Check: negative core charge=   -0.000006
 
      The potential is recalculated from file :
-     ./_ph0/pwscf.q_11/pwscf.save/charge-density
+     ./_ph0/pwscf.q_3/pwscf.save/charge-density
 
      Starting wfcs are   12 atomic wfcs
      Checking if some PAW data can be deallocated... 
@@ -2906,7 +689,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is       27.6 secs
+     total cpu time spent up to now is        3.8 secs
 
      End of band structure calculation
 
@@ -2956,7 +739,7 @@
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
-                    q = (   0.3750000  -0.2165064   0.1454529 )
+                    q = (   0.0000000   0.2886751   0.1454529 )
  
       2 Sym.Ops. (no q -> -q+G )
 
@@ -3016,25 +799,25 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   1m 2.37s CPU   1m 5.65s WALL
+     PHONON       :     11.02s CPU     12.02s WALL
 
      Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn11
+     Reading dynamics matrix from file matdyn3
 
      Diagonalizing the dynamical matrix
 
-     q = (    0.375000000  -0.216506351   0.145452854 ) 
+     q = (    0.000000000   0.288675135   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       7.374262 [THz] =     245.978912 [cm-1]
-     freq (    2) =       7.591233 [THz] =     253.216263 [cm-1]
-     freq (    3) =       9.471424 [THz] =     315.932699 [cm-1]
-     freq (    4) =      12.737723 [THz] =     424.884700 [cm-1]
-     freq (    5) =      13.381065 [THz] =     446.344279 [cm-1]
-     freq (    6) =      18.142261 [THz] =     605.160680 [cm-1]
-     freq (    7) =      19.417265 [THz] =     647.690236 [cm-1]
-     freq (    8) =      22.037763 [THz] =     735.100635 [cm-1]
-     freq (    9) =      23.736679 [THz] =     791.770383 [cm-1]
+     freq (    1) =       6.366754 [THz] =     212.372050 [cm-1]
+     freq (    2) =       6.445089 [THz] =     214.985044 [cm-1]
+     freq (    3) =       8.525519 [THz] =     284.380715 [cm-1]
+     freq (    4) =      11.905052 [THz] =     397.109776 [cm-1]
+     freq (    5) =      12.192760 [THz] =     406.706691 [cm-1]
+     freq (    6) =      15.378456 [THz] =     512.970072 [cm-1]
+     freq (    7) =      19.667267 [THz] =     656.029424 [cm-1]
+     freq (    8) =      21.175198 [THz] =     706.328574 [cm-1]
+     freq (    9) =      21.401219 [THz] =     713.867822 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -3043,39 +826,1106 @@
  
      Tetrahedron method
      DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 32.452421
-     lambda(    1)=  0.0038   gamma=    0.94 GHz
-     lambda(    2)=  0.0080   gamma=    2.10 GHz
-     lambda(    3)=  0.0122   gamma=    5.00 GHz
-     lambda(    4)=  0.1230   gamma=   91.06 GHz
-     lambda(    5)=  0.0004   gamma=    0.36 GHz
-     lambda(    6)=  0.0455   gamma=   68.34 GHz
-     lambda(    7)=  0.0057   gamma=    9.77 GHz
-     lambda(    8)=  0.0262   gamma=   58.06 GHz
-     lambda(    9)=  0.0090   gamma=   23.10 GHz
+     double delta at Ef = 17.012051
+     lambda(    1)=  0.0061   gamma=    1.14 GHz
+     lambda(    2)=  0.0017   gamma=    0.33 GHz
+     lambda(    3)=  0.0183   gamma=    6.06 GHz
+     lambda(    4)=  0.0019   gamma=    1.26 GHz
+     lambda(    5)=  0.0045   gamma=    3.02 GHz
+     lambda(    6)=  0.0067   gamma=    7.22 GHz
+     lambda(    7)=  0.0324   gamma=   57.17 GHz
+     lambda(    8)=  0.0296   gamma=   60.54 GHz
+     lambda(    9)=  0.1674   gamma=  349.80 GHz
  
      Number of q in the star =   12
      List of q in the star:
-          1   0.375000000  -0.216506351   0.145452854
-          2   0.375000000  -0.216506351  -0.145452854
-          3  -0.375000000   0.216506351  -0.145452854
-          4   0.375000000   0.216506351   0.145452854
-          5   0.000000000  -0.433012702   0.145452854
-          6   0.000000000   0.433012702   0.145452854
-          7  -0.375000000  -0.216506351   0.145452854
-          8   0.000000000   0.433012702  -0.145452854
-          9   0.000000000  -0.433012702  -0.145452854
-         10  -0.375000000  -0.216506351  -0.145452854
-         11   0.375000000   0.216506351  -0.145452854
-         12  -0.375000000   0.216506351   0.145452854
+          1   0.000000000   0.288675135   0.145452854
+          2  -0.250000000   0.144337567   0.145452854
+          3   0.250000000   0.144337567   0.145452854
+          4  -0.250000000  -0.144337567   0.145452854
+          5   0.250000000  -0.144337567   0.145452854
+          6   0.000000000  -0.288675135   0.145452854
+          7   0.000000000  -0.288675135  -0.145452854
+          8   0.000000000   0.288675135  -0.145452854
+          9   0.250000000  -0.144337567  -0.145452854
+         10  -0.250000000  -0.144337567  -0.145452854
+         11   0.250000000   0.144337567  -0.145452854
+         12  -0.250000000   0.144337567  -0.145452854
 
-     Calculation of q =    0.3750000  -0.2165064  -0.4363586
+     Calculation of q =    0.0000000   0.2886751  -0.4363586
      [opt_tetra]  Optimized tetrahedron method is used.
  
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1299
+     Sum         649     313    121                15395     5449    1287
+ 
+     Using Slab Decomposition
+ 
+
+     Title: 
+     Electron-phonon                                                            
+
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     number of electrons       =         8.00
+     number of Kohn-Sham states=            8
+     kinetic-energy cutoff     =      35.0000  Ry
+     charge density cutoff     =     280.0000  Ry
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
+     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (   1.000000   0.000000   0.000000 )  
+               a(2) = (  -0.500000   0.866025   0.000000 )  
+               a(3) = (   0.000000   0.000000   1.145847 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.000000  0.577350  0.000000 )  
+               b(2) = (  0.000000  1.154701  0.000000 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
+
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     atomic species   valence    mass     pseudopotential
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
+
+     24 Sym. Ops., with inversion, found
+
+
+
+   Cartesian axes
+
+     site n.     atom                  positions (alat units)
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+
+     number of k points=  1904 (tetrahedron method)
+
+     Number of k-points >= 100: set verbosity='high' to print them.
+
+     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
+
+     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
+
+     Estimated max dynamical RAM per process >       9.71 MB
+
+     Estimated total dynamical RAM >     621.69 MB
+
+     Check: negative core charge=   -0.000006
+
+     The potential is recalculated from file :
+     ./_ph0/pwscf.q_4/pwscf.save/charge-density
+
+     Starting wfcs are   12 atomic wfcs
+     Checking if some PAW data can be deallocated... 
+
+     Band Structure Calculation
+     Davidson diagonalization with overlap
+
+     ethr =  1.25E-10,  avg # of iterations = 22.3
+
+     total cpu time spent up to now is        5.3 secs
+
+     End of band structure calculation
+
+     Number of k-points >= 100: set verbosity='high' to print the bands.
+
+     the Fermi energy is     7.6811 ev
+ 
+     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
+
+     Electron-phonon                                                            
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     kinetic-energy cut-off    =      35.0000  Ry
+     charge density cut-off    =     280.0000  Ry
+     convergence threshold     =      1.0E-12
+     beta                      =       0.7000
+     number of iterations used =            4
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+
+     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
+     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (  1.0000  0.0000  0.0000 )  
+               a(2) = ( -0.5000  0.8660  0.0000 )  
+               a(3) = (  0.0000  0.0000  1.1458 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.0000  0.5774  0.0000 )  
+               b(2) = (  0.0000  1.1547  0.0000 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
+
+
+     Atoms inside the unit cell: 
+
+     Cartesian axes
+
+     site n.  atom      mass           positions (alat units)
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+
+     Computing dynamical matrix for 
+                    q = (   0.0000000   0.2886751  -0.4363586 )
+ 
+      4 Sym.Ops. (no q -> -q+G )
+
+
+     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
+     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
+     number of k points=  1904
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+
+     Atomic displacements:
+     There are    9 irreducible representations
+
+     Representation     1      1 modes -  To be done
+
+     Representation     2      1 modes -  To be done
+
+     Representation     3      1 modes -  To be done
+
+     Representation     4      1 modes -  To be done
+
+     Representation     5      1 modes -  To be done
+
+     Representation     6      1 modes -  To be done
+
+     Representation     7      1 modes -  To be done
+
+     Representation     8      1 modes -  To be done
+
+     Representation     9      1 modes -  To be done
+
+
+     PHONON       :     15.36s CPU     16.76s WALL
+
+     Reading dVscf from file dv
+     Reading dynamics matrix from file matdyn4
+
+     Diagonalizing the dynamical matrix
+
+     q = (    0.000000000   0.288675135  -0.436358562 ) 
+
+ **************************************************************************
+     freq (    1) =       7.317815 [THz] =     244.096050 [cm-1]
+     freq (    2) =       7.853934 [THz] =     261.979048 [cm-1]
+     freq (    3) =       8.599974 [THz] =     286.864241 [cm-1]
+     freq (    4) =      11.345504 [THz] =     378.445275 [cm-1]
+     freq (    5) =      12.950182 [THz] =     431.971575 [cm-1]
+     freq (    6) =      15.407103 [THz] =     513.925632 [cm-1]
+     freq (    7) =      19.236026 [THz] =     641.644759 [cm-1]
+     freq (    8) =      21.305592 [THz] =     710.678050 [cm-1]
+     freq (    9) =      21.530714 [THz] =     718.187326 [cm-1]
+ **************************************************************************
+
+     [elph_tetra]   Lowest band which contains FS :          3
+     [elph_tetra]  Highest band which contains FS :          5
+     [elph_tetra]    # of bands which contains FS :          3
+ 
+     Tetrahedron method
+     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
+     double delta at Ef = 28.501549
+     lambda(    1)=  0.0005   gamma=    0.11 GHz
+     lambda(    2)=  0.0005   gamma=    0.13 GHz
+     lambda(    3)=  0.0565   gamma=   19.07 GHz
+     lambda(    4)=  0.0088   gamma=    5.17 GHz
+     lambda(    5)=  0.0051   gamma=    3.94 GHz
+     lambda(    6)=  0.0120   gamma=   13.02 GHz
+     lambda(    7)=  0.0071   gamma=   11.98 GHz
+     lambda(    8)=  0.0438   gamma=   90.77 GHz
+     lambda(    9)=  0.3339   gamma=  705.99 GHz
+ 
+     Number of q in the star =    6
+     List of q in the star:
+          1   0.000000000   0.288675135  -0.436358562
+          2  -0.250000000  -0.144337567  -0.436358562
+          3   0.250000000  -0.144337567  -0.436358562
+          4   0.000000000  -0.288675135  -0.436358562
+          5   0.250000000   0.144337567  -0.436358562
+          6  -0.250000000   0.144337567  -0.436358562
+
+     Calculation of q =    0.0000000  -0.5773503   0.1454529
+     [opt_tetra]  Optimized tetrahedron method is used.
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         649     313    121                15395     5449    1287
+ 
+     Using Slab Decomposition
+ 
+
+     Title: 
+     Electron-phonon                                                            
+
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     number of electrons       =         8.00
+     number of Kohn-Sham states=            8
+     kinetic-energy cutoff     =      35.0000  Ry
+     charge density cutoff     =     280.0000  Ry
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
+     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (   1.000000   0.000000   0.000000 )  
+               a(2) = (  -0.500000   0.866025   0.000000 )  
+               a(3) = (   0.000000   0.000000   1.145847 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.000000  0.577350  0.000000 )  
+               b(2) = (  0.000000  1.154701  0.000000 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
+
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     atomic species   valence    mass     pseudopotential
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
+
+     24 Sym. Ops., with inversion, found
+
+
+
+   Cartesian axes
+
+     site n.     atom                  positions (alat units)
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+
+     number of k points=  1752 (tetrahedron method)
+
+     Number of k-points >= 100: set verbosity='high' to print them.
+
+     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
+
+     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
+
+     Estimated max dynamical RAM per process >       9.55 MB
+
+     Estimated total dynamical RAM >     611.33 MB
+
+     Check: negative core charge=   -0.000006
+
+     The potential is recalculated from file :
+     ./_ph0/pwscf.q_5/pwscf.save/charge-density
+
+     Starting wfcs are   12 atomic wfcs
+     Checking if some PAW data can be deallocated... 
+
+     Band Structure Calculation
+     Davidson diagonalization with overlap
+
+     ethr =  1.25E-10,  avg # of iterations = 22.5
+
+     total cpu time spent up to now is        6.6 secs
+
+     End of band structure calculation
+
+     Number of k-points >= 100: set verbosity='high' to print the bands.
+
+     the Fermi energy is     7.6811 ev
+ 
+     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
+
+     Electron-phonon                                                            
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     kinetic-energy cut-off    =      35.0000  Ry
+     charge density cut-off    =     280.0000  Ry
+     convergence threshold     =      1.0E-12
+     beta                      =       0.7000
+     number of iterations used =            4
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+
+     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
+     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (  1.0000  0.0000  0.0000 )  
+               a(2) = ( -0.5000  0.8660  0.0000 )  
+               a(3) = (  0.0000  0.0000  1.1458 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.0000  0.5774  0.0000 )  
+               b(2) = (  0.0000  1.1547  0.0000 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
+
+
+     Atoms inside the unit cell: 
+
+     Cartesian axes
+
+     site n.  atom      mass           positions (alat units)
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+
+     Computing dynamical matrix for 
+                    q = (   0.0000000  -0.5773503   0.1454529 )
+ 
+      4 Sym.Ops. (no q -> -q+G )
+
+
+     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
+     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
+     number of k points=  1752
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+
+     Atomic displacements:
+     There are    9 irreducible representations
+
+     Representation     1      1 modes -  To be done
+
+     Representation     2      1 modes -  To be done
+
+     Representation     3      1 modes -  To be done
+
+     Representation     4      1 modes -  To be done
+
+     Representation     5      1 modes -  To be done
+
+     Representation     6      1 modes -  To be done
+
+     Representation     7      1 modes -  To be done
+
+     Representation     8      1 modes -  To be done
+
+     Representation     9      1 modes -  To be done
+
+
+     PHONON       :     19.62s CPU     21.41s WALL
+
+     Reading dVscf from file dv
+     Reading dynamics matrix from file matdyn5
+
+     Diagonalizing the dynamical matrix
+
+     q = (    0.000000000  -0.577350269   0.145452854 ) 
+
+ **************************************************************************
+     freq (    1) =       7.647996 [THz] =     255.109682 [cm-1]
+     freq (    2) =       7.972154 [THz] =     265.922442 [cm-1]
+     freq (    3) =       9.800821 [THz] =     326.920188 [cm-1]
+     freq (    4) =      13.806439 [THz] =     460.533248 [cm-1]
+     freq (    5) =      13.867772 [THz] =     462.579080 [cm-1]
+     freq (    6) =      15.582601 [THz] =     519.779635 [cm-1]
+     freq (    7) =      22.003051 [THz] =     733.942763 [cm-1]
+     freq (    8) =      22.072460 [THz] =     736.258008 [cm-1]
+     freq (    9) =      22.607024 [THz] =     754.089155 [cm-1]
+ **************************************************************************
+
+     [elph_tetra]   Lowest band which contains FS :          3
+     [elph_tetra]  Highest band which contains FS :          5
+     [elph_tetra]    # of bands which contains FS :          3
+ 
+     Tetrahedron method
+     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
+     double delta at Ef = 52.356109
+     lambda(    1)=  0.0051   gamma=    1.37 GHz
+     lambda(    2)=  0.0045   gamma=    1.31 GHz
+     lambda(    3)=  0.0090   gamma=    3.95 GHz
+     lambda(    4)=  0.1214   gamma=  105.53 GHz
+     lambda(    5)=  0.0002   gamma=    0.18 GHz
+     lambda(    6)=  0.2154   gamma=  238.57 GHz
+     lambda(    7)=  0.0214   gamma=   47.33 GHz
+     lambda(    8)=  0.0146   gamma=   32.55 GHz
+     lambda(    9)=  0.0008   gamma=    1.79 GHz
+ 
+     Number of q in the star =    6
+     List of q in the star:
+          1   0.000000000  -0.577350269   0.145452854
+          2   0.500000000   0.288675135   0.145452854
+          3  -0.500000000   0.288675135   0.145452854
+          4   0.000000000  -0.577350269  -0.145452854
+          5  -0.500000000   0.288675135  -0.145452854
+          6   0.500000000   0.288675135  -0.145452854
+
+     Calculation of q =    0.0000000  -0.5773503  -0.4363586
+     [opt_tetra]  Optimized tetrahedron method is used.
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         649     313    121                15395     5449    1347
+ 
+     Using Slab Decomposition
+ 
+
+     Title: 
+     Electron-phonon                                                            
+
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     number of electrons       =         8.00
+     number of Kohn-Sham states=            8
+     kinetic-energy cutoff     =      35.0000  Ry
+     charge density cutoff     =     280.0000  Ry
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
+     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (   1.000000   0.000000   0.000000 )  
+               a(2) = (  -0.500000   0.866025   0.000000 )  
+               a(3) = (   0.000000   0.000000   1.145847 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.000000  0.577350  0.000000 )  
+               b(2) = (  0.000000  1.154701  0.000000 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
+
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     atomic species   valence    mass     pseudopotential
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
+
+     24 Sym. Ops., with inversion, found
+
+
+
+   Cartesian axes
+
+     site n.     atom                  positions (alat units)
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+
+     number of k points=  1022 (tetrahedron method)
+
+     Number of k-points >= 100: set verbosity='high' to print them.
+
+     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
+
+     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
+
+     Estimated max dynamical RAM per process >       8.57 MB
+
+     Estimated total dynamical RAM >     548.18 MB
+
+     Check: negative core charge=   -0.000006
+
+     The potential is recalculated from file :
+     ./_ph0/pwscf.q_6/pwscf.save/charge-density
+
+     Starting wfcs are   12 atomic wfcs
+     Checking if some PAW data can be deallocated... 
+
+     Band Structure Calculation
+     Davidson diagonalization with overlap
+
+     ethr =  1.25E-10,  avg # of iterations = 22.1
+
+     total cpu time spent up to now is        7.5 secs
+
+     End of band structure calculation
+
+     Number of k-points >= 100: set verbosity='high' to print the bands.
+
+     the Fermi energy is     7.6811 ev
+ 
+     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
+
+     Electron-phonon                                                            
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     kinetic-energy cut-off    =      35.0000  Ry
+     charge density cut-off    =     280.0000  Ry
+     convergence threshold     =      1.0E-12
+     beta                      =       0.7000
+     number of iterations used =            4
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+
+     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
+     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (  1.0000  0.0000  0.0000 )  
+               a(2) = ( -0.5000  0.8660  0.0000 )  
+               a(3) = (  0.0000  0.0000  1.1458 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.0000  0.5774  0.0000 )  
+               b(2) = (  0.0000  1.1547  0.0000 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
+
+
+     Atoms inside the unit cell: 
+
+     Cartesian axes
+
+     site n.  atom      mass           positions (alat units)
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+
+     Computing dynamical matrix for 
+                    q = (   0.0000000  -0.5773503  -0.4363586 )
+ 
+      9 Sym.Ops. (with q -> -q+G )
+
+
+     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
+     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
+     number of k points=  1022
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+
+     Atomic displacements:
+     There are    9 irreducible representations
+
+     Representation     1      1 modes -  To be done
+
+     Representation     2      1 modes -  To be done
+
+     Representation     3      1 modes -  To be done
+
+     Representation     4      1 modes -  To be done
+
+     Representation     5      1 modes -  To be done
+
+     Representation     6      1 modes -  To be done
+
+     Representation     7      1 modes -  To be done
+
+     Representation     8      1 modes -  To be done
+
+     Representation     9      1 modes -  To be done
+
+
+     PHONON       :     23.75s CPU     25.89s WALL
+
+     Reading dVscf from file dv
+     Reading dynamics matrix from file matdyn6
+
+     Diagonalizing the dynamical matrix
+
+     q = (    0.000000000  -0.577350269  -0.436358562 ) 
+
+ **************************************************************************
+     freq (    1) =       7.729403 [THz] =     257.825125 [cm-1]
+     freq (    2) =       8.128054 [THz] =     271.122686 [cm-1]
+     freq (    3) =       9.328924 [THz] =     311.179415 [cm-1]
+     freq (    4) =      13.887801 [THz] =     463.247186 [cm-1]
+     freq (    5) =      14.938556 [THz] =     498.296586 [cm-1]
+     freq (    6) =      16.056218 [THz] =     535.577790 [cm-1]
+     freq (    7) =      22.204385 [THz] =     740.658547 [cm-1]
+     freq (    8) =      22.530145 [THz] =     751.524727 [cm-1]
+     freq (    9) =      22.572359 [THz] =     752.932856 [cm-1]
+ **************************************************************************
+
+     [elph_tetra]   Lowest band which contains FS :          3
+     [elph_tetra]  Highest band which contains FS :          5
+     [elph_tetra]    # of bands which contains FS :          3
+ 
+     Tetrahedron method
+     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
+     double delta at Ef = 59.628566
+     lambda(    1)=  0.0198   gamma=    5.40 GHz
+     lambda(    2)=  0.0021   gamma=    0.62 GHz
+     lambda(    3)=  0.0044   gamma=    1.75 GHz
+     lambda(    4)=  0.0015   gamma=    1.36 GHz
+     lambda(    5)=  0.0802   gamma=   81.64 GHz
+     lambda(    6)=  0.1419   gamma=  166.91 GHz
+     lambda(    7)=  0.0498   gamma=  111.91 GHz
+     lambda(    8)=  0.0065   gamma=   15.01 GHz
+     lambda(    9)=  0.0069   gamma=   15.97 GHz
+ 
+     Number of q in the star =    3
+     List of q in the star:
+          1   0.000000000  -0.577350269  -0.436358562
+          2  -0.500000000  -0.288675135  -0.436358562
+          3   0.500000000  -0.288675135  -0.436358562
+
+     Calculation of q =    0.2500000   0.4330127   0.1454529
+     [opt_tetra]  Optimized tetrahedron method is used.
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         649     313    121                15395     5449    1287
+ 
+     Using Slab Decomposition
+ 
+
+     Title: 
+     Electron-phonon                                                            
+
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     number of electrons       =         8.00
+     number of Kohn-Sham states=            8
+     kinetic-energy cutoff     =      35.0000  Ry
+     charge density cutoff     =     280.0000  Ry
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+     celldm(1)=   5.804205  celldm(2)=   0.000000  celldm(3)=   0.000000
+     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (   1.000000   0.000000   0.000000 )  
+               a(2) = (  -0.500000   0.866025   0.000000 )  
+               a(3) = (   0.000000   0.000000   1.145847 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.000000  0.577350  0.000000 )  
+               b(2) = (  0.000000  1.154701  0.000000 )  
+               b(3) = (  0.000000  0.000000  0.872717 )  
+
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     atomic species   valence    mass     pseudopotential
+     B                 3.00    10.81100     B ( 1.00)
+     Mg                2.00    24.30500     Mg( 1.00)
+
+     24 Sym. Ops., with inversion, found
+
+
+
+   Cartesian axes
+
+     site n.     atom                  positions (alat units)
+         1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
+
+     number of k points=  3264 (tetrahedron method)
+
+     Number of k-points >= 100: set verbosity='high' to print them.
+
+     Dense  grid:    15395 G-vectors     FFT dimensions: (  32,  32,  36)
+
+     Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
+
+     Estimated max dynamical RAM per process >      11.53 MB
+
+     Estimated total dynamical RAM >     738.22 MB
+
+     Check: negative core charge=   -0.000006
+
+     The potential is recalculated from file :
+     ./_ph0/pwscf.q_7/pwscf.save/charge-density
+
+     Starting wfcs are   12 atomic wfcs
+     Checking if some PAW data can be deallocated... 
+
+     Band Structure Calculation
+     Davidson diagonalization with overlap
+
+     ethr =  1.25E-10,  avg # of iterations = 22.8
+
+     total cpu time spent up to now is        9.9 secs
+
+     End of band structure calculation
+
+     Number of k-points >= 100: set verbosity='high' to print the bands.
+
+     the Fermi energy is     7.6811 ev
+ 
+     [dfpt_tetra]  Dos(E_F)[/Ry] :   0.9553822E+01
+
+     Electron-phonon                                                            
+
+     bravais-lattice index     =            0
+     lattice parameter (alat)  =       5.8042  a.u.
+     unit-cell volume          =     194.0373 (a.u.)^3
+     number of atoms/cell      =            3
+     number of atomic types    =            2
+     kinetic-energy cut-off    =      35.0000  Ry
+     charge density cut-off    =     280.0000  Ry
+     convergence threshold     =      1.0E-12
+     beta                      =       0.7000
+     number of iterations used =            4
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+
+     celldm(1)=    5.80420  celldm(2)=    0.00000  celldm(3)=    0.00000
+     celldm(4)=    0.00000  celldm(5)=    0.00000  celldm(6)=    0.00000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (  1.0000  0.0000  0.0000 )  
+               a(2) = ( -0.5000  0.8660  0.0000 )  
+               a(3) = (  0.0000  0.0000  1.1458 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.0000  0.5774  0.0000 )  
+               b(2) = (  0.0000  1.1547  0.0000 )  
+               b(3) = (  0.0000  0.0000  0.8727 )  
+
+
+     Atoms inside the unit cell: 
+
+     Cartesian axes
+
+     site n.  atom      mass           positions (alat units)
+        1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
+        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
+
+     Computing dynamical matrix for 
+                    q = (   0.2500000   0.4330127   0.1454529 )
+ 
+      2 Sym.Ops. (no q -> -q+G )
+
+
+     G cutoff =  238.9372  (  15395 G-vectors)     FFT grid: ( 32, 32, 36)
+     G cutoff =  119.4686  (   5449 G-vectors)  smooth grid: ( 24, 24, 25)
+     number of k points=  3264
+
+     PseudoPot. # 1 for B  read from file:
+     ./B.pbe-n-kjpaw_psl.0.1.upf
+     MD5 check sum: b4345a612e0782cca08559f453f3313f
+     Pseudo is Projector augmented-wave + core cor, Zval =  3.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1059 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Mg read from file:
+     ./Mg.pbe-n-kjpaw_psl.0.3.0.upf
+     MD5 check sum: 9eaefceb6cf3903db1b93e4e5c6adf9a
+     Pseudo is Projector augmented-wave + core cor, Zval =  2.0
+     Generated using "atomic" code by A. Dal Corso  v.5.0.99 svn rev. 10869
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1129 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+
+     Atomic displacements:
+     There are    9 irreducible representations
+
+     Representation     1      1 modes -  To be done
+
+     Representation     2      1 modes -  To be done
+
+     Representation     3      1 modes -  To be done
+
+     Representation     4      1 modes -  To be done
+
+     Representation     5      1 modes -  To be done
+
+     Representation     6      1 modes -  To be done
+
+     Representation     7      1 modes -  To be done
+
+     Representation     8      1 modes -  To be done
+
+     Representation     9      1 modes -  To be done
+
+
+     PHONON       :     29.04s CPU     31.71s WALL
+
+     Reading dVscf from file dv
+     Reading dynamics matrix from file matdyn7
+
+     Diagonalizing the dynamical matrix
+
+     q = (    0.250000000   0.433012702   0.145452854 ) 
+
+ **************************************************************************
+     freq (    1) =       7.875963 [THz] =     262.713858 [cm-1]
+     freq (    2) =       8.070794 [THz] =     269.212705 [cm-1]
+     freq (    3) =       9.311374 [THz] =     310.593992 [cm-1]
+     freq (    4) =      12.981484 [THz] =     433.015699 [cm-1]
+     freq (    5) =      16.956718 [THz] =     565.615227 [cm-1]
+     freq (    6) =      17.060488 [THz] =     569.076639 [cm-1]
+     freq (    7) =      19.342579 [THz] =     645.198995 [cm-1]
+     freq (    8) =      22.739197 [THz] =     758.497955 [cm-1]
+     freq (    9) =      23.649253 [THz] =     788.854160 [cm-1]
+ **************************************************************************
+
+     [elph_tetra]   Lowest band which contains FS :          3
+     [elph_tetra]  Highest band which contains FS :          5
+     [elph_tetra]    # of bands which contains FS :          3
+ 
+     Tetrahedron method
+     DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
+     double delta at Ef = 40.353320
+     lambda(    1)=  0.0065   gamma=    1.85 GHz
+     lambda(    2)=  0.0137   gamma=    4.06 GHz
+     lambda(    3)=  0.0233   gamma=    9.22 GHz
+     lambda(    4)=  0.1380   gamma=  106.12 GHz
+     lambda(    5)=  0.0628   gamma=   82.38 GHz
+     lambda(    6)=  0.0144   gamma=   19.15 GHz
+     lambda(    7)=  0.0051   gamma=    8.68 GHz
+     lambda(    8)=  0.0314   gamma=   74.12 GHz
+     lambda(    9)=  0.0086   gamma=   21.86 GHz
+ 
+     Number of q in the star =   12
+     List of q in the star:
+          1   0.250000000   0.433012702   0.145452854
+          2   0.250000000  -0.433012702   0.145452854
+          3  -0.250000000  -0.433012702   0.145452854
+          4   0.250000000   0.433012702  -0.145452854
+          5  -0.250000000   0.433012702  -0.145452854
+          6  -0.250000000  -0.433012702  -0.145452854
+          7   0.250000000  -0.433012702  -0.145452854
+          8  -0.250000000   0.433012702   0.145452854
+          9  -0.500000000  -0.000000000   0.145452854
+         10   0.500000000   0.000000000   0.145452854
+         11  -0.500000000  -0.000000000  -0.145452854
+         12   0.500000000   0.000000000  -0.145452854
+
+     Calculation of q =    0.2500000   0.4330127  -0.4363586
+     [opt_tetra]  Optimized tetrahedron method is used.
+ 
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum         649     313    121                15395     5449    1347
  
      Using Slab Decomposition
  
@@ -3163,12 +2013,12 @@
 
      Estimated max dynamical RAM per process >       9.72 MB
 
-     Estimated total dynamical RAM >     621.98 MB
+     Estimated total dynamical RAM >     622.16 MB
 
      Check: negative core charge=   -0.000006
 
      The potential is recalculated from file :
-     ./_ph0/pwscf.q_12/pwscf.save/charge-density
+     ./_ph0/pwscf.q_8/pwscf.save/charge-density
 
      Starting wfcs are   12 atomic wfcs
      Checking if some PAW data can be deallocated... 
@@ -3178,7 +2028,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is       29.0 secs
+     total cpu time spent up to now is       11.3 secs
 
      End of band structure calculation
 
@@ -3228,7 +2078,7 @@
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
-                    q = (   0.3750000  -0.2165064  -0.4363586 )
+                    q = (   0.2500000   0.4330127  -0.4363586 )
  
       4 Sym.Ops. (no q -> -q+G )
 
@@ -3288,25 +2138,25 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :   1m 6.69s CPU   1m10.23s WALL
+     PHONON       :     33.51s CPU     36.62s WALL
 
      Reading dVscf from file dv
-     Reading dynamics matrix from file matdyn12
+     Reading dynamics matrix from file matdyn8
 
      Diagonalizing the dynamical matrix
 
-     q = (    0.375000000  -0.216506351  -0.436358562 ) 
+     q = (    0.250000000   0.433012702  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       7.633697 [THz] =     254.632712 [cm-1]
-     freq (    2) =       8.266913 [THz] =     275.754522 [cm-1]
-     freq (    3) =       8.778711 [THz] =     292.826294 [cm-1]
-     freq (    4) =      13.271604 [THz] =     442.693058 [cm-1]
-     freq (    5) =      13.886192 [THz] =     463.193517 [cm-1]
-     freq (    6) =      17.940569 [THz] =     598.432978 [cm-1]
-     freq (    7) =      19.626894 [THz] =     654.682715 [cm-1]
-     freq (    8) =      22.268295 [THz] =     742.790364 [cm-1]
-     freq (    9) =      24.057928 [THz] =     802.486093 [cm-1]
+     freq (    1) =       8.190985 [THz] =     273.221850 [cm-1]
+     freq (    2) =       8.360844 [THz] =     278.887751 [cm-1]
+     freq (    3) =       8.958723 [THz] =     298.830827 [cm-1]
+     freq (    4) =      14.173237 [THz] =     472.768288 [cm-1]
+     freq (    5) =      16.977459 [THz] =     566.307063 [cm-1]
+     freq (    6) =      17.003287 [THz] =     567.168602 [cm-1]
+     freq (    7) =      19.425063 [THz] =     647.950342 [cm-1]
+     freq (    8) =      21.976546 [THz] =     733.058678 [cm-1]
+     freq (    9) =      23.795585 [THz] =     793.735272 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -3315,118 +2165,118 @@
  
      Tetrahedron method
      DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
-     double delta at Ef = 43.687169
-     lambda(    1)=  0.0147   gamma=    3.90 GHz
-     lambda(    2)=  0.0058   gamma=    1.80 GHz
-     lambda(    3)=  0.0208   gamma=    7.31 GHz
-     lambda(    4)=  0.0046   gamma=    3.72 GHz
-     lambda(    5)=  0.1247   gamma=  109.64 GHz
-     lambda(    6)=  0.0531   gamma=   77.96 GHz
-     lambda(    7)=  0.0053   gamma=    9.23 GHz
-     lambda(    8)=  0.0498   gamma=  112.71 GHz
-     lambda(    9)=  0.0040   gamma=   10.62 GHz
+     double delta at Ef = 43.433108
+     lambda(    1)=  0.0056   gamma=    1.71 GHz
+     lambda(    2)=  0.0088   gamma=    2.80 GHz
+     lambda(    3)=  0.0089   gamma=    3.25 GHz
+     lambda(    4)=  0.1279   gamma=  117.18 GHz
+     lambda(    5)=  0.0760   gamma=   99.97 GHz
+     lambda(    6)=  0.0024   gamma=    3.21 GHz
+     lambda(    7)=  0.0043   gamma=    7.44 GHz
+     lambda(    8)=  0.0891   gamma=  196.19 GHz
+     lambda(    9)=  0.0029   gamma=    7.49 GHz
  
      Number of q in the star =    6
      List of q in the star:
-          1   0.375000000  -0.216506351  -0.436358562
-          2   0.375000000   0.216506351  -0.436358562
-          3   0.000000000  -0.433012702  -0.436358562
-          4   0.000000000   0.433012702  -0.436358562
-          5  -0.375000000  -0.216506351  -0.436358562
-          6  -0.375000000   0.216506351   0.436358562
+          1   0.250000000   0.433012702  -0.436358562
+          2   0.250000000  -0.433012702  -0.436358562
+          3  -0.250000000   0.433012702   0.436358562
+          4  -0.250000000  -0.433012702   0.436358562
+          5  -0.500000000  -0.000000000  -0.436358562
+          6   0.500000000   0.000000000  -0.436358562
  
-     init_run     :      1.43s CPU      1.61s WALL (      12 calls)
-     electrons    :     24.61s CPU     25.64s WALL (      12 calls)
+     init_run     :      0.86s CPU      0.96s WALL (       8 calls)
+     electrons    :      8.60s CPU      9.00s WALL (       8 calls)
 
      Called by init_run:
-     wfcinit      :      0.00s CPU      0.04s WALL (      12 calls)
-     potinit      :      0.66s CPU      0.80s WALL (      12 calls)
-     hinit0       :      0.32s CPU      0.32s WALL (      12 calls)
+     wfcinit      :      0.00s CPU      0.00s WALL (       8 calls)
+     potinit      :      0.41s CPU      0.51s WALL (       8 calls)
+     hinit0       :      0.23s CPU      0.23s WALL (       8 calls)
 
      Called by electrons:
-     c_bands      :     24.07s CPU     25.08s WALL (      12 calls)
-     v_of_rho     :      0.15s CPU      0.16s WALL (      13 calls)
-     newd         :      0.02s CPU      0.02s WALL (      13 calls)
-     PAW_pot      :      0.22s CPU      0.22s WALL (      13 calls)
+     c_bands      :      8.29s CPU      8.68s WALL (       8 calls)
+     v_of_rho     :      0.11s CPU      0.11s WALL (       9 calls)
+     newd         :      0.01s CPU      0.01s WALL (       9 calls)
+     PAW_pot      :      0.19s CPU      0.19s WALL (       9 calls)
 
      Called by c_bands:
-     init_us_2    :      0.83s CPU      0.85s WALL (    4424 calls)
-     cegterg      :     15.48s CPU     15.66s WALL (     958 calls)
+     init_us_2    :      0.29s CPU      0.30s WALL (    1566 calls)
+     cegterg      :      5.01s CPU      5.10s WALL (     293 calls)
 
      Called by *egterg:
-     cdiaghg      :      2.03s CPU      2.06s WALL (   13989 calls)
-     h_psi        :     11.17s CPU     11.31s WALL (   14947 calls)
-     s_psi        :      0.40s CPU      0.41s WALL (   14947 calls)
-     g_psi        :      0.13s CPU      0.13s WALL (   13357 calls)
+     cdiaghg      :      0.66s CPU      0.68s WALL (    4546 calls)
+     h_psi        :      3.65s CPU      3.72s WALL (    4839 calls)
+     s_psi        :      0.13s CPU      0.13s WALL (    4839 calls)
+     g_psi        :      0.04s CPU      0.04s WALL (    4318 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.56s CPU      0.57s WALL (   14947 calls)
-     vloc_psi     :      9.94s CPU     10.06s WALL (   14947 calls)
-     add_vuspsi   :      0.43s CPU      0.44s WALL (   14947 calls)
+     h_psi:calbec :      0.18s CPU      0.19s WALL (    4839 calls)
+     vloc_psi     :      3.25s CPU      3.31s WALL (    4839 calls)
+     add_vuspsi   :      0.14s CPU      0.14s WALL (    4839 calls)
 
      General routines
-     calbec       :      0.78s CPU      0.79s WALL (   20319 calls)
-     fft          :      0.14s CPU      0.14s WALL (     672 calls)
-     ffts         :      0.13s CPU      0.13s WALL (    3192 calls)
-     fftw         :     10.04s CPU     10.16s WALL (  275800 calls)
-     interpolate  :      0.11s CPU      0.11s WALL (     240 calls)
-     davcio       :      0.02s CPU      0.02s WALL (     216 calls)
+     calbec       :      0.26s CPU      0.27s WALL (    6777 calls)
+     fft          :      0.09s CPU      0.09s WALL (     452 calls)
+     ffts         :      0.05s CPU      0.05s WALL (    1258 calls)
+     fftw         :      3.38s CPU      3.44s WALL (   92496 calls)
+     interpolate  :      0.07s CPU      0.07s WALL (     160 calls)
+     davcio       :      0.01s CPU      0.01s WALL (     144 calls)
  
      Parallel routines
  
-     PHONON       :   1m 8.29s CPU   1m11.90s WALL
+     PHONON       :     35.00s CPU     38.35s WALL
 
      INITIALIZATION: 
-     phq_setup    :      0.76s CPU      0.94s WALL (      12 calls)
-     phq_init     :     19.29s CPU     19.40s WALL (      12 calls)
+     phq_setup    :      0.43s CPU      0.54s WALL (       8 calls)
+     phq_init     :     11.56s CPU     11.61s WALL (       8 calls)
  
-     phq_init     :     19.29s CPU     19.40s WALL (      12 calls)
-     set_drhoc    :      0.05s CPU      0.06s WALL (      12 calls)
-     init_vloc    :      0.03s CPU      0.03s WALL (      13 calls)
-     init_us_1    :      0.17s CPU      0.17s WALL (      13 calls)
-     init_us_2    :      0.83s CPU      0.85s WALL (    4424 calls)
-     newd         :      0.02s CPU      0.02s WALL (      13 calls)
-     dvanqq       :     13.13s CPU     13.14s WALL (      24 calls)
-     drho         :     12.58s CPU     12.68s WALL (      12 calls)
-     drhous       :      2.62s CPU      2.67s WALL (      12 calls)
-     nldyntot     :      0.08s CPU      0.08s WALL (      12 calls)
-     newdq        :      6.83s CPU      6.83s WALL (     108 calls)
-     adddvscf     :      0.22s CPU      0.22s WALL (    2844 calls)
-     com_dvloc    :      0.25s CPU      0.25s WALL (    2952 calls)
-                                        0.00s GPU  (    2952 calls)
+     phq_init     :     11.56s CPU     11.61s WALL (       8 calls)
+     set_drhoc    :      0.05s CPU      0.05s WALL (       8 calls)
+     init_vloc    :      0.03s CPU      0.03s WALL (       9 calls)
+     init_us_1    :      0.12s CPU      0.12s WALL (       9 calls)
+     init_us_2    :      0.29s CPU      0.30s WALL (    1566 calls)
+     newd         :      0.01s CPU      0.01s WALL (       9 calls)
+     dvanqq       :      8.88s CPU      8.89s WALL (      16 calls)
+     drho         :      6.96s CPU      7.00s WALL (       8 calls)
+     drhous       :      0.91s CPU      0.93s WALL (       8 calls)
+     nldyntot     :      0.03s CPU      0.03s WALL (       8 calls)
+     newdq        :      4.58s CPU      4.59s WALL (      66 calls)
+     adddvscf     :      0.08s CPU      0.08s WALL (    1026 calls)
+     com_dvloc    :      0.11s CPU      0.11s WALL (    1098 calls)
+                                        0.00s GPU  (    1098 calls)
  
-     dvqpsi_us    :      3.35s CPU      3.39s WALL (    2844 calls)
-                                        0.00s GPU  (    2844 calls)
-     dvqpsi_us_on :      0.73s CPU      0.74s WALL (    2844 calls)
+     dvqpsi_us    :      1.22s CPU      1.24s WALL (    1026 calls)
+                                        0.00s GPU  (    1026 calls)
+     dvqpsi_us_on :      0.26s CPU      0.27s WALL (    1026 calls)
  
-     add_vuspsi   :      0.43s CPU      0.44s WALL (   14947 calls)
-     addusdbec    :      0.22s CPU      0.22s WALL (    2844 calls)
+     add_vuspsi   :      0.14s CPU      0.14s WALL (    4839 calls)
+     addusdbec    :      0.07s CPU      0.07s WALL (    1026 calls)
  
  
       Electron-phonon coupling
-     elphon       :     13.50s CPU     13.57s WALL (      12 calls)
-     elphel       :      5.25s CPU      5.32s WALL (     108 calls)
+     elphon       :      7.40s CPU      7.44s WALL (       8 calls)
+     elphel       :      1.90s CPU      1.93s WALL (      66 calls)
  
       General routines
-     calbec       :      0.78s CPU      0.79s WALL (   20319 calls)
-     fft          :      0.14s CPU      0.14s WALL (     672 calls)
-     ffts         :      0.13s CPU      0.13s WALL (    3192 calls)
-     fftw         :     10.04s CPU     10.16s WALL (  275800 calls)
-     davcio       :      0.02s CPU      0.02s WALL (     216 calls)
+     calbec       :      0.26s CPU      0.27s WALL (    6777 calls)
+     fft          :      0.09s CPU      0.09s WALL (     452 calls)
+     ffts         :      0.05s CPU      0.05s WALL (    1258 calls)
+     fftw         :      3.38s CPU      3.44s WALL (   92496 calls)
+     davcio       :      0.01s CPU      0.01s WALL (     144 calls)
  
       Additional routines
-     h_psi_bgrp   :     11.20s CPU     11.33s WALL (   14947 calls)
-     h_psi        :     11.17s CPU     11.31s WALL (   14947 calls)
-     h_psi:pot    :     10.99s CPU     11.12s WALL (   14947 calls)
-     h_psi:calbec :      0.56s CPU      0.57s WALL (   14947 calls)
-     s_psi_bgrp   :      0.53s CPU      0.54s WALL (   14947 calls)
-     s_psi        :      0.40s CPU      0.41s WALL (   14947 calls)
+     h_psi_bgrp   :      3.66s CPU      3.73s WALL (    4839 calls)
+     h_psi        :      3.65s CPU      3.72s WALL (    4839 calls)
+     h_psi:pot    :      3.59s CPU      3.66s WALL (    4839 calls)
+     h_psi:calbec :      0.18s CPU      0.19s WALL (    4839 calls)
+     s_psi_bgrp   :      0.17s CPU      0.17s WALL (    4839 calls)
+     s_psi        :      0.13s CPU      0.13s WALL (    4839 calls)
  
  
-     PHONON       :   1m 8.29s CPU   1m11.90s WALL
+     PHONON       :     35.00s CPU     38.35s WALL
 
  
-   This run was terminated on:   3: 6:54  13Mar2026            
+   This run was terminated on:  23: 0: 1  15Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

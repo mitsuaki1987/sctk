@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 13Mar2026 at  3:14:22 
+     Program SCTK v.7.4.1 starts on 15Mar2026 at 23:36:45 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,10 +15,10 @@
      Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
-     228537 MiB available memory on the printing compute node when the environment starts
+     228216 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+     git hash : 0418a726baabba7ac5dcc8109aec214fd01e79e1
 
 
      Reading xml data from directory:
@@ -37,7 +37,7 @@
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1155
+     Sum         649     313    121                15395     5449    1179
  
      Using Slab Decomposition
  
@@ -86,21 +86,17 @@
 
 
      Dynamical matrices for ( 4, 4, 3)  uniform grid of q-points
-     With a half shift
-     (  12 q-points):
+     With a half shift  0  0  1
+     (   8 q-points):
        N         xq(1)         xq(2)         xq(3) 
-       1   0.125000000   0.216506351   0.145452854
-       2   0.125000000   0.216506351  -0.436358562
-       3   0.125000000   0.505181486   0.145452854
-       4   0.125000000   0.505181486  -0.436358562
-       5   0.125000000  -0.360843918   0.145452854
-       6   0.125000000  -0.360843918  -0.436358562
-       7   0.125000000  -0.072168784   0.145452854
-       8   0.125000000  -0.072168784  -0.436358562
-       9   0.375000000   0.649519053   0.145452854
-      10   0.375000000   0.649519053  -0.436358562
-      11   0.375000000  -0.216506351   0.145452854
-      12   0.375000000  -0.216506351  -0.436358562
+       1   0.000000000   0.000000000   0.145452854
+       2   0.000000000   0.000000000  -0.436358562
+       3   0.000000000   0.288675135   0.145452854
+       4   0.000000000   0.288675135  -0.436358562
+       5   0.000000000  -0.577350269   0.145452854
+       6   0.000000000  -0.577350269  -0.436358562
+       7   0.250000000   0.433012702   0.145452854
+       8   0.250000000   0.433012702  -0.436358562
      Because shifted q grid is used, q2r will not work !
 
      #####  Read from vc*.dat  #####
@@ -109,36 +105,36 @@
 
      #####  Average matrix in grid  #####
 
-       nindmax : 8
+       nindmax : 48
          Total RAM for Vc per process :   0.53E+00 GB
          Total RAM for gg per process :   0.11E+00 GB
-         Total RAM for Vc (temporary) per process :   0.21E-02 GB
-         Total RAM for gg (temporary) per process :   0.41E-03 GB
+         Total RAM for Vc (temporary) per process :   0.14E-02 GB
+         Total RAM for gg (temporary) per process :   0.28E-03 GB
        Number of symmetries conserving q_FFLO :    24
        DOS(E_F)[/Ry/cell/spin] :  0.47769E+01
        Number of total points for gap equation : 144
 
      #####  Integrate gapeq  #####
 
-           mu :     0.32862E+00
-       lambda :     0.52488E+00
+           mu :     0.33850E+00
+       lambda :     0.55548E+00
 
      #####  Write mu.frmsf and lambda_frmsf  #####
 
-     Max :         0.37339240     Min :         0.23696557
-     Max :         1.37121262     Min :         0.22875169
+     Max :         0.36711797     Min :         0.21905878
+     Max :         2.16313431     Min :         0.25443075
 
      #####  Clock summary  #####
 
-     read_elph    :      3.38s CPU      0.05s WALL (       1 calls)
-     read_Coulomb :      2.62s CPU      0.09s WALL (       1 calls)
-     expand_g_v_f :    668.48s CPU     11.08s WALL (       1 calls)
-     make_lambda_ :      4.05s CPU      0.06s WALL (       1 calls)
+     read_elph    :      1.76s CPU      0.03s WALL (       1 calls)
+     read_Coulomb :      5.19s CPU      0.09s WALL (       1 calls)
+     expand_g_v_f :   3340.21s CPU     53.93s WALL (       1 calls)
+     make_lambda_ :      7.90s CPU      0.13s WALL (       1 calls)
  
-     SCTK         :  13m 2.97s CPU     13.10s WALL
+     SCTK         :  57m38.66s CPU     56.07s WALL
 
  
-   This run was terminated on:   3:14:35  13Mar2026            
+   This run was terminated on:  23:37:41  15Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

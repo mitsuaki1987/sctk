@@ -25,7 +25,7 @@ mpirun ${MPIRUN_OPTION} -np ${np_pw} ../../../bin/projwfc.x -nk ${np_pw} -in pro
 mpirun ${MPIRUN_OPTION} -np 1 ../../../bin/fermi_velocity.x -in nscf.in > vfermi.out 2>&1
 mpirun ${MPIRUN_OPTION} -np 1 ../../../bin/fermi_proj.x -in proj.in > pfermi.out 2>&1
 cp twin0.in twin.in
-../../../bin/twingrid.x 4 4 4 >> twin.in
+../../../bin/twingrid.x 4 4 4 1 1 1 >> twin.in
 mpirun ${MPIRUN_OPTION} -np ${np_pw} ../../../bin/pw.x -nk ${np_pw} -in twin.in > twin.out 2>&1
 sed -e "/calculation/c calculation = \"kel\"" sctk0.in > kel.in
 export OMP_NUM_THREADS=${nt_kel}

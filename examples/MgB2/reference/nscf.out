@@ -1,5 +1,5 @@
 
-     Program PWSCF v.7.4.1 starts on 13Mar2026 at  3: 8: 7 
+     Program PWSCF v.7.4.1 starts on 15Mar2026 at 23: 8:10 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     225276 MiB available memory on the printing compute node when the environment starts
+     225024 MiB available memory on the printing compute node when the environment starts
  
      Reading input from nscf.in
 
@@ -139,7 +139,7 @@
      Band Structure Calculation
      Davidson diagonalization with overlap
 
-     ethr =  1.25E-08,  avg # of iterations = 37.9
+     ethr =  1.25E-08,  avg # of iterations = 37.8
 
      total cpu time spent up to now is        1.4 secs
 
@@ -153,49 +153,49 @@
      Writing all to output data dir ./pwscf.save/ :
      XML data file, pseudopotentials, collected wavefunctions
  
-     init_run     :      0.32s CPU      0.36s WALL (       1 calls)
-     electrons    :      0.52s CPU      0.55s WALL (       1 calls)
+     init_run     :      0.31s CPU      0.36s WALL (       1 calls)
+     electrons    :      0.48s CPU      0.49s WALL (       1 calls)
 
      Called by init_run:
-     wfcinit      :      0.00s CPU      0.01s WALL (       1 calls)
-     potinit      :      0.11s CPU      0.13s WALL (       1 calls)
-     hinit0       :      0.17s CPU      0.17s WALL (       1 calls)
+     wfcinit      :      0.00s CPU      0.00s WALL (       1 calls)
+     potinit      :      0.09s CPU      0.11s WALL (       1 calls)
+     hinit0       :      0.21s CPU      0.21s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :      0.47s CPU      0.49s WALL (       1 calls)
-     v_of_rho     :      0.02s CPU      0.02s WALL (       1 calls)
+     c_bands      :      0.42s CPU      0.42s WALL (       1 calls)
+     v_of_rho     :      0.01s CPU      0.01s WALL (       1 calls)
      newd         :      0.00s CPU      0.00s WALL (       1 calls)
-     PAW_pot      :      0.01s CPU      0.02s WALL (       1 calls)
+     PAW_pot      :      0.03s CPU      0.03s WALL (       1 calls)
 
      Called by c_bands:
      init_us_2    :      0.00s CPU      0.00s WALL (       4 calls)
-     cegterg      :      0.35s CPU      0.36s WALL (       9 calls)
+     cegterg      :      0.24s CPU      0.25s WALL (       9 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.04s CPU      0.04s WALL (     129 calls)
-     h_psi        :      0.23s CPU      0.24s WALL (     138 calls)
+     cdiaghg      :      0.03s CPU      0.04s WALL (     129 calls)
+     h_psi        :      0.16s CPU      0.16s WALL (     138 calls)
      s_psi        :      0.01s CPU      0.01s WALL (     138 calls)
      g_psi        :      0.00s CPU      0.00s WALL (     125 calls)
 
      Called by h_psi:
      h_psi:calbec :      0.01s CPU      0.01s WALL (     138 calls)
-     vloc_psi     :      0.21s CPU      0.22s WALL (     138 calls)
+     vloc_psi     :      0.15s CPU      0.15s WALL (     138 calls)
      add_vuspsi   :      0.01s CPU      0.01s WALL (     138 calls)
 
      General routines
      calbec       :      0.01s CPU      0.01s WALL (     138 calls)
      fft          :      0.00s CPU      0.00s WALL (      13 calls)
      ffts         :      0.00s CPU      0.00s WALL (       1 calls)
-     fftw         :      0.14s CPU      0.15s WALL (    2776 calls)
+     fftw         :      0.10s CPU      0.10s WALL (    2776 calls)
      interpolate  :      0.00s CPU      0.00s WALL (       1 calls)
      davcio       :      0.00s CPU      0.00s WALL (       8 calls)
  
      Parallel routines
  
-     PWSCF        :      1.25s CPU      1.53s WALL
+     PWSCF        :      1.28s CPU      1.53s WALL
 
  
-   This run was terminated on:   3: 8: 9  13Mar2026            
+   This run was terminated on:  23: 8:12  15Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

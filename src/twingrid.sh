@@ -29,18 +29,18 @@ for i1 in `seq 0 ${n1}`; do
 done
 
 for i1 in `seq 0 ${n1}`; do
-    kv1=`echo "scale = 15; (2 * ${i1} + 1) / (2 * ${1})" | bc`
-    if [ `expr ${i1} \* 2 + 1` -ge ${1} ]; then
+    kv1=`echo "scale = 15; (2 * ${i1} + ${4}) / (2 * ${1})" | bc`
+    if [ `expr ${i1} \* 2 + ${4}` -ge ${1} ]; then
         kv1=`echo "scale = 15; ${kv1} - 1.0" | bc`
     fi
     for i2 in `seq 0 ${n2}`; do
-        kv2=`echo "scale = 15; (2 * ${i2} + 1) / (2 * ${2})" | bc`
-        if [ `expr ${i2} \* 2 + 1` -ge ${2} ]; then
+        kv2=`echo "scale = 15; (2 * ${i2} + ${5}) / (2 * ${2})" | bc`
+        if [ `expr ${i2} \* 2 + ${5}` -ge ${2} ]; then
             kv2=`echo "scale = 15; ${kv2} - 1.0" | bc`
         fi
         for i3 in `seq 0 ${n3}`; do
-            kv3=`echo "scale = 15; (2 * ${i3} + 1) / (2 * ${3})" | bc`
-            if [ `expr ${i3} \* 2 + 1` -ge ${3} ]; then
+            kv3=`echo "scale = 15; (2 * ${i3} + ${6}) / (2 * ${3})" | bc`
+            if [ `expr ${i3} \* 2 + ${6}` -ge ${3} ]; then
                 kv3=`echo "scale = 15; ${kv3} - 1.0" | bc`
             fi
             

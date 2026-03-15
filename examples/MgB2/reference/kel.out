@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 13Mar2026 at  3: 8:21 
+     Program SCTK v.7.4.1 starts on 15Mar2026 at 23:31:44 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,10 +15,10 @@
      Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
-     228511 MiB available memory on the printing compute node when the environment starts
+     228265 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+     git hash : 0418a726baabba7ac5dcc8109aec214fd01e79e1
 
 
      Reading xml data from directory:
@@ -37,7 +37,7 @@
      G-vector sticks info
      --------------------
      sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
-     Sum         649     313    121                15395     5449    1155
+     Sum         649     313    121                15395     5449    1179
  
      Using Slab Decomposition
  
@@ -66,21 +66,17 @@
 
 
      Dynamical matrices for ( 4, 4, 3)  uniform grid of q-points
-     With a half shift
-     (  12 q-points):
+     With a half shift  0  0  1
+     (   8 q-points):
        N         xq(1)         xq(2)         xq(3) 
-       1   0.125000000   0.216506351   0.145452854
-       2   0.125000000   0.216506351  -0.436358562
-       3   0.125000000   0.505181486   0.145452854
-       4   0.125000000   0.505181486  -0.436358562
-       5   0.125000000  -0.360843918   0.145452854
-       6   0.125000000  -0.360843918  -0.436358562
-       7   0.125000000  -0.072168784   0.145452854
-       8   0.125000000  -0.072168784  -0.436358562
-       9   0.375000000   0.649519053   0.145452854
-      10   0.375000000   0.649519053  -0.436358562
-      11   0.375000000  -0.216506351   0.145452854
-      12   0.375000000  -0.216506351  -0.436358562
+       1   0.000000000   0.000000000   0.145452854
+       2   0.000000000   0.000000000  -0.436358562
+       3   0.000000000   0.288675135   0.145452854
+       4   0.000000000   0.288675135  -0.436358562
+       5   0.000000000  -0.577350269   0.145452854
+       6   0.000000000  -0.577350269  -0.436358562
+       7   0.250000000   0.433012702   0.145452854
+       8   0.250000000   0.433012702  -0.436358562
      Because shifted q grid is used, q2r will not work !
 
      EXX grid:     1907 G-vectors     FFT dimensions: (  15,  15,  18)
@@ -119,257 +115,68 @@
 
        q-point : 1
 
-         Number of PWs for W : 1921
+         Number of PWs for W : 1920
          Total RAM for Vscr :   0.94E+00 GB
          Total RAM for rho  :   0.91E-01 GB
          Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
          Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15448E+00
-           EigMax(I_{xc} Pi_0) :  0.28760E+00
-             Iteration for power method :     11
+           (I_{xc} Pi_0)_{00} :  0.16248E+00
+           EigMax(I_{xc} Pi_0) :  0.29658E+00
+             Iteration for power method :     25
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.4209E+00
-               0.8070E-01  0.5131E+00
-               0.2361E+00  0.6697E+00
-               0.5095E+00  0.9324E+00
-               0.1000E+01  0.1372E+01
-               0.1963E+01  0.1977E+01
-               0.4236E+01  0.2480E+01
-               0.1239E+02  0.2685E+01
-                 Infinity  0.2717E+01
+                        0  0.5007E+00
+               0.8070E-01  0.1160E+01
+               0.2361E+00  0.2198E+01
+               0.5095E+00  0.3831E+01
+               0.1000E+01  0.6419E+01
+               0.1963E+01  0.9796E+01
+               0.4236E+01  0.1243E+02
+               0.1239E+02  0.1346E+02
+                 Infinity  0.1362E+02
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.8486E-01
-               0.8070E-01  0.6323E-01
-               0.2361E+00  0.4618E-01
-               0.5095E+00  0.3187E-01
-               0.1000E+01  0.1873E-01
-               0.1963E+01  0.8192E-02
-               0.4236E+01  0.2277E-02
-               0.1239E+02  0.2893E-03
+                        0  0.1100E+00
+               0.8070E-01  0.5047E-01
+               0.2361E+00  0.3933E-01
+               0.5095E+00  0.2930E-01
+               0.1000E+01  0.1802E-01
+               0.1963E+01  0.8025E-02
+               0.4236E+01  0.2243E-02
+               0.1239E+02  0.2853E-03
                  Infinity  0.0000E+00
 
          Verify the Chebyshev interpolation for Coulom
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          4.849          0.723
+                 0.80701E-01         13.092          1.460
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.670          0.412
+                 0.50953E+00          2.387          0.341
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.766          0.287
+                 0.19626E+01          1.177          0.335
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.458          0.665
+                 0.12391E+02          1.608          0.572
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          8.854          1.289
+                 0.80701E-01         68.144          5.363
                  0.23607E+00          0.000          0.000
-                 0.50953E+00         10.474          1.443
+                 0.50953E+00        200.000          4.140
                  0.10000E+01          0.000          0.000
-                 0.19626E+01         29.556          4.967
+                 0.19626E+01        130.943          7.770
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        187.930
+                 0.12391E+02        200.000        186.064
 
        q-point : 2
-
-         Number of PWs for W : 1902
-         Total RAM for Vscr :   0.93E+00 GB
-         Total RAM for rho  :   0.90E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15769E+00
-           EigMax(I_{xc} Pi_0) :  0.29074E+00
-             Iteration for power method :     14
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.3219E+00
-               0.8070E-01  0.3648E+00
-               0.2361E+00  0.4220E+00
-               0.5095E+00  0.5060E+00
-               0.1000E+01  0.6391E+00
-               0.1963E+01  0.8152E+00
-               0.4236E+01  0.9586E+00
-               0.1239E+02  0.1017E+01
-                 Infinity  0.1026E+01
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.7572E-01
-               0.8070E-01  0.5900E-01
-               0.2361E+00  0.4490E-01
-               0.5095E+00  0.3154E-01
-               0.1000E+01  0.1854E-01
-               0.1963E+01  0.8059E-02
-               0.4236E+01  0.2229E-02
-               0.1239E+02  0.2827E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          2.160          0.397
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.525          0.258
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          0.921          0.274
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          1.299          0.602
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          8.221          1.022
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          7.931          1.140
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01         18.471          4.127
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        173.555
-
-       q-point : 3
-
-         Number of PWs for W : 1912
-         Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.91E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15152E+00
-           EigMax(I_{xc} Pi_0) :  0.24849E+00
-             Iteration for power method :     10
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1891E+00
-               0.8070E-01  0.1977E+00
-               0.2361E+00  0.2124E+00
-               0.5095E+00  0.2370E+00
-               0.1000E+01  0.2759E+00
-               0.1963E+01  0.3277E+00
-               0.4236E+01  0.3722E+00
-               0.1239E+02  0.3912E+00
-                 Infinity  0.3942E+00
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.3702E-01
-               0.8070E-01  0.3199E-01
-               0.2361E+00  0.2564E-01
-               0.5095E+00  0.1830E-01
-               0.1000E+01  0.1082E-01
-               0.1963E+01  0.4739E-02
-               0.4236E+01  0.1320E-02
-               0.1239E+02  0.1680E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          2.405          0.425
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.943          0.367
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          0.720          0.162
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          1.089          0.503
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          2.744          0.716
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          2.599          0.955
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          7.693          3.937
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        186.678
-
-       q-point : 4
-
-         Number of PWs for W : 1900
-         Total RAM for Vscr :   0.92E+00 GB
-         Total RAM for rho  :   0.90E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15639E+00
-           EigMax(I_{xc} Pi_0) :  0.24763E+00
-             Iteration for power method :     28
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2023E+00
-               0.8070E-01  0.2120E+00
-               0.2361E+00  0.2280E+00
-               0.5095E+00  0.2542E+00
-               0.1000E+01  0.2963E+00
-               0.1963E+01  0.3528E+00
-               0.4236E+01  0.4010E+00
-               0.1239E+02  0.4214E+00
-                 Infinity  0.4246E+00
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4029E-01
-               0.8070E-01  0.3474E-01
-               0.2361E+00  0.2769E-01
-               0.5095E+00  0.1960E-01
-               0.1000E+01  0.1146E-01
-               0.1963E+01  0.4967E-02
-               0.4236E+01  0.1375E-02
-               0.1239E+02  0.1746E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          2.033          0.376
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.756          0.311
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          0.682          0.185
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          1.026          0.518
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          3.114          0.713
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          2.658          0.963
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          7.487          3.887
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        181.044
-
-       q-point : 5
 
          Number of PWs for W : 1913
          Total RAM for Vscr :   0.94E+00 GB
@@ -378,449 +185,134 @@
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
          Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.14688E+00
-           EigMax(I_{xc} Pi_0) :  0.26568E+00
-             Iteration for power method :     19
+           (I_{xc} Pi_0)_{00} :  0.15805E+00
+           EigMax(I_{xc} Pi_0) :  0.33268E+00
+             Iteration for power method :     14
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2278E+00
-               0.8070E-01  0.2425E+00
-               0.2361E+00  0.2744E+00
-               0.5095E+00  0.3300E+00
-               0.1000E+01  0.4186E+00
-               0.1963E+01  0.5362E+00
-               0.4236E+01  0.6342E+00
-               0.1239E+02  0.6747E+00
-                 Infinity  0.6810E+00
+                        0  0.4182E+00
+               0.8070E-01  0.6169E+00
+               0.2361E+00  0.7126E+00
+               0.5095E+00  0.8521E+00
+               0.1000E+01  0.1079E+01
+               0.1963E+01  0.1368E+01
+               0.4236E+01  0.1589E+01
+               0.1239E+02  0.1676E+01
+                 Infinity  0.1689E+01
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4772E-01
-               0.8070E-01  0.4143E-01
-               0.2361E+00  0.3218E-01
-               0.5095E+00  0.2208E-01
-               0.1000E+01  0.1269E-01
-               0.1963E+01  0.5458E-02
-               0.4236E+01  0.1506E-02
-               0.1239E+02  0.1908E-03
+                        0  0.8155E-01
+               0.8070E-01  0.4484E-01
+               0.2361E+00  0.3732E-01
+               0.5095E+00  0.2875E-01
+               0.1000E+01  0.1793E-01
+               0.1963E+01  0.8035E-02
+               0.4236E+01  0.2252E-02
+               0.1239E+02  0.2867E-03
                  Infinity  0.0000E+00
 
          Verify the Chebyshev interpolation for Coulom
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          4.100          0.650
+                 0.80701E-01         13.719          1.320
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.885          0.416
+                 0.50953E+00          2.326          0.380
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.744          0.197
+                 0.19626E+01          1.555          0.323
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.269          0.577
+                 0.12391E+02          1.550          0.548
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          1.925          0.326
+                 0.80701E-01         48.654          3.946
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.406          0.700
+                 0.50953E+00         38.210          2.447
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          6.337          3.563
+                 0.19626E+01         60.013          6.102
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        182.206
+                 0.12391E+02        200.000        180.980
 
-       q-point : 6
+       q-point : 3
 
-         Number of PWs for W : 1895
-         Total RAM for Vscr :   0.92E+00 GB
-         Total RAM for rho  :   0.90E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15294E+00
-           EigMax(I_{xc} Pi_0) :  0.26275E+00
-             Iteration for power method :     18
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2071E+00
-               0.8070E-01  0.2165E+00
-               0.2361E+00  0.2353E+00
-               0.5095E+00  0.2665E+00
-               0.1000E+01  0.3156E+00
-               0.1963E+01  0.3809E+00
-               0.4236E+01  0.4360E+00
-               0.1239E+02  0.4592E+00
-                 Infinity  0.4628E+00
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4314E-01
-               0.8070E-01  0.3784E-01
-               0.2361E+00  0.2993E-01
-               0.5095E+00  0.2095E-01
-               0.1000E+01  0.1218E-01
-               0.1963E+01  0.5276E-02
-               0.4236E+01  0.1462E-02
-               0.1239E+02  0.1857E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          2.820          0.541
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.936          0.348
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          0.852          0.198
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          1.095          0.547
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          1.532          0.325
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.472          0.735
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          6.382          3.438
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        173.053
-
-       q-point : 7
-
-         Number of PWs for W : 1917
+         Number of PWs for W : 1916
          Total RAM for Vscr :   0.94E+00 GB
          Total RAM for rho  :   0.91E-01 GB
          Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
          Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.16547E+00
-           EigMax(I_{xc} Pi_0) :  0.29542E+00
-             Iteration for power method :     19
+           (I_{xc} Pi_0)_{00} :  0.14857E+00
+           EigMax(I_{xc} Pi_0) :  0.27867E+00
+             Iteration for power method :     14
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.4539E+00
-               0.8070E-01  0.6782E+00
-               0.2361E+00  0.1098E+01
-               0.5095E+00  0.1759E+01
-               0.1000E+01  0.2854E+01
-               0.1963E+01  0.4347E+01
-               0.4236E+01  0.5550E+01
-               0.1239E+02  0.6029E+01
-                 Infinity  0.6102E+01
+                        0  0.4297E+00
+               0.8070E-01  0.5043E+00
+               0.2361E+00  0.6467E+00
+               0.5095E+00  0.8711E+00
+               0.1000E+01  0.1237E+01
+               0.1963E+01  0.1739E+01
+               0.4236E+01  0.2161E+01
+               0.1239E+02  0.2334E+01
+                 Infinity  0.2360E+01
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.9861E-01
-               0.8070E-01  0.6073E-01
-               0.2361E+00  0.4220E-01
-               0.5095E+00  0.2970E-01
-               0.1000E+01  0.1780E-01
-               0.1963E+01  0.7867E-02
-               0.4236E+01  0.2198E-02
-               0.1239E+02  0.2796E-03
+                        0  0.8929E-01
+               0.8070E-01  0.6908E-01
+               0.2361E+00  0.4933E-01
+               0.5095E+00  0.3360E-01
+               0.1000E+01  0.1956E-01
+               0.1963E+01  0.8472E-02
+               0.4236E+01  0.2341E-02
+               0.1239E+02  0.2968E-03
                  Infinity  0.0000E+00
 
          Verify the Chebyshev interpolation for Coulom
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01         10.919          1.492
+                 0.80701E-01          5.921          0.911
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.999          0.427
+                 0.50953E+00          1.809          0.441
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          1.050          0.380
+                 0.19626E+01          0.735          0.257
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.579          0.730
+                 0.12391E+02          1.386          0.646
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01         25.101          2.917
+                 0.80701E-01          3.646          0.514
                  0.23607E+00          0.000          0.000
-                 0.50953E+00         60.543          2.714
+                 0.50953E+00          8.282          1.093
                  0.10000E+01          0.000          0.000
-                 0.19626E+01         89.521          6.772
+                 0.19626E+01         19.316          4.363
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        186.976
+                 0.12391E+02        200.000        186.262
 
-       q-point : 8
+       q-point : 4
 
-         Number of PWs for W : 1918
-         Total RAM for Vscr :   0.94E+00 GB
-         Total RAM for rho  :   0.91E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.16228E+00
-           EigMax(I_{xc} Pi_0) :  0.31292E+00
-             Iteration for power method :     23
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.3501E+00
-               0.8070E-01  0.4487E+00
-               0.2361E+00  0.5535E+00
-               0.5095E+00  0.6843E+00
-               0.1000E+01  0.8871E+00
-               0.1963E+01  0.1149E+01
-               0.4236E+01  0.1355E+01
-               0.1239E+02  0.1437E+01
-                 Infinity  0.1450E+01
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.8783E-01
-               0.8070E-01  0.5970E-01
-               0.2361E+00  0.4426E-01
-               0.5095E+00  0.3137E-01
-               0.1000E+01  0.1856E-01
-               0.1963E+01  0.8097E-02
-               0.4236E+01  0.2245E-02
-               0.1239E+02  0.2849E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          2.776          0.380
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.822          0.283
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          1.182          0.313
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          1.366          0.628
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01         20.685          2.365
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00         22.196          1.949
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01         44.708          5.380
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        176.432
-
-       q-point : 9
-
-         Number of PWs for W : 1903
+         Number of PWs for W : 1902
          Total RAM for Vscr :   0.93E+00 GB
          Total RAM for rho  :   0.90E-01 GB
          Total RAM for weight on coarse grid :   0.14E-02 GB
          Total RAM for Weight on dense grid :   0.88E-01 GB
 
          Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15665E+00
-           EigMax(I_{xc} Pi_0) :  0.23847E+00
-             Iteration for power method :     70
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1795E+00
-               0.8070E-01  0.1874E+00
-               0.2361E+00  0.1994E+00
-               0.5095E+00  0.2196E+00
-               0.1000E+01  0.2513E+00
-               0.1963E+01  0.2928E+00
-               0.4236E+01  0.3282E+00
-               0.1239E+02  0.3433E+00
-                 Infinity  0.3457E+00
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.3519E-01
-               0.8070E-01  0.3005E-01
-               0.2361E+00  0.2427E-01
-               0.5095E+00  0.1739E-01
-               0.1000E+01  0.1030E-01
-               0.1963E+01  0.4514E-02
-               0.4236E+01  0.1259E-02
-               0.1239E+02  0.1602E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          2.043          0.346
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.994          0.337
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          0.750          0.170
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          0.994          0.479
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          4.902          1.001
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          3.299          1.022
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          7.995          3.962
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        184.986
-
-       q-point : 10
-
-         Number of PWs for W : 1904
-         Total RAM for Vscr :   0.93E+00 GB
-         Total RAM for rho  :   0.91E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15142E+00
-           EigMax(I_{xc} Pi_0) :  0.24397E+00
-             Iteration for power method :     67
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.1986E+00
-               0.8070E-01  0.2076E+00
-               0.2361E+00  0.2210E+00
-               0.5095E+00  0.2435E+00
-               0.1000E+01  0.2794E+00
-               0.1963E+01  0.3270E+00
-               0.4236E+01  0.3675E+00
-               0.1239E+02  0.3847E+00
-                 Infinity  0.3873E+00
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4007E-01
-               0.8070E-01  0.3424E-01
-               0.2361E+00  0.2755E-01
-               0.5095E+00  0.1965E-01
-               0.1000E+01  0.1155E-01
-               0.1963E+01  0.5020E-02
-               0.4236E+01  0.1392E-02
-               0.1239E+02  0.1767E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          1.927          0.305
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.819          0.300
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          0.712          0.193
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          0.935          0.496
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          5.373          1.052
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          3.627          1.075
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          8.482          4.069
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        184.014
-
-       q-point : 11
-
-         Number of PWs for W : 1904
-         Total RAM for Vscr :   0.93E+00 GB
-         Total RAM for rho  :   0.91E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15313E+00
-           EigMax(I_{xc} Pi_0) :  0.26049E+00
-             Iteration for power method :     20
-         Total RAM for Kel :   0.16E-02 GB
-
-         Averaged potential (mu)
-
-           DOS(EF) =     0.9554E+01 [/Ry]
-           Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2262E+00
-               0.8070E-01  0.2405E+00
-               0.2361E+00  0.2686E+00
-               0.5095E+00  0.3130E+00
-               0.1000E+01  0.3825E+00
-               0.1963E+01  0.4762E+00
-               0.4236E+01  0.5560E+00
-               0.1239E+02  0.5896E+00
-                 Infinity  0.5948E+00
-           Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4450E-01
-               0.8070E-01  0.3816E-01
-               0.2361E+00  0.2968E-01
-               0.5095E+00  0.2091E-01
-               0.1000E+01  0.1234E-01
-               0.1963E+01  0.5394E-02
-               0.4236E+01  0.1500E-02
-               0.1239E+02  0.1908E-03
-                 Infinity  0.0000E+00
-
-         Verify the Chebyshev interpolation for Coulom
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          3.709          0.594
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          1.959          0.377
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          0.719          0.175
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02          1.198          0.533
-               Infinity          0.000          0.000
-
-         Verify the Chebyshev interpolation for S-F
-
-            Frequency   Max. Err.[%]   Ave. Err.[%]
-                 0.00000E+00          0.000          0.000
-                 0.80701E-01          1.977          0.434
-                 0.23607E+00          0.000          0.000
-                 0.50953E+00          3.061          0.903
-                 0.10000E+01          0.000          0.000
-                 0.19626E+01          9.857          3.955
-                 0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        186.793
-
-       q-point : 12
-
-         Number of PWs for W : 1898
-         Total RAM for Vscr :   0.92E+00 GB
-         Total RAM for rho  :   0.90E-01 GB
-         Total RAM for weight on coarse grid :   0.14E-02 GB
-         Total RAM for Weight on dense grid :   0.88E-01 GB
-
-         Stoner criteria:
-           (I_{xc} Pi_0)_{00} :  0.15766E+00
-           EigMax(I_{xc} Pi_0) :  0.25595E+00
+           (I_{xc} Pi_0)_{00} :  0.15675E+00
+           EigMax(I_{xc} Pi_0) :  0.28394E+00
              Iteration for power method :     15
          Total RAM for Kel :   0.16E-02 GB
 
@@ -828,79 +320,331 @@
 
            DOS(EF) =     0.9554E+01 [/Ry]
            Frequency [Ry], Coulomb parameter(mu)
-                        0  0.2309E+00
-               0.8070E-01  0.2450E+00
-               0.2361E+00  0.2688E+00
-               0.5095E+00  0.3064E+00
-               0.1000E+01  0.3668E+00
-               0.1963E+01  0.4494E+00
-               0.4236E+01  0.5207E+00
-               0.1239E+02  0.5510E+00
-                 Infinity  0.5558E+00
+                        0  0.3761E+00
+               0.8070E-01  0.4285E+00
+               0.2361E+00  0.5062E+00
+               0.5095E+00  0.6125E+00
+               0.1000E+01  0.7822E+00
+               0.1963E+01  0.1013E+01
+               0.4236E+01  0.1205E+01
+               0.1239E+02  0.1284E+01
+                 Infinity  0.1297E+01
            Frequency [Ry], Spin-F. parameter(mu)
-                        0  0.4761E-01
-               0.8070E-01  0.4087E-01
-               0.2361E+00  0.3222E-01
-               0.5095E+00  0.2264E-01
-               0.1000E+01  0.1318E-01
-               0.1963E+01  0.5683E-02
-               0.4236E+01  0.1568E-02
-               0.1239E+02  0.1989E-03
+                        0  0.9084E-01
+               0.8070E-01  0.7006E-01
+               0.2361E+00  0.5141E-01
+               0.5095E+00  0.3569E-01
+               0.1000E+01  0.2080E-01
+               0.1963E+01  0.8944E-02
+               0.4236E+01  0.2456E-02
+               0.1239E+02  0.3108E-03
                  Infinity  0.0000E+00
 
          Verify the Chebyshev interpolation for Coulom
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          2.431          0.429
+                 0.80701E-01          2.497          0.567
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          1.764          0.315
+                 0.50953E+00          1.569          0.276
                  0.10000E+01          0.000          0.000
-                 0.19626E+01          0.766          0.192
+                 0.19626E+01          0.807          0.260
                  0.42361E+01          0.000          0.000
-                 0.12391E+02          1.100          0.526
+                 0.12391E+02          1.274          0.598
                Infinity          0.000          0.000
 
          Verify the Chebyshev interpolation for S-F
 
             Frequency   Max. Err.[%]   Ave. Err.[%]
                  0.00000E+00          0.000          0.000
-                 0.80701E-01          1.871          0.598
+                 0.80701E-01          4.743          0.564
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          3.609          0.920
+                 0.50953E+00          8.167          0.936
                  0.10000E+01          0.000          0.000
-                 0.19626E+01         10.451          3.835
+                 0.19626E+01         18.816          3.809
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        200.000        178.745
+                 0.12391E+02        200.000        169.346
+
+       q-point : 5
+
+         Number of PWs for W : 1897
+         Total RAM for Vscr :   0.92E+00 GB
+         Total RAM for rho  :   0.90E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
+         Total RAM for Weight on dense grid :   0.88E-01 GB
+
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15485E+00
+           EigMax(I_{xc} Pi_0) :  0.24741E+00
+             Iteration for power method :     24
+         Total RAM for Kel :   0.16E-02 GB
+
+         Averaged potential (mu)
+
+           DOS(EF) =     0.9554E+01 [/Ry]
+           Frequency [Ry], Coulomb parameter(mu)
+                        0  0.1773E+00
+               0.8070E-01  0.1860E+00
+               0.2361E+00  0.2000E+00
+               0.5095E+00  0.2212E+00
+               0.1000E+01  0.2535E+00
+               0.1963E+01  0.2965E+00
+               0.4236E+01  0.3335E+00
+               0.1239E+02  0.3493E+00
+                 Infinity  0.3518E+00
+           Frequency [Ry], Spin-F. parameter(mu)
+                        0  0.3619E-01
+               0.8070E-01  0.3061E-01
+               0.2361E+00  0.2425E-01
+               0.5095E+00  0.1738E-01
+               0.1000E+01  0.1035E-01
+               0.1963E+01  0.4553E-02
+               0.4236E+01  0.1271E-02
+               0.1239E+02  0.1618E-03
+                 Infinity  0.0000E+00
+
+         Verify the Chebyshev interpolation for Coulom
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          3.343          0.507
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          2.037          0.368
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          0.670          0.163
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02          1.092          0.494
+               Infinity          0.000          0.000
+
+         Verify the Chebyshev interpolation for S-F
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          3.454          0.791
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          3.263          1.076
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          8.791          4.214
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02        200.000        186.804
+
+       q-point : 6
+
+         Number of PWs for W : 1904
+         Total RAM for Vscr :   0.93E+00 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
+         Total RAM for Weight on dense grid :   0.88E-01 GB
+
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15805E+00
+           EigMax(I_{xc} Pi_0) :  0.23687E+00
+             Iteration for power method :     35
+         Total RAM for Kel :   0.16E-02 GB
+
+         Averaged potential (mu)
+
+           DOS(EF) =     0.9554E+01 [/Ry]
+           Frequency [Ry], Coulomb parameter(mu)
+                        0  0.1874E+00
+               0.8070E-01  0.1989E+00
+               0.2361E+00  0.2155E+00
+               0.5095E+00  0.2405E+00
+               0.1000E+01  0.2791E+00
+               0.1963E+01  0.3310E+00
+               0.4236E+01  0.3758E+00
+               0.1239E+02  0.3950E+00
+                 Infinity  0.3980E+00
+           Frequency [Ry], Spin-F. parameter(mu)
+                        0  0.3924E-01
+               0.8070E-01  0.3282E-01
+               0.2361E+00  0.2592E-01
+               0.5095E+00  0.1831E-01
+               0.1000E+01  0.1070E-01
+               0.1963E+01  0.4637E-02
+               0.4236E+01  0.1285E-02
+               0.1239E+02  0.1631E-03
+                 Infinity  0.0000E+00
+
+         Verify the Chebyshev interpolation for Coulom
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          2.360          0.381
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          1.982          0.316
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          0.844          0.188
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02          0.976          0.499
+               Infinity          0.000          0.000
+
+         Verify the Chebyshev interpolation for S-F
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          3.561          0.887
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          3.062          1.079
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          9.448          4.114
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02        200.000        182.073
+
+       q-point : 7
+
+         Number of PWs for W : 1921
+         Total RAM for Vscr :   0.94E+00 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
+         Total RAM for Weight on dense grid :   0.88E-01 GB
+
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.14848E+00
+           EigMax(I_{xc} Pi_0) :  0.24692E+00
+             Iteration for power method :     28
+         Total RAM for Kel :   0.16E-02 GB
+
+         Averaged potential (mu)
+
+           DOS(EF) =     0.9554E+01 [/Ry]
+           Frequency [Ry], Coulomb parameter(mu)
+                        0  0.2014E+00
+               0.8070E-01  0.2112E+00
+               0.2361E+00  0.2289E+00
+               0.5095E+00  0.2594E+00
+               0.1000E+01  0.3078E+00
+               0.1963E+01  0.3719E+00
+               0.4236E+01  0.4266E+00
+               0.1239E+02  0.4499E+00
+                 Infinity  0.4536E+00
+           Frequency [Ry], Spin-F. parameter(mu)
+                        0  0.4051E-01
+               0.8070E-01  0.3508E-01
+               0.2361E+00  0.2793E-01
+               0.5095E+00  0.1964E-01
+               0.1000E+01  0.1142E-01
+               0.1963E+01  0.4940E-02
+               0.4236E+01  0.1367E-02
+               0.1239E+02  0.1735E-03
+                 Infinity  0.0000E+00
+
+         Verify the Chebyshev interpolation for Coulom
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          2.249          0.394
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          1.857          0.356
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          0.805          0.166
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02          1.035          0.500
+               Infinity          0.000          0.000
+
+         Verify the Chebyshev interpolation for S-F
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          2.406          0.688
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          2.008          0.857
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          6.174          3.731
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02        200.000        183.550
+
+       q-point : 8
+
+         Number of PWs for W : 1912
+         Total RAM for Vscr :   0.94E+00 GB
+         Total RAM for rho  :   0.91E-01 GB
+         Total RAM for weight on coarse grid :   0.14E-02 GB
+         Total RAM for Weight on dense grid :   0.88E-01 GB
+
+         Stoner criteria:
+           (I_{xc} Pi_0)_{00} :  0.15588E+00
+           EigMax(I_{xc} Pi_0) :  0.25540E+00
+             Iteration for power method :     27
+         Total RAM for Kel :   0.16E-02 GB
+
+         Averaged potential (mu)
+
+           DOS(EF) =     0.9554E+01 [/Ry]
+           Frequency [Ry], Coulomb parameter(mu)
+                        0  0.2072E+00
+               0.8070E-01  0.2166E+00
+               0.2361E+00  0.2322E+00
+               0.5095E+00  0.2585E+00
+               0.1000E+01  0.3004E+00
+               0.1963E+01  0.3560E+00
+               0.4236E+01  0.4033E+00
+               0.1239E+02  0.4233E+00
+                 Infinity  0.4265E+00
+           Frequency [Ry], Spin-F. parameter(mu)
+                        0  0.4416E-01
+               0.8070E-01  0.3802E-01
+               0.2361E+00  0.3025E-01
+               0.5095E+00  0.2132E-01
+               0.1000E+01  0.1240E-01
+               0.1963E+01  0.5355E-02
+               0.4236E+01  0.1479E-02
+               0.1239E+02  0.1876E-03
+                 Infinity  0.0000E+00
+
+         Verify the Chebyshev interpolation for Coulom
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          1.741          0.331
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          1.673          0.298
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          0.661          0.186
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02          1.014          0.514
+               Infinity          0.000          0.000
+
+         Verify the Chebyshev interpolation for S-F
+
+            Frequency   Max. Err.[%]   Ave. Err.[%]
+                 0.00000E+00          0.000          0.000
+                 0.80701E-01          2.854          0.781
+                 0.23607E+00          0.000          0.000
+                 0.50953E+00          2.467          0.927
+                 0.10000E+01          0.000          0.000
+                 0.19626E+01          6.743          3.806
+                 0.42361E+01          0.000          0.000
+                 0.12391E+02        200.000        179.178
 
      #####  Clock summary  #####
 
-     make_scrn    :   1784.47s CPU     44.24s WALL (      12 calls)
-     invert       :   6162.61s CPU     97.81s WALL (      24 calls)
-     make_kel     :   1952.09s CPU     33.60s WALL (      12 calls)
-     lambda_sf    :  14299.03s CPU    227.58s WALL (      12 calls)
+     make_scrn    :   1237.20s CPU     30.32s WALL (       8 calls)
+     invert       :   4138.31s CPU     65.69s WALL (      16 calls)
+     make_kel     :   1274.31s CPU     21.83s WALL (       8 calls)
+     lambda_sf    :   9430.77s CPU    150.40s WALL (       8 calls)
 
      #####  In make_scrn #####
 
-     fermi_factor :    392.29s CPU     17.44s WALL (      12 calls)
-     zgemm(make_s :    592.69s CPU      9.35s WALL (    1440 calls)
+     fermi_factor :    263.50s CPU     12.08s WALL (       8 calls)
+     zgemm(make_s :    430.93s CPU      6.81s WALL (     960 calls)
 
      #####  In make_kel #####
 
-     zgemm(make_k :   1301.42s CPU     23.38s WALL (    2880 calls)
+     zgemm(make_k :    849.42s CPU     15.05s WALL (    1920 calls)
 
      #####  In make_scrn and make_kel #####
 
-     wfc*wfc=rho  :    565.80s CPU      8.93s WALL (     360 calls)
-     fft[rho]     :    498.87s CPU      7.93s WALL (     360 calls)
+     wfc*wfc=rho  :    393.75s CPU      6.23s WALL (     240 calls)
+     fft[rho]     :    320.76s CPU      5.10s WALL (     240 calls)
 
      #####  In wfc*wfc=rho #####
 
  
-     SCTK         :      5h55m CPU   6m 0.56s WALL
+     SCTK         :      3h56m CPU   4m 0.79s WALL
 
  
-   This run was terminated on:   3:14:21  13Mar2026            
+   This run was terminated on:  23:35:44  15Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
