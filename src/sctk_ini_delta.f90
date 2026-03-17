@@ -270,8 +270,6 @@ SUBROUTINE compute_dosk(dos, dxq_dos, d2xq_dos)
     !!$OMP END DO
     !
   END DO ! ii
-write(201,*) dos(:,:,1)
-write(202,*) dos(:,:,2)
   !
   DEALLOCATE(dxq_dosd, d2xq_dosd)
   !
@@ -282,8 +280,6 @@ write(202,*) dos(:,:,2)
   CALL mp_sum(d2xq_dos, world_comm)
   !
   CALL symm_dosk(dos, dxq_dos, d2xq_dos)
-write(301,*) dos(:,:,1)
-write(302,*) dos(:,:,2)
   !
   dxq_dos(:,:,:) = dxq_dos(:,:,:) / dos(:,:,:)
   d2xq_dos(:,:,:) = d2xq_dos(:,:,:) / dos(:,:,:)

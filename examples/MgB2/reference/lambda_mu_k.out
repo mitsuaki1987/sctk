@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 15Mar2026 at 23:36:45 
+     Program SCTK v.7.4.1 starts on 17Mar2026 at 22:56: 1 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,10 +15,10 @@
      Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
-     228216 MiB available memory on the printing compute node when the environment starts
+     228063 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 0418a726baabba7ac5dcc8109aec214fd01e79e1
+     git hash : f4957a819c2e4d3c4ba8eba13085a27c144c6693
 
 
      Reading xml data from directory:
@@ -121,20 +121,20 @@
 
      #####  Write mu.frmsf and lambda_frmsf  #####
 
-     Max :         0.36711797     Min :         0.21905878
-     Max :         2.16313431     Min :         0.25443075
+     Max :         0.36711797     Min :         0.21905879
+     Max :         2.16313378     Min :         0.25443076
 
      #####  Clock summary  #####
 
-     read_elph    :      1.76s CPU      0.03s WALL (       1 calls)
-     read_Coulomb :      5.19s CPU      0.09s WALL (       1 calls)
-     expand_g_v_f :   3340.21s CPU     53.93s WALL (       1 calls)
-     make_lambda_ :      7.90s CPU      0.13s WALL (       1 calls)
+     read_elph    :      3.39s CPU      0.05s WALL (       1 calls)
+     read_Coulomb :      3.75s CPU      0.07s WALL (       1 calls)
+     expand_g_v_f :   3357.52s CPU     54.05s WALL (       1 calls)
+     make_lambda_ :      5.43s CPU      0.09s WALL (       1 calls)
  
-     SCTK         :  57m38.66s CPU     56.07s WALL
+     SCTK         :  57m45.87s CPU     55.90s WALL
 
  
-   This run was terminated on:  23:37:41  15Mar2026            
+   This run was terminated on:  22:56:57  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

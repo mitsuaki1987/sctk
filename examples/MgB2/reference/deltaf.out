@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 15Mar2026 at 23:38:54 
+     Program SCTK v.7.4.1 starts on 17Mar2026 at 22:58: 4 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,10 +15,10 @@
      Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
-     228225 MiB available memory on the printing compute node when the environment starts
+     228078 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 0418a726baabba7ac5dcc8109aec214fd01e79e1
+     git hash : f4957a819c2e4d3c4ba8eba13085a27c144c6693
 
 
      Reading xml data from directory:
@@ -123,21 +123,21 @@
 
      #####  Write delta.frmsf  #####
 
-     Max :         3.16003111     Min :         0.34355004
-     Max :         2.15037560     Min :         0.28798312
+     Max :         3.16003274     Min :         0.34355073
+     Max :         2.15037511     Min :         0.28798313
 
      #####  Clock summary  #####
 
-     read_elph    :      1.69s CPU      0.03s WALL (       1 calls)
-     read_Coulomb :      5.31s CPU      0.09s WALL (       1 calls)
-     expand_g_v_f :   3349.16s CPU     53.77s WALL (       1 calls)
-     make_Z_f     :     59.77s CPU      0.99s WALL (       1 calls)
-     gapeq_rhs_f  :     55.44s CPU      0.87s WALL (       1 calls)
+     read_elph    :      2.13s CPU      0.03s WALL (       1 calls)
+     read_Coulomb :      4.96s CPU      0.08s WALL (       1 calls)
+     expand_g_v_f :   3357.96s CPU     53.96s WALL (       1 calls)
+     make_Z_f     :     59.55s CPU      0.96s WALL (       1 calls)
+     gapeq_rhs_f  :     56.29s CPU      0.89s WALL (       1 calls)
  
-     SCTK         :  59m27.26s CPU     57.38s WALL
+     SCTK         :  59m35.24s CPU     57.55s WALL
 
  
-   This run was terminated on:  23:39:52  15Mar2026            
+   This run was terminated on:  22:59: 1  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

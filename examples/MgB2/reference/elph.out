@@ -1,5 +1,5 @@
 
-     Program PHONON v.7.4.1 starts on 15Mar2026 at 22:59:22 
+     Program PHONON v.7.4.1 starts on 17Mar2026 at 22:50: 1 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     225125 MiB available memory on the printing compute node when the environment starts
+     225112 MiB available memory on the printing compute node when the environment starts
  
      Reading input from elph.in
 
@@ -282,7 +282,7 @@
 
      Message from routine init_vloc:
      Interpolation table for Vloc re-allocated
-     PHONON       :      2.73s CPU      2.94s WALL
+     PHONON       :      2.67s CPU      3.03s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn1
@@ -294,13 +294,13 @@
  **************************************************************************
      freq (    1) =       2.789734 [THz] =      93.055520 [cm-1]
      freq (    2) =       2.789734 [THz] =      93.055520 [cm-1]
-     freq (    3) =       5.117168 [THz] =     170.690367 [cm-1]
+     freq (    3) =       5.117168 [THz] =     170.690354 [cm-1]
      freq (    4) =       9.711593 [THz] =     323.943877 [cm-1]
      freq (    5) =       9.711593 [THz] =     323.943877 [cm-1]
-     freq (    6) =      12.583603 [THz] =     419.743802 [cm-1]
+     freq (    6) =      12.583613 [THz] =     419.744158 [cm-1]
      freq (    7) =      17.386509 [THz] =     579.951513 [cm-1]
      freq (    8) =      17.386509 [THz] =     579.951513 [cm-1]
-     freq (    9) =      20.727703 [THz] =     691.401764 [cm-1]
+     freq (    9) =      20.727703 [THz] =     691.401756 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -434,7 +434,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 21.5
 
-     total cpu time spent up to now is        1.5 secs
+     total cpu time spent up to now is        1.7 secs
 
      End of band structure calculation
 
@@ -538,7 +538,7 @@
      Representation     6      2 modes -  To be done
 
 
-     PHONON       :      6.00s CPU      6.59s WALL
+     PHONON       :      5.93s CPU      6.67s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn2
@@ -552,11 +552,11 @@
      freq (    2) =       6.771100 [THz] =     225.859570 [cm-1]
      freq (    3) =       7.133843 [THz] =     237.959402 [cm-1]
      freq (    4) =       7.133843 [THz] =     237.959402 [cm-1]
-     freq (    5) =       9.591613 [THz] =     319.941784 [cm-1]
-     freq (    6) =      12.099974 [THz] =     403.611701 [cm-1]
+     freq (    5) =       9.591613 [THz] =     319.941776 [cm-1]
+     freq (    6) =      12.099974 [THz] =     403.611685 [cm-1]
      freq (    7) =      16.563583 [THz] =     552.501647 [cm-1]
      freq (    8) =      16.563583 [THz] =     552.501647 [cm-1]
-     freq (    9) =      19.479162 [THz] =     649.754905 [cm-1]
+     freq (    9) =      19.479162 [THz] =     649.754914 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -689,7 +689,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is        3.8 secs
+     total cpu time spent up to now is        4.2 secs
 
      End of band structure calculation
 
@@ -799,7 +799,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     11.02s CPU     12.02s WALL
+     PHONON       :     11.32s CPU     12.52s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn3
@@ -809,15 +809,15 @@
      q = (    0.000000000   0.288675135   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       6.366754 [THz] =     212.372050 [cm-1]
+     freq (    1) =       6.366754 [THz] =     212.372049 [cm-1]
      freq (    2) =       6.445089 [THz] =     214.985044 [cm-1]
-     freq (    3) =       8.525519 [THz] =     284.380715 [cm-1]
+     freq (    3) =       8.525519 [THz] =     284.380714 [cm-1]
      freq (    4) =      11.905052 [THz] =     397.109776 [cm-1]
-     freq (    5) =      12.192760 [THz] =     406.706691 [cm-1]
-     freq (    6) =      15.378456 [THz] =     512.970072 [cm-1]
-     freq (    7) =      19.667267 [THz] =     656.029424 [cm-1]
+     freq (    5) =      12.192760 [THz] =     406.706694 [cm-1]
+     freq (    6) =      15.378456 [THz] =     512.970069 [cm-1]
+     freq (    7) =      19.667268 [THz] =     656.029430 [cm-1]
      freq (    8) =      21.175198 [THz] =     706.328574 [cm-1]
-     freq (    9) =      21.401219 [THz] =     713.867822 [cm-1]
+     freq (    9) =      21.401219 [THz] =     713.867817 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -961,7 +961,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is        5.3 secs
+     total cpu time spent up to now is        5.7 secs
 
      End of band structure calculation
 
@@ -1071,7 +1071,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     15.36s CPU     16.76s WALL
+     PHONON       :     15.86s CPU     17.50s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn4
@@ -1083,7 +1083,7 @@
  **************************************************************************
      freq (    1) =       7.317815 [THz] =     244.096050 [cm-1]
      freq (    2) =       7.853934 [THz] =     261.979048 [cm-1]
-     freq (    3) =       8.599974 [THz] =     286.864241 [cm-1]
+     freq (    3) =       8.599974 [THz] =     286.864250 [cm-1]
      freq (    4) =      11.345504 [THz] =     378.445275 [cm-1]
      freq (    5) =      12.950182 [THz] =     431.971575 [cm-1]
      freq (    6) =      15.407103 [THz] =     513.925632 [cm-1]
@@ -1227,7 +1227,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.5
 
-     total cpu time spent up to now is        6.6 secs
+     total cpu time spent up to now is        7.1 secs
 
      End of band structure calculation
 
@@ -1337,7 +1337,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     19.62s CPU     21.41s WALL
+     PHONON       :     20.16s CPU     22.19s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn5
@@ -1348,14 +1348,14 @@
 
  **************************************************************************
      freq (    1) =       7.647996 [THz] =     255.109682 [cm-1]
-     freq (    2) =       7.972154 [THz] =     265.922442 [cm-1]
+     freq (    2) =       7.972155 [THz] =     265.922450 [cm-1]
      freq (    3) =       9.800821 [THz] =     326.920188 [cm-1]
      freq (    4) =      13.806439 [THz] =     460.533248 [cm-1]
      freq (    5) =      13.867772 [THz] =     462.579080 [cm-1]
      freq (    6) =      15.582601 [THz] =     519.779635 [cm-1]
      freq (    7) =      22.003051 [THz] =     733.942763 [cm-1]
-     freq (    8) =      22.072460 [THz] =     736.258008 [cm-1]
-     freq (    9) =      22.607024 [THz] =     754.089155 [cm-1]
+     freq (    8) =      22.072460 [THz] =     736.258017 [cm-1]
+     freq (    9) =      22.607024 [THz] =     754.089163 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -1493,7 +1493,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.1
 
-     total cpu time spent up to now is        7.5 secs
+     total cpu time spent up to now is        8.0 secs
 
      End of band structure calculation
 
@@ -1603,7 +1603,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     23.75s CPU     25.89s WALL
+     PHONON       :     23.96s CPU     26.38s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn6
@@ -1613,13 +1613,13 @@
      q = (    0.000000000  -0.577350269  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       7.729403 [THz] =     257.825125 [cm-1]
+     freq (    1) =       7.729402 [THz] =     257.825115 [cm-1]
      freq (    2) =       8.128054 [THz] =     271.122686 [cm-1]
-     freq (    3) =       9.328924 [THz] =     311.179415 [cm-1]
-     freq (    4) =      13.887801 [THz] =     463.247186 [cm-1]
-     freq (    5) =      14.938556 [THz] =     498.296586 [cm-1]
-     freq (    6) =      16.056218 [THz] =     535.577790 [cm-1]
-     freq (    7) =      22.204385 [THz] =     740.658547 [cm-1]
+     freq (    3) =       9.328924 [THz] =     311.179417 [cm-1]
+     freq (    4) =      13.887802 [THz] =     463.247199 [cm-1]
+     freq (    5) =      14.938556 [THz] =     498.296597 [cm-1]
+     freq (    6) =      16.056219 [THz] =     535.577801 [cm-1]
+     freq (    7) =      22.204385 [THz] =     740.658555 [cm-1]
      freq (    8) =      22.530145 [THz] =     751.524727 [cm-1]
      freq (    9) =      22.572359 [THz] =     752.932856 [cm-1]
  **************************************************************************
@@ -1756,7 +1756,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is        9.9 secs
+     total cpu time spent up to now is       10.3 secs
 
      End of band structure calculation
 
@@ -1866,7 +1866,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     29.04s CPU     31.71s WALL
+     PHONON       :     29.09s CPU     31.95s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn7
@@ -1876,15 +1876,15 @@
      q = (    0.250000000   0.433012702   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       7.875963 [THz] =     262.713858 [cm-1]
+     freq (    1) =       7.875963 [THz] =     262.713857 [cm-1]
      freq (    2) =       8.070794 [THz] =     269.212705 [cm-1]
      freq (    3) =       9.311374 [THz] =     310.593992 [cm-1]
      freq (    4) =      12.981484 [THz] =     433.015699 [cm-1]
-     freq (    5) =      16.956718 [THz] =     565.615227 [cm-1]
-     freq (    6) =      17.060488 [THz] =     569.076639 [cm-1]
+     freq (    5) =      16.956718 [THz] =     565.615225 [cm-1]
+     freq (    6) =      17.060488 [THz] =     569.076633 [cm-1]
      freq (    7) =      19.342579 [THz] =     645.198995 [cm-1]
-     freq (    8) =      22.739197 [THz] =     758.497955 [cm-1]
-     freq (    9) =      23.649253 [THz] =     788.854160 [cm-1]
+     freq (    8) =      22.739197 [THz] =     758.497959 [cm-1]
+     freq (    9) =      23.649253 [THz] =     788.854161 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -2028,7 +2028,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is       11.3 secs
+     total cpu time spent up to now is       11.8 secs
 
      End of band structure calculation
 
@@ -2138,7 +2138,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     33.51s CPU     36.62s WALL
+     PHONON       :     33.63s CPU     36.98s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn8
@@ -2149,8 +2149,8 @@
 
  **************************************************************************
      freq (    1) =       8.190985 [THz] =     273.221850 [cm-1]
-     freq (    2) =       8.360844 [THz] =     278.887751 [cm-1]
-     freq (    3) =       8.958723 [THz] =     298.830827 [cm-1]
+     freq (    2) =       8.360844 [THz] =     278.887744 [cm-1]
+     freq (    3) =       8.958723 [THz] =     298.830825 [cm-1]
      freq (    4) =      14.173237 [THz] =     472.768288 [cm-1]
      freq (    5) =      16.977459 [THz] =     566.307063 [cm-1]
      freq (    6) =      17.003287 [THz] =     567.168602 [cm-1]
@@ -2185,98 +2185,98 @@
           5  -0.500000000  -0.000000000  -0.436358562
           6   0.500000000   0.000000000  -0.436358562
  
-     init_run     :      0.86s CPU      0.96s WALL (       8 calls)
-     electrons    :      8.60s CPU      9.00s WALL (       8 calls)
+     init_run     :      0.99s CPU      1.09s WALL (       8 calls)
+     electrons    :      8.97s CPU      9.36s WALL (       8 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.00s WALL (       8 calls)
-     potinit      :      0.41s CPU      0.51s WALL (       8 calls)
+     potinit      :      0.46s CPU      0.55s WALL (       8 calls)
      hinit0       :      0.23s CPU      0.23s WALL (       8 calls)
 
      Called by electrons:
-     c_bands      :      8.29s CPU      8.68s WALL (       8 calls)
-     v_of_rho     :      0.11s CPU      0.11s WALL (       9 calls)
+     c_bands      :      8.67s CPU      9.05s WALL (       8 calls)
+     v_of_rho     :      0.10s CPU      0.11s WALL (       9 calls)
      newd         :      0.01s CPU      0.01s WALL (       9 calls)
-     PAW_pot      :      0.19s CPU      0.19s WALL (       9 calls)
+     PAW_pot      :      0.21s CPU      0.22s WALL (       9 calls)
 
      Called by c_bands:
-     init_us_2    :      0.29s CPU      0.30s WALL (    1566 calls)
-     cegterg      :      5.01s CPU      5.10s WALL (     293 calls)
+     init_us_2    :      0.30s CPU      0.30s WALL (    1566 calls)
+     cegterg      :      5.22s CPU      5.31s WALL (     293 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.66s CPU      0.68s WALL (    4546 calls)
-     h_psi        :      3.65s CPU      3.72s WALL (    4839 calls)
-     s_psi        :      0.13s CPU      0.13s WALL (    4839 calls)
+     cdiaghg      :      0.71s CPU      0.73s WALL (    4546 calls)
+     h_psi        :      3.77s CPU      3.84s WALL (    4839 calls)
+     s_psi        :      0.13s CPU      0.14s WALL (    4839 calls)
      g_psi        :      0.04s CPU      0.04s WALL (    4318 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.18s CPU      0.19s WALL (    4839 calls)
-     vloc_psi     :      3.25s CPU      3.31s WALL (    4839 calls)
-     add_vuspsi   :      0.14s CPU      0.14s WALL (    4839 calls)
+     h_psi:calbec :      0.19s CPU      0.19s WALL (    4839 calls)
+     vloc_psi     :      3.35s CPU      3.42s WALL (    4839 calls)
+     add_vuspsi   :      0.15s CPU      0.15s WALL (    4839 calls)
 
      General routines
-     calbec       :      0.26s CPU      0.27s WALL (    6777 calls)
+     calbec       :      0.27s CPU      0.28s WALL (    6777 calls)
      fft          :      0.09s CPU      0.09s WALL (     452 calls)
      ffts         :      0.05s CPU      0.05s WALL (    1258 calls)
-     fftw         :      3.38s CPU      3.44s WALL (   92496 calls)
+     fftw         :      3.45s CPU      3.51s WALL (   92496 calls)
      interpolate  :      0.07s CPU      0.07s WALL (     160 calls)
      davcio       :      0.01s CPU      0.01s WALL (     144 calls)
  
      Parallel routines
  
-     PHONON       :     35.00s CPU     38.35s WALL
+     PHONON       :     35.03s CPU     38.67s WALL
 
      INITIALIZATION: 
-     phq_setup    :      0.43s CPU      0.54s WALL (       8 calls)
-     phq_init     :     11.56s CPU     11.61s WALL (       8 calls)
+     phq_setup    :      0.45s CPU      0.54s WALL (       8 calls)
+     phq_init     :     11.35s CPU     11.41s WALL (       8 calls)
  
-     phq_init     :     11.56s CPU     11.61s WALL (       8 calls)
+     phq_init     :     11.35s CPU     11.41s WALL (       8 calls)
      set_drhoc    :      0.05s CPU      0.05s WALL (       8 calls)
      init_vloc    :      0.03s CPU      0.03s WALL (       9 calls)
      init_us_1    :      0.12s CPU      0.12s WALL (       9 calls)
-     init_us_2    :      0.29s CPU      0.30s WALL (    1566 calls)
+     init_us_2    :      0.30s CPU      0.30s WALL (    1566 calls)
      newd         :      0.01s CPU      0.01s WALL (       9 calls)
-     dvanqq       :      8.88s CPU      8.89s WALL (      16 calls)
-     drho         :      6.96s CPU      7.00s WALL (       8 calls)
-     drhous       :      0.91s CPU      0.93s WALL (       8 calls)
+     dvanqq       :      8.87s CPU      8.88s WALL (      16 calls)
+     drho         :      6.70s CPU      6.75s WALL (       8 calls)
+     drhous       :      0.97s CPU      0.99s WALL (       8 calls)
      nldyntot     :      0.03s CPU      0.03s WALL (       8 calls)
-     newdq        :      4.58s CPU      4.59s WALL (      66 calls)
+     newdq        :      4.48s CPU      4.50s WALL (      66 calls)
      adddvscf     :      0.08s CPU      0.08s WALL (    1026 calls)
-     com_dvloc    :      0.11s CPU      0.11s WALL (    1098 calls)
+     com_dvloc    :      0.10s CPU      0.10s WALL (    1098 calls)
                                         0.00s GPU  (    1098 calls)
  
-     dvqpsi_us    :      1.22s CPU      1.24s WALL (    1026 calls)
+     dvqpsi_us    :      1.20s CPU      1.22s WALL (    1026 calls)
                                         0.00s GPU  (    1026 calls)
-     dvqpsi_us_on :      0.26s CPU      0.27s WALL (    1026 calls)
+     dvqpsi_us_on :      0.26s CPU      0.26s WALL (    1026 calls)
  
-     add_vuspsi   :      0.14s CPU      0.14s WALL (    4839 calls)
-     addusdbec    :      0.07s CPU      0.07s WALL (    1026 calls)
+     add_vuspsi   :      0.15s CPU      0.15s WALL (    4839 calls)
+     addusdbec    :      0.08s CPU      0.08s WALL (    1026 calls)
  
  
       Electron-phonon coupling
-     elphon       :      7.40s CPU      7.44s WALL (       8 calls)
-     elphel       :      1.90s CPU      1.93s WALL (      66 calls)
+     elphon       :      7.26s CPU      7.32s WALL (       8 calls)
+     elphel       :      1.87s CPU      1.90s WALL (      66 calls)
  
       General routines
-     calbec       :      0.26s CPU      0.27s WALL (    6777 calls)
+     calbec       :      0.27s CPU      0.28s WALL (    6777 calls)
      fft          :      0.09s CPU      0.09s WALL (     452 calls)
      ffts         :      0.05s CPU      0.05s WALL (    1258 calls)
-     fftw         :      3.38s CPU      3.44s WALL (   92496 calls)
+     fftw         :      3.45s CPU      3.51s WALL (   92496 calls)
      davcio       :      0.01s CPU      0.01s WALL (     144 calls)
  
       Additional routines
-     h_psi_bgrp   :      3.66s CPU      3.73s WALL (    4839 calls)
-     h_psi        :      3.65s CPU      3.72s WALL (    4839 calls)
-     h_psi:pot    :      3.59s CPU      3.66s WALL (    4839 calls)
-     h_psi:calbec :      0.18s CPU      0.19s WALL (    4839 calls)
-     s_psi_bgrp   :      0.17s CPU      0.17s WALL (    4839 calls)
-     s_psi        :      0.13s CPU      0.13s WALL (    4839 calls)
+     h_psi_bgrp   :      3.78s CPU      3.85s WALL (    4839 calls)
+     h_psi        :      3.77s CPU      3.84s WALL (    4839 calls)
+     h_psi:pot    :      3.71s CPU      3.78s WALL (    4839 calls)
+     h_psi:calbec :      0.19s CPU      0.19s WALL (    4839 calls)
+     s_psi_bgrp   :      0.17s CPU      0.18s WALL (    4839 calls)
+     s_psi        :      0.13s CPU      0.14s WALL (    4839 calls)
  
  
-     PHONON       :     35.00s CPU     38.35s WALL
+     PHONON       :     35.03s CPU     38.67s WALL
 
  
-   This run was terminated on:  23: 0: 1  15Mar2026            
+   This run was terminated on:  22:50:40  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

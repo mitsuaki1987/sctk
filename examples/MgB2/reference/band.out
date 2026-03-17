@@ -1,5 +1,5 @@
 
-     Program PWSCF v.7.4.1 starts on 13Mar2026 at  3: 8: 1 
+     Program PWSCF v.7.4.1 starts on 17Mar2026 at 22:51:36 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     225303 MiB available memory on the printing compute node when the environment starts
+     224984 MiB available memory on the printing compute node when the environment starts
  
      Reading input from band.in
 
@@ -614,33 +614,33 @@
      Writing all to output data dir ./pwscf.save/ :
      XML data file, pseudopotentials, collected wavefunctions
  
-     init_run     :      0.30s CPU      0.36s WALL (       1 calls)
-     electrons    :      0.21s CPU      0.22s WALL (       1 calls)
+     init_run     :      0.38s CPU      0.43s WALL (       1 calls)
+     electrons    :      0.19s CPU      0.20s WALL (       1 calls)
 
      Called by init_run:
      wfcinit      :      0.00s CPU      0.00s WALL (       1 calls)
-     potinit      :      0.08s CPU      0.12s WALL (       1 calls)
-     hinit0       :      0.20s CPU      0.21s WALL (       1 calls)
+     potinit      :      0.15s CPU      0.18s WALL (       1 calls)
+     hinit0       :      0.22s CPU      0.22s WALL (       1 calls)
 
      Called by electrons:
-     c_bands      :      0.21s CPU      0.22s WALL (       1 calls)
-     v_of_rho     :      0.01s CPU      0.01s WALL (       1 calls)
+     c_bands      :      0.19s CPU      0.19s WALL (       1 calls)
+     v_of_rho     :      0.02s CPU      0.02s WALL (       1 calls)
      newd         :      0.00s CPU      0.00s WALL (       1 calls)
-     PAW_pot      :      0.02s CPU      0.03s WALL (       1 calls)
+     PAW_pot      :      0.01s CPU      0.02s WALL (       1 calls)
 
      Called by c_bands:
      init_us_2    :      0.00s CPU      0.00s WALL (       2 calls)
-     cegterg      :      0.15s CPU      0.15s WALL (       6 calls)
+     cegterg      :      0.16s CPU      0.16s WALL (       6 calls)
 
      Called by *egterg:
      cdiaghg      :      0.03s CPU      0.03s WALL (     100 calls)
-     h_psi        :      0.09s CPU      0.10s WALL (     106 calls)
+     h_psi        :      0.10s CPU      0.10s WALL (     106 calls)
      s_psi        :      0.00s CPU      0.00s WALL (     106 calls)
      g_psi        :      0.00s CPU      0.00s WALL (      98 calls)
 
      Called by h_psi:
      h_psi:calbec :      0.00s CPU      0.00s WALL (     106 calls)
-     vloc_psi     :      0.08s CPU      0.09s WALL (     106 calls)
+     vloc_psi     :      0.09s CPU      0.09s WALL (     106 calls)
      add_vuspsi   :      0.00s CPU      0.00s WALL (     106 calls)
 
      General routines
@@ -653,10 +653,10 @@
  
      Parallel routines
  
-     PWSCF        :      0.69s CPU      1.03s WALL
+     PWSCF        :      0.74s CPU      1.01s WALL
 
  
-   This run was terminated on:   3: 8: 2  13Mar2026            
+   This run was terminated on:  22:51:37  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

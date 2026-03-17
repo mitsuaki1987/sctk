@@ -302,10 +302,10 @@ index 099af46f0..0516fee64 100644
    CALL check_initial_status(auxdyn)
    !
 diff --git a/PHonon/PH/do_q2r.f90 b/PHonon/PH/do_q2r.f90
-index 9b8684a91..625f1e430 100644
+index 9b8684a91..13651e8fb 100644
 --- a/PHonon/PH/do_q2r.f90
 +++ b/PHonon/PH/do_q2r.f90
-@@ -5,6 +5,133 @@
+@@ -5,6 +5,135 @@
  ! in the root directory of the present distribution,
  ! or http://www.gnu.org/copyleft/gpl.txt .
  !
@@ -417,7 +417,9 @@ index 9b8684a91..625f1e430 100644
 +                 IF(wsweight(r_ws,rws,nrws) > 1.0e-8_dp) THEN
 +                    n_old(1:3) = MODULO((/i1,i2,i3/), (/nr1_old,nr2_old,nr3_old/))
 +                    n_new(1:3) = MODULO((/i1,i2,i3/), (/nr1,    nr2,    nr3    /))
-+                    nshift_q = (i1-n_old(1))/nr1_old + (i2-n_old(2))/nr2_old + (i3-n_old(3))/nr3_old
++                    nshift_q = (i1-n_old(1))/nr1_old * lshift_q(1) &
++                    &        + (i2-n_old(2))/nr2_old * lshift_q(2) &
++                    &        + (i3-n_old(3))/nr3_old * lshift_q(3)
 +                    !
 +                    ifc(   1+n_new(1)+nr1    *n_new(2)+nr1    *nr2    *n_new(3),1:3,1:3,ja,ia) = &
 +                    & ifc2(1+n_old(1)+nr1_old*n_old(2)+nr1_old*nr2_old*n_old(3),1:3,1:3,ja,ia) &
@@ -439,7 +441,7 @@ index 9b8684a91..625f1e430 100644
  !-----------------------------------------------------------------------
  SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
    !-----------------------------------------------------------------------
-@@ -25,6 +152,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
+@@ -25,6 +154,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
    USE environment, ONLY : environment_start, environment_end
    USE rigid,       ONLY : rgd_blk
    USE el_phon,     ONLY : el_ph_nsigma
@@ -448,7 +450,7 @@ index 9b8684a91..625f1e430 100644
    !
    IMPLICIT NONE
    !
-@@ -236,13 +365,20 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
+@@ -236,13 +367,20 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
             DO icar=1,3
                xq = xq + at(icar,ipol) * q(icar,nq) * nr(ipol)
             END DO
@@ -470,7 +472,7 @@ index 9b8684a91..625f1e430 100644
          
          IF(nc(m(1),m(2),m(3)).EQ.0) THEN
             nc(m(1),m(2),m(3))=1
-@@ -310,6 +446,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
+@@ -310,6 +448,8 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
       END DO
    END IF
    !
@@ -479,7 +481,7 @@ index 9b8684a91..625f1e430 100644
    ! Real space force constants written to file (analytical part)
    !
    IF (xmldyn) THEN
-@@ -381,6 +519,12 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
+@@ -381,6 +521,12 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
       WRITE (stdout,"(/5x,' fft-check success (sum of imaginary terms < 10^-12)')")
    END IF
    !
@@ -492,7 +494,7 @@ index 9b8684a91..625f1e430 100644
    DEALLOCATE(phid, phid_lr, zeu, nc)
    !
    IF (.NOT. xmldyn) THEN
-@@ -390,14 +534,14 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
+@@ -390,14 +536,14 @@ SUBROUTINE do_q2r(fildyn_, flfrc, prefix, zasr, la2F, loto_2d, write_lr)
       IF (ierr /= 0) CALL errore('do_q2r', 'Error deallocating phiq_lr', 1)
    END IF
    !
@@ -509,7 +511,7 @@ index 9b8684a91..625f1e430 100644
    !----------------------------------------------------------------------------
    !
    USE kinds,      ONLY : DP
-@@ -407,10 +551,13 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -407,10 +553,13 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
    USE mp,         ONLY : mp_bcast
    USE mp_world,   ONLY : world_comm
    USE el_phon,    ONLY : el_ph_nsigma
@@ -525,7 +527,7 @@ index 9b8684a91..625f1e430 100644
    !
    INTEGER, ALLOCATABLE :: nc(:,:,:)
    COMPLEX(DP), ALLOCATABLE :: gaminp(:,:,:,:,:), gamout(:,:,:,:,:)
-@@ -475,13 +622,20 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -475,13 +624,20 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
                do icar=1,3
                   xq = xq + at(icar,ipol) * q(icar,nq) * nr(ipol)
                end do
@@ -547,7 +549,7 @@ index 9b8684a91..625f1e430 100644
             !
             if(nc(m(1),m(2),m(3)) == 0) then
                nc(m(1),m(2),m(3)) = 1
-@@ -512,6 +666,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -512,6 +668,8 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
       end do
       gamout = gamout / DBLE (nr1*nr2*nr3)
       !
@@ -556,7 +558,7 @@ index 9b8684a91..625f1e430 100644
       IF (ionode) close(filea2F)
       !
       filea2F = 60 + isig
-@@ -552,6 +708,14 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
+@@ -552,6 +710,14 @@ SUBROUTINE gammaq2r( nqtot, nat, nr1, nr2, nr3, at )
          WRITE (stdout,"(/5x,' fft-check success (sum of imaginary terms < 10^-12)')")
       END IF
  

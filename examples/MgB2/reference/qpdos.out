@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 15Mar2026 at 23:39:53 
+     Program SCTK v.7.4.1 starts on 17Mar2026 at 22:59: 2 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,10 +15,10 @@
      Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
-     228225 MiB available memory on the printing compute node when the environment starts
+     228076 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 0418a726baabba7ac5dcc8109aec214fd01e79e1
+     git hash : f4957a819c2e4d3c4ba8eba13085a27c144c6693
 
 
      Reading xml data from directory:
@@ -120,24 +120,24 @@
 
      #####  Integrate gapeq  #####
 
-       10610                     NaN   1.53303176812848     
-   5.91916561500515     
+       10610                     NaN   1.53303176812711     
+   5.91916561496566     
 
      #####  Compute qpdos  #####
 
 
      #####  Clock summary  #####
 
-     read_elph    :      1.84s CPU      0.03s WALL (       1 calls)
-     read_Coulomb :      5.33s CPU      0.09s WALL (       1 calls)
-     expand_g_v_f :   3356.34s CPU     54.02s WALL (       1 calls)
-     make_Z_qpdos :   4791.77s CPU     95.67s WALL (       1 calls)
-     gapeq_rhs_qp :   4244.19s CPU     86.40s WALL (       1 calls)
+     read_elph    :      1.64s CPU      0.03s WALL (       1 calls)
+     read_Coulomb :      5.24s CPU      0.09s WALL (       1 calls)
+     expand_g_v_f :   3350.57s CPU     53.69s WALL (       1 calls)
+     make_Z_qpdos :   4801.16s CPU     95.47s WALL (       1 calls)
+     gapeq_rhs_qp :   4264.01s CPU     86.59s WALL (       1 calls)
  
-     SCTK         :      3h29m CPU   3m59.05s WALL
+     SCTK         :      3h29m CPU   3m58.65s WALL
 
  
-   This run was terminated on:  23:43:52  15Mar2026            
+   This run was terminated on:  23: 3: 1  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

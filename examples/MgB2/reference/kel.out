@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 15Mar2026 at 23:31:44 
+     Program SCTK v.7.4.1 starts on 17Mar2026 at 22:51:56 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,10 +15,10 @@
      Threads/MPI process:                    64
 
      MPI processes distributed on     1 nodes
-     228265 MiB available memory on the printing compute node when the environment starts
+     228058 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 0418a726baabba7ac5dcc8109aec214fd01e79e1
+     git hash : f4957a819c2e4d3c4ba8eba13085a27c144c6693
 
 
      Reading xml data from directory:
@@ -124,7 +124,7 @@
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.16248E+00
            EigMax(I_{xc} Pi_0) :  0.29658E+00
-             Iteration for power method :     25
+             Iteration for power method :     16
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -187,7 +187,7 @@
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.15805E+00
            EigMax(I_{xc} Pi_0) :  0.33268E+00
-             Iteration for power method :     14
+             Iteration for power method :     13
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -220,7 +220,7 @@
                  0.00000E+00          0.000          0.000
                  0.80701E-01         13.719          1.320
                  0.23607E+00          0.000          0.000
-                 0.50953E+00          2.326          0.380
+                 0.50953E+00          2.325          0.380
                  0.10000E+01          0.000          0.000
                  0.19626E+01          1.555          0.323
                  0.42361E+01          0.000          0.000
@@ -249,8 +249,8 @@
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.14857E+00
-           EigMax(I_{xc} Pi_0) :  0.27867E+00
-             Iteration for power method :     14
+           EigMax(I_{xc} Pi_0) :  0.27866E+00
+             Iteration for power method :     18
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -313,7 +313,7 @@
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.15675E+00
            EigMax(I_{xc} Pi_0) :  0.28394E+00
-             Iteration for power method :     15
+             Iteration for power method :     13
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -375,8 +375,8 @@
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.15485E+00
-           EigMax(I_{xc} Pi_0) :  0.24741E+00
-             Iteration for power method :     24
+           EigMax(I_{xc} Pi_0) :  0.24747E+00
+             Iteration for power method :     13
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -439,7 +439,7 @@
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.15805E+00
            EigMax(I_{xc} Pi_0) :  0.23687E+00
-             Iteration for power method :     35
+             Iteration for power method :     36
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -502,7 +502,7 @@
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.14848E+00
            EigMax(I_{xc} Pi_0) :  0.24692E+00
-             Iteration for power method :     28
+             Iteration for power method :     23
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -564,8 +564,8 @@
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.15588E+00
-           EigMax(I_{xc} Pi_0) :  0.25540E+00
-             Iteration for power method :     27
+           EigMax(I_{xc} Pi_0) :  0.25539E+00
+             Iteration for power method :     34
          Total RAM for Kel :   0.16E-02 GB
 
          Averaged potential (mu)
@@ -619,32 +619,32 @@
 
      #####  Clock summary  #####
 
-     make_scrn    :   1237.20s CPU     30.32s WALL (       8 calls)
-     invert       :   4138.31s CPU     65.69s WALL (      16 calls)
-     make_kel     :   1274.31s CPU     21.83s WALL (       8 calls)
-     lambda_sf    :   9430.77s CPU    150.40s WALL (       8 calls)
+     make_scrn    :   1185.53s CPU     28.90s WALL (       8 calls)
+     invert       :   4128.72s CPU     65.56s WALL (      16 calls)
+     make_kel     :   1320.78s CPU     23.66s WALL (       8 calls)
+     lambda_sf    :   9640.32s CPU    153.61s WALL (       8 calls)
 
      #####  In make_scrn #####
 
-     fermi_factor :    263.50s CPU     12.08s WALL (       8 calls)
-     zgemm(make_s :    430.93s CPU      6.81s WALL (     960 calls)
+     fermi_factor :    259.18s CPU     11.32s WALL (       8 calls)
+     zgemm(make_s :    401.49s CPU      6.39s WALL (     960 calls)
 
      #####  In make_kel #####
 
-     zgemm(make_k :    849.42s CPU     15.05s WALL (    1920 calls)
+     zgemm(make_k :    899.08s CPU     16.91s WALL (    1920 calls)
 
      #####  In make_scrn and make_kel #####
 
-     wfc*wfc=rho  :    393.75s CPU      6.23s WALL (     240 calls)
-     fft[rho]     :    320.76s CPU      5.10s WALL (     240 calls)
+     wfc*wfc=rho  :    386.79s CPU      6.10s WALL (     240 calls)
+     fft[rho]     :    308.13s CPU      4.90s WALL (     240 calls)
 
      #####  In wfc*wfc=rho #####
 
  
-     SCTK         :      3h56m CPU   4m 0.79s WALL
+     SCTK         :      4h 0m CPU   4m 4.42s WALL
 
  
-   This run was terminated on:  23:35:44  15Mar2026            
+   This run was terminated on:  22:56: 0  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

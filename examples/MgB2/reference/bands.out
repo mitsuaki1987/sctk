@@ -44,10 +44,10 @@
             0.366667  0.519616  0.000000
    -0.036    0.535    2.295    8.926   10.056   13.581   14.000   16.     Bands written to file bands.out
  
-     BANDS        :      0.57s CPU      0.71s WALL
+     BANDS        :      0.45s CPU      0.60s WALL
 
  
-   This run was terminated on:   3: 8: 5  13Mar2026            
+   This run was terminated on:  22:51:40  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

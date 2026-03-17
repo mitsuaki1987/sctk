@@ -1,5 +1,5 @@
 
-     Program FERMI_PROJ v.7.4.1 starts on 13Mar2026 at  3: 8:14 
+     Program FERMI_PROJ v.7.4.1 starts on 17Mar2026 at 22:51:49 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     228481 MiB available memory on the printing compute node when the environment starts
+     228054 MiB available memory on the printing compute node when the environment starts
  
 
      Reading xml data from directory:
@@ -53,7 +53,7 @@
      FERMI_PROJ   :      0.75s CPU      0.82s WALL
 
  
-   This run was terminated on:   3: 8:15  13Mar2026            
+   This run was terminated on:  22:51:50  17Mar2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
