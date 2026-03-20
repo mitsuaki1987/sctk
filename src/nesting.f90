@@ -1035,7 +1035,6 @@ PROGRAM nesting
   nesting_irr(1:nirr_k,1:ns) = 0.0_dp 
   CALL nesting_theta1(nbnd_fs,ns,nirr_k,eig1,eig2,nesting_irr)
   nesting_irr(1:nirr_k, 1:ns) = 2.0_dp * nesting_irr(1:nirr_k, 1:ns)
-  IF (nspin == 1) nesting_irr(1:nirr_k, 1:ns) = 2.0_dp * nesting_irr(1:nirr_k, 1:ns)
   !
   ! Drude term
   !
