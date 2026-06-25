@@ -23,7 +23,7 @@ SUBROUTINE ini_delta(lallocate)
   USE disp,  ONLY : nqs
   USE io_files, ONLY : prefix, tmp_dir
   USE input_parameters, ONLY : restart_mode
-  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, initial_delta, dxq, &
+  USE sctk_val, ONLY : bindx, delta, dk, dx0, kindx, emin, initial_delta, dxq, d2xq, &
   &                     ngapmax, ngap, nx, omg0, xi, xi0
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
@@ -39,7 +39,7 @@ SUBROUTINE ini_delta(lallocate)
   IF(TRIM(restart_mode) == "restart") THEN
      !
      WRITE(stdout,'(7x,a)') &
-     &  "Initial delta is read from file (" // TRIM(tmp_dir) // TRIM(prefix) // "_delta.dat)"
+     &  "Initial delta is read from file (" // TRIM(tmp_dir) // TRIM(prefix) // ".scgap)"
      !
      IF(ionode) THEN
         !
@@ -54,18 +54,19 @@ SUBROUTINE ini_delta(lallocate)
         WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap(1:2)
         IF(lallocate) &
         &  ALLOCATE(xi(ngapmax,2), delta(ngapmax,2),    dk(ngapmax,2), &
-        &          dxq(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2)  )
+        &          dxq(ngapmax,2), d2xq(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2)  )
         xi(   1:ngapmax,1:2) = 0.0_dp
         delta(1:ngapmax,1:2) = 0.0_dp
         dk(   1:ngapmax,1:2) = 0.0_dp
         dxq(  1:ngapmax,1:2) = 0.0_dp
+        d2xq( 1:ngapmax,1:2) = 0.0_dp
         kindx(1:ngapmax,1:2) = 0
         bindx(1:ngapmax,1:2) = 0
         !
         DO ii = 1, 2
           DO it = 1, ngap(ii)
             READ(fi,*) xi(it,ii), delta(it,ii), Z0, dk(it,ii), &
-            &         dxq(it,ii), kindx(it,ii), bindx(it,ii)
+            &         dxq(it,ii), d2xq(it,ii), kindx(it,ii), bindx(it,ii)
           END DO
         END DO
         !
@@ -76,11 +77,13 @@ SUBROUTINE ini_delta(lallocate)
      CALL mp_bcast(ngapmax,  ionode_id, world_comm )
      CALL mp_bcast(ngap, ionode_id, world_comm )
      IF((.NOT. ionode) .AND. lallocate) &
-     &  ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), &
-     &                    kindx(ngapmax,2), bindx(ngapmax,2))
+     &  ALLOCATE(xi(ngapmax,2), delta(ngapmax,2),    dk(ngapmax,2), &
+     &          dxq(ngapmax,2), d2xq( ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2)  )
      CALL mp_bcast(xi,    ionode_id, world_comm )
      CALL mp_bcast(delta, ionode_id, world_comm )
      CALL mp_bcast(dk,    ionode_id, world_comm )
+     CALL mp_bcast(dxq,   ionode_id, world_comm )
+     CALL mp_bcast(d2xq,  ionode_id, world_comm )
      CALL mp_bcast(kindx, ionode_id, world_comm )
      CALL mp_bcast(bindx, ionode_id, world_comm )
      !

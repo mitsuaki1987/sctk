@@ -20,7 +20,7 @@ SUBROUTINE read_delta()
   USE mp, ONLY : mp_bcast
   USE io_global, ONLY : ionode_id
   USE io_files, ONLY : prefix, tmp_dir
-  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngapmax, ngap, xi, dxq
+  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngapmax, ngap, xi, dxq, d2xq
   !
   IMPLICIT NONE
   !
@@ -39,11 +39,12 @@ SUBROUTINE read_delta()
      ngapmax = MAXVAL(ngap(1:2))
      !
      WRITE(*,'(7x,"Number of total points for gap equation : ",2(i0,2x))') ngap(1:2)
-     ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), kindx(ngapmax,2), bindx(ngapmax,2), dxq(ngapmax,2))
+     ALLOCATE(xi(ngapmax,2), delta(ngapmax,2), dk(ngapmax,2), kindx(ngapmax,2), &
+     &     bindx(ngapmax,2), dxq(ngapmax,2), d2xq(ngapmax,2))
      !
      DO ii = 1, 2
        DO it = 1, ngap(ii)
-         READ(fi,*) xi(it,ii), delta(it,ii), Z0, dk(it,ii), dxq(it,ii), kindx(it,ii), bindx(it,ii)
+         READ(fi,*) xi(it,ii), delta(it,ii), Z0, dk(it,ii), dxq(it,ii), d2xq(it,ii), kindx(it,ii), bindx(it,ii)
        END DO
      END DO
      !
@@ -67,7 +68,7 @@ END SUBROUTINE read_delta
 SUBROUTINE out_delta(fname)
   !
   USE mp_world, ONLY : mpime
-  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap, xi, Z, dxq
+  USE sctk_val, ONLY : bindx, delta, dk, kindx, ngap, xi, Z, dxq, d2xq
   IMPLICIT NONE
   !
   CHARACTER(*),INTENT(IN) :: fname
@@ -84,8 +85,8 @@ SUBROUTINE out_delta(fname)
     !
     DO ii = 1, 2
       DO it = 1, ngap(ii)
-        WRITE(fo,'(5e25.15,2i8)') xi(it,ii), delta(it,ii), Z(it,ii), dk(it,ii), dxq(it,ii), &
-        &                       kindx(it,ii), bindx(it,ii)
+        WRITE(fo,'(6e25.15,2i8)') xi(it,ii), delta(it,ii), Z(it,ii), dk(it,ii), dxq(it,ii), &
+        &                       d2xq(it,ii), kindx(it,ii), bindx(it,ii)
       END DO
       !
       WRITE(fo,*) ""
