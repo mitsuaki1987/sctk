@@ -345,6 +345,7 @@ PROGRAM sctk_main
                  WRITE(stdout,'(/,5x,"#####  Write delta.frmsf  #####",/)')
                  !
                  IF(mpime == 0) THEN
+                    dltf(:,:,:) = dltf(:,:,:) * 13605.692283_dp ! Ry -> meV
                     CALL output_frmsf(et, dltF, TRIM(tmp_dir) // TRIM(prefix) // "_delta.frmsf")
                     CALL output_frmsf(et, ZF, TRIM(tmp_dir) // TRIM(prefix) // "_Z.frmsf")
                  END IF

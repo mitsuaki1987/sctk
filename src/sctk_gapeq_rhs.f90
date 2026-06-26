@@ -477,10 +477,6 @@ SUBROUTINE gapeq_rhs_f()
   !
   CALL mp_sum( dltf, world_comm )
   !
-  ! Ry -> meV
-  !
-  dltf(1,b_low:b_high,1:nks) = dltf(1,b_low:b_high,1:nks) * 13605.692283_dp
-  !
   DEALLOCATE(ggf, VcF, omgf)
   !
   CALL stop_clock("gapeq_rhs_f")

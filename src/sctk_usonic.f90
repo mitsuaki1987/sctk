@@ -86,7 +86,7 @@ SUBROUTINE calc_usonic()
   USE mp_world, ONLY : world_comm
   USE mp, ONLY : mp_sum
   !
-  USE sctk_val, ONLY : dltF, Fvel
+  USE sctk_val, ONLY : dltF, Fvel, beta
   !
   IMPLICIT NONE
   !
@@ -106,7 +106,7 @@ SUBROUTINE calc_usonic()
   dmin = 1e10_dp
   !
   !$OMP PARALLEL DEFAULT(NONE) &
-  !$OMP & SHARED(b_low,b_high,wlsm,Fvel,dltF,usonic,dmin,dmax,et,tetra,ef,ntetra0,ntetra1) &
+  !$OMP & SHARED(b_low,b_high,wlsm,Fvel,dltF,usonic,dmin,dmax,et,tetra,ef,ntetra0,ntetra1,beta) &
   !$OMP & PRIVATE(it,ib,ii,a,e,ei1,Fvel1,dl1,Fvel2,dl2,V,usonic0,itetra,tsmall)
   !
   !$OMP DO REDUCTION(+:usonic) REDUCTION(max:dmax) REDUCTION(min:dmin)
@@ -121,7 +121,7 @@ SUBROUTINE calc_usonic()
         DO ib = b_low, b_high
            ei1(  1:4,    ib) = MATMUL(wlsm(1:4,1:20), et(     ib, tetra(1:20, it))) - ef
            Fvel1(1:4,1:3,ib) = MATMUL(wlsm(1:4,1:20), Fvel(   ib, tetra(1:20, it), 1:3))
-           dl1(  1:4,    ib) = MATMUL(wlsm(1:4,1:20), dltF(1, ib, tetra(1:20, it)))
+           dl1(  1:4,    ib) = MATMUL(wlsm(1:4,1:20), dltF(1, ib, tetra(1:20, it))) * beta
         END DO
      END DO
      !
