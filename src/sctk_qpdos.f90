@@ -26,18 +26,18 @@ SUBROUTINE egrid()
   REAL(dp) :: de
   !
   emax = emax / (RYTOEV * 1.0e3_dp)
-  nx = ne * 2 - 1
+  nx = ne * 2 + 1
   !
   DEALLOCATE(xi0)
   ALLOCATE(e0(ne), sdos(ne), xi0(nx))
   de = emax / REAL(ne, dp)
   !
   DO ie = 1, ne
-     e0(ie) = de * REAL(ie, dp)
+     e0(ie) = de * (REAL(ie, dp) - 0.5_dp)
   END DO
   !
   DO ie = 1, nx
-     xi0(ie) = de * REAL(ie - ne, dp)
+     xi0(ie) = de * REAL(ie-1-ne, dp)
   END DO
   !
   sdos(1:ne) = 0.0_dp
