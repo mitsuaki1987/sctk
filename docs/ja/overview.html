@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<center><h1>はじめに</h1></center>
+</hr>
+
+この文書では超伝導密度汎関数理論(SCDFT)に基づく第一原理計算プログラムパッケージ
+「Superconducting Toolkit」についての解説を行っている.
+<br>
+Superconducting Toolkitは <a href="https://www.quantum-espresso.org/" target="_blank">QuantumESPRESSO</a> のアウトプットを用いてギャップ方程式
+\[   
+\begin{align}
+\Delta_{n {\bf k}} = -\frac{1}{2} \sum_{n' {\bf k}'}
+\frac{K^{el}_{n {\bf k} n' {\bf k}'} + K^{\rm el-ph}_{n {\bf k} n' {\bf k}'}}{Z_{n {\bf k}}}
+\frac{\Delta_{n' {\bf k}'}}{E_{n' {\bf k}'}}
+\tanh\left( \frac{\beta E_{n' {\bf k}'}}{2} \right)
+\end{align}
+\]
+を構成し, それを解いてギャップ関数 $\Delta_{n {\bf k}}$ を計算する.
+<br>
+このソフトウェアは東京大学物性研究所(現在は横国大所属)の河村光晶によって開発された.
+  </body>
+</html>

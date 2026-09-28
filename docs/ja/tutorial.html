@@ -1,0 +1,220 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<h1>チュートリアル</h1>
+
+以下のチュートリアルはSCTK/examples/Al/内で行う.
+
+<h2 id="scf">電荷密度のSCF計算</h2>
+
+<b>入力ファイル:</b> scf.in
+<br>
+<b>プログラム:</b> pw.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+   $ export OMP_NUM_THREADS=1
+   $ mpiexec -np 29 PATH/pw.x -nk 29 -in scf.in > scf.out
+        </code></pre>
+
+<b>重要なパラメーター</b>
+<ul>
+<li>calculation = "scf" : pw.xでself-consistent計算を実行する.</li>
+</ul>
+
+<br>
+   <b><i>note: 次の <a href="#phonon">フォノンおよび電子-フォノン相互作用の計算</a>, <a href="#coulomb">遮蔽Coulomb/スピン揺らぎ相互作用の計算</a> はどちらを先にやっても変わらない.</i></b>
+
+<h2 id="phonon">フォノンおよび電子-フォノン相互作用の計算</h2>
+
+<h3 id="ph">フォノン振動数, 変移ポテンシャルの計算</h3>
+
+<b>入力ファイル:</b> ph.in
+<br>
+<b>プログラム:</b> ph.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+   $ mpiexec -np 29 PATH/ph.x -nk 29 -in ph.in > ph.out
+        </code></pre>
+
+<b>重要なパラメーター</b>
+
+<ul>
+    <li>fildvscf = 'dv':  変移ポテンシャルのファイル名. 次のステップの計算で使われる.</li>
+    <li>ldisp = .true.:  一様<b>q</b>グリッド上でフォノンを計算する.</li>
+    <li>lshift_q = 1, 1, 1: $\Gamma$ 点の特異性を避けるために,<b>q</b>グリッドをずらす.</li>
+    <li>nq1, nq2, nq3:<b>q</b>グリッドの分割数. </li>
+</ul>
+
+<h3 id="elph">電子-フォノン相互作用の計算</h3>
+
+<b>入力ファイル</b>: epmat.in
+<br>
+<b>プログラム</b>: ph.x (Quantum ESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 8 PATH/ph.x -nk 8 -in epmat.in > epmat.out
+        </code></pre>
+
+<b>重要なパラメーター</b>
+
+<ul>
+    <li>electron_phonon = "scdft_input" : 
+        すでに計算されている変移ポテンシャル,
+        ダイナミカルマトリックスを読み込み, 電子-フォノンバーテックスを計算する.</li>
+    <li>elph_nbnd_min, elph_nbnd_max: 
+        ギャップ方程式にはFermi準位近傍の電子-フォノン相互作用しか寄与しないので,
+        計算コストを下げるために電子-フォノン相互作用を求めるバンドの本数を絞る.
+        Fermi準位を含むバンドは, QuantumESPRESSO にある, fermi_velocity.xによって調べることが出来る.
+</li></ul>
+   
+<h2 id="coulomb">遮蔽Coulomb/スピン揺らぎ相互作用の計算</h2>
+
+<h3 id="dense">細かいkグリッドでのnon SCF計算</h3>
+
+<b>入力ファイル</b>: nscf.in
+<br>
+<b>プログラム</b>: pw.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 32 PATH/pw.x -nk 32 -in nscf.in > nscf.out
+        </code></pre>
+
+<b>重要なパラメーター</b>
+
+<ul>
+    <li>calculation = "nscf": 
+       Non Self-consistent 計算を行う.</li>
+    <li>la2f = .true.: 
+       Kohn-Shamエネルギーの情報を含むファイル pwscf.a2Fsave を出力する.</li>
+    <li>nbnd: 
+       分極関数を計算するため, 非占有バンドも計算しておく必要がある.
+       ただし, 半導体の計算の時ほどたくさんとる必要はない.
+       目安は占有バンドと同程度である.</li>
+</ul>
+
+<h3 id="twin">遮蔽Coulomb相互作用計算のための波動関数の計算</h3>
+
+<b>入力ファイル</b>: twin.in
+<br>
+<b>プログラム</b>: pw.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ bash PATH/twingrid.x 4 4 4 >> twin.in
+$ mpiexec -np 32 PATH/pw.x -nk 32 -in twin.in > twin.out
+    </code></pre>
+
+<b>重要なパラメーター</b>
+
+<ul>
+    <li>calculation = "bands": 
+       この時<b>k</b>点メッシュに関しては上記のように
+       <a href="./program.html#twingrid">twingrid.sh</a>の出力をファイル末尾にリダイレクトする.
+       この時の,<b>k</b>点メッシュは <a href="#elph">電子-フォノン相互作用の計算</a>のph.xのインプットの nq1, nq2, nq3 と同じにする.
+       このインプットで pw.xを実行する.</li>
+</ul>
+
+<h3>遮蔽Coulomb相互作用の計算</h3>
+
+<b>入力ファイル</b>: sctk.in
+<br>
+<b>プログラム</b>: <a href="./program.html#sctk">sctk.x</a>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 32 PATH/sctk.x -nk 32 -in sctk.in > kel.out
+    </code></pre>
+
+<b>重要なパラメーター</b>
+
+<ul>
+    <li><a href="./program.html#kel">calculation = "kel" </a>:
+         遮蔽Coulom/スピン揺らぎ媒介相互作用の計算を行う.</li>
+    <li>lshift_q = 1, 1, 1: $\Gamma$ 点の特異性を避けるために,<b>q</b>グリッドをずらす.</li>
+    <li>nq1, nq2,  nq3: 
+         これらはこの前のステップの<b>k</b>グリッドと同じにする.</li>
+</ul>
+       
+<h2 id="scdftscf">転移温度計算</h2>
+
+<a href="#phonon">フォノンおよび電子-フォノン相互作用の計算</a>, <a href="#coulomb">遮蔽Coulomb/スピン揺らぎ相互作用の計算</a> の計算が全て終了した段階でSCDFT計算を行う.
+
+<b>入力ファイル</b>: sctk.in (一部書き換える)
+<br>
+<b>プログラム</b>: <a href="./program.html#sctk">sctk.x</a>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ export OMP_NUM_THREADS=32
+$ mpiexec -np 1 PATH/sctk.x < sctk.in > tc.out
+     </code></pre>
+
+<b>重要なパラメーター</b>
+
+<ul>
+    <li><a href="./program.html#scdfttc">calculation = "scdft_tc" </a>:
+         この部分を書き換えて計算の種類を変える.
+         ここでは2分法で $T_c$ を求める.</li>
+</ul>
+
+<h2>その他の解析</h2>
+
+パラメーター calculation を変えるといくつかの解析が行える.
+<br>
+<b>入力ファイル</b>: sctk.in (一部書き換える)
+<br>
+<b>プログラム</b>: <a href="./program.html#sctk">sctk.x</a>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 1 PATH/sctk.x < sctk.in
+    </code></pre>
+
+<b>重要なパラメーター</b>
+
+<ul>
+    <li><a href="./program.html#lambdamuk">calculation = "lambda_mu_k"</a>:
+        FermiSurfer_
+        でプロット可能な :math:`\lambda_{n {\bf {\bf k}}}` データを出力する.</li>
+    <li><a href="./program.html#scdft">calculation = "scdft"</a>:
+        ある温度でのSCDFT計算を行い, 以下のポスト処理で必要なファイル delta.dat を出力する.</li>
+    <li>temp: 
+       温度(単位ケルビン). これを 0 もしくは負の値にすると,
+       ゼロケルビン用の特別なアルゴリズムによる計算を行う.</li>
+    <li>   
+    <a href="./program.html#deltaf">calculation = "deltaf"</a>:
+        FermiSurferでプロット可能な :math:`\Delta_{n {\bf k}}` データを出力する.</li>
+    <li><a href="./program.html#qpdos">calculation = "qpdos"</a>:
+         超伝導準粒子DOS. 計算時間は比較的長い.</li>
+</ul>
+
+<h2>note:</h2>
+   SCTK/examples/MgB2 には別のチュートリアルがある.
+   ただし, これらのチュートリアルは<b>k</b>点数やバンド数, 擬ポテンシャルなどの精度が
+   十分ではないことに注意.
+
+  </body>
+</html>

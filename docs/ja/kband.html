@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<h1>波数グリッドおよびバンド範囲の指定について</h1>
+
+本計算では様々な波数グリッドやバンドを指定する範囲が出てくるため
+分かりにくい場合がある.
+ここではそれらについて説明をする.
+
+<h2>バンドの範囲</h2>
+
+<h3><a href="./tutorial.html#scf">電荷密度のSCF計算</a>, <a href="./tutorial.html#ph">フォノン振動数, 変移ポテンシャルの計算</a>でのバンド上限 nbnd (scf)</h3>
+
+     pw.xが価電子数から自動決定するものを使えばよい.
+     したがって入力ファイルで指定する必要はない.
+
+<h3><a href="./tutorial.html#coulomb">coulomb</a> でのバンド上限 nbnd ($K^{el}$)</h3>
+
+     典型的には nbnd ($K^{el}$)を nbnd (scf)の2倍程度にする.
+
+     <a href="./program.html#sctk">sctk.x</a>の計算コストは, nbnd ($K^{el}$)の2乗に比例する.
+
+<h3><a href="./tutorial.html#elph">電子-フォノン相互作用の計算</a> での elph_nbnd_min, elph_nbnd_max</h3>
+
+     典型的にはFermi準位を含むバンドの下限と上限(fermi_velocity.xによって調べることが出来る)だが,
+     極めて大きいフォノンの振動数を持つ物質に対してはより広くとる必要がある.
+
+<h3><a href="./program.html#scdfttc">２分法による転移温度の自動計算</a>における, 電子-電子Coulomb項のバンドの上限と下限fbee, lbee</h3>
+
+     fbee=1, lbee=nbnd ($K^{el}$), すなわちデフォルトのままで良い.
+     バンド数に対する収束を調べる場合などにそこから減らしてみる.
+
+<h3><a href="./program.html#deltaf">Fermi面上でのギャップ関数計算</a>で出力されるバンドの上限と下限fbfs, lbfs</h3>
+   
+     (バンド交差を無視した上での)Fermi面を横切るバンドの上限と下限がプログラムによって自動計算される.
+
+<br><br>
+これらのバンドの大小関係は次のようになる.
+<br>
+
+1 &le; fbee &le; elph_nbnd_min &le; fbfs &le; lbfs &le; elph_nbnd_max ~ nbnd (scf) &le; lbee &le; nbnd ($K^{el}$) 
+
+<h2>波数グリッド</h2>
+
+<h3><a href="">scf</a>, <a href="">ph</a> での, 電子状態に関する波数グリッド</h3>
+
+   pw.xのインプットファイルで, 次のように指定される.
+  
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>      
+K_POINTS automatic 
+{nk1} {nk2} {nk3} 0 0 0
+    </code></pre>
+
+   このグリッドで得られる <b>k</b> 点数 $N_{\bf k}^{\rm smooth}$ に対する各プログラムの
+   計算コストの依存性は次のようになる.
+
+   <ul>
+    <li><a href="./tutorial.html#scf">電荷密度のSCF計算</a>, <a href="./tutorial.html#ph">フォノン振動数, 変移ポテンシャルの計算</a> の計算コストは $N_{\bf k}^{\rm smooth}$ に比例する.</li>
+  </ul>
+      
+<h3><a href="">phonon</a>, <a href="">twin</a> での波数グリッド</h3>
+
+   ph.xのインプット nq1, nq2, nq3 と, <a href="./program.html#twingrid">twingrid.x</a> の引数,
+   および <a href="./program.html#elph">電子-フォノン相互作用の計算</a> での nk1, nk2, nk3 は同じにしなければならない.
+
+   このグリッドで得られる<b>q</b>点数$N_{\bf q}$に対する各プログラムの
+   計算コストの依存性は次のようになる.
+
+<ul>
+   <li>pw.xの計算コストは$N_{\bf q}$に比例する.</li>
+   <li><a href="./tutorial.html#ph">フォノン振動数, 変移ポテンシャルの計算</a> での(すべての<b>q</b>での計算を合わせた)計算コストは$N_{\bf q}$に比例する.</li>
+   <li><a href="./tutorial.html#elph">電子-フォノン相互作用の計算</a> での(すべての<b>q</b>での計算を合わせた)計算コストは $N_{\bf q}^2$ に比例する.</li>
+   <li><a href="./program.html#sctk">sctk.x</a> での(すべての<b>q</b>での計算を合わせた)計算コストは $N_{\bf q}^2$に比例する.</li>
+</ul>
+
+<h3><a href="./tutorial.html#dense">細かいkグリッドでのnon SCF計算</a> での波数グリッド <a href="ref">[1]</a></h3>
+
+   これは状態密度を計算するときと同程度に細かい <b>k</b> グリッドを取る必要がある.
+   このグリッドで得られる <b>k</b> 点数 $N_{\bf k}^{\rm dense}$ に対する各プログラムの
+   計算コストの依存性は次のようになる.
+
+<ul>
+   <li><a href="">scdft</a> および <a href="./program.html#sctk">sctk.x</a> の計算コストは $N_{\bf k}^{\rm dense}$
+     にあまり影響されない.</li>
+   <li><a href="./program.html#deltaf">deltaf</a> の計算コストは $N_{\bf k}^{\rm dense}$ に比例する.</li>
+</ul>
+
+<br><br>
+これらの波数グリッドの大小関係は次のようになる.
+<br>
+\[
+\begin{align}
+N_{\bf q} \leq N_{\bf k}^{\rm smooth} \leq N_{\bf k}^{\rm dense}
+\end{align}
+\]
+
+  </body>
+</html>

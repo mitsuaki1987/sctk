@@ -1,0 +1,360 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<h1>プログラムの説明</h1>
+
+Superconducting Toolkitのメインプログラム <code>sctk.x</code> の機能は次のとおりである。
+
+<ul>
+  <li>前処理として, QEで計算したKohn-Sham軌道から 電子間Coulom相互作用行列$K^{el}_{n {\bf k} n' {\bf k}'}$ を計算する.</li>
+  <li>ギャップ方程式を解いて超伝導ギャップ $\Delta_{n {\bf k}}$ を計算する.</li>
+  <li>ギャップ方程式を解いて超伝導ギャップ $\Delta_{n {\bf k}}$ を計算し、２分法で転移温度を計算する.</li>
+  <li>後処理として、ギャップ方程式を非自己無撞着に計算し, FermiSurfer でプロット可能なファイルを出力する.</li>
+  <li>後処理として、ギャップ方程式を非自己無撞着に計算してから, 準粒子DOSを計算する.</li>
+  <li>後処理として、ギャップ方程式を非自己無撞着に計算してから, 超音波吸収係数を計算する.</li>
+</ul>
+
+この他に、 <a href="#kel">Coulomb相互作用の計算</a>で用いるKohn-Sham軌道を計算する
+2重<b>k</b>点グリッドを生成するためのスクリプト <a href="#twingrid">twingrid</a>がある。
+
+<h2>使い方</h2>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code></code>
+$ mpiexec options PATH/sctk.x -in input_file
+    </code></pre>
+  
+<h2>入力ファイル書式</h2>
+
+入力ファイルの書式は次のとおりである.
+
+  <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code></code>
+&CONTROL
+  prefix = 
+  outdir = 
+  calculation = 
+/
+&KEL
+  start_q =
+  last_q =
+  nci =
+  laddxc =
+  ecutfock =
+  nq1 =
+  nq2 =
+  nq3 =
+  lsf
+/
+&SCDFT
+  temp =
+  fbee =
+  lbee =
+  xic =
+  nmf =
+  nx =
+  ne =
+  emin =
+  emax =
+  electron_maxstep =
+  conv_thr =
+  fildyn =
+  spin_fluc =
+/
+  </code></pre>
+これらのパラメーターはネームリスト内では順不同に指定できる.
+また省略した場合はデフォルト値が使われる.
+
+<h3>ネームリスト CONTROL</h3>
+
+<table border="1">
+  <tr align="left"><td>パラメーター 型</td><td>型</td><td>デフォルト値</td><td>説明</td></tr>
+  <tr align="left"><td>prefix </td><td>文字列</td><td>"pwscf"</td><td>pw.xの入力のprefixと同じにする.</td></tr>
+  <tr align="left"><td>outdir</td><td>文字列</td><td>"./"</td><td>pw.xの入力のoutdirと同じにする.</td></tr>
+  <tr align="left"><td>calculation</td><td>文字列</td><td>"kel"</td><td>計算の種類</td></tr>
+  <tr align="left"><td>lshift_q</td><td>0もしくは1の3つの整数</td><td>1,1,1</td><td>各逆格子ベクトルの方向での<b>q</b>点のシフト. 0:シフトなし, 1:半グリッド分シフト.</td></tr>
+</table>
+
+<h3>ネームリスト KEL</h3>
+
+calculation = "kel" としたときに使われるパラメーター。
+
+<table border="1">
+  <tr align="left"><td>パラメーター 型</td><td>型</td><td>デフォルト値</td><td>説明</td></tr>
+  <tr align="left"><td>start_q</td><td>正の整数</td><td>1</td><td>遮蔽Coulomb/スピンゆらぎ相互作用を計算する<b>q</b>点の始点</td></tr>
+  <tr align="left"><td>last_q</td><td>正の整数</td><td>既約<b>q</b>点数</td><td>遮蔽Coulomb/スピンゆらぎ相互作用を計算する<b>q</b>点の終点</td></tr>
+
+  <tr align="left"><td>laddxc</td><td>0 or 1</td><td>0</td><td>遮蔽を計算するときの近似のレベルを指定する. 0 : RPA, 1: 断熱的LDA.</td></tr>
+  <tr align="left"><td>lsf</td><td>0 or 1</td><td>0</td><td>スピンゆらぎ相互作用 <a href="#ref">[3]</a>を計算する(1)かしない(0)か</td></tr>
+  <tr align="left"><td>ecutfock</td><td>実数</td><td>pw.xでの値</td><td>分極関数を計算するときの平面波カットオフ [Ry].</td></tr>
+  <tr align="left"><td>nq1, nq2, nq3</td><td>正の整数</td><td>a2Fsaveの<b>k</b>点メッシュ数と同じ</td><td>波動関数データの<b>k</b>点メッシュ.<a href="#twingrid">twingrid.sh</a>の入力と同じにしなければならない. </td></tr>
+  <tr align="left"><td>nci</td><td>正の整数</td><td>5</td><td>遮蔽Coulomb相互作用を計算する松原振動数の数.</td></tr>
+</table>
+
+<h3>ネームリスト SCDFT</h3>
+
+calculation = "scdft" としたときなどに使われるパラメーター。
+
+<table border="1">
+  <tr align="left"><td>パラメーター 型</td><td>型</td><td>デフォルト値</td><td>説明</td></tr>
+  <tr align="left"><td>temp</td><td>正の実数</td><td>0.1</td><td>温度. 単位ケルビン.</td></tr>
+  <tr align="left"><td>fbee</td><td>正の整数</td><td>1</td><td>全バンドのうち, ギャップ方程式の計算に含める一番初めのバンド.</td></tr>
+  <tr align="left"><td>lbee</td><td>正の整数</td><td>pw.xのnbnd</td><td>ギャップ方程式の計算に含める最後のバンド.</td></tr>
+  <tr align="left"><td>xic</td><td>実数</td><td>-1.0</td><td>ギャップ関数外挿法に用いるパラメーター. 単位 Ry.これを0.0未満にするとギャップ関数外挿法を使わない.デフォルトでは外挿法を使わない設定になっている.</td></tr>
+  <tr align="left"><td>nmf</td><td>整数</td><td>10</td><td>Comlombカーネルの計算で用いる松原振動数積分に用いる点の数.0にすると静的なCoulomb相互作用のみをつかう. また,負の値にするとCoulomb相互作用項を0として(フォノン項のみを考慮して)計算する.</td></tr>
+  <tr align="left"><td>nx</td><td>正の整数</td><td>100</td><td>フェルミ面近傍のバンドの付加的エネルギーグリッドのグリッド数.</td></tr>
+  <tr align="left"><td>ne</td><td>正の整数</td><td>50</td><td><a href="#qpdos">準粒子DOS計算</a>のみで使用.準粒子DOSを計算するエネルギー点数.</td></tr>
+  <tr align="left"><td>emin</td><td>正の実数</td><td>1.0e-7</td><td>フェルミ面近傍のバンドの付加的エネルギーグリッドのためのパラメータ.単位 Ry.</td></tr>
+  <tr align="left"><td>emax</td><td>正の実数</td><td>5.0</td><td><a href="#qpdos">準粒子DOS計算</a>のみで使用.準粒子DOSを計算するエネルギーグリッドの上限. 単位 meV.</td></tr>
+  <tr align="left"><td>electron_maxstep</td><td>正の整数</td><td>100</td><td>ギャップ方程式を反復法で解くときの反復回数の上限数.</td></tr>
+  <tr align="left"><td>conv_thr</td><td>正の実数</td><td>1.0e-15</td><td>ギャップ方程式を反復法で解くときの,新旧のギャップ関数の差の2乗平均に対する収束判定のしきい値. 単位 Ry.</td></tr>
+ <tr align="left"><td>filedyn</td><td>文字列</td><td>"matdyn"</td><td>ph.xのfiledynと同じにしなければならない。</td></tr>
+ <tr align="left"><td>spin_fluc</td><td>論理型</td><td>.False.</td><td>.True.にするとスピン揺らぎ <a href="./ref.html">[3]</a> を含める。</td></tr>
+ <tr align="left"><td>scdft_kernel</td><td>正の整数</td><td>1</td><td>1: Lüders2005 <a href="./ref.html">[4]</a>, 2: Sanna2020 <a href="./ref.html">[5]</a></td></tr>
+ <tr align="left"><td>lz_coulomb</td><td>論理型</td><td>.False.</td><td>Coulomb renormalization <a href="./ref.html">[6]</a></td></tr>
+ <tr align="left"><td>q_fflo</td><td>Real(3)</td><td>0.0,0.0,0.0</td><td>秩序変数の運動量. (Reciprocal fractional unit)</td></tr>
+ <tr align="left"><td>initial_delta</td><td>String</td><td>"random-nodeless"</td><td>k-依存ギャップ関数の初期値. "random-nodeless", "random-nodal", "constant", "band-constant"から選ぶ.</td></tr>
+</table>
+
+<h2>入出力ファイル</h2>
+
+sctk.xに関連するファイルは次の通りである。
+
+<h3 id="xml">{prefix}.xml</h3>
+
+格子定数等の情報を含む. pw.xにより生成される.
+
+<h3 id="a2fsave">{prefix}.a2Fsave</h3>
+
+通常のDFT計算で求めたKohn-Shamエネルギーやその<b>k</b>メッシュ情報,
+対称操作を含む. pw.xで la2f=.true. とすると生成される.
+
+<h3 id="wfc">{prefix}.save/wfc*.dat</h3>
+
+各<b>k</b>点のKohn-Sham軌道.
+*には<b>k</b>点の番号が入る.
+pw.xにより生成される.
+
+<h3 id="vel">{prefix}.vel*</h3>
+
+各<b>q</b>点での遮蔽Coulomb相互作用のChebyshev補間の係数.
+*には<b>q</b>点の番号が入る.
+sctk.x で <a href="#kel">calculation="kel"</a>とすると出力される.
+
+<h3 id="elph">{prefix}_ph0/{prefix}.q_*/{prefix}.elph\*</h3>
+
+各<b>q</b>点での電子-フォノン相互作用, フォノン振動数.
+*には<b>q</b>点の番号が入る.
+ph.xで electron_phonon="scdft_input" とすると作られる.
+
+<h3 id="lambdafrmsf">{prefix}_lambda.frmsf, {prefix}_mu.frmsf</h3>
+
+くりこみ因子 $\lambda_{n {\bf k}}$ のFermi面上での値をプロットするための,
+FermiSurfer用データファイル.
+sctk.x で <a href="#lambdamuk">calculation="lambda_mu_k"</a>とすると出力される.
+
+<h3 id="scgap">{prefix}.scgap</h3>
+
+超伝導ギャップ関数 $\Delta_{n {\bf k}}$.
+対応するKohn-Shamエネルギー $\xi_{n {\bf k}}$, 積分重み, バンド番号,
+<b>k</b> 点番号, 繰りこみ因子 $Z_{n {\bf k}}$
+sctk.x で <a href="#scdft">calculation="scdft"</a>とすると出力される.
+
+<h3 id="qpdos">{prefix}.qpdos</h3>
+
+第1列:準粒子エネルギー(単位 meV),
+第2列:準粒子状態密度(単位 Ry<sup>-1</sup>).
+sctk.x で <a href="#qpdos">calculation="qpdos"</a>とすると出力される.
+
+<h3 id="deltafrmsf">{prefix}_delta.frmsf, {prefix}_Z.frmsf</h3>
+
+超伝導ギャップ関数 $\Delta_{n {\bf k}}$ およびくりこみ因子 $Z_{n {\bf k}}$
+のFermi面上での値をプロットするための,
+FermiSurfer_ 用データファイル.
+sctk.x で <a href="#deltaf">calculation="deltaf"</a>とすると出力される.
+
+<h2>計算の種類</h2>
+
+パラメーター calculation に次の文字列を入れて、計算の種類を指定する。
+
+<h3 id="kel">kel : 遮蔽Coulomb/スピン揺らぎ媒介相互作用</h3>
+
+プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.
+
+<ul>
+ <li><a href="#xml">{prefix}.xml</a></li>
+ <li><a href="#a2fsave">{prefix}.a2Fsave</a></li>
+ <li><a href="#wfc">{prefix}.save/wfc*.dat</a></li>
+</ul>
+
+プログラムを実行したディレクトリに, 次のものが作られる.
+
+<ul>
+ <li><a href="#vel">{prefix}.vel*</a></li>
+</ul>
+
+<h3 id="lambdamuk">lambda_mu_k : 軌道ごとの電子フォノンパラメーター</h3>
+
+プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.
+
+<ul>
+ <li><a href="#xml">{prefix}.xml</a></li>
+ <li><a href="#a2fsave">{prefix}.a2Fsave</a></li>
+ <li><a href="#elph">{prefix}_ph0/{prefix}.q_*/{prefix}.elph*</a></li>
+ <li><a href="#vel">{prefix}.vel*</a></li>
+</ul>
+
+プログラムを実行したディレクトリに, 次のものが作られる.
+
+<ul>
+ <li><a href="#lambdafrmsf">{prefix}_lambda.frmsf, {prefix}_mu.frmsf</a></li>
+</ul>
+
+<h3 id="scdft">scdft : ある温度でのSCDFT計算</h3>
+
+プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.
+
+<ul>
+ <li><a href="#xml">{prefix}.xml</a></li>
+ <li><a href="#a2fsave">{prefix}.a2Fsave</a></li>
+ <li><a href="#elph">{prefix}_ph0/{prefix}.q_*/{prefix}.elph*</a></li>
+ <li><a href="#vel">{prefix}.vel*</a></li>
+</ul>
+
+プログラムを実行したディレクトリに, 次のものが作られる.
+
+<ul>
+ <li><a href="#scgap">{prefix}.scgap</a></li>
+</ul>
+
+<h3 id="scdfttc">scdft_tc : ２分法による転移温度の自動計算</h3>
+
+プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.
+
+<ul>
+ <li><a href="#xml">{prefix}.xml</a></li>
+ <li><a href="#a2fsave">{prefix}.a2Fsave</a></li>
+ <li><a href="#elph">{prefix}_ph0/{prefix}.q_*/{prefix}.elph*</a></li>
+ <li><a href="#vel">{prefix}.vel*</a></li>
+</ul>
+
+プログラムを実行したディレクトリに, 次のものが作られる.
+
+<ul>
+ <li><a href="#scgap">{prefix}.scgap</a></li>
+</ul>
+
+<h3 id="qpdoscal">qpdos : 準粒子状態密度</h3>
+
+プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.
+
+<ul>
+ <li><a href="#xml">{prefix}.xml</a></li>
+ <li><a href="#a2fsave">{prefix}.a2Fsave</a></li>
+ <li><a href="#elph">{prefix}_ph0/{prefix}.q_*/{prefix}.elph*</a></li>
+ <li><a href="#vel">{prefix}.vel*</a></li>
+ <li><a href="#scgap">{prefix}.scgap</a></li>
+</ul>
+
+プログラムを実行したディレクトリに, 次のものが作られる.
+
+<ul>
+ <li><a href="#qpdos">{prefix}.qpdos</a></li>
+</ul>
+
+<h3 id="deltaf">deltaf : Fermi面上でのギャップ関数を計算しFermiSurfer用ファイルを出力する</h3>
+
+プログラムを実行しているディレクトリ内に,
+次のものを用意しておく必要がある.
+
+<ul>
+ <li><a href="#xml">{prefix}.xml</a></li>
+ <li><a href="#a2fsave">{prefix}.a2Fsave</a></li>
+ <li><a href="#elph">{prefix}_ph0/{prefix}.q_*/{prefix}.elph*</a></li>
+ <li><a href="#vel">{prefix}.vel*</a></li>
+ <li><a href="#scgap">{prefix}.scgap</a></li>
+</ul>
+
+プログラムを実行したディレクトリに, 次のものが作られる.
+
+<ul>
+ <li><a href="#deltafrmsf">{prefix}_delta.frmsf, {prefix}_Z.frmsf</a></li>
+</ul>
+
+<h3 id="ultrasonic">ultrasonic : 超音波吸収係数</h3>
+   
+プログラムを実行しているディレクトリ内に, 次のものを用意しておく必要がある.
+
+<ul>
+ <li><a href="#xml">{prefix}.xml</a></li>
+ <li><a href="#a2fsave">{prefix}.a2Fsave</a></li>
+ <li><a href="#elph">{prefix}_ph0/{prefix}.q_*/{prefix}.elph*</a></li>
+ <li><a href="#vel">{prefix}.vel*</a></li>
+ <li><a href="#scgap">{prefix}.scgap</a></li>
+</ul>
+
+<h2 id="twingrid">twingrid.x</h2>
+
+sctk.x において <a href="#kel">calculation="kel"</a>でCoulomb相互作用を計算するときのKohn-Sham軌道の計算(pw.x)において用いる2重<b>k</b>グリッドを生成するスクリプト.
+
+<h3>使い方</h3>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ bash PATH/twingrid.x nk1 nk2 nk3 dk1 dk2 dk3 >> input_file_for_pw
+            </code></pre>
+
+<i>nk1</i>, <i>nk2</i>, <i>nk3</i> はそれぞれの逆格子ベクトルの方向の<b>k</b>点分割数, 
+<i>dk1</i>, <i>dk2</i>, <i>dk3</i> はそれぞれ0もしくは1が入り、逆格子ベクトルの方向に半グリッド分ずらすか(1)否か(0)を指定する.
+<br>
+一般的には <i>dk1</i> = <i>dk2</i> = <i>dk3</i> =1 が使われるが、六方晶や単純正方格子の場合には <i>z</i> 軸方向のみを1とし、他を0とすると良い.
+
+<h3>標準出力</h3>
+
+次のように標準出力される.
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+K_POINTS crystal
+Total_number_of_k
+k_vector1 1.0
+k_vector2 1.0
+k_vector3 1.0
+  :
+    </code></pre>
+
+これにより,  $\Gamma$ 点を含むグリッドと,
+そこから半グリッドぶんずらしたグリッド上の<b>k</b>点がセットで生成される.
+上の使い方では,
+この標準出力を pw.xの入力ファイルの末尾にリダイレクトしている.
+
+  </body>
+</html>
