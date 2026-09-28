@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<h1>Installation</h1>
+
+<h2>Prerequisite</h2>
+
+The prerequisite of SCTK is the same as that of the original Quantum ESPRESSO.
+
+<h2>Installation procedure</h2>
+
+<ol>
+
+  <li>
+Clone the source code of Quantum ESPRESSO and SCTK as follows:
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ git clone https://gitlab.com/QEF/q-e.git -b master
+$ cd q-e
+$ git clone https://github.com/mitsuaki1987/sctk.git -b main SCTK
+$ patch -p1 < SCTK/patch.diff
+    </code></pre>
+
+   To try the developing version (develop branch), see
+<a href="https://github.com/mitsuaki1987/sctk/blob/develop/readme.md" target="_blank">https://github.com/mitsuaki1987/sctk/blob/develop/readme.md</a>.
+      </li>
+  <li>
+Configure the environment with the script <code>configure</code>
+as the same as the original Quantum ESPRESSO.
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ ./configure
+    </code></pre>
+      </li>
+
+  <li>
+Make
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ make pw ph pp sctk
+    </code></pre>
+
+   The executable file is <code>sctk.x</code>.
+   Sometimes, we need to run <code>make</code> again because of incomplete compilation of SCTK.
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ make sctk
+    </code></pre>
+      </li>
+</ol>
+
+  </body>
+</html>

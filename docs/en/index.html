@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+    <center>
+      <h1>Superconducting-Toolkit (SCTK) Manual</h1>
+    </center>
+    <hr>
+
+    <h2><ul>
+      <li><a href="./overview.html">Introduction</a></li>
+      <li><a href="./copy.html">GNU General Public License</a></li>
+      <li><a href="./install.html">Installation</a></li>
+      <li><a href="./program.html">Reference manual</a></li>
+      <li><a href="./tutorial.html">Tutorial</a></li>
+      <li><a href="./kband.html">Setting of wave-number grid and band range</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+      <li><a href="./ref.html">Reference</a></li>
+    </ul></h2>
+  </body>
+</html>

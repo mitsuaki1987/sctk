@@ -1,0 +1,234 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<h1>Tutorial</h1>
+
+The following tutorial should be done in SCTK/examples/Al/.
+
+<h2 id="scf">SCF calculation of the charge density</h2>
+
+<b>Input file:</b> scf.in
+<br>
+<b>Program:</b> pw.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ export OMP_NUM_THREADS=1
+$ mpiexec -np 29 PATH/pw.x -nk 29 -in scf.in > scf.out
+    </code></pre>
+
+<b>Important parameters</b>
+<ul>
+<li>calculation = "scf" : Self-consistent calculation is performed with pw.x.</li>
+</ul>
+
+<br>
+   <b><i>note: Either of the following two steps, <a href="#phonon">Calculations of phonon and electron-phonon interaction</a> and <a href="#coulomb">Calculation of screened Coulomb interaction/Spin-fluctuation</a>, can be performed first.</i></b>
+
+<h2 id="phonon">Calculations of phonon and electron-phonon interaction</h2>
+
+<h3 id="ph">Calculation of phonon frequency and deformation potential</h3>
+
+<b>Input file:</b> ph.in
+<br>
+<b>Program:</b> ph.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 29 PATH/ph.x -nk 29 -in ph.in > ph.out
+    </code></pre>
+
+<b>Important parameters</b>
+
+<ul>
+    <li>fildvscf = 'dv': The file name for the deformation potential. It will be used in the next step.</li>
+    <li>ldisp = .true.: We compute phonons on the uniform <b>q</b> grid.</li>
+    <li>lshift_q = 1, 1, 1: We shift the <b>q</b> grid for avoiding the singularity at the $\Gamma$ point.</li>
+    <li>nq1, nq2, nq3: The <b>q</b> grid.</li>
+</ul>
+
+<h3 id="elph">Calculation of electron-phonon interaction</h3>
+
+<b>Input file</b>: epmat.in
+<br>
+<b>Program</b>: ph.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 8 PATH/ph.x -nk 8 -in epmat.in > epmat.out
+    </code></pre>
+
+<b>Important parameters</b>
+
+<ul>
+    <li>electron_phonon = "scdft_input" :
+        Compute the electron-phonon vertex from the deformation potential and
+        the dynamical matrix that are already computed.</li>
+    <li>elph_nbnd_min, elph_nbnd_max:
+        Since only the electron-phonon interaction between the electronic states
+        in the vicinity of the Fermi surface affects the gap equation,
+        we can reduce bands to decrease the numerical cost.
+        The upper and the lower limit of the bands that contain the Fermi level
+        can be obtained by a program
+        <a href="https://www.quantum-espresso.org/Doc/pp_user_guide/" target="_blank">fermi_velocity.x</a>
+        in QuantumESPRESSO.</li>
+</ul>
+
+<h2 id="coulomb">Calculation of screened Coulomb interaction/Spin-fluctuation</h2>
+
+<h3 id="dense">Non-SCF calculation with a dense k grid</h3>
+
+<b>Input file</b>: nscf.in
+<br>
+<b>Program</b>: pw.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 32 PATH/pw.x -nk 32 -in nscf.in > nscf.out
+    </code></pre>
+
+<b>Important parameters</b>
+
+<ul>
+    <li>calculation = "nscf":
+       Perform non self-consistent calculation.</li>
+    <li>la2f = .true.:
+       Generate a file pwscf.a2Fsave which contains the Kohn-Sham energy.</li>
+    <li>nbnd:
+       For the calculation of the polarization function,
+       we have to compute some empty states.
+       We do not have to include so many empty states
+       as in the calculation of insulators.
+       Typically, the number of empty states becomes
+       the same as the number of occupied states.</li>
+</ul>
+
+<h3 id="twin">Calculation of wave functions for the screened Coulomb interaction</h3>
+
+<b>Input file</b>: twin.in
+<br>
+<b>Program</b>: pw.x (QuantumESPRESSO)
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ bash PATH/twingrid.x 4 4 4 >> twin.in
+$ mpiexec -np 32 PATH/pw.x -nk 32 -in twin.in > twin.out
+    </code></pre>
+
+<b>Important parameters</b>
+
+<ul>
+    <li>calculation = "bands":
+       Generate <b>k</b> points by using
+       <a href="./program.html#twingrid">twingrid.x</a> and redirect it to the end of the input file as above.
+       This <b>k</b> mesh must be the same as nq1, nq2, and nq3
+       in the input of ph.x for <a href="#elph">Calculation of electron-phonon interaction</a>.
+       Then run pw.x with this input file.</li>
+</ul>
+
+<h3>Calculation of screened Coulomb interaction</h3>
+
+<b>Input file</b>: sctk.in
+<br>
+<b>Program</b>: <a href="./program.html">sctk.x</a>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 32 PATH/sctk.x -nk 32 -in sctk.in > kel.out
+    </code></pre>
+
+<b>Important parameters</b>
+
+<ul>
+    <li><a href="./program.html#kel">calculation = "kel"</a>:
+         Calculation of screened Coulomb / spin-fluctuation interaction.</li>
+    <li>lshift_q = 1, 1, 1: We shift the <b>q</b> grid for avoiding the singularity at the $\Gamma$ point.</li>
+    <li>nq1, nq2, nq3:
+         They must be the same as the <b>k</b> grid in the previous step.</li>
+</ul>
+
+<h2 id="scdftscf">SCDFT SCF calculation</h2>
+
+After all calculations in <a href="#phonon">Calculations of phonon and electron-phonon interaction</a> and
+<a href="#coulomb">Calculation of screened Coulomb interaction/Spin-fluctuation</a> are finished,
+we can start the SCDFT calculation.
+
+<b>Input file</b>: sctk.in (Should be modified)
+<br>
+<b>Program</b>: <a href="./program.html">sctk.x</a>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ export OMP_NUM_THREADS=32
+$ mpiexec -np 1 PATH/sctk.x < sctk.in > tc.out
+    </code></pre>
+
+<b>Important parameters</b>
+
+<ul>
+    <li><a href="./program.html#scdfttc">calculation = "scdft_tc"</a>:
+         By changing this part, we change the type of calculation.
+         Here, we obtain $T_c$ by the bisection method.</li>
+</ul>
+
+<h2>Further analysis</h2>
+
+By changing the parameter calculation, we can perform the following analyses.
+<br>
+<b>Input file</b>: sctk.in (Should be modified)
+<br>
+<b>Program</b>: <a href="./program.html">sctk.x</a>
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+$ mpiexec -np 1 PATH/sctk.x < sctk.in
+    </code></pre>
+
+<b>Important parameters</b>
+
+<ul>
+    <li><a href="./program.html#lambdamuk">calculation = "lambda_mu_k"</a>:
+        Output data for FermiSurfer to plot $\lambda_{n {\bf k}}$.</li>
+    <li><a href="./program.html#scdft">calculation = "scdft"</a>:
+        Perform SCDFT calculation at a temperature,
+        then output a file {prefix}.scgap which is used by the following post-processes.</li>
+    <li>temp:
+       Temperature (Kelvin).
+       If this is set to 0 or a negative value,
+       sctk.x employs the special algorithm for the exact zero Kelvin.</li>
+    <li><a href="./program.html#deltaf">calculation = "deltaf"</a>:
+        Output data for FermiSurfer to plot $\Delta_{n {\bf k}}$.</li>
+    <li><a href="./program.html#qpdoscal">calculation = "qpdos"</a>:
+         Quasi particle DOS. It requires long computational time.</li>
+</ul>
+
+<h2>note:</h2>
+   There is another tutorial in SCTK/examples/MgB2/.
+   Please note that in these tutorials, the number of
+   <b>k</b> points and bands and the pseudopotentials are
+   not sufficient for the production level.
+<br><br>
+   New: user-contributed examples of Pb with production-level parameters are provided in SCTK/examples/Pb.
+   Large computing resources are needed for running these contributions.
+
+  </body>
+</html>

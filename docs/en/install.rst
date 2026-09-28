@@ -15,10 +15,9 @@ Installation procedure
 
    .. code-block:: bash
 
-      $ git clone https://gitlab.com/QEF/q-e.git
+      $ git clone https://gitlab.com/QEF/q-e.git -b master
       $ cd q-e
-      $ git checkout qe-7.4.1
-      $ git clone https://github.com/mitsuaki1987/sctk.git -b develop SCTK
+      $ git clone https://github.com/mitsuaki1987/sctk.git -b main SCTK
       $ patch -p1 < SCTK/patch.diff
 
    To try the developping version, the corresponding original QE hash can be seen
