@@ -1,5 +1,5 @@
 
-     Program PHONON v.7.4.1 starts on 17Mar2026 at 22:50: 1 
+     Program PHONON v.7.6 starts on  1Oct2026 at  1:29:44 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,12 +10,12 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:               576
      Threads/MPI process:                     1
 
-     MPI processes distributed on     1 nodes
-     225112 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     25205 MiB available memory on the printing compute node when the environment starts
  
      Reading input from elph.in
 
@@ -23,7 +23,7 @@
 
      ./pwscf.save/
  
-     K-points division:     npool     =      64
+     K-points division:     npool     =     576
      Subspace diagonalization in iterative solution of the eigenvalue problem:
      a serial algorithm will be used
 
@@ -69,6 +69,8 @@
 
      Calculation of q =    0.0000000   0.0000000   0.1454529
      [opt_tetra]  Optimized tetrahedron method is used.
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
  
      G-vector sticks info
      --------------------
@@ -148,7 +150,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=   720 (tetrahedron method)
@@ -159,9 +161,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >       8.21 MB
+     Estimated max dynamical RAM per process >       7.38 MB
 
-     Estimated total dynamical RAM >     525.17 MB
+     Estimated total dynamical RAM >       4.15 GB
 
      Check: negative core charge=   -0.000006
 
@@ -176,7 +178,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.0
 
-     total cpu time spent up to now is        0.9 secs
+     total cpu time spent up to now is        1.9 secs
 
      End of band structure calculation
 
@@ -222,7 +224,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -271,9 +273,9 @@
 
      Representation     2      1 modes -  To be done
 
-     Representation     3      2 modes -  To be done
+     Representation     3      1 modes -  To be done
 
-     Representation     4      1 modes -  To be done
+     Representation     4      2 modes -  To be done
 
      Representation     5      2 modes -  To be done
 
@@ -282,7 +284,7 @@
 
      Message from routine init_vloc:
      Interpolation table for Vloc re-allocated
-     PHONON       :      2.67s CPU      3.03s WALL
+     PHONON       :      4.68s CPU      4.88s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn1
@@ -292,12 +294,12 @@
      q = (    0.000000000   0.000000000   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       2.789734 [THz] =      93.055520 [cm-1]
-     freq (    2) =       2.789734 [THz] =      93.055520 [cm-1]
-     freq (    3) =       5.117168 [THz] =     170.690354 [cm-1]
-     freq (    4) =       9.711593 [THz] =     323.943877 [cm-1]
-     freq (    5) =       9.711593 [THz] =     323.943877 [cm-1]
-     freq (    6) =      12.583613 [THz] =     419.744158 [cm-1]
+     freq (    1) =       2.789735 [THz] =      93.055537 [cm-1]
+     freq (    2) =       2.789735 [THz] =      93.055537 [cm-1]
+     freq (    3) =       5.117184 [THz] =     170.690877 [cm-1]
+     freq (    4) =       9.711593 [THz] =     323.943881 [cm-1]
+     freq (    5) =       9.711593 [THz] =     323.943881 [cm-1]
+     freq (    6) =      12.583595 [THz] =     419.743541 [cm-1]
      freq (    7) =      17.386509 [THz] =     579.951513 [cm-1]
      freq (    8) =      17.386509 [THz] =     579.951513 [cm-1]
      freq (    9) =      20.727703 [THz] =     691.401756 [cm-1]
@@ -327,6 +329,8 @@
 
      Calculation of q =    0.0000000   0.0000000  -0.4363586
      [opt_tetra]  Optimized tetrahedron method is used.
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
  
      G-vector sticks info
      --------------------
@@ -406,7 +410,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=   420 (tetrahedron method)
@@ -417,9 +421,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >       7.89 MB
+     Estimated max dynamical RAM per process >       7.39 MB
 
-     Estimated total dynamical RAM >     504.89 MB
+     Estimated total dynamical RAM >       4.16 GB
 
      Check: negative core charge=   -0.000006
 
@@ -434,7 +438,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 21.5
 
-     total cpu time spent up to now is        1.7 secs
+     total cpu time spent up to now is        3.5 secs
 
      End of band structure calculation
 
@@ -480,7 +484,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -529,16 +533,16 @@
 
      Representation     2      1 modes -  To be done
 
-     Representation     3      2 modes -  To be done
+     Representation     3      1 modes -  To be done
 
-     Representation     4      1 modes -  To be done
+     Representation     4      2 modes -  To be done
 
      Representation     5      2 modes -  To be done
 
      Representation     6      2 modes -  To be done
 
 
-     PHONON       :      5.93s CPU      6.67s WALL
+     PHONON       :      7.46s CPU      7.87s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn2
@@ -548,15 +552,15 @@
      q = (    0.000000000   0.000000000  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       6.771100 [THz] =     225.859570 [cm-1]
-     freq (    2) =       6.771100 [THz] =     225.859570 [cm-1]
+     freq (    1) =       6.771099 [THz] =     225.859558 [cm-1]
+     freq (    2) =       6.771099 [THz] =     225.859558 [cm-1]
      freq (    3) =       7.133843 [THz] =     237.959402 [cm-1]
      freq (    4) =       7.133843 [THz] =     237.959402 [cm-1]
-     freq (    5) =       9.591613 [THz] =     319.941776 [cm-1]
+     freq (    5) =       9.591615 [THz] =     319.941827 [cm-1]
      freq (    6) =      12.099974 [THz] =     403.611685 [cm-1]
-     freq (    7) =      16.563583 [THz] =     552.501647 [cm-1]
-     freq (    8) =      16.563583 [THz] =     552.501647 [cm-1]
-     freq (    9) =      19.479162 [THz] =     649.754914 [cm-1]
+     freq (    7) =      16.563582 [THz] =     552.501625 [cm-1]
+     freq (    8) =      16.563582 [THz] =     552.501625 [cm-1]
+     freq (    9) =      19.479162 [THz] =     649.754896 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -661,7 +665,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=  3264 (tetrahedron method)
@@ -672,9 +676,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >      11.53 MB
+     Estimated max dynamical RAM per process >       7.72 MB
 
-     Estimated total dynamical RAM >     737.60 MB
+     Estimated total dynamical RAM >       4.34 GB
 
      Check: negative core charge=   -0.000006
 
@@ -689,7 +693,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is        4.2 secs
+     total cpu time spent up to now is        5.8 secs
 
      End of band structure calculation
 
@@ -735,7 +739,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -799,7 +803,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     11.32s CPU     12.52s WALL
+     PHONON       :     11.03s CPU     11.66s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn3
@@ -809,15 +813,15 @@
      q = (    0.000000000   0.288675135   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       6.366754 [THz] =     212.372049 [cm-1]
+     freq (    1) =       6.366698 [THz] =     212.370172 [cm-1]
      freq (    2) =       6.445089 [THz] =     214.985044 [cm-1]
-     freq (    3) =       8.525519 [THz] =     284.380714 [cm-1]
+     freq (    3) =       8.525403 [THz] =     284.376847 [cm-1]
      freq (    4) =      11.905052 [THz] =     397.109776 [cm-1]
-     freq (    5) =      12.192760 [THz] =     406.706694 [cm-1]
-     freq (    6) =      15.378456 [THz] =     512.970069 [cm-1]
-     freq (    7) =      19.667268 [THz] =     656.029430 [cm-1]
+     freq (    5) =      12.192616 [THz] =     406.701901 [cm-1]
+     freq (    6) =      15.378275 [THz] =     512.964053 [cm-1]
+     freq (    7) =      19.667352 [THz] =     656.032240 [cm-1]
      freq (    8) =      21.175198 [THz] =     706.328574 [cm-1]
-     freq (    9) =      21.401219 [THz] =     713.867817 [cm-1]
+     freq (    9) =      21.401331 [THz] =     713.871561 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -827,15 +831,15 @@
      Tetrahedron method
      DOS =  4.776911 states/spin/Ry/Unit Cell at Ef=  7.681053 eV
      double delta at Ef = 17.012051
-     lambda(    1)=  0.0061   gamma=    1.14 GHz
+     lambda(    1)=  0.0062   gamma=    1.14 GHz
      lambda(    2)=  0.0017   gamma=    0.33 GHz
      lambda(    3)=  0.0183   gamma=    6.06 GHz
      lambda(    4)=  0.0019   gamma=    1.26 GHz
      lambda(    5)=  0.0045   gamma=    3.02 GHz
      lambda(    6)=  0.0067   gamma=    7.22 GHz
-     lambda(    7)=  0.0324   gamma=   57.17 GHz
+     lambda(    7)=  0.0324   gamma=   57.16 GHz
      lambda(    8)=  0.0296   gamma=   60.54 GHz
-     lambda(    9)=  0.1674   gamma=  349.80 GHz
+     lambda(    9)=  0.1674   gamma=  349.81 GHz
  
      Number of q in the star =   12
      List of q in the star:
@@ -933,7 +937,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=  1904 (tetrahedron method)
@@ -944,9 +948,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >       9.71 MB
+     Estimated max dynamical RAM per process >       7.56 MB
 
-     Estimated total dynamical RAM >     621.69 MB
+     Estimated total dynamical RAM >       4.25 GB
 
      Check: negative core charge=   -0.000006
 
@@ -961,7 +965,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is        5.7 secs
+     total cpu time spent up to now is        7.6 secs
 
      End of band structure calculation
 
@@ -1007,7 +1011,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -1071,7 +1075,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     15.86s CPU     17.50s WALL
+     PHONON       :     14.29s CPU     15.12s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn4
@@ -1082,12 +1086,12 @@
 
  **************************************************************************
      freq (    1) =       7.317815 [THz] =     244.096050 [cm-1]
-     freq (    2) =       7.853934 [THz] =     261.979048 [cm-1]
-     freq (    3) =       8.599974 [THz] =     286.864250 [cm-1]
+     freq (    2) =       7.853934 [THz] =     261.979050 [cm-1]
+     freq (    3) =       8.599974 [THz] =     286.864241 [cm-1]
      freq (    4) =      11.345504 [THz] =     378.445275 [cm-1]
-     freq (    5) =      12.950182 [THz] =     431.971575 [cm-1]
+     freq (    5) =      12.950182 [THz] =     431.971588 [cm-1]
      freq (    6) =      15.407103 [THz] =     513.925632 [cm-1]
-     freq (    7) =      19.236026 [THz] =     641.644759 [cm-1]
+     freq (    7) =      19.236026 [THz] =     641.644768 [cm-1]
      freq (    8) =      21.305592 [THz] =     710.678050 [cm-1]
      freq (    9) =      21.530714 [THz] =     718.187326 [cm-1]
  **************************************************************************
@@ -1199,7 +1203,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=  1752 (tetrahedron method)
@@ -1210,9 +1214,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >       9.55 MB
+     Estimated max dynamical RAM per process >       7.57 MB
 
-     Estimated total dynamical RAM >     611.33 MB
+     Estimated total dynamical RAM >       4.26 GB
 
      Check: negative core charge=   -0.000006
 
@@ -1227,7 +1231,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.5
 
-     total cpu time spent up to now is        7.1 secs
+     total cpu time spent up to now is        9.4 secs
 
      End of band structure calculation
 
@@ -1273,7 +1277,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -1337,7 +1341,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     20.16s CPU     22.19s WALL
+     PHONON       :     17.50s CPU     18.53s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn5
@@ -1348,14 +1352,14 @@
 
  **************************************************************************
      freq (    1) =       7.647996 [THz] =     255.109682 [cm-1]
-     freq (    2) =       7.972155 [THz] =     265.922450 [cm-1]
-     freq (    3) =       9.800821 [THz] =     326.920188 [cm-1]
-     freq (    4) =      13.806439 [THz] =     460.533248 [cm-1]
+     freq (    2) =       7.972155 [THz] =     265.922479 [cm-1]
+     freq (    3) =       9.800761 [THz] =     326.918201 [cm-1]
+     freq (    4) =      13.806030 [THz] =     460.519589 [cm-1]
      freq (    5) =      13.867772 [THz] =     462.579080 [cm-1]
-     freq (    6) =      15.582601 [THz] =     519.779635 [cm-1]
-     freq (    7) =      22.003051 [THz] =     733.942763 [cm-1]
-     freq (    8) =      22.072460 [THz] =     736.258017 [cm-1]
-     freq (    9) =      22.607024 [THz] =     754.089163 [cm-1]
+     freq (    6) =      15.582635 [THz] =     519.780747 [cm-1]
+     freq (    7) =      22.003050 [THz] =     733.942747 [cm-1]
+     freq (    8) =      22.072464 [THz] =     736.258156 [cm-1]
+     freq (    9) =      22.607009 [THz] =     754.088650 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -1386,6 +1390,8 @@
 
      Calculation of q =    0.0000000  -0.5773503  -0.4363586
      [opt_tetra]  Optimized tetrahedron method is used.
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
  
      G-vector sticks info
      --------------------
@@ -1465,7 +1471,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=  1022 (tetrahedron method)
@@ -1476,9 +1482,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >       8.57 MB
+     Estimated max dynamical RAM per process >       7.41 MB
 
-     Estimated total dynamical RAM >     548.18 MB
+     Estimated total dynamical RAM >       4.17 GB
 
      Check: negative core charge=   -0.000006
 
@@ -1493,7 +1499,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.1
 
-     total cpu time spent up to now is        8.0 secs
+     total cpu time spent up to now is       10.9 secs
 
      End of band structure calculation
 
@@ -1539,7 +1545,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -1603,7 +1609,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     23.96s CPU     26.38s WALL
+     PHONON       :     20.35s CPU     21.55s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn6
@@ -1614,14 +1620,14 @@
 
  **************************************************************************
      freq (    1) =       7.729402 [THz] =     257.825115 [cm-1]
-     freq (    2) =       8.128054 [THz] =     271.122686 [cm-1]
-     freq (    3) =       9.328924 [THz] =     311.179417 [cm-1]
-     freq (    4) =      13.887802 [THz] =     463.247199 [cm-1]
+     freq (    2) =       8.128053 [THz] =     271.122681 [cm-1]
+     freq (    3) =       9.328924 [THz] =     311.179425 [cm-1]
+     freq (    4) =      13.887801 [THz] =     463.247186 [cm-1]
      freq (    5) =      14.938556 [THz] =     498.296597 [cm-1]
      freq (    6) =      16.056219 [THz] =     535.577801 [cm-1]
-     freq (    7) =      22.204385 [THz] =     740.658555 [cm-1]
-     freq (    8) =      22.530145 [THz] =     751.524727 [cm-1]
-     freq (    9) =      22.572359 [THz] =     752.932856 [cm-1]
+     freq (    7) =      22.204385 [THz] =     740.658547 [cm-1]
+     freq (    8) =      22.530144 [THz] =     751.524693 [cm-1]
+     freq (    9) =      22.572358 [THz] =     752.932824 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -1728,7 +1734,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=  3264 (tetrahedron method)
@@ -1739,9 +1745,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >      11.53 MB
+     Estimated max dynamical RAM per process >       7.73 MB
 
-     Estimated total dynamical RAM >     738.22 MB
+     Estimated total dynamical RAM >       4.35 GB
 
      Check: negative core charge=   -0.000006
 
@@ -1756,7 +1762,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.8
 
-     total cpu time spent up to now is       10.3 secs
+     total cpu time spent up to now is       13.2 secs
 
      End of band structure calculation
 
@@ -1802,7 +1808,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -1866,7 +1872,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     29.09s CPU     31.95s WALL
+     PHONON       :     23.95s CPU     25.37s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn7
@@ -1876,15 +1882,15 @@
      q = (    0.250000000   0.433012702   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       7.875963 [THz] =     262.713857 [cm-1]
-     freq (    2) =       8.070794 [THz] =     269.212705 [cm-1]
-     freq (    3) =       9.311374 [THz] =     310.593992 [cm-1]
-     freq (    4) =      12.981484 [THz] =     433.015699 [cm-1]
-     freq (    5) =      16.956718 [THz] =     565.615225 [cm-1]
-     freq (    6) =      17.060488 [THz] =     569.076633 [cm-1]
-     freq (    7) =      19.342579 [THz] =     645.198995 [cm-1]
-     freq (    8) =      22.739197 [THz] =     758.497959 [cm-1]
-     freq (    9) =      23.649253 [THz] =     788.854161 [cm-1]
+     freq (    1) =       7.875981 [THz] =     262.714453 [cm-1]
+     freq (    2) =       8.070793 [THz] =     269.212687 [cm-1]
+     freq (    3) =       9.311384 [THz] =     310.594326 [cm-1]
+     freq (    4) =      12.981623 [THz] =     433.020333 [cm-1]
+     freq (    5) =      16.956728 [THz] =     565.615548 [cm-1]
+     freq (    6) =      17.060503 [THz] =     569.077115 [cm-1]
+     freq (    7) =      19.342487 [THz] =     645.195925 [cm-1]
+     freq (    8) =      22.739149 [THz] =     758.496375 [cm-1]
+     freq (    9) =      23.649234 [THz] =     788.853522 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -1914,9 +1920,9 @@
           6  -0.250000000  -0.433012702  -0.145452854
           7   0.250000000  -0.433012702  -0.145452854
           8  -0.250000000   0.433012702   0.145452854
-          9  -0.500000000  -0.000000000   0.145452854
+          9  -0.500000000   0.000000000   0.145452854
          10   0.500000000   0.000000000   0.145452854
-         11  -0.500000000  -0.000000000  -0.145452854
+         11  -0.500000000   0.000000000  -0.145452854
          12   0.500000000   0.000000000  -0.145452854
 
      Calculation of q =    0.2500000   0.4330127  -0.4363586
@@ -2000,7 +2006,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=  1904 (tetrahedron method)
@@ -2011,9 +2017,9 @@
 
      Smooth grid:     5449 G-vectors     FFT dimensions: (  24,  24,  25)
 
-     Estimated max dynamical RAM per process >       9.72 MB
+     Estimated max dynamical RAM per process >       7.57 MB
 
-     Estimated total dynamical RAM >     622.16 MB
+     Estimated total dynamical RAM >       4.26 GB
 
      Check: negative core charge=   -0.000006
 
@@ -2028,7 +2034,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 22.3
 
-     total cpu time spent up to now is       11.8 secs
+     total cpu time spent up to now is       15.0 secs
 
      End of band structure calculation
 
@@ -2074,7 +2080,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -2138,7 +2144,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     33.63s CPU     36.98s WALL
+     PHONON       :     27.23s CPU     28.87s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn8
@@ -2148,15 +2154,15 @@
      q = (    0.250000000   0.433012702  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       8.190985 [THz] =     273.221850 [cm-1]
-     freq (    2) =       8.360844 [THz] =     278.887744 [cm-1]
-     freq (    3) =       8.958723 [THz] =     298.830825 [cm-1]
-     freq (    4) =      14.173237 [THz] =     472.768288 [cm-1]
+     freq (    1) =       8.190988 [THz] =     273.221949 [cm-1]
+     freq (    2) =       8.360844 [THz] =     278.887745 [cm-1]
+     freq (    3) =       8.958723 [THz] =     298.830844 [cm-1]
+     freq (    4) =      14.173237 [THz] =     472.768312 [cm-1]
      freq (    5) =      16.977459 [THz] =     566.307063 [cm-1]
-     freq (    6) =      17.003287 [THz] =     567.168602 [cm-1]
-     freq (    7) =      19.425063 [THz] =     647.950342 [cm-1]
-     freq (    8) =      21.976546 [THz] =     733.058678 [cm-1]
-     freq (    9) =      23.795585 [THz] =     793.735272 [cm-1]
+     freq (    6) =      17.003287 [THz] =     567.168618 [cm-1]
+     freq (    7) =      19.424983 [THz] =     647.947702 [cm-1]
+     freq (    8) =      21.976842 [THz] =     733.068551 [cm-1]
+     freq (    9) =      23.795585 [THz] =     793.735284 [cm-1]
  **************************************************************************
 
      [elph_tetra]   Lowest band which contains FS :          3
@@ -2173,7 +2179,7 @@
      lambda(    5)=  0.0760   gamma=   99.97 GHz
      lambda(    6)=  0.0024   gamma=    3.21 GHz
      lambda(    7)=  0.0043   gamma=    7.44 GHz
-     lambda(    8)=  0.0891   gamma=  196.19 GHz
+     lambda(    8)=  0.0890   gamma=  196.19 GHz
      lambda(    9)=  0.0029   gamma=    7.49 GHz
  
      Number of q in the star =    6
@@ -2182,101 +2188,99 @@
           2   0.250000000  -0.433012702  -0.436358562
           3  -0.250000000   0.433012702   0.436358562
           4  -0.250000000  -0.433012702   0.436358562
-          5  -0.500000000  -0.000000000  -0.436358562
+          5  -0.500000000   0.000000000  -0.436358562
           6   0.500000000   0.000000000  -0.436358562
  
-     init_run     :      0.99s CPU      1.09s WALL (       8 calls)
-     electrons    :      8.97s CPU      9.36s WALL (       8 calls)
+     init_run     :      1.95s CPU      2.16s WALL (       8 calls)
+     electrons    :      7.01s CPU      7.11s WALL (       8 calls)
 
      Called by init_run:
-     wfcinit      :      0.00s CPU      0.00s WALL (       8 calls)
-     potinit      :      0.46s CPU      0.55s WALL (       8 calls)
-     hinit0       :      0.23s CPU      0.23s WALL (       8 calls)
+     wfcinit      :      0.00s CPU      0.06s WALL (       8 calls)
+     potinit      :      1.05s CPU      1.20s WALL (       8 calls)
+     hinit0       :      0.71s CPU      0.71s WALL (       8 calls)
 
      Called by electrons:
-     c_bands      :      8.67s CPU      9.05s WALL (       8 calls)
-     v_of_rho     :      0.10s CPU      0.11s WALL (       9 calls)
-     newd         :      0.01s CPU      0.01s WALL (       9 calls)
-     PAW_pot      :      0.21s CPU      0.22s WALL (       9 calls)
+     c_bands      :      6.27s CPU      6.36s WALL (       8 calls)
+     v_of_rho     :      0.43s CPU      0.44s WALL (       9 calls)
+     newd         :      0.02s CPU      0.02s WALL (       9 calls)
+     PAW_pot      :      0.56s CPU      0.57s WALL (       9 calls)
 
      Called by c_bands:
-     init_us_2    :      0.30s CPU      0.30s WALL (    1566 calls)
-     cegterg      :      5.22s CPU      5.31s WALL (     293 calls)
+     init_us_2    :      0.06s CPU      0.06s WALL (     204 calls)
+     cegterg      :      2.80s CPU      2.87s WALL (      35 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.71s CPU      0.73s WALL (    4546 calls)
-     h_psi        :      3.77s CPU      3.84s WALL (    4839 calls)
-     s_psi        :      0.13s CPU      0.14s WALL (    4839 calls)
-     g_psi        :      0.04s CPU      0.04s WALL (    4318 calls)
+     cdiaghg      :      0.36s CPU      0.37s WALL (     516 calls)
+     h_psi        :      2.43s CPU      2.50s WALL (     551 calls)
+     s_psi        :      0.03s CPU      0.03s WALL (     551 calls)
+     g_psi        :      0.01s CPU      0.01s WALL (     486 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.19s CPU      0.19s WALL (    4839 calls)
-     vloc_psi     :      3.35s CPU      3.42s WALL (    4839 calls)
-     add_vuspsi   :      0.15s CPU      0.15s WALL (    4839 calls)
+     h_psi:calbec :      0.12s CPU      0.13s WALL (     551 calls)
+     vloc_psi     :      2.27s CPU      2.33s WALL (     551 calls)
+     add_vuspsi   :      0.03s CPU      0.03s WALL (     551 calls)
 
      General routines
-     calbec       :      0.27s CPU      0.28s WALL (    6777 calls)
-     fft          :      0.09s CPU      0.09s WALL (     452 calls)
-     ffts         :      0.05s CPU      0.05s WALL (    1258 calls)
-     fftw         :      3.45s CPU      3.51s WALL (   92496 calls)
-     interpolate  :      0.07s CPU      0.07s WALL (     160 calls)
-     davcio       :      0.01s CPU      0.01s WALL (     144 calls)
+     calbec       :      0.17s CPU      0.18s WALL (     806 calls)
+     fft          :      0.69s CPU      0.71s WALL (     452 calls)
+     ffts         :      0.21s CPU      0.22s WALL (     367 calls)
+     fftw         :      3.29s CPU      3.37s WALL (   11380 calls)
+     interpolate  :      0.35s CPU      0.35s WALL (     160 calls)
+     davcio       :      0.01s CPU      0.02s WALL (     144 calls)
  
      Parallel routines
  
-     PHONON       :     35.03s CPU     38.67s WALL
+     PHONON       :     27.91s CPU     29.63s WALL
 
      INITIALIZATION: 
-     phq_setup    :      0.45s CPU      0.54s WALL (       8 calls)
-     phq_init     :     11.35s CPU     11.41s WALL (       8 calls)
+     phq_setup    :      1.54s CPU      1.60s WALL (       8 calls)
+     phq_init     :      4.73s CPU      4.75s WALL (       8 calls)
  
-     phq_init     :     11.35s CPU     11.41s WALL (       8 calls)
-     set_drhoc    :      0.05s CPU      0.05s WALL (       8 calls)
-     init_vloc    :      0.03s CPU      0.03s WALL (       9 calls)
-     init_us_1    :      0.12s CPU      0.12s WALL (       9 calls)
-     init_us_2    :      0.30s CPU      0.30s WALL (    1566 calls)
-     newd         :      0.01s CPU      0.01s WALL (       9 calls)
-     dvanqq       :      8.87s CPU      8.88s WALL (      16 calls)
-     drho         :      6.70s CPU      6.75s WALL (       8 calls)
-     drhous       :      0.97s CPU      0.99s WALL (       8 calls)
-     nldyntot     :      0.03s CPU      0.03s WALL (       8 calls)
-     newdq        :      4.48s CPU      4.50s WALL (      66 calls)
-     adddvscf     :      0.08s CPU      0.08s WALL (    1026 calls)
-     com_dvloc    :      0.10s CPU      0.10s WALL (    1098 calls)
-                                        0.00s GPU  (    1098 calls)
+     phq_init     :      4.73s CPU      4.75s WALL (       8 calls)
+     set_drhoc    :      0.11s CPU      0.11s WALL (       8 calls)
+     init_vloc    :      0.21s CPU      0.21s WALL (       9 calls)
+     init_us_1    :      0.38s CPU      0.38s WALL (       9 calls)
+     init_us_2    :      0.06s CPU      0.06s WALL (     204 calls)
+     newd         :      0.02s CPU      0.02s WALL (       9 calls)
+     dvanqq       :      4.73s CPU      4.73s WALL (      16 calls)
+     drho         :      2.00s CPU      2.02s WALL (       8 calls)
+     drhous       :      0.45s CPU      0.46s WALL (       8 calls)
+     nldyntot     :      0.01s CPU      0.01s WALL (       8 calls)
+     newdq        :      1.07s CPU      1.07s WALL (      66 calls)
+     adddvscf     :      0.02s CPU      0.02s WALL (     135 calls)
+     com_dvloc    :      0.13s CPU      0.14s WALL (     207 calls)
  
-     dvqpsi_us    :      1.20s CPU      1.22s WALL (    1026 calls)
-                                        0.00s GPU  (    1026 calls)
-     dvqpsi_us_on :      0.26s CPU      0.26s WALL (    1026 calls)
+     dvqpsi_us    :      0.90s CPU      0.91s WALL (     135 calls)
+     dvqpsi_us_on :      0.09s CPU      0.09s WALL (     135 calls)
  
-     add_vuspsi   :      0.15s CPU      0.15s WALL (    4839 calls)
-     addusdbec    :      0.08s CPU      0.08s WALL (    1026 calls)
+     add_vuspsi   :      0.03s CPU      0.03s WALL (     551 calls)
+     addusdbec    :      0.03s CPU      0.04s WALL (     135 calls)
  
  
       Electron-phonon coupling
-     elphon       :      7.26s CPU      7.32s WALL (       8 calls)
-     elphel       :      1.87s CPU      1.90s WALL (      66 calls)
+     elphon       :      2.60s CPU      2.65s WALL (       8 calls)
+     elphel       :      1.22s CPU      1.24s WALL (      66 calls)
  
       General routines
-     calbec       :      0.27s CPU      0.28s WALL (    6777 calls)
-     fft          :      0.09s CPU      0.09s WALL (     452 calls)
-     ffts         :      0.05s CPU      0.05s WALL (    1258 calls)
-     fftw         :      3.45s CPU      3.51s WALL (   92496 calls)
-     davcio       :      0.01s CPU      0.01s WALL (     144 calls)
+     calbec       :      0.17s CPU      0.18s WALL (     806 calls)
+     fft          :      0.69s CPU      0.71s WALL (     452 calls)
+     ffts         :      0.21s CPU      0.22s WALL (     367 calls)
+     fftw         :      3.29s CPU      3.37s WALL (   11380 calls)
+     davcio       :      0.01s CPU      0.02s WALL (     144 calls)
  
       Additional routines
-     h_psi_bgrp   :      3.78s CPU      3.85s WALL (    4839 calls)
-     h_psi        :      3.77s CPU      3.84s WALL (    4839 calls)
-     h_psi:pot    :      3.71s CPU      3.78s WALL (    4839 calls)
-     h_psi:calbec :      0.19s CPU      0.19s WALL (    4839 calls)
-     s_psi_bgrp   :      0.17s CPU      0.18s WALL (    4839 calls)
-     s_psi        :      0.13s CPU      0.14s WALL (    4839 calls)
+     h_psi_bgrp   :      2.44s CPU      2.51s WALL (     551 calls)
+     h_psi        :      2.43s CPU      2.50s WALL (     551 calls)
+     h_psi:pot    :      2.42s CPU      2.49s WALL (     551 calls)
+     h_psi:calbec :      0.12s CPU      0.13s WALL (     551 calls)
+     s_psi_bgrp   :      0.03s CPU      0.04s WALL (     551 calls)
+     s_psi        :      0.03s CPU      0.03s WALL (     551 calls)
  
  
-     PHONON       :     35.03s CPU     38.67s WALL
+     PHONON       :     27.91s CPU     29.63s WALL
 
  
-   This run was terminated on:  22:50:40  17Mar2026            
+   This run was terminated on:   1:30:14   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

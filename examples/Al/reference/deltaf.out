@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 13Mar2026 at 12:10:55 
+     Program SCTK v.7.6 starts on  1Oct2026 at  0: 1:23 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,15 +10,16 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                 1
-     Threads/MPI process:                    64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:                12
+     Threads/MPI process:                    48
 
-     MPI processes distributed on     1 nodes
-     229032 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     K-points division:     npool     =      12
+     28974 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+     git hash : 3a8ac9b77c01a456f501ce0192e75551d79ac127
 
 
      Reading xml data from directory:
@@ -84,7 +85,7 @@
 
 
      Dynamical matrices for ( 4, 4, 4)  uniform grid of q-points
-     With a half shift
+     With a half shift  1  1  1
      (  10 q-points):
        N         xq(1)         xq(2)         xq(3) 
        1   0.088388348   0.088388348   0.088388348
@@ -106,10 +107,10 @@
      #####  Average matrix in grid  #####
 
        nindmax : 12
-         Total RAM for Vc per process :   0.42E+00 GB
-         Total RAM for gg per process :   0.84E-01 GB
-         Total RAM for Vc (temporary) per process :   0.10E-02 GB
-         Total RAM for gg (temporary) per process :   0.20E-03 GB
+         Total RAM for Vc per process :   0.35E-01 GB
+         Total RAM for gg per process :   0.70E-02 GB
+         Total RAM for Vc (temporary) per process :   0.10E-03 GB
+         Total RAM for gg (temporary) per process :   0.20E-04 GB
 
      #####  Read gap function  #####
 
@@ -123,21 +124,21 @@
 
      #####  Write delta.frmsf  #####
 
-     Max :         0.18442694     Min :         0.09107389
-     Max :         0.57867142     Min :         0.31575525
+     Max :         0.18445973     Min :         0.09104256
+     Max :         0.57869023     Min :         0.31561683
 
      #####  Clock summary  #####
 
-     read_elph    :      0.73s CPU      0.01s WALL (       1 calls)
-     read_Coulomb :      3.59s CPU      0.06s WALL (       1 calls)
-     expand_g_v_f :    540.48s CPU      8.92s WALL (       1 calls)
-     make_Z_f     :     44.53s CPU      0.75s WALL (       1 calls)
-     gapeq_rhs_f  :     42.00s CPU      0.66s WALL (       1 calls)
+     read_elph    :      0.00s CPU      0.00s WALL (       1 calls)
+     read_Coulomb :      0.00s CPU      0.00s WALL (       1 calls)
+     expand_g_v_f :     18.60s CPU      0.42s WALL (       1 calls)
+     make_Z_f     :     13.42s CPU      0.29s WALL (       1 calls)
+     gapeq_rhs_f  :     13.55s CPU      0.29s WALL (       1 calls)
  
-     SCTK         :  11m58.86s CPU     12.05s WALL
+     SCTK         :   1m36.17s CPU      4.16s WALL
 
  
-   This run was terminated on:  12:11: 8  13Mar2026            
+   This run was terminated on:   0: 1:27   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

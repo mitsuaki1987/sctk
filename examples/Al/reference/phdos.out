@@ -1,5 +1,5 @@
 
-     Program MATDYN v.7.4.1 starts on 13Mar2026 at  2:39:47 
+     Program MATDYN v.7.6 starts on 30Sep2026 at 23:25:30 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,60 +15,60 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     228954 MiB available memory on the printing compute node when the environment starts
+     30142 MiB available memory on the printing compute node when the environment starts
  
  mass for atomic type   1 not given; uses mass from file ifc.dat                                                                                                                                                                                                                                                         
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00051942370741936634
+ Norm of the difference between old and new force-constants:   0.00051912444631370200
 
      Message from routine matdyn:
      Z* not found in file ifc.dat, TO-LO splitting at q=0 will be absent!
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00222465437760871682
+ Norm of the difference between old and new force-constants:   0.00222435039006018200
 
  
-     MATDYN       :      4.85s CPU      4.97s WALL
+     MATDYN       :     15.45s CPU     15.58s WALL
 
  
-   This run was terminated on:   2:39:52  13Mar2026            
+   This run was terminated on:  23:25:46  30Sep2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

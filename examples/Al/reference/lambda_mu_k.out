@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 13Mar2026 at  2:42: 6 
+     Program SCTK v.7.6 starts on  1Oct2026 at  0: 0:56 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,15 +10,16 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                 1
-     Threads/MPI process:                    64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:                12
+     Threads/MPI process:                    48
 
-     MPI processes distributed on     1 nodes
-     228872 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     K-points division:     npool     =      12
+     28908 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+     git hash : 3a8ac9b77c01a456f501ce0192e75551d79ac127
 
 
      Reading xml data from directory:
@@ -84,7 +85,7 @@
 
 
      Dynamical matrices for ( 4, 4, 4)  uniform grid of q-points
-     With a half shift
+     With a half shift  1  1  1
      (  10 q-points):
        N         xq(1)         xq(2)         xq(3) 
        1   0.088388348   0.088388348   0.088388348
@@ -106,10 +107,10 @@
      #####  Average matrix in grid  #####
 
        nindmax : 12
-         Total RAM for Vc per process :   0.42E+00 GB
-         Total RAM for gg per process :   0.84E-01 GB
-         Total RAM for Vc (temporary) per process :   0.10E-02 GB
-         Total RAM for gg (temporary) per process :   0.20E-03 GB
+         Total RAM for Vc per process :   0.35E-01 GB
+         Total RAM for gg per process :   0.70E-02 GB
+         Total RAM for Vc (temporary) per process :   0.10E-03 GB
+         Total RAM for gg (temporary) per process :   0.20E-04 GB
        Number of symmetries conserving q_FFLO :    48
        DOS(E_F)[/Ry/cell/spin] :  0.27293E+01
        Number of total points for gap equation : 128
@@ -121,20 +122,20 @@
 
      #####  Write mu.frmsf and lambda_frmsf  #####
 
-     Max :         0.36199592     Min :         0.26044362
-     Max :         0.54928282     Min :         0.28692957
+     Max :         0.36199592     Min :         0.26044361
+     Max :         0.54927270     Min :         0.28678901
 
      #####  Clock summary  #####
 
-     read_elph    :      1.00s CPU      0.02s WALL (       1 calls)
-     read_Coulomb :      3.30s CPU      0.07s WALL (       1 calls)
-     expand_g_v_f :    679.80s CPU     11.26s WALL (       1 calls)
-     make_lambda_ :      3.81s CPU      0.06s WALL (       1 calls)
+     read_elph    :      0.00s CPU      0.01s WALL (       1 calls)
+     read_Coulomb :      0.03s CPU      0.03s WALL (       1 calls)
+     expand_g_v_f :     18.70s CPU      0.45s WALL (       1 calls)
+     make_lambda_ :      2.28s CPU      0.54s WALL (       1 calls)
  
-     SCTK         :  12m56.43s CPU     13.07s WALL
+     SCTK         :   1m11.45s CPU      4.62s WALL
 
  
-   This run was terminated on:   2:42:19  13Mar2026            
+   This run was terminated on:   0: 1: 1   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

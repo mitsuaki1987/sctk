@@ -1,5 +1,5 @@
 
-     Program PHONON v.7.4.1 starts on 17Mar2026 at 22:50:42 
+     Program PHONON v.7.6 starts on  1Oct2026 at  1:30:17 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,12 +10,12 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:               576
      Threads/MPI process:                     1
 
-     MPI processes distributed on     1 nodes
-     225126 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     25110 MiB available memory on the printing compute node when the environment starts
  
      Reading input from epmat.in
 
@@ -23,7 +23,7 @@
 
      ./pwscf.save/
  
-     K-points division:     npool     =      64
+     K-points division:     npool     =     576
      Subspace diagonalization in iterative solution of the eigenvalue problem:
      a serial algorithm will be used
 
@@ -152,7 +152,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -211,12 +211,12 @@
         k(   52) = (  -0.5000000  -0.2886751   0.4363586), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
         k(   54) = (  -0.5000000  -0.2886751  -0.1454529), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
-        k(   56) = (  -0.5000000  -0.0000000   0.1454529), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
-        k(   58) = (  -0.5000000  -0.0000000   0.4363586), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
-        k(   60) = (  -0.5000000  -0.0000000  -0.1454529), wk =   0.0000000
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
+        k(   56) = (  -0.5000000   0.0000000   0.1454529), wk =   0.0000000
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
+        k(   58) = (  -0.5000000   0.0000000   0.4363586), wk =   0.0000000
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
+        k(   60) = (  -0.5000000   0.0000000  -0.1454529), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.5000000  -0.8660254   0.1454529), wk =   0.0000000
         k(   63) = (  -0.5000000  -0.8660254   0.2909057), wk =   0.0416667
@@ -260,7 +260,7 @@
 
      Estimated max dynamical RAM per process >       7.21 MB
 
-     Estimated total dynamical RAM >     461.61 MB
+     Estimated total dynamical RAM >       4.06 GB
 
      Check: negative core charge=   -0.000006
 
@@ -275,7 +275,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        0.4 secs
+     total cpu time spent up to now is        1.0 secs
 
      End of band structure calculation
 
@@ -495,27 +495,27 @@
 
     -0.6675   0.0267   5.5994   6.6607   9.0584  12.3432  14.8161  16.3850
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
-          k =-0.5000-0.0000 0.1455 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.1455 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
-          k =-0.5000-0.0000 0.4364 (   674 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.4364 (   674 PWs)   bands (ev):
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
-          k =-0.5000-0.0000-0.1455 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.1455 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
@@ -706,7 +706,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -755,9 +755,9 @@
 
      Representation     2      1 modes -  To be done
 
-     Representation     3      2 modes -  To be done
+     Representation     3      1 modes -  To be done
 
-     Representation     4      1 modes -  To be done
+     Representation     4      2 modes -  To be done
 
      Representation     5      2 modes -  To be done
 
@@ -766,7 +766,7 @@
 
      Message from routine init_vloc:
      Interpolation table for Vloc re-allocated
-     PHONON       :      2.11s CPU      2.59s WALL
+     PHONON       :      3.71s CPU      4.03s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn1
@@ -776,20 +776,20 @@
      q = (    0.000000000   0.000000000   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       2.789734 [THz] =      93.055520 [cm-1]
-     freq (    2) =       2.789734 [THz] =      93.055520 [cm-1]
-     freq (    3) =       5.117168 [THz] =     170.690354 [cm-1]
-     freq (    4) =       9.711593 [THz] =     323.943877 [cm-1]
-     freq (    5) =       9.711593 [THz] =     323.943877 [cm-1]
-     freq (    6) =      12.583613 [THz] =     419.744158 [cm-1]
+     freq (    1) =       2.789735 [THz] =      93.055537 [cm-1]
+     freq (    2) =       2.789735 [THz] =      93.055537 [cm-1]
+     freq (    3) =       5.117184 [THz] =     170.690877 [cm-1]
+     freq (    4) =       9.711593 [THz] =     323.943881 [cm-1]
+     freq (    5) =       9.711593 [THz] =     323.943881 [cm-1]
+     freq (    6) =      12.583595 [THz] =     419.743541 [cm-1]
      freq (    7) =      17.386509 [THz] =     579.951513 [cm-1]
      freq (    8) =      17.386509 [THz] =     579.951513 [cm-1]
      freq (    9) =      20.727703 [THz] =     691.401756 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
 
      Calculation of q =    0.0000000   0.0000000  -0.4363586
      Message from routine kpoint_grid:
@@ -876,7 +876,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -935,12 +935,12 @@
         k(   52) = (  -0.5000000  -0.2886751  -0.1454529), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
         k(   54) = (  -0.5000000  -0.2886751  -0.7272643), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
-        k(   56) = (  -0.5000000  -0.0000000  -0.4363586), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
-        k(   58) = (  -0.5000000  -0.0000000  -0.1454529), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
-        k(   60) = (  -0.5000000  -0.0000000  -0.7272643), wk =   0.0000000
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
+        k(   56) = (  -0.5000000   0.0000000  -0.4363586), wk =   0.0000000
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
+        k(   58) = (  -0.5000000   0.0000000  -0.1454529), wk =   0.0000000
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
+        k(   60) = (  -0.5000000   0.0000000  -0.7272643), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.5000000  -0.8660254  -0.4363586), wk =   0.0000000
         k(   63) = (  -0.5000000  -0.8660254   0.2909057), wk =   0.0416667
@@ -984,7 +984,7 @@
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     462.52 MB
+     Estimated total dynamical RAM >       4.07 GB
 
      Check: negative core charge=   -0.000006
 
@@ -999,7 +999,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        0.7 secs
+     total cpu time spent up to now is        1.6 secs
 
      End of band structure calculation
 
@@ -1219,27 +1219,27 @@
 
     -0.6675   0.0267   5.5994   6.6607   9.0584  12.3432  14.8161  16.3850
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
-          k =-0.5000-0.0000-0.4364 (   674 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.4364 (   674 PWs)   bands (ev):
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
-          k =-0.5000-0.0000-0.1455 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.1455 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
-          k =-0.5000-0.0000-0.7273 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.7273 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
@@ -1430,7 +1430,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -1479,16 +1479,16 @@
 
      Representation     2      1 modes -  To be done
 
-     Representation     3      2 modes -  To be done
+     Representation     3      1 modes -  To be done
 
-     Representation     4      1 modes -  To be done
+     Representation     4      2 modes -  To be done
 
      Representation     5      2 modes -  To be done
 
      Representation     6      2 modes -  To be done
 
 
-     PHONON       :      4.81s CPU      5.66s WALL
+     PHONON       :      5.55s CPU      6.13s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn2
@@ -1498,20 +1498,20 @@
      q = (    0.000000000   0.000000000  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       6.771100 [THz] =     225.859570 [cm-1]
-     freq (    2) =       6.771100 [THz] =     225.859570 [cm-1]
+     freq (    1) =       6.771099 [THz] =     225.859558 [cm-1]
+     freq (    2) =       6.771099 [THz] =     225.859558 [cm-1]
      freq (    3) =       7.133843 [THz] =     237.959402 [cm-1]
      freq (    4) =       7.133843 [THz] =     237.959402 [cm-1]
-     freq (    5) =       9.591613 [THz] =     319.941776 [cm-1]
+     freq (    5) =       9.591615 [THz] =     319.941827 [cm-1]
      freq (    6) =      12.099974 [THz] =     403.611685 [cm-1]
-     freq (    7) =      16.563583 [THz] =     552.501647 [cm-1]
-     freq (    8) =      16.563583 [THz] =     552.501647 [cm-1]
-     freq (    9) =      19.479162 [THz] =     649.754914 [cm-1]
+     freq (    7) =      16.563582 [THz] =     552.501625 [cm-1]
+     freq (    8) =      16.563582 [THz] =     552.501625 [cm-1]
+     freq (    9) =      19.479162 [THz] =     649.754896 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
 
      Calculation of q =    0.0000000   0.2886751   0.1454529
      Message from routine kpoint_grid:
@@ -1598,7 +1598,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -1652,16 +1652,16 @@
         k(   47) = (   0.2500000  -0.1443376  -0.2909057), wk =   0.0416667
         k(   48) = (   0.2500000   0.1443376  -0.1454529), wk =   0.0000000
         k(   49) = (  -0.5000000  -0.2886751   0.0000000), wk =   0.0416667
-        k(   50) = (  -0.5000000  -0.0000000   0.1454529), wk =   0.0000000
+        k(   50) = (  -0.5000000   0.0000000   0.1454529), wk =   0.0000000
         k(   51) = (  -0.5000000  -0.2886751   0.2909057), wk =   0.0416667
-        k(   52) = (  -0.5000000  -0.0000000   0.4363586), wk =   0.0000000
+        k(   52) = (  -0.5000000   0.0000000   0.4363586), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
-        k(   54) = (  -0.5000000  -0.0000000  -0.1454529), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
+        k(   54) = (  -0.5000000   0.0000000  -0.1454529), wk =   0.0000000
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
         k(   56) = (  -0.5000000   0.2886751   0.1454529), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
         k(   58) = (  -0.5000000   0.2886751   0.4363586), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
         k(   60) = (  -0.5000000   0.2886751  -0.1454529), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.5000000  -0.5773503   0.1454529), wk =   0.0000000
@@ -1706,7 +1706,7 @@
 
      Estimated max dynamical RAM per process >       7.22 MB
 
-     Estimated total dynamical RAM >     462.17 MB
+     Estimated total dynamical RAM >       4.06 GB
 
      Check: negative core charge=   -0.000006
 
@@ -1721,7 +1721,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        1.0 secs
+     total cpu time spent up to now is        2.3 secs
 
      End of band structure calculation
 
@@ -1921,7 +1921,7 @@
 
     -0.8559  -0.1616   5.5309   7.8975  10.7860  11.6276  13.0221  14.8253
 
-          k =-0.5000-0.0000 0.1455 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.1455 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
@@ -1929,7 +1929,7 @@
 
     -0.1967   0.4723   4.9116   5.7426   7.1851  13.0425  17.1668  18.1844
 
-          k =-0.5000-0.0000 0.4364 (   674 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.4364 (   674 PWs)   bands (ev):
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
@@ -1937,11 +1937,11 @@
 
     -0.1967   0.4723   4.9116   5.7426   7.1851  13.0425  17.1668  18.1844
 
-          k =-0.5000-0.0000-0.1455 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.1455 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
@@ -1949,7 +1949,7 @@
 
     -0.6675   0.0267   5.5994   6.6607   9.0584  12.3432  14.8161  16.3850
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -1957,7 +1957,7 @@
 
      0.1220   0.7477   4.1205   5.8185   6.4053  13.4894  16.5345  16.6638
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -2152,7 +2152,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -2216,7 +2216,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :      7.72s CPU      8.89s WALL
+     PHONON       :      7.33s CPU      8.22s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn3
@@ -2226,20 +2226,20 @@
      q = (    0.000000000   0.288675135   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       6.366754 [THz] =     212.372049 [cm-1]
+     freq (    1) =       6.366698 [THz] =     212.370172 [cm-1]
      freq (    2) =       6.445089 [THz] =     214.985044 [cm-1]
-     freq (    3) =       8.525519 [THz] =     284.380714 [cm-1]
+     freq (    3) =       8.525403 [THz] =     284.376847 [cm-1]
      freq (    4) =      11.905052 [THz] =     397.109776 [cm-1]
-     freq (    5) =      12.192760 [THz] =     406.706694 [cm-1]
-     freq (    6) =      15.378456 [THz] =     512.970069 [cm-1]
-     freq (    7) =      19.667268 [THz] =     656.029430 [cm-1]
+     freq (    5) =      12.192616 [THz] =     406.701901 [cm-1]
+     freq (    6) =      15.378275 [THz] =     512.964053 [cm-1]
+     freq (    7) =      19.667352 [THz] =     656.032240 [cm-1]
      freq (    8) =      21.175198 [THz] =     706.328574 [cm-1]
-     freq (    9) =      21.401219 [THz] =     713.867817 [cm-1]
+     freq (    9) =      21.401331 [THz] =     713.871561 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
 
      Calculation of q =    0.0000000   0.2886751  -0.4363586
      Message from routine kpoint_grid:
@@ -2326,7 +2326,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -2380,16 +2380,16 @@
         k(   47) = (   0.2500000  -0.1443376  -0.2909057), wk =   0.0416667
         k(   48) = (   0.2500000   0.1443376  -0.7272643), wk =   0.0000000
         k(   49) = (  -0.5000000  -0.2886751   0.0000000), wk =   0.0416667
-        k(   50) = (  -0.5000000  -0.0000000  -0.4363586), wk =   0.0000000
+        k(   50) = (  -0.5000000   0.0000000  -0.4363586), wk =   0.0000000
         k(   51) = (  -0.5000000  -0.2886751   0.2909057), wk =   0.0416667
-        k(   52) = (  -0.5000000  -0.0000000  -0.1454529), wk =   0.0000000
+        k(   52) = (  -0.5000000   0.0000000  -0.1454529), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
-        k(   54) = (  -0.5000000  -0.0000000  -0.7272643), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
+        k(   54) = (  -0.5000000   0.0000000  -0.7272643), wk =   0.0000000
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
         k(   56) = (  -0.5000000   0.2886751  -0.4363586), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
         k(   58) = (  -0.5000000   0.2886751  -0.1454529), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
         k(   60) = (  -0.5000000   0.2886751  -0.7272643), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.5000000  -0.5773503  -0.4363586), wk =   0.0000000
@@ -2434,7 +2434,7 @@
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     462.78 MB
+     Estimated total dynamical RAM >       4.07 GB
 
      Check: negative core charge=   -0.000006
 
@@ -2449,7 +2449,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        1.3 secs
+     total cpu time spent up to now is        2.9 secs
 
      End of band structure calculation
 
@@ -2649,7 +2649,7 @@
 
     -0.8559  -0.1616   5.5309   7.8975  10.7860  11.6276  13.0221  14.8253
 
-          k =-0.5000-0.0000-0.4364 (   674 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.4364 (   674 PWs)   bands (ev):
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
@@ -2657,7 +2657,7 @@
 
     -0.1967   0.4723   4.9116   5.7426   7.1851  13.0425  17.1668  18.1844
 
-          k =-0.5000-0.0000-0.1455 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.1455 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
@@ -2665,11 +2665,11 @@
 
     -0.1967   0.4723   4.9116   5.7426   7.1851  13.0425  17.1668  18.1844
 
-          k =-0.5000-0.0000-0.7273 (   684 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.7273 (   684 PWs)   bands (ev):
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
@@ -2677,7 +2677,7 @@
 
      0.1220   0.7477   4.1205   5.8185   6.4053  13.4894  16.5345  16.6638
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -2685,7 +2685,7 @@
 
     -0.6675   0.0267   5.5994   6.6607   9.0584  12.3432  14.8161  16.3850
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -2880,7 +2880,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -2944,7 +2944,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     10.36s CPU     11.85s WALL
+     PHONON       :      9.14s CPU     10.39s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn4
@@ -2955,19 +2955,19 @@
 
  **************************************************************************
      freq (    1) =       7.317815 [THz] =     244.096050 [cm-1]
-     freq (    2) =       7.853934 [THz] =     261.979048 [cm-1]
-     freq (    3) =       8.599974 [THz] =     286.864250 [cm-1]
+     freq (    2) =       7.853934 [THz] =     261.979050 [cm-1]
+     freq (    3) =       8.599974 [THz] =     286.864241 [cm-1]
      freq (    4) =      11.345504 [THz] =     378.445275 [cm-1]
-     freq (    5) =      12.950182 [THz] =     431.971575 [cm-1]
+     freq (    5) =      12.950182 [THz] =     431.971588 [cm-1]
      freq (    6) =      15.407103 [THz] =     513.925632 [cm-1]
-     freq (    7) =      19.236026 [THz] =     641.644759 [cm-1]
+     freq (    7) =      19.236026 [THz] =     641.644768 [cm-1]
      freq (    8) =      21.305592 [THz] =     710.678050 [cm-1]
      freq (    9) =      21.530714 [THz] =     718.187326 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
 
      Calculation of q =    0.0000000  -0.5773503   0.1454529
      Message from routine kpoint_grid:
@@ -3054,7 +3054,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -3113,11 +3113,11 @@
         k(   52) = (  -0.5000000  -0.8660254   0.4363586), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
         k(   54) = (  -0.5000000  -0.8660254  -0.1454529), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
         k(   56) = (  -0.5000000  -0.5773503   0.1454529), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
         k(   58) = (  -0.5000000  -0.5773503   0.4363586), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
         k(   60) = (  -0.5000000  -0.5773503  -0.1454529), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.5000000  -1.4433757   0.1454529), wk =   0.0000000
@@ -3162,7 +3162,7 @@
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     463.02 MB
+     Estimated total dynamical RAM >       4.07 GB
 
      Check: negative core charge=   -0.000006
 
@@ -3177,7 +3177,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        1.6 secs
+     total cpu time spent up to now is        3.6 secs
 
      End of band structure calculation
 
@@ -3397,7 +3397,7 @@
 
     -0.6675   0.0267   5.5994   6.6607   9.0584  12.3432  14.8161  16.3850
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
@@ -3405,7 +3405,7 @@
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -3413,7 +3413,7 @@
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -3608,7 +3608,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -3672,7 +3672,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     13.07s CPU     14.92s WALL
+     PHONON       :     10.96s CPU     12.53s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn5
@@ -3683,19 +3683,19 @@
 
  **************************************************************************
      freq (    1) =       7.647996 [THz] =     255.109682 [cm-1]
-     freq (    2) =       7.972155 [THz] =     265.922450 [cm-1]
-     freq (    3) =       9.800821 [THz] =     326.920188 [cm-1]
-     freq (    4) =      13.806439 [THz] =     460.533248 [cm-1]
+     freq (    2) =       7.972155 [THz] =     265.922479 [cm-1]
+     freq (    3) =       9.800761 [THz] =     326.918201 [cm-1]
+     freq (    4) =      13.806030 [THz] =     460.519589 [cm-1]
      freq (    5) =      13.867772 [THz] =     462.579080 [cm-1]
-     freq (    6) =      15.582601 [THz] =     519.779635 [cm-1]
-     freq (    7) =      22.003051 [THz] =     733.942763 [cm-1]
-     freq (    8) =      22.072460 [THz] =     736.258017 [cm-1]
-     freq (    9) =      22.607024 [THz] =     754.089163 [cm-1]
+     freq (    6) =      15.582635 [THz] =     519.780747 [cm-1]
+     freq (    7) =      22.003050 [THz] =     733.942747 [cm-1]
+     freq (    8) =      22.072464 [THz] =     736.258156 [cm-1]
+     freq (    9) =      22.607009 [THz] =     754.088650 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
 
      Calculation of q =    0.0000000  -0.5773503  -0.4363586
      Message from routine kpoint_grid:
@@ -3782,7 +3782,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -3841,11 +3841,11 @@
         k(   52) = (  -0.5000000  -0.8660254  -0.1454529), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
         k(   54) = (  -0.5000000  -0.8660254  -0.7272643), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
         k(   56) = (  -0.5000000  -0.5773503  -0.4363586), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
         k(   58) = (  -0.5000000  -0.5773503  -0.1454529), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
         k(   60) = (  -0.5000000  -0.5773503  -0.7272643), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.5000000  -1.4433757  -0.4363586), wk =   0.0000000
@@ -3890,7 +3890,7 @@
 
      Estimated max dynamical RAM per process >       7.24 MB
 
-     Estimated total dynamical RAM >     463.43 MB
+     Estimated total dynamical RAM >       4.07 GB
 
      Check: negative core charge=   -0.000006
 
@@ -3905,7 +3905,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        1.9 secs
+     total cpu time spent up to now is        4.2 secs
 
      End of band structure calculation
 
@@ -4125,7 +4125,7 @@
 
     -0.6675   0.0267   5.5994   6.6607   9.0584  12.3432  14.8161  16.3850
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
@@ -4133,7 +4133,7 @@
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -4141,7 +4141,7 @@
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -4336,7 +4336,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -4400,7 +4400,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     16.09s CPU     18.58s WALL
+     PHONON       :     12.81s CPU     14.73s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn6
@@ -4411,19 +4411,19 @@
 
  **************************************************************************
      freq (    1) =       7.729402 [THz] =     257.825115 [cm-1]
-     freq (    2) =       8.128054 [THz] =     271.122686 [cm-1]
-     freq (    3) =       9.328924 [THz] =     311.179417 [cm-1]
-     freq (    4) =      13.887802 [THz] =     463.247199 [cm-1]
+     freq (    2) =       8.128053 [THz] =     271.122681 [cm-1]
+     freq (    3) =       9.328924 [THz] =     311.179425 [cm-1]
+     freq (    4) =      13.887801 [THz] =     463.247186 [cm-1]
      freq (    5) =      14.938556 [THz] =     498.296597 [cm-1]
      freq (    6) =      16.056219 [THz] =     535.577801 [cm-1]
-     freq (    7) =      22.204385 [THz] =     740.658555 [cm-1]
-     freq (    8) =      22.530145 [THz] =     751.524727 [cm-1]
-     freq (    9) =      22.572359 [THz] =     752.932856 [cm-1]
+     freq (    7) =      22.204385 [THz] =     740.658547 [cm-1]
+     freq (    8) =      22.530144 [THz] =     751.524693 [cm-1]
+     freq (    9) =      22.572358 [THz] =     752.932824 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
 
      Calculation of q =    0.2500000   0.4330127   0.1454529
      Message from routine kpoint_grid:
@@ -4510,7 +4510,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -4569,11 +4569,11 @@
         k(   52) = (  -0.2500000   0.1443376   0.4363586), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
         k(   54) = (  -0.2500000   0.1443376  -0.1454529), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
         k(   56) = (  -0.2500000   0.4330127   0.1454529), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
         k(   58) = (  -0.2500000   0.4330127   0.4363586), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
         k(   60) = (  -0.2500000   0.4330127  -0.1454529), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.2500000  -0.4330127   0.1454529), wk =   0.0000000
@@ -4618,7 +4618,7 @@
 
      Estimated max dynamical RAM per process >       7.23 MB
 
-     Estimated total dynamical RAM >     462.78 MB
+     Estimated total dynamical RAM >       4.07 GB
 
      Check: negative core charge=   -0.000006
 
@@ -4633,7 +4633,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        2.4 secs
+     total cpu time spent up to now is        4.9 secs
 
      End of band structure calculation
 
@@ -4853,7 +4853,7 @@
 
     -3.4736   4.2713   4.5113   6.5843  12.0431  13.1161  13.7450  18.2343
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
@@ -4861,7 +4861,7 @@
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -4869,7 +4869,7 @@
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -5064,7 +5064,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -5128,7 +5128,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     18.88s CPU     21.78s WALL
+     PHONON       :     14.63s CPU     16.87s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn7
@@ -5138,20 +5138,20 @@
      q = (    0.250000000   0.433012702   0.145452854 ) 
 
  **************************************************************************
-     freq (    1) =       7.875963 [THz] =     262.713857 [cm-1]
-     freq (    2) =       8.070794 [THz] =     269.212705 [cm-1]
-     freq (    3) =       9.311374 [THz] =     310.593992 [cm-1]
-     freq (    4) =      12.981484 [THz] =     433.015699 [cm-1]
-     freq (    5) =      16.956718 [THz] =     565.615225 [cm-1]
-     freq (    6) =      17.060488 [THz] =     569.076633 [cm-1]
-     freq (    7) =      19.342579 [THz] =     645.198995 [cm-1]
-     freq (    8) =      22.739197 [THz] =     758.497959 [cm-1]
-     freq (    9) =      23.649253 [THz] =     788.854161 [cm-1]
+     freq (    1) =       7.875981 [THz] =     262.714453 [cm-1]
+     freq (    2) =       8.070793 [THz] =     269.212687 [cm-1]
+     freq (    3) =       9.311384 [THz] =     310.594326 [cm-1]
+     freq (    4) =      12.981623 [THz] =     433.020333 [cm-1]
+     freq (    5) =      16.956728 [THz] =     565.615548 [cm-1]
+     freq (    6) =      17.060503 [THz] =     569.077115 [cm-1]
+     freq (    7) =      19.342487 [THz] =     645.195925 [cm-1]
+     freq (    8) =      22.739149 [THz] =     758.496375 [cm-1]
+     freq (    9) =      23.649234 [THz] =     788.853522 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
 
      Calculation of q =    0.2500000   0.4330127  -0.4363586
      Message from routine kpoint_grid:
@@ -5238,7 +5238,7 @@
 
      site n.     atom                  positions (alat units)
          1        Mg     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
-         2        B      tau(   2) = (  -0.0000000   0.5773503   0.5729233  )
+         2        B      tau(   2) = (   0.0000000   0.5773503   0.5729233  )
          3        B      tau(   3) = (   0.5000000   0.2886751   0.5729233  )
 
      number of k points=    96 (tetrahedron method)
@@ -5297,11 +5297,11 @@
         k(   52) = (  -0.2500000   0.1443376  -0.1454529), wk =   0.0000000
         k(   53) = (  -0.5000000  -0.2886751  -0.2909057), wk =   0.0416667
         k(   54) = (  -0.2500000   0.1443376  -0.7272643), wk =   0.0000000
-        k(   55) = (  -0.5000000  -0.0000000   0.0000000), wk =   0.0416667
+        k(   55) = (  -0.5000000   0.0000000   0.0000000), wk =   0.0416667
         k(   56) = (  -0.2500000   0.4330127  -0.4363586), wk =   0.0000000
-        k(   57) = (  -0.5000000  -0.0000000   0.2909057), wk =   0.0416667
+        k(   57) = (  -0.5000000   0.0000000   0.2909057), wk =   0.0416667
         k(   58) = (  -0.2500000   0.4330127  -0.1454529), wk =   0.0000000
-        k(   59) = (  -0.5000000  -0.0000000  -0.2909057), wk =   0.0416667
+        k(   59) = (  -0.5000000   0.0000000  -0.2909057), wk =   0.0416667
         k(   60) = (  -0.2500000   0.4330127  -0.7272643), wk =   0.0000000
         k(   61) = (  -0.5000000  -0.8660254   0.0000000), wk =   0.0416667
         k(   62) = (  -0.2500000  -0.4330127  -0.4363586), wk =   0.0000000
@@ -5346,7 +5346,7 @@
 
      Estimated max dynamical RAM per process >       7.24 MB
 
-     Estimated total dynamical RAM >     463.25 MB
+     Estimated total dynamical RAM >       4.07 GB
 
      Check: negative core charge=   -0.000006
 
@@ -5361,7 +5361,7 @@
 
      ethr =  1.25E-10,  avg # of iterations = 19.3
 
-     total cpu time spent up to now is        2.7 secs
+     total cpu time spent up to now is        5.6 secs
 
      End of band structure calculation
 
@@ -5581,7 +5581,7 @@
 
     -3.4736   4.2713   4.5113   6.5843  12.0431  13.1161  13.7450  18.2343
 
-          k =-0.5000-0.0000 0.0000 (   673 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.0000 (   673 PWs)   bands (ev):
 
     -1.5955   1.9992   3.1104   7.7211  11.4346  12.3899  14.7394  16.0952
 
@@ -5589,7 +5589,7 @@
 
     -0.5748   2.7987   3.7030   3.7188   7.6358  12.4494  17.2204  18.2374
 
-          k =-0.5000-0.0000 0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000 0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -5597,7 +5597,7 @@
 
     -1.3965   2.1623   3.2397   6.3799  10.0624  14.1966  14.9079  16.2485
 
-          k =-0.5000-0.0000-0.2909 (   678 PWs)   bands (ev):
+          k =-0.5000 0.0000-0.2909 (   678 PWs)   bands (ev):
 
     -0.9037   2.5530   3.5246   4.5533   8.3547  13.1327  16.8169  17.8007
 
@@ -5792,7 +5792,7 @@
 
      site n.  atom      mass           positions (alat units)
         1  Mg     24.3050   tau(    1) = (    0.00000    0.00000    0.00000  )
-        2  B      10.8110   tau(    2) = (   -0.00000    0.57735    0.57292  )
+        2  B      10.8110   tau(    2) = (    0.00000    0.57735    0.57292  )
         3  B      10.8110   tau(    3) = (    0.50000    0.28868    0.57292  )
 
      Computing dynamical matrix for 
@@ -5856,7 +5856,7 @@
      Representation     9      1 modes -  To be done
 
 
-     PHONON       :     21.85s CPU     25.10s WALL
+     PHONON       :     16.45s CPU     19.01s WALL
 
      Reading dVscf from file dv
      Reading dynamics matrix from file matdyn8
@@ -5866,113 +5866,111 @@
      q = (    0.250000000   0.433012702  -0.436358562 ) 
 
  **************************************************************************
-     freq (    1) =       8.190985 [THz] =     273.221850 [cm-1]
-     freq (    2) =       8.360844 [THz] =     278.887744 [cm-1]
-     freq (    3) =       8.958723 [THz] =     298.830825 [cm-1]
-     freq (    4) =      14.173237 [THz] =     472.768288 [cm-1]
+     freq (    1) =       8.190988 [THz] =     273.221949 [cm-1]
+     freq (    2) =       8.360844 [THz] =     278.887745 [cm-1]
+     freq (    3) =       8.958723 [THz] =     298.830844 [cm-1]
+     freq (    4) =      14.173237 [THz] =     472.768312 [cm-1]
      freq (    5) =      16.977459 [THz] =     566.307063 [cm-1]
-     freq (    6) =      17.003287 [THz] =     567.168602 [cm-1]
-     freq (    7) =      19.425063 [THz] =     647.950342 [cm-1]
-     freq (    8) =      21.976546 [THz] =     733.058678 [cm-1]
-     freq (    9) =      23.795585 [THz] =     793.735272 [cm-1]
+     freq (    6) =      17.003287 [THz] =     567.168618 [cm-1]
+     freq (    7) =      19.424983 [THz] =     647.947702 [cm-1]
+     freq (    8) =      21.976842 [THz] =     733.068551 [cm-1]
+     freq (    9) =      23.795585 [THz] =     793.735284 [cm-1]
  **************************************************************************
  [elph_scdft]  write elph.dat with symmetries (only on Fermi surfaces)
- [elph_scdft]   Lowest band which contains FS :            3
- [elph_scdft]  Highest band which contains FS :            5
- [elph_scdft]    # of bands which contains FS :            3
+ [elph_scdft]   Lowest band which contains FS :  3
+ [elph_scdft]  Highest band which contains FS :  5
+ [elph_scdft]    # of bands which contains FS :  3
  
-     init_run     :      0.87s CPU      0.98s WALL (       8 calls)
-     electrons    :      0.72s CPU      1.12s WALL (       8 calls)
+     init_run     :      2.05s CPU      2.37s WALL (       8 calls)
+     electrons    :      2.62s CPU      2.67s WALL (       8 calls)
 
      Called by init_run:
-     wfcinit      :      0.00s CPU      0.02s WALL (       8 calls)
-     potinit      :      0.55s CPU      0.61s WALL (       8 calls)
-     hinit0       :      0.23s CPU      0.23s WALL (       8 calls)
+     wfcinit      :      0.00s CPU      0.19s WALL (       8 calls)
+     potinit      :      1.02s CPU      1.14s WALL (       8 calls)
+     hinit0       :      0.71s CPU      0.71s WALL (       8 calls)
 
      Called by electrons:
-     c_bands      :      0.70s CPU      1.09s WALL (       8 calls)
-     v_of_rho     :      0.12s CPU      0.12s WALL (       9 calls)
-     newd         :      0.01s CPU      0.02s WALL (       9 calls)
-     PAW_pot      :      0.23s CPU      0.24s WALL (       9 calls)
+     c_bands      :      2.49s CPU      2.54s WALL (       8 calls)
+     v_of_rho     :      0.43s CPU      0.44s WALL (       9 calls)
+     newd         :      0.02s CPU      0.02s WALL (       9 calls)
+     PAW_pot      :      0.55s CPU      0.56s WALL (       9 calls)
 
      Called by c_bands:
-     init_us_2    :      0.02s CPU      0.02s WALL (     106 calls)
-     cegterg      :      0.29s CPU      0.29s WALL (      17 calls)
+     init_us_2    :      0.03s CPU      0.03s WALL (     106 calls)
+     cegterg      :      1.34s CPU      1.38s WALL (      17 calls)
 
      Called by *egterg:
-     cdiaghg      :      0.04s CPU      0.04s WALL (     239 calls)
-     h_psi        :      0.22s CPU      0.23s WALL (     256 calls)
+     cdiaghg      :      0.17s CPU      0.17s WALL (     239 calls)
+     h_psi        :      1.21s CPU      1.24s WALL (     256 calls)
      s_psi        :      0.01s CPU      0.01s WALL (     256 calls)
-     g_psi        :      0.00s CPU      0.00s WALL (     223 calls)
+     g_psi        :      0.00s CPU      0.01s WALL (     223 calls)
 
      Called by h_psi:
-     h_psi:calbec :      0.01s CPU      0.01s WALL (     256 calls)
-     vloc_psi     :      0.19s CPU      0.20s WALL (     256 calls)
+     h_psi:calbec :      0.06s CPU      0.06s WALL (     256 calls)
+     vloc_psi     :      1.13s CPU      1.16s WALL (     256 calls)
      add_vuspsi   :      0.01s CPU      0.01s WALL (     256 calls)
 
      General routines
-     calbec       :      0.02s CPU      0.02s WALL (     392 calls)
-     fft          :      0.09s CPU      0.10s WALL (     452 calls)
-     ffts         :      0.02s CPU      0.02s WALL (     304 calls)
-     fftw         :      0.21s CPU      0.22s WALL (    5674 calls)
-     interpolate  :      0.07s CPU      0.08s WALL (     160 calls)
-     davcio       :      0.04s CPU      0.44s WALL (     265 calls)
+     calbec       :      0.09s CPU      0.09s WALL (     392 calls)
+     fft          :      0.69s CPU      0.71s WALL (     452 calls)
+     ffts         :      0.19s CPU      0.19s WALL (     304 calls)
+     fftw         :      1.68s CPU      1.73s WALL (    5674 calls)
+     interpolate  :      0.35s CPU      0.35s WALL (     160 calls)
+     davcio       :      0.03s CPU      0.06s WALL (     265 calls)
  
      Parallel routines
  
-     PHONON       :     23.13s CPU     26.52s WALL
+     PHONON       :     17.06s CPU     19.70s WALL
 
      INITIALIZATION: 
-     phq_setup    :      0.44s CPU      0.59s WALL (       8 calls)
-     phq_init     :     10.33s CPU     10.44s WALL (       8 calls)
+     phq_setup    :      1.35s CPU      1.40s WALL (       8 calls)
+     phq_init     :      4.26s CPU      4.29s WALL (       8 calls)
  
-     phq_init     :     10.33s CPU     10.44s WALL (       8 calls)
-     set_drhoc    :      0.05s CPU      0.06s WALL (       8 calls)
-     init_vloc    :      0.03s CPU      0.03s WALL (       9 calls)
-     init_us_1    :      0.11s CPU      0.11s WALL (       9 calls)
-     init_us_2    :      0.02s CPU      0.02s WALL (     106 calls)
-     newd         :      0.01s CPU      0.02s WALL (       9 calls)
-     dvanqq       :      8.97s CPU      8.98s WALL (      16 calls)
-     drho         :      5.71s CPU      5.80s WALL (       8 calls)
-     drhous       :      0.05s CPU      0.07s WALL (       8 calls)
-     nldyntot     :      0.00s CPU      0.00s WALL (       8 calls)
-     newdq        :      4.41s CPU      4.42s WALL (      66 calls)
+     phq_init     :      4.26s CPU      4.29s WALL (       8 calls)
+     set_drhoc    :      0.11s CPU      0.11s WALL (       8 calls)
+     init_vloc    :      0.21s CPU      0.21s WALL (       9 calls)
+     init_us_1    :      0.38s CPU      0.38s WALL (       9 calls)
+     init_us_2    :      0.03s CPU      0.03s WALL (     106 calls)
+     newd         :      0.02s CPU      0.02s WALL (       9 calls)
+     dvanqq       :      4.74s CPU      4.74s WALL (      16 calls)
+     drho         :      1.53s CPU      1.56s WALL (       8 calls)
+     drhous       :      0.24s CPU      0.25s WALL (       8 calls)
+     nldyntot     :      0.01s CPU      0.01s WALL (       8 calls)
+     newdq        :      1.08s CPU      1.08s WALL (      66 calls)
      adddvscf     :      0.01s CPU      0.01s WALL (      72 calls)
-     com_dvloc    :      0.02s CPU      0.02s WALL (     144 calls)
-                                        0.00s GPU  (     144 calls)
+     com_dvloc    :      0.10s CPU      0.10s WALL (     144 calls)
  
-     dvqpsi_us    :      0.10s CPU      0.10s WALL (      72 calls)
-                                        0.00s GPU  (      72 calls)
-     dvqpsi_us_on :      0.02s CPU      0.02s WALL (      72 calls)
+     dvqpsi_us    :      0.48s CPU      0.48s WALL (      72 calls)
+     dvqpsi_us_on :      0.05s CPU      0.05s WALL (      72 calls)
  
      add_vuspsi   :      0.01s CPU      0.01s WALL (     256 calls)
-     addusdbec    :      0.00s CPU      0.00s WALL (      72 calls)
+     addusdbec    :      0.02s CPU      0.02s WALL (      72 calls)
  
  
       Electron-phonon coupling
-     elphon       :      5.61s CPU      5.63s WALL (       8 calls)
-     elphel       :      0.15s CPU      0.15s WALL (      66 calls)
+     elphon       :      2.04s CPU      2.07s WALL (       8 calls)
+     elphel       :      0.65s CPU      0.67s WALL (      66 calls)
  
       General routines
-     calbec       :      0.02s CPU      0.02s WALL (     392 calls)
-     fft          :      0.09s CPU      0.10s WALL (     452 calls)
-     ffts         :      0.02s CPU      0.02s WALL (     304 calls)
-     fftw         :      0.21s CPU      0.22s WALL (    5674 calls)
-     davcio       :      0.04s CPU      0.44s WALL (     265 calls)
+     calbec       :      0.09s CPU      0.09s WALL (     392 calls)
+     fft          :      0.69s CPU      0.71s WALL (     452 calls)
+     ffts         :      0.19s CPU      0.19s WALL (     304 calls)
+     fftw         :      1.68s CPU      1.73s WALL (    5674 calls)
+     davcio       :      0.03s CPU      0.06s WALL (     265 calls)
  
       Additional routines
-     h_psi_bgrp   :      0.22s CPU      0.23s WALL (     256 calls)
-     h_psi        :      0.22s CPU      0.23s WALL (     256 calls)
-     h_psi:pot    :      0.21s CPU      0.22s WALL (     256 calls)
-     h_psi:calbec :      0.01s CPU      0.01s WALL (     256 calls)
-     s_psi_bgrp   :      0.01s CPU      0.01s WALL (     256 calls)
+     h_psi_bgrp   :      1.21s CPU      1.24s WALL (     256 calls)
+     h_psi        :      1.21s CPU      1.24s WALL (     256 calls)
+     h_psi:pot    :      1.20s CPU      1.24s WALL (     256 calls)
+     h_psi:calbec :      0.06s CPU      0.06s WALL (     256 calls)
+     s_psi_bgrp   :      0.02s CPU      0.02s WALL (     256 calls)
      s_psi        :      0.01s CPU      0.01s WALL (     256 calls)
  
  
-     PHONON       :     23.13s CPU     26.52s WALL
+     PHONON       :     17.06s CPU     19.70s WALL
 
  
-   This run was terminated on:  22:51: 8  17Mar2026            
+   This run was terminated on:   1:30:37   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

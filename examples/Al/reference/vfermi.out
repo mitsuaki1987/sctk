@@ -1,5 +1,5 @@
 
-     Program FERMI_VELOCITY v.7.4.1 starts on 13Mar2026 at  2:40: 5 
+     Program FERMI_VELOCITY v.7.6 starts on 30Sep2026 at 23:26: 9 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     228854 MiB available memory on the printing compute node when the environment starts
+     30025 MiB available memory on the printing compute node when the environment starts
  
      Reading input from nscf.in
 
@@ -45,12 +45,12 @@
      Number of symmetries :      48
      Lowest band which contains FS :       2
      Highest band which contains FS :       3
-     Max :         2.12616873     Min :         0.00000000
+     Max :         2.12616871     Min :         0.00000000
  
-     FERMI_VELOCI :      0.20s CPU      0.25s WALL
+     FERMI_VELOCI :      0.81s CPU      0.99s WALL
 
  
-   This run was terminated on:   2:40: 5  13Mar2026            
+   This run was terminated on:  23:26:10  30Sep2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

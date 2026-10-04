@@ -1,5 +1,5 @@
 
-     Program FERMI_PROJ v.7.4.1 starts on 13Mar2026 at  2:40: 6 
+     Program FERMI_PROJ v.7.6 starts on 30Sep2026 at 23:26:11 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     228833 MiB available memory on the printing compute node when the environment starts
+     30008 MiB available memory on the printing compute node when the environment starts
  
 
      Reading xml data from directory:
@@ -46,12 +46,12 @@
      Highest band which contains FS :       3
      Number of target wavefunction :      1
      Target wavefunction :      1
-     Max :         0.97518982     Min :         0.00000000
+     Max :         0.97518983     Min :         0.00000000
  
-     FERMI_PROJ   :      0.23s CPU      0.27s WALL
+     FERMI_PROJ   :      0.83s CPU      0.97s WALL
 
  
-   This run was terminated on:   2:40: 7  13Mar2026            
+   This run was terminated on:  23:26:12  30Sep2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

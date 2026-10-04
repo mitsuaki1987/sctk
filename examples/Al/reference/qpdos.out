@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 13Mar2026 at 12:11: 8 
+     Program SCTK v.7.6 starts on  1Oct2026 at  0: 1:28 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,15 +10,16 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                 1
-     Threads/MPI process:                    64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:                12
+     Threads/MPI process:                    48
 
-     MPI processes distributed on     1 nodes
-     229033 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     K-points division:     npool     =      12
+     28963 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+     git hash : 3a8ac9b77c01a456f501ce0192e75551d79ac127
 
 
      Reading xml data from directory:
@@ -84,7 +85,7 @@
 
 
      Dynamical matrices for ( 4, 4, 4)  uniform grid of q-points
-     With a half shift
+     With a half shift  1  1  1
      (  10 q-points):
        N         xq(1)         xq(2)         xq(3) 
        1   0.088388348   0.088388348   0.088388348
@@ -106,10 +107,10 @@
      #####  Average matrix in grid  #####
 
        nindmax : 12
-         Total RAM for Vc per process :   0.42E+00 GB
-         Total RAM for gg per process :   0.84E-01 GB
-         Total RAM for Vc (temporary) per process :   0.10E-02 GB
-         Total RAM for gg (temporary) per process :   0.20E-03 GB
+         Total RAM for Vc per process :   0.35E-01 GB
+         Total RAM for gg per process :   0.70E-02 GB
+         Total RAM for Vc (temporary) per process :   0.10E-03 GB
+         Total RAM for gg (temporary) per process :   0.20E-04 GB
 
      #####  Read gap function  #####
 
@@ -120,24 +121,23 @@
 
      #####  Integrate gapeq  #####
 
-       10348                     NaN   2.23292064627678     
-   3.09416099176982     
+ 10348 NaN 2.232920645427740 3.094160992588701
 
      #####  Compute qpdos  #####
 
 
      #####  Clock summary  #####
 
-     read_elph    :      0.91s CPU      0.01s WALL (       1 calls)
-     read_Coulomb :      3.29s CPU      0.06s WALL (       1 calls)
-     expand_g_v_f :    538.69s CPU      8.75s WALL (       1 calls)
-     make_Z_qpdos :   3132.37s CPU     66.98s WALL (       1 calls)
-     gapeq_rhs_qp :   3050.55s CPU     65.37s WALL (       1 calls)
+     read_elph    :      0.00s CPU      0.00s WALL (       1 calls)
+     read_Coulomb :      0.00s CPU      0.00s WALL (       1 calls)
+     expand_g_v_f :     18.60s CPU      0.42s WALL (       1 calls)
+     make_Z_qpdos :   1147.59s CPU     27.23s WALL (       1 calls)
+     gapeq_rhs_qp :   1190.04s CPU     28.07s WALL (       1 calls)
  
-     SCTK         :      1h54m CPU   2m24.18s WALL
+     SCTK         :  40m10.02s CPU     59.45s WALL
 
  
-   This run was terminated on:  12:13:33  13Mar2026            
+   This run was terminated on:   0: 2:28   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

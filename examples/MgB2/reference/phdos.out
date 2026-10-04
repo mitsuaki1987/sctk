@@ -1,5 +1,5 @@
 
-     Program MATDYN v.7.4.1 starts on 17Mar2026 at 22:51:20 
+     Program MATDYN v.7.6 starts on  1Oct2026 at  1:30:50 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,61 +15,61 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     228265 MiB available memory on the printing compute node when the environment starts
+     29293 MiB available memory on the printing compute node when the environment starts
  
  mass for atomic type   1 not given; uses mass from file ifc.dat                                                                                                                                                                                                                                                         
  mass for atomic type   2 not given; uses mass from file ifc.dat                                                                                                                                                                                                                                                         
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00136628689359292056
+ Norm of the difference between old and new force-constants:   0.00136632019184260700
 
      Message from routine matdyn:
      Z* not found in file ifc.dat, TO-LO splitting at q=0 will be absent!
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  Norm of the difference between old and new effective charges:    0.00000000000000000000
 
- Norm of the difference between old and new force-constants:   0.00093588049179941352
+ Norm of the difference between old and new force-constants:   0.00093589000402632590
 
  
-     MATDYN       :     13.85s CPU     14.21s WALL
+     MATDYN       :     31.36s CPU     31.44s WALL
 
  
-   This run was terminated on:  22:51:34  17Mar2026            
+   This run was terminated on:   1:31:22   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

@@ -1,5 +1,5 @@
 
-     Program FERMI_VELOCITY v.7.4.1 starts on 17Mar2026 at 22:51:48 
+     Program FERMI_VELOCITY v.7.6 starts on  1Oct2026 at  1:31:48 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,7 +15,7 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     228073 MiB available memory on the printing compute node when the environment starts
+     29186 MiB available memory on the printing compute node when the environment starts
  
      Reading input from nscf.in
 
@@ -49,10 +49,10 @@
      Highest band which contains FS :       5
      Max :         1.49947131     Min :         0.00000000
  
-     FERMI_VELOCI :      0.52s CPU      0.58s WALL
+     FERMI_VELOCI :      2.01s CPU      2.26s WALL
 
  
-   This run was terminated on:  22:51:48  17Mar2026            
+   This run was terminated on:   1:31:50   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 17Mar2026 at 22:56: 1 
+     Program SCTK v.7.6 starts on  1Oct2026 at  2: 2:21 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,15 +10,16 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                 1
-     Threads/MPI process:                    64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:                12
+     Threads/MPI process:                    48
 
-     MPI processes distributed on     1 nodes
-     228063 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     K-points division:     npool     =      12
+     28941 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : f4957a819c2e4d3c4ba8eba13085a27c144c6693
+     git hash : 3a8ac9b77c01a456f501ce0192e75551d79ac127
 
 
      Reading xml data from directory:
@@ -106,10 +107,10 @@
      #####  Average matrix in grid  #####
 
        nindmax : 48
-         Total RAM for Vc per process :   0.53E+00 GB
-         Total RAM for gg per process :   0.11E+00 GB
-         Total RAM for Vc (temporary) per process :   0.14E-02 GB
-         Total RAM for gg (temporary) per process :   0.28E-03 GB
+         Total RAM for Vc per process :   0.44E-01 GB
+         Total RAM for gg per process :   0.88E-02 GB
+         Total RAM for Vc (temporary) per process :   0.17E-03 GB
+         Total RAM for gg (temporary) per process :   0.35E-04 GB
        Number of symmetries conserving q_FFLO :    24
        DOS(E_F)[/Ry/cell/spin] :  0.47769E+01
        Number of total points for gap equation : 144
@@ -117,24 +118,24 @@
      #####  Integrate gapeq  #####
 
            mu :     0.33850E+00
-       lambda :     0.55548E+00
+       lambda :     0.55545E+00
 
      #####  Write mu.frmsf and lambda_frmsf  #####
 
-     Max :         0.36711797     Min :         0.21905879
-     Max :         2.16313378     Min :         0.25443076
+     Max :         0.36711799     Min :         0.21905877
+     Max :         2.16314107     Min :         0.25443110
 
      #####  Clock summary  #####
 
-     read_elph    :      3.39s CPU      0.05s WALL (       1 calls)
-     read_Coulomb :      3.75s CPU      0.07s WALL (       1 calls)
-     expand_g_v_f :   3357.52s CPU     54.05s WALL (       1 calls)
-     make_lambda_ :      5.43s CPU      0.09s WALL (       1 calls)
+     read_elph    :      0.01s CPU      0.02s WALL (       1 calls)
+     read_Coulomb :      0.08s CPU      0.08s WALL (       1 calls)
+     expand_g_v_f :     60.74s CPU      1.38s WALL (       1 calls)
+     make_lambda_ :      2.74s CPU      0.61s WALL (       1 calls)
  
-     SCTK         :  57m45.87s CPU     55.90s WALL
+     SCTK         :   2m10.80s CPU      5.69s WALL
 
  
-   This run was terminated on:  22:56:57  17Mar2026            
+   This run was terminated on:   2: 2:27   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

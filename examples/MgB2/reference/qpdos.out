@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 17Mar2026 at 22:59: 2 
+     Program SCTK v.7.6 starts on  1Oct2026 at  2: 5:43 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,15 +10,16 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                 1
-     Threads/MPI process:                    64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:                12
+     Threads/MPI process:                    48
 
-     MPI processes distributed on     1 nodes
-     228076 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     K-points division:     npool     =      12
+     29794 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : f4957a819c2e4d3c4ba8eba13085a27c144c6693
+     git hash : 3a8ac9b77c01a456f501ce0192e75551d79ac127
 
 
      Reading xml data from directory:
@@ -106,10 +107,10 @@
      #####  Average matrix in grid  #####
 
        nindmax : 48
-         Total RAM for Vc per process :   0.53E+00 GB
-         Total RAM for gg per process :   0.11E+00 GB
-         Total RAM for Vc (temporary) per process :   0.14E-02 GB
-         Total RAM for gg (temporary) per process :   0.28E-03 GB
+         Total RAM for Vc per process :   0.44E-01 GB
+         Total RAM for gg per process :   0.88E-02 GB
+         Total RAM for Vc (temporary) per process :   0.17E-03 GB
+         Total RAM for gg (temporary) per process :   0.35E-04 GB
 
      #####  Read gap function  #####
 
@@ -120,24 +121,23 @@
 
      #####  Integrate gapeq  #####
 
-       10610                     NaN   1.53303176812711     
-   5.91916561496566     
+ 10610 NaN 1.533031767792810 5.919165615308512
 
      #####  Compute qpdos  #####
 
 
      #####  Clock summary  #####
 
-     read_elph    :      1.64s CPU      0.03s WALL (       1 calls)
-     read_Coulomb :      5.24s CPU      0.09s WALL (       1 calls)
-     expand_g_v_f :   3350.57s CPU     53.69s WALL (       1 calls)
-     make_Z_qpdos :   4801.16s CPU     95.47s WALL (       1 calls)
-     gapeq_rhs_qp :   4264.01s CPU     86.59s WALL (       1 calls)
+     read_elph    :      0.01s CPU      0.03s WALL (       1 calls)
+     read_Coulomb :      0.01s CPU      0.03s WALL (       1 calls)
+     expand_g_v_f :     60.26s CPU      1.33s WALL (       1 calls)
+     make_Z_qpdos :   1576.22s CPU     42.19s WALL (       1 calls)
+     gapeq_rhs_qp :   1635.53s CPU     43.91s WALL (       1 calls)
  
-     SCTK         :      3h29m CPU   3m58.65s WALL
+     SCTK         :  55m49.55s CPU   1m31.54s WALL
 
  
-   This run was terminated on:  23: 3: 1  17Mar2026            
+   This run was terminated on:   2: 7:14   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

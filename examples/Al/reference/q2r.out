@@ -1,5 +1,5 @@
 
-     Program Q2R v.7.4.1 starts on 13Mar2026 at  2:39:44 
+     Program Q2R v.7.6 starts on 30Sep2026 at 23:25:28 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -15,13 +15,13 @@
      Threads/MPI process:                     1
 
      MPI processes distributed on     1 nodes
-     228967 MiB available memory on the printing compute node when the environment starts
+     30148 MiB available memory on the printing compute node when the environment starts
  
 
   reading grid info from file matdyn0    
 
   reading force constants from file matdyn1
-  nqs=            8
+  nqs=  8
  q=   0.08838835  0.08838835  0.08838835
  q=   0.08838835 -0.08838835  0.08838835
  q=  -0.08838835  0.08838835  0.08838835
@@ -31,7 +31,7 @@
  q=  -0.08838835  0.08838835 -0.08838835
  q=   0.08838835 -0.08838835 -0.08838835
   reading force constants from file matdyn2
-  nqs=           24
+  nqs=  24
  q=   0.26516504  0.26516504 -0.08838835
  q=  -0.08838835  0.26516504  0.26516504
  q=   0.26516504 -0.08838835  0.26516504
@@ -57,7 +57,7 @@
  q=   0.26516504  0.26516504  0.08838835
  q=   0.26516504 -0.26516504  0.08838835
   reading force constants from file matdyn3
-  nqs=           24
+  nqs=  24
  q=  -0.26516504 -0.26516504  0.44194174
  q=   0.44194174 -0.26516504 -0.26516504
  q=  -0.26516504  0.44194174 -0.26516504
@@ -83,7 +83,7 @@
  q=  -0.26516504 -0.26516504 -0.44194174
  q=  -0.26516504  0.26516504 -0.44194174
   reading force constants from file matdyn4
-  nqs=           24
+  nqs=  24
  q=  -0.08838835 -0.08838835  0.26516504
  q=   0.26516504 -0.08838835 -0.08838835
  q=  -0.08838835  0.26516504 -0.08838835
@@ -109,7 +109,7 @@
  q=  -0.08838835 -0.08838835 -0.26516504
  q=  -0.08838835  0.08838835 -0.26516504
   reading force constants from file matdyn5
-  nqs=           24
+  nqs=  24
  q=   0.44194174  0.08838835  0.08838835
  q=   0.08838835  0.44194174  0.08838835
  q=   0.08838835  0.08838835  0.44194174
@@ -135,7 +135,7 @@
  q=   0.08838835  0.44194174 -0.08838835
  q=  -0.08838835 -0.44194174 -0.08838835
   reading force constants from file matdyn6
-  nqs=           48
+  nqs=  48
  q=  -0.08838835 -0.44194174  0.61871843
  q=  -0.08838835  0.61871843 -0.44194174
  q=   0.61871843 -0.08838835 -0.44194174
@@ -185,7 +185,7 @@
  q=   0.61871843 -0.08838835  0.44194174
  q=   0.61871843  0.08838835 -0.44194174
   reading force constants from file matdyn7
-  nqs=           48
+  nqs=  48
  q=   0.08838835 -0.26516504  0.44194174
  q=   0.08838835  0.44194174 -0.26516504
  q=   0.44194174  0.08838835 -0.26516504
@@ -235,7 +235,7 @@
  q=   0.44194174  0.08838835  0.26516504
  q=   0.44194174 -0.08838835 -0.26516504
   reading force constants from file matdyn8
-  nqs=           24
+  nqs=  24
  q=  -0.61871843  0.08838835  0.08838835
  q=   0.08838835 -0.61871843  0.08838835
  q=   0.08838835  0.08838835 -0.61871843
@@ -261,7 +261,7 @@
  q=   0.08838835 -0.61871843 -0.08838835
  q=  -0.08838835  0.61871843 -0.08838835
   reading force constants from file matdyn9
-  nqs=            8
+  nqs=  8
  q=   0.26516504  0.26516504  0.26516504
  q=   0.26516504 -0.26516504  0.26516504
  q=  -0.26516504  0.26516504  0.26516504
@@ -271,7 +271,7 @@
  q=  -0.26516504  0.26516504 -0.26516504
  q=   0.26516504 -0.26516504 -0.26516504
   reading force constants from file matdyn10
-  nqs=           24
+  nqs=  24
  q=  -0.26516504 -0.26516504  0.79549513
  q=   0.79549513 -0.26516504 -0.26516504
  q=  -0.26516504  0.79549513 -0.26516504
@@ -354,10 +354,10 @@
 
       fft-check success (sum of imaginary terms < 10^-12)
  
-     Q2R          :      0.15s CPU      0.47s WALL
+     Q2R          :      0.18s CPU      0.33s WALL
 
  
-   This run was terminated on:   2:39:45  13Mar2026            
+   This run was terminated on:  23:25:28  30Sep2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.

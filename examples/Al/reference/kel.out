@@ -1,5 +1,5 @@
 
-     Program SCTK v.7.4.1 starts on 13Mar2026 at  2:40:12 
+     Program SCTK v.7.6 starts on 30Sep2026 at 23:53:58 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -10,15 +10,16 @@
      in publications or presentations arising from this work. More details at
      http://www.quantum-espresso.org/quote
 
-     Parallel version (MPI & OpenMP), running on      64 processor cores
-     Number of MPI processes:                 1
-     Threads/MPI process:                    64
+     Parallel version (MPI & OpenMP), running on     576 processor cores
+     Number of MPI processes:                12
+     Threads/MPI process:                    48
 
-     MPI processes distributed on     1 nodes
-     228815 MiB available memory on the printing compute node when the environment starts
+     MPI processes distributed on    12 nodes
+     K-points division:     npool     =      12
+     29786 MiB available memory on the printing compute node when the environment starts
  
 
-     git hash : 9a2374026cdeae3bd0a3457996eb8bceae8760dd
+     git hash : 3a8ac9b77c01a456f501ce0192e75551d79ac127
 
 
      Reading xml data from directory:
@@ -64,7 +65,7 @@
 
 
      Dynamical matrices for ( 4, 4, 4)  uniform grid of q-points
-     With a half shift
+     With a half shift  1  1  1
      (  10 q-points):
        N         xq(1)         xq(2)         xq(3) 
        1   0.088388348   0.088388348   0.088388348
@@ -87,12 +88,12 @@
 
      #####  Read gvectors.dat & evc.dat  #####
 
-       Total RAM for input WFC :   0.81E-02 GB
+       Total RAM for input WFC :   0.39E-01 GB
 
      #####  FFT wfc(G) -> wfc(r)  #####
 
-       Total RAM for WFC(r) :   0.14E+00 GB
-       Total RAM for <beta|WFC> :   0.33E-03 GB
+       Total RAM for WFC(r) :   0.66E+00 GB
+       Total RAM for <beta|WFC> :   0.16E-02 GB
 
      #####  Generate f_xc  #####
 
@@ -117,15 +118,15 @@
 
          Number of PWs for W : 1085
          Total RAM for Vscr :   0.30E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.21135E+00
-           EigMax(I_{xc} Pi_0) :  0.22431E+00
-             Iteration for power method :     18
-         Total RAM for Kel :   0.92E-03 GB
+           EigMax(I_{xc} Pi_0) :  0.22430E+00
+             Iteration for power method :     23
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -180,15 +181,15 @@
 
          Number of PWs for W : 1094
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.22011E+00
-           EigMax(I_{xc} Pi_0) :  0.22978E+00
-             Iteration for power method :     22
-         Total RAM for Kel :   0.92E-03 GB
+           EigMax(I_{xc} Pi_0) :  0.22979E+00
+             Iteration for power method :     14
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -243,15 +244,15 @@
 
          Number of PWs for W : 1101
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.21253E+00
-           EigMax(I_{xc} Pi_0) :  0.21967E+00
-             Iteration for power method :     22
-         Total RAM for Kel :   0.92E-03 GB
+           EigMax(I_{xc} Pi_0) :  0.21970E+00
+             Iteration for power method :     26
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -300,21 +301,21 @@
                  0.10000E+01          0.000          0.000
                  0.19626E+01          2.856          1.102
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        195.927         89.456
+                 0.12391E+02        195.925         89.456
 
        q-point : 4
 
          Number of PWs for W : 1097
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.21495E+00
-           EigMax(I_{xc} Pi_0) :  0.22588E+00
-             Iteration for power method :     22
-         Total RAM for Kel :   0.92E-03 GB
+           EigMax(I_{xc} Pi_0) :  0.22587E+00
+             Iteration for power method :     28
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -369,15 +370,15 @@
 
          Number of PWs for W : 1087
          Total RAM for Vscr :   0.30E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.21191E+00
-           EigMax(I_{xc} Pi_0) :  0.22367E+00
-             Iteration for power method :     25
-         Total RAM for Kel :   0.92E-03 GB
+           EigMax(I_{xc} Pi_0) :  0.22368E+00
+             Iteration for power method :     22
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -432,15 +433,15 @@
 
          Number of PWs for W : 1097
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.20616E+00
            EigMax(I_{xc} Pi_0) :  0.22483E+00
-             Iteration for power method :     49
-         Total RAM for Kel :   0.92E-03 GB
+             Iteration for power method :     89
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -495,15 +496,15 @@
 
          Number of PWs for W : 1090
          Total RAM for Vscr :   0.30E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.21245E+00
-           EigMax(I_{xc} Pi_0) :  0.22269E+00
-             Iteration for power method :     39
-         Total RAM for Kel :   0.92E-03 GB
+           EigMax(I_{xc} Pi_0) :  0.22270E+00
+             Iteration for power method :     41
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -558,15 +559,15 @@
 
          Number of PWs for W : 1098
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.20677E+00
-           EigMax(I_{xc} Pi_0) :  0.22162E+00
-             Iteration for power method :     27
-         Total RAM for Kel :   0.92E-03 GB
+           EigMax(I_{xc} Pi_0) :  0.22163E+00
+             Iteration for power method :     40
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -621,15 +622,15 @@
 
          Number of PWs for W : 1101
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.23306E+00
            EigMax(I_{xc} Pi_0) :  0.24115E+00
-             Iteration for power method :     21
-         Total RAM for Kel :   0.92E-03 GB
+             Iteration for power method :     34
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -684,15 +685,15 @@
 
          Number of PWs for W : 1102
          Total RAM for Vscr :   0.31E+00 GB
-         Total RAM for rho  :   0.57E-01 GB
-         Total RAM for weight on coarse grid :   0.82E-03 GB
+         Total RAM for rho  :   0.22E+00 GB
+         Total RAM for weight on coarse grid :   0.16E-02 GB
          Total RAM for Weight on dense grid :   0.52E-01 GB
 
          Stoner criteria:
            (I_{xc} Pi_0)_{00} :  0.19948E+00
            EigMax(I_{xc} Pi_0) :  0.22183E+00
-             Iteration for power method :    102
-         Total RAM for Kel :   0.92E-03 GB
+             Iteration for power method :     70
+         Total RAM for Kel :   0.18E-02 GB
 
          Averaged potential (mu)
 
@@ -741,36 +742,36 @@
                  0.10000E+01          0.000          0.000
                  0.19626E+01          3.291          1.238
                  0.42361E+01          0.000          0.000
-                 0.12391E+02        168.350         96.253
+                 0.12391E+02        168.351         96.253
 
      #####  Clock summary  #####
 
-     make_scrn    :    746.89s CPU     20.66s WALL (      10 calls)
-     invert       :    924.01s CPU     14.60s WALL (      20 calls)
-     make_kel     :    472.46s CPU      8.23s WALL (      10 calls)
-     lambda_sf    :   4556.64s CPU     72.60s WALL (      10 calls)
+     make_scrn    :   1159.05s CPU    317.28s WALL (      10 calls)
+     invert       :   2437.28s CPU     62.33s WALL (      20 calls)
+     make_kel     :    437.40s CPU     10.56s WALL (      10 calls)
+     lambda_sf    :   1778.25s CPU     51.76s WALL (      10 calls)
 
      #####  In make_scrn #####
 
-     fermi_factor :    283.37s CPU     12.92s WALL (      10 calls)
-     zgemm(make_s :    120.20s CPU      1.86s WALL (     800 calls)
+     fermi_factor :    840.63s CPU    309.56s WALL (      10 calls)
+     zgemm(make_s :     16.62s CPU      0.50s WALL (    2400 calls)
 
      #####  In make_kel #####
 
-     zgemm(make_k :    237.39s CPU      4.55s WALL (    1600 calls)
+     zgemm(make_k :     94.39s CPU      2.49s WALL (    4800 calls)
 
      #####  In make_scrn and make_kel #####
 
-     wfc*wfc=rho  :    214.86s CPU      3.40s WALL (     200 calls)
-     fft[rho]     :    154.68s CPU      2.49s WALL (     200 calls)
+     wfc*wfc=rho  :     91.47s CPU      1.66s WALL (     600 calls)
+     fft[rho]     :    285.46s CPU      7.22s WALL (     600 calls)
 
      #####  In wfc*wfc=rho #####
 
  
-     SCTK         :      1h47m CPU   1m52.58s WALL
+     SCTK         :      1h17m CPU   6m56.67s WALL
 
  
-   This run was terminated on:   2:42: 5  13Mar2026            
+   This run was terminated on:   0: 0:55   1Oct2026            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
