@@ -1,0 +1,133 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<h1>Setting of wave-number grid and band range</h1>
+
+In the calculation with this package,
+there are many kinds of wave-number grids and band ranges;
+it may confuse us.
+In this chapter, the relation and the difference between them are described.
+
+<h2>Range of bands</h2>
+
+<h3>The upper limit in <a href="./tutorial.html#scf">SCF calculation of the charge density</a>, <a href="./tutorial.html#ph">Calculation of phonon frequency and deformation potential</a> : nbnd (scf)</h3>
+
+     We should use the number specified automatically by pw.x.
+     Therefore, we do not have to write it explicitly in the input file.
+
+<h3>The upper limit in <a href="./tutorial.html#coulomb">Calculation of screened Coulomb interaction/Spin-fluctuation</a> : nbnd ($K^{el}$)</h3>
+
+     Typically, nbnd ($K^{el}$) should be roughly the double of nbnd (scf).
+
+     The numerical cost of <a href="./program.html">sctk.x</a> is proportional to the square of nbnd ($K^{el}$).
+
+<h3>elph_nbnd_min, elph_nbnd_max in <a href="./tutorial.html#elph">Calculation of electron-phonon interaction</a></h3>
+
+     In almost all cases, they are equal to the lower and the upper limit of bands
+     that contain the Fermi level
+     (these limits can be obtained by
+     <a href="https://www.quantum-espresso.org/Doc/pp_user_guide/" target="_blank">fermi_velocity.x</a>).
+     For materials that have extremely large phonon frequencies,
+     this band range must be wider than in ordinary cases.
+
+<h3>The lower and the upper limit for the electron-electron Coulomb term in <a href="./program.html#scdfttc">scdft_tc</a> : fbee, lbee</h3>
+
+     The default value [fbee=1, lbee=nbnd ($K^{el}$)] is recommended.
+     When we check the convergence with respect to the number of bands,
+     we reduce them from the default value.
+
+<h3>The lower and the upper limit of bands printed by <a href="./program.html#deltaf">deltaf</a> : fbfs, lbfs</h3>
+
+     They are the lower and the upper limit of bands
+     that contain the Fermi level (with the non-crossing approximation).
+     They are computed automatically.
+
+<br><br>
+The relation of magnitude of these bands becomes as follows:
+<br>
+
+1 &le; fbee &le; elph_nbnd_min &le; fbfs &le; lbfs &le; elph_nbnd_max ~ nbnd (scf) &le; lbee &le; nbnd ($K^{el}$)
+
+<h2>Wave-number grid</h2>
+
+<h3>The <b>k</b> grid for the electronic state in <a href="./tutorial.html#scf">scf</a>, <a href="./tutorial.html#ph">ph</a></h3>
+
+   It is specified in the input file of pw.x as follows:
+
+    <pre style="border: 1px solid #000000;background-color: #ffffff;padding-left: 10px;"><code>
+K_POINTS automatic 
+{nk1} {nk2} {nk3} 0 0 0
+    </code></pre>
+
+   The dependence of the numerical cost of each program on $N_{\bf k}^{\rm smooth}$
+   (the number of <b>k</b> points in this grid) is as follows:
+
+   <ul>
+    <li>The numerical cost for <a href="./tutorial.html#scf">SCF calculation of the charge density</a> and <a href="./tutorial.html#ph">Calculation of phonon frequency and deformation potential</a> is proportional to $N_{\bf k}^{\rm smooth}$.</li>
+   </ul>
+
+<h3>The <b>q</b> grid for <a href="./tutorial.html#phonon">phonon</a>, the <b>k</b> grid for <a href="./tutorial.html#twin">twin</a></h3>
+
+   nq1, nq2, nq3 in the input of ph.x, arguments of <a href="./program.html#twingrid">twingrid.x</a>,
+   and nk1, nk2, nk3 in the input of <a href="./tutorial.html#elph">Calculation of electron-phonon interaction</a> must be the same.
+
+   The dependence of the numerical cost of each program on $N_{\bf q}$
+   (the number of <b>q</b> in this grid) is as follows:
+
+<ul>
+   <li>The numerical cost of pw.x in <a href="./tutorial.html#twin">twin</a> is proportional to $N_{\bf q}$.</li>
+   <li>The numerical cost for all <b>q</b> in <a href="./tutorial.html#ph">Calculation of phonon frequency and deformation potential</a> is proportional to $N_{\bf q}$.</li>
+   <li>The numerical cost for all <b>q</b> in <a href="./tutorial.html#elph">Calculation of electron-phonon interaction</a> is proportional to $N_{\bf q}^2$.</li>
+   <li>The numerical cost for all <b>q</b> in <a href="./program.html">sctk.x</a> is proportional to $N_{\bf q}^2$.</li>
+</ul>
+
+<h3>The <b>k</b> grid in <a href="./tutorial.html#dense">Non-SCF calculation with a dense k grid</a> <a href="./ref.html">[1]</a></h3>
+
+   In this calculation, the <b>k</b> grid should be as dense as that for the calculation
+   of the density of states.
+   The dependence of the numerical cost of each program on $N_{\bf k}^{\rm dense}$
+   (the number of <b>k</b> in this grid) is as follows:
+
+<ul>
+   <li>Numerical costs for <a href="./program.html#scdft">scdft</a> and <a href="./program.html">sctk.x</a> are not so affected by $N_{\bf k}^{\rm dense}$.</li>
+   <li>The numerical cost of <a href="./program.html#deltaf">deltaf</a> is proportional to $N_{\bf k}^{\rm dense}$.</li>
+</ul>
+
+<br><br>
+The relation of these <b>k</b> grids becomes as follows:
+<br>
+\[
+\begin{align}
+N_{\bf q} \leq N_{\bf k}^{\rm smooth} \leq N_{\bf k}^{\rm dense}
+\end{align}
+\]
+
+  </body>
+</html>

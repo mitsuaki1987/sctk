@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+window.MathJax = {
+  tex: {
+      packages: {'[+]': ['ams']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+    tags: 'ams'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Superconducting-Toolkit Web page</title>
+    <meta name="description" content="SCTK HomePage">
+
+    <script>
+window.addEventListener('DOMContentLoaded', function() {
+  const ua = navigator.userAgent;
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+    document.body.style.fontSize = "40px";
+  }else {}
+});
+    </script>
+  </head>
+  <body bgcolor="CCFFCC">
+
+<center><h1>Introduction</h1></center>
+</hr>
+
+This manual explains about the first-principles program package
+"Superconducting-Toolkit" based on the density functional theory for
+superconductors (SCDFT).
+<br>
+Superconducting-Toolkit constructs the gap equation
+\[
+\begin{align}
+\Delta_{n {\bf k}} = -\frac{1}{2} \sum_{n' {\bf k}'}
+\frac{K^{el}_{n {\bf k} n' {\bf k}'} + K^{\rm el-ph}_{n {\bf k} n' {\bf k}'}}{Z_{n {\bf k}}}
+\frac{\Delta_{n' {\bf k}'}}{E_{n' {\bf k}'}}
+\tanh\left( \frac{\beta E_{n' {\bf k}'}}{2} \right)
+\end{align}
+\]
+from <a href="https://www.quantum-espresso.org/" target="_blank">QuantumESPRESSO</a> outputs
+and obtains the superconducting gap function $\Delta_{n {\bf k}}$ by solving this equation.
+<br>
+This program is developed by Mitsuaki Kawamura in ISSP, The University of Tokyo
+(currently in Yokohama National University).
+  </body>
+</html>

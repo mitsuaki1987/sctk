@@ -15,10 +15,9 @@
 
    .. code-block:: bash
 
-      $ git clone https://gitlab.com/QEF/q-e.git
+      $ git clone https://gitlab.com/QEF/q-e.git -b master
       $ cd q-e
-      $ git checkout qe-7.4.1
-      $ git clone https://github.com/mitsuaki1987/sctk.git -b develop SCTK
+      $ git clone https://github.com/mitsuaki1987/sctk.git -b main SCTK
       $ patch -p1 < SCTK/patch.diff
 
    開発版(developブランチ)を試す場合については https://github.com/mitsuaki1987/sctk/blob/develop/readme.md を参照
