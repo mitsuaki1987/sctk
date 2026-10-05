@@ -182,6 +182,7 @@ SUBROUTINE tetraweight(wghtd)
   !$OMP & SHARED(wlsm,nmf,et,wghtd,thr,ef,tetra,nks,nb,bdsp,ntetra) &
   !$OMP & PRIVATE(it,ii,ibnd,itetra,ei0,ej0,ei1,ej1,w1,w2,a,e,V,tsmall,i20)
   !
+  !$OMP DO
   DO it = 1, ntetra
      !
      DO ibnd = 1, nb(1)
@@ -191,7 +192,6 @@ SUBROUTINE tetraweight(wghtd)
         ej0(1:4,ibnd) = MATMUL(wlsm(1:4,1:20), et(ibnd+bdsp(2), tetra(1:20,it) + nks)) - ef
      END DO
      !
-     !$OMP DO
      DO ibnd = 1, nb(1)
         !
         w1(1:(nmf+1)*nb(2),1:4) = 0.0_dp
@@ -375,15 +375,17 @@ SUBROUTINE tetraweight(wghtd)
            !
         END IF
         !
+        !$OMP CRITICAL
         DO i20 = 1, 20
            wghtd(1:(nmf+1)*nb(2),ibnd,tetra(i20,it)) = wghtd(1:(nmf+1)*nb(2),ibnd,    tetra(i20,it)) &
            &                                     + MATMUL(w1(1:(nmf+1)*nb(2),1:4), wlsm(1:4,i20))
         END DO
+        !$OMP END CRITICAL
         !
      END DO ! ibnd
-     !$OMP END DO NOWAIT
      !
   END DO ! it
+  !$OMP END DO
   !
   !$OMP END PARALLEL
   !
