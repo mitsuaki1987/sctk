@@ -129,30 +129,29 @@ index 06e275808..3f4e00e12 100644
    !
    IF ( lsda ) THEN
 diff --git a/Makefile b/Makefile
-index 6950c3072..747f39eca 100644
+index c12db5afe..8e0cb4f5b 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -34,6 +34,7 @@ default :
+@@ -32,6 +32,7 @@ default :
  	@echo '  couple       Library interface for coupling to external codes'
  	@echo '  epw          Electron-Phonon Coupling with Wannier functions'
  	@echo '               (compiles w90 as well)'
 +	@echo '  sctk         SCDFT code'
  	@echo '  kcw          KCW code: implementation of Koopmans functionals in primitive cell'
  	@echo '  pioud        Path Integral Molecular Dynamics with PIOUD algorithm'
- 	@echo '  gui          Graphical User Interface'
-@@ -132,6 +133,11 @@ epw: pw ph pp ld1 libw90
+ 	@echo '  all          same as "make pwall cp ld1 xspectra pwcond"'
+@@ -130,6 +131,10 @@ epw: pw ph pp ld1 libw90
  	( cd EPW ; $(MAKE) all || exit 1; \
  		cd ../bin; ln -fs ../EPW/bin/epw.x . ); fi
  
 +sctk: ph pp
 +	if test -d SCTK ; then \
-+	( cd SCTK ; $(MAKE) all || exit 1; \
-+		cd ../bin; ln -fs ../SCTK/src/sctk.x . ); fi
++	( cd SCTK ; $(MAKE) all || exit 1 ) ; fi
 +
- all_currents:
+ all_currents: phlibs
  	if test -d QEHeat ; then \
  	( cd QEHeat ; $(MAKE) all || exit 1; ) ; fi
-@@ -310,7 +316,7 @@ clean :
+@@ -308,7 +313,7 @@ clean :
  	for dir in \
  		LAXlib FFTXlib XClib UtilXlib upflib Modules KS_Solvers \
  		dft-d3 LR_Modules PW CPV PP PHonon HP EPW NEB TDDFPT GWW \
@@ -1045,7 +1044,7 @@ index ff021857b..be5cd7c16 100644
  !
  END MODULE elph_scdft_mod
 diff --git a/PHonon/PH/elph_tetra_mod.f90 b/PHonon/PH/elph_tetra_mod.f90
-index 285031d11..96d222c35 100644
+index 361301b02..1168c6a89 100644
 --- a/PHonon/PH/elph_tetra_mod.f90
 +++ b/PHonon/PH/elph_tetra_mod.f90
 @@ -17,13 +17,14 @@ MODULE elph_tetra_mod
@@ -1067,7 +1066,7 @@ index 285031d11..96d222c35 100644
    CONTAINS
   !
 diff --git a/PHonon/PH/phq_readin.f90 b/PHonon/PH/phq_readin.f90
-index 8f0490599..4443d89c9 100644
+index 701d68f0d..23748abe8 100644
 --- a/PHonon/PH/phq_readin.f90
 +++ b/PHonon/PH/phq_readin.f90
 @@ -344,7 +344,7 @@ SUBROUTINE phq_readin()
@@ -1189,7 +1188,7 @@ index bca8ea560..9991ea9dd 100644
    !
    if (twochem) occupations ='smearing' !this is needed to avoid init_twochem error check.
 diff --git a/PHonon/examples/tetra_example/run_example b/PHonon/examples/tetra_example/run_example
-index 852dc2652..e45f11497 100755
+index 852dc2652..3fcd74eed 100755
 --- a/PHonon/examples/tetra_example/run_example
 +++ b/PHonon/examples/tetra_example/run_example
 @@ -78,6 +78,8 @@ $ECHO " done"
@@ -1201,6 +1200,24 @@ index 852dc2652..e45f11497 100755
  ALPHA2F_COMMAND="$PARA_PREFIX $BIN_DIR/alpha2f.x"
  $ECHO
  $ECHO "  running pw.x as: $PW_COMMAND"
+@@ -135,7 +137,7 @@ Al phonon
+  fildvscf = 'dv',
+   fildrho = 'drho',
+     ldisp = .true.,
+- lshift_q = .true.,
++ lshift_q = 1, 1, 1
+       nq1 = 4,
+       nq2 = 4,
+       nq3 = 4,
+@@ -157,7 +159,7 @@ Al electron-phonon
+         fildvscf = 'dv',
+          fildrho = 'drho',
+            ldisp = .true.,
+-        lshift_q = .true.,
++        lshift_q = 1, 1, 1
+              nq1 = 4,
+              nq2 = 4,
+              nq3 = 4,
 @@ -175,6 +177,81 @@ $PH_COMMAND -in al.elph.in > al.elph.out
  check_failure $?
  $ECHO "  done"
@@ -1211,7 +1228,7 @@ index 852dc2652..e45f11497 100755
 +&INPUT
 +   fildyn = 'al.dyn'
 +     la2f = .true.
-+ lshift_q = .true.
++ lshift_q = 1, 1, 1
 +     zasr = 'crystal'
 +    flfrc = 'Al444.fc'
 +/
@@ -1284,7 +1301,7 @@ index 852dc2652..e45f11497 100755
  #
  $ECHO "  running alpha2f.x for lambda and a2F calculation...\c"
 diff --git a/install/makedeps.sh b/install/makedeps.sh
-index 9c9f97b94..f1bbf959d 100755
+index 6e24c90b0..8427d1c96 100755
 --- a/install/makedeps.sh
 +++ b/install/makedeps.sh
 @@ -26,6 +26,7 @@ dirs=" LAXlib FFTXlib/src UtilXlib \
