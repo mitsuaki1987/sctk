@@ -12,6 +12,7 @@ MODULE sctk_val
   IMPLICIT NONE
   !
   INTEGER,SAVE :: &
+  & l_vc_vsf,      & !< 0:el-ph only (V_C=V_sf=0), 1: Static, 2: Plasmon 
   & bisec_step,    & !< Number of steps for bisection method
   & nb_max,        & !<
   & nb(2),         & !<

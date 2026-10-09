@@ -125,7 +125,7 @@ Parameters used when calculation = "scdft", etc.
   <tr align="left"><td>fbee</td><td>Positive integer</td><td>1</td><td>The first band in the gap equation.</td></tr>
   <tr align="left"><td>lbee</td><td>Positive integer</td><td>nbnd in pw.x</td><td>The last band in the gap equation.</td></tr>
   <tr align="left"><td>xic</td><td>Real number</td><td>-1.0</td><td>Parameter for gap-function extrapolation method. Ry unit. When this is lower than 0.0, gap function extrapolation is not used (in default this extrapolation is not used).</td></tr>
-  <tr align="left"><td>nmf</td><td>Integer</td><td>10</td><td>The number of Matsubara frequencies in the calculation of the Coulomb kernel. When it is 0, static Coulomb kernel is used. When a negative value is specified, Coulomb kernel becomes 0 (only the phononic kernel is used).</td></tr>
+  <tr align="left"><td>nmf</td><td>Integer</td><td>10</td><td>The number of Matsubara frequencies in the calculation of the Coulomb kernel.</td></tr>
   <tr align="left"><td>nx</td><td>Positive integer</td><td>100</td><td>The number of auxiliary energy grid in the vicinity of the Fermi level.</td></tr>
   <tr align="left"><td>ne</td><td>Positive integer</td><td>50</td><td>Used only in the <a href="#qpdoscal">calculation of quasi-particle DOS</a>. The number of energy grid for quasi particle density of states.</td></tr>
   <tr align="left"><td>emin</td><td>Positive real number</td><td>1.0e-7</td><td>Minimum energy scale parameter for auxiliary energy grid. Ry unit.</td></tr>
@@ -136,6 +136,7 @@ Parameters used when calculation = "scdft", etc.
   <tr align="left"><td>spin_fluc</td><td>Logical</td><td>.False.</td><td>If .True., the spin-fluctuation <a href="./ref.html">[3]</a> is included.</td></tr>
   <tr align="left"><td>scdft_kernel</td><td>Positive integer</td><td>1</td><td>1: Lüders2005 <a href="./ref.html">[4]</a>, 2: Sanna2020 <a href="./ref.html">[5]</a></td></tr>
   <tr align="left"><td>lz_coulomb</td><td>Logical</td><td>.False.</td><td>Coulomb renormalization <a href="./ref.html">[6]</a></td></tr>
+  <tr align="left"><td>l_vc_vsf</td><td>0,1,2</td><td>2</td><td>For $V_\textrm{C}(\omega)$ and $V_\textrm{sf}(\omega)$, 0:Ignore them (el-ph only), 1:Ignore $\omega$-dependence (static), 2:dynamical.</td></tr>
   <tr align="left"><td>q_fflo</td><td>Real(3)</td><td>0.0,0.0,0.0</td><td>Momentum of the order parameter in reciprocal fractional unit.</td></tr>
   <tr align="left"><td>initial_delta</td><td>String</td><td>"random-nodeless"</td><td>Initial-guess type of k-dependent gap function. Choose from "random-nodeless", "random-nodal", "constant", "band-constant".</td></tr>
 </table>

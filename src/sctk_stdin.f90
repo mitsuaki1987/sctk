@@ -164,7 +164,7 @@ SUBROUTINE stdin_scdft()
   !
   USE sctk_val, ONLY : beta, emax, emin, fbee, lbee, ne, nmf, nx, xic, mf, wmf, bisec_step, &
   &                    zero_kelvin, lsf, scdft_kernel, lz_coulomb, freq_min, freq_min_ratio, &
-  &                    bisec_min, bisec_max, q_fflo, initial_delta
+  &                    bisec_min, bisec_max, q_fflo, initial_delta, l_vc_vsf
   USE sctk_gauss_legendre, ONLY : weightspoints_gl
   !
   IMPLICIT NONE
@@ -174,7 +174,7 @@ SUBROUTINE stdin_scdft()
   !
   NAMELIST /scdft/ temp, fbee, lbee, xic, nmf, nx, ne, emin, emax, lz_coulomb, electron_maxstep, &
   &                conv_thr, fildyn, spin_fluc, scdft_kernel, freq_min, freq_min_ratio, &
-  &                bisec_step, bisec_min, bisec_max, q_fflo, initial_delta
+  &                bisec_step, bisec_min, bisec_max, q_fflo, initial_delta, l_vc_vsf
   !
   IF(ionode) THEN
      !
@@ -200,6 +200,7 @@ SUBROUTINE stdin_scdft()
      bisec_max = -1.0_dp
      q_fflo(1:3) = 0.0_dp
      initial_delta = "random-nodeless"
+     l_vc_vsf = 2
      !
      READ(5,scdft,err=100)
      !
@@ -228,6 +229,7 @@ SUBROUTINE stdin_scdft()
      WRITE(*,'(7x,"               Max itration : ",i0)') electron_maxstep
      WRITE(*,'(7x,"           Spin-fluctuation : ",l)') spin_fluc
      WRITE(*,'(7x,"               SCDFT kernel : ",i0)') scdft_kernel
+     WRITE(*,'(7x,"        V_C, V_sf treatment : ",i0)') l_vc_vsf
      WRITE(*,'(7x,"                  Z_Coulomb : ",l)') lz_coulomb
      WRITE(*,'(7x,"            Min. freq.[THz] : ",e12.5)') freq_min
      WRITE(*,'(7x,"           Min. freq. ratio : ",e12.5)') freq_min_ratio
@@ -269,6 +271,7 @@ SUBROUTINE stdin_scdft()
   CALL mp_bcast(bisec_min,        ionode_id, world_comm )
   CALL mp_bcast(bisec_max,        ionode_id, world_comm )
   CALL mp_bcast(q_fflo,           ionode_id, world_comm )
+  CALL mp_bcast(l_vc_vsf,         ionode_id, world_comm )
   !
   niter = electron_maxstep
   tr2 = conv_thr

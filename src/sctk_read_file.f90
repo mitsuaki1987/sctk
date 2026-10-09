@@ -143,7 +143,7 @@ SUBROUTINE read_Coulomb()
   USE mp_world, ONLY : world_comm, mpime
   USE io_files, ONLY : prefix, tmp_dir
   !
-  USE sctk_val, ONLY : nqbz, Vc0, lsf, nci, lz_coulomb
+  USE sctk_val, ONLY : nqbz, Vc0, lsf, nci, lz_coulomb, l_vc_vsf
   !
   USE sctk_cnt_dsp, ONLY : cnt_and_dsp
   !
@@ -228,6 +228,8 @@ SUBROUTINE read_Coulomb()
      CLOSE(fi)
      !
   END DO
+  !
+  IF(l_vc_vsf == 0) vc0(1:nci*lsf,1:nbnd,1:nbnd,1:nqbz,1:cnt) = 0.0_dp ! el-ph only
   !
   CALL stop_clock("read_Coulomb")
   !

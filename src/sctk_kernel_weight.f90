@@ -659,7 +659,7 @@ FUNCTION calc_Kel(x,Vc0) RESULT(Kel)
   USE kinds, ONLY : DP
   USE constants, ONLY : pi
   !
-  USE sctk_val, ONLY : mf, nmf, wmf, nci
+  USE sctk_val, ONLY : mf, nmf, wmf, nci, l_vc_vsf
   IMPLICIT NONE
   !
   REAL(dp),INTENT(IN) :: x, Vc0(nci)
@@ -668,7 +668,11 @@ FUNCTION calc_Kel(x,Vc0) RESULT(Kel)
   INTEGER :: ici
   REAL(dp) :: Vc1(nmf), mf1(nmf), x0, cheb(nmf,nci)
   !
-  mf1(1:nmf) = x * mf(1:nmf)
+  IF(l_vc_vsf == 1) THEN
+    mf1(1:nmf) = 0.0_dp ! static
+  ELSE
+    mf1(1:nmf) = x * mf(1:nmf)
+  END IF
   !
   x0 = COS(pi / REAL(2 * nci, dp))
   mf1(1:nmf) = x0 * (mf1(1:nmf) - 1.0_dp) / (mf1(1:nmf) + 1.0_dp)
@@ -691,7 +695,7 @@ FUNCTION calc_Zsf(x,Vc0) RESULT(Zsf)
   USE kinds, ONLY : DP
   USE constants, ONLY : pi
   !
-  USE sctk_val, ONLY : mf, nmf, wmf, emin, nci
+  USE sctk_val, ONLY : mf, nmf, wmf, emin, nci, l_vc_vsf
   IMPLICIT NONE
   !
   REAL(dp),INTENT(IN) :: x, Vc0(nci)
@@ -706,7 +710,11 @@ FUNCTION calc_Zsf(x,Vc0) RESULT(Zsf)
      e0 = x
   END IF
   !
-  mf1(1:nmf) = e0 * mf(1:nmf)
+  IF(l_vc_vsf == 1) THEN
+    mf1(1:nmf) = 0.0_dp ! static
+  ELSE
+    mf1(1:nmf) = e0 * mf(1:nmf)
+  END IF
   !
   x0 = COS(pi / REAL(2 * nci, dp))
   mf1(1:nmf) = x0 * (mf1(1:nmf) - 1.0_dp) / (mf1(1:nmf) + 1.0_dp)
