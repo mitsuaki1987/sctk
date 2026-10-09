@@ -126,7 +126,7 @@ calculation = "scdft" としたときなどに使われるパラメーター。
   <tr align="left"><td>fbee</td><td>正の整数</td><td>1</td><td>全バンドのうち, ギャップ方程式の計算に含める一番初めのバンド.</td></tr>
   <tr align="left"><td>lbee</td><td>正の整数</td><td>pw.xのnbnd</td><td>ギャップ方程式の計算に含める最後のバンド.</td></tr>
   <tr align="left"><td>xic</td><td>実数</td><td>-1.0</td><td>ギャップ関数外挿法に用いるパラメーター. 単位 Ry.これを0.0未満にするとギャップ関数外挿法を使わない.デフォルトでは外挿法を使わない設定になっている.</td></tr>
-  <tr align="left"><td>nmf</td><td>整数</td><td>10</td><td>Comlombカーネルの計算で用いる松原振動数積分に用いる点の数.0にすると静的なCoulomb相互作用のみをつかう. また,負の値にするとCoulomb相互作用項を0として(フォノン項のみを考慮して)計算する.</td></tr>
+  <tr align="left"><td>nmf</td><td>整数</td><td>10</td><td>Comlombカーネルの計算で用いる松原振動数積分に用いる点の数.</td></tr>
   <tr align="left"><td>nx</td><td>正の整数</td><td>100</td><td>フェルミ面近傍のバンドの付加的エネルギーグリッドのグリッド数.</td></tr>
   <tr align="left"><td>ne</td><td>正の整数</td><td>50</td><td><a href="#qpdos">準粒子DOS計算</a>のみで使用.準粒子DOSを計算するエネルギー点数.</td></tr>
   <tr align="left"><td>emin</td><td>正の実数</td><td>1.0e-7</td><td>フェルミ面近傍のバンドの付加的エネルギーグリッドのためのパラメータ.単位 Ry.</td></tr>
@@ -137,6 +137,7 @@ calculation = "scdft" としたときなどに使われるパラメーター。
  <tr align="left"><td>spin_fluc</td><td>論理型</td><td>.False.</td><td>.True.にするとスピン揺らぎ <a href="./ref.html">[3]</a> を含める。</td></tr>
  <tr align="left"><td>scdft_kernel</td><td>正の整数</td><td>1</td><td>1: Lüders2005 <a href="./ref.html">[4]</a>, 2: Sanna2020 <a href="./ref.html">[5]</a></td></tr>
  <tr align="left"><td>lz_coulomb</td><td>論理型</td><td>.False.</td><td>Coulomb renormalization <a href="./ref.html">[6]</a></td></tr>
+  <tr align="left"><td>l_vc_vsf</td><td>0,1,2</td><td>2</td><td>$V_\textrm{C}(\omega)$および$V_\textrm{sf}(\omega)$について, 0:全て無視する (el-ph only). 1:$\omega$-依存性を無視する (static), 2: 全て考慮する(dynamical).</td></tr>
  <tr align="left"><td>q_fflo</td><td>Real(3)</td><td>0.0,0.0,0.0</td><td>秩序変数の運動量. (Reciprocal fractional unit)</td></tr>
  <tr align="left"><td>initial_delta</td><td>String</td><td>"random-nodeless"</td><td>k-依存ギャップ関数の初期値. "random-nodeless", "random-nodal", "constant", "band-constant"から選ぶ.</td></tr>
 </table>
